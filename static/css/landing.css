@@ -1,0 +1,21 @@
+body.landing { min-height: 100vh; background: radial-gradient(1200px 600px at 10% -10%, #dcecee 0%, transparent 60%), var(--bg); }
+.landing-main { max-width: 1120px; margin: 0 auto; padding: 72px 24px 24px; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.landing-hero h1 { font-size: 40px; line-height: 1.12; letter-spacing: -0.025em; margin: 28px 0 16px; max-width: 14em; }
+.landing-hero .lead { font-size: 16.5px; color: var(--ink-2); max-width: 36em; }
+.wordmark.big { font-size: 17px; }
+.wordmark.big .mark { width: 34px; height: 34px; font-size: 16px; border-radius: 9px; }
+.landing-points { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 10px; }
+.landing-points li { padding-left: 26px; position: relative; color: var(--ink-2); }
+.landing-points li::before { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 14px; border-radius: 4px; background: var(--brand-soft); border: 2px solid var(--brand); }
+.landing-points strong { color: var(--ink); font-weight: 600; }
+.landing-card { padding: 24px; }
+.error-text { color: var(--critical); font-size: 13px; margin: 0; }
+.view-tiles { display: grid; gap: 10px; }
+.view-tile { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); transition: border-color .12s, box-shadow .12s; }
+.view-tile:hover { text-decoration: none; border-color: var(--brand-2); box-shadow: var(--shadow-1); }
+.tile-title { font-weight: 650; font-size: 15px; }
+.tile-desc { color: var(--ink-3); font-size: 13px; }
+@media (max-width: 900px) {
+  .landing-main { grid-template-columns: minmax(0, 1fr); padding-top: 32px; gap: 24px; }
+  .landing-hero h1 { font-size: 30px; }
+}

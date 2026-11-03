@@ -1,0 +1,25 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+deploy_tokens.txt
+
+# runtime data (SQLite, uploaded audio)
+var/
+*.db
+*.db-wal
+*.db-shm
+
+# python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# node / tooling
+node_modules/
+.DS_Store
+*.log

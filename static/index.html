@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CustomAi MedScribe</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body class="landing">
+  <main class="landing-main">
+    <section class="landing-hero">
+      <div class="wordmark big"><span class="mark" aria-hidden="true">M</span><span>CustomAi MedScribe</span></div>
+      <h1>The ambient scribe that checks every medicine.</h1>
+      <p class="lead">Listens to the visit, drafts a note where every sentence links to what was said, then checks each medicine against RxNorm, FDA labels and the patient's Medicare plan before the doctor signs. Free to practices, funded by clearly separated sponsored placements.</p>
+      <ul class="landing-points">
+        <li><strong>Accurate US-English transcription</strong> with medical vocabulary, live and on a final pass</li>
+        <li><strong>Evidence-linked notes</strong>, verified line by line, signed only by the clinician</li>
+        <li><strong>Medication safety</strong>: interactions, allergies, conditions, doses, formulary</li>
+        <li><strong>Sponsored slots and a metrics console</strong> for Constant Media and its pharma clients</li>
+      </ul>
+    </section>
+
+    <section class="card landing-card" id="gate">
+      <form id="code-form" class="stack-lg">
+        <div>
+          <h2>Open the demo</h2>
+          <p class="muted">Enter the access code you were given.</p>
+        </div>
+        <div class="field">
+          <label for="code">Access code</label>
+          <input class="input" id="code" name="code" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+        <p class="error-text hidden" id="code-error" role="alert"></p>
+      </form>
+
+      <div id="views" class="stack-lg hidden">
+        <div>
+          <h2>Choose a view</h2>
+          <p class="muted">One tester can walk all four. Switch any time from the top bar.</p>
+        </div>
+        <div class="view-tiles">
+          <a class="view-tile" href="/doctor/" data-role="doctor">
+            <span class="tile-title">Doctor</span>
+            <span class="tile-desc">Today's schedule, live scribe, note review, medication check, sign</span>
+          </a>
+          <a class="view-tile" href="/pharmacy/" data-role="pharmacy">
+            <span class="tile-title">Pharmacy tools</span>
+            <span class="tile-desc">Interaction checker and Medicare formulary lookup</span>
+          </a>
+          <a class="view-tile" href="/console/" data-role="network">
+            <span class="tile-title">Network console</span>
+            <span class="tile-desc">Constant Media: inventory, campaigns, delivery, pacing</span>
+          </a>
+          <a class="view-tile" href="/report/" data-role="sponsor">
+            <span class="tile-title">Sponsor report</span>
+            <span class="tile-desc">What a pharma brand team sees: reach, viewability, CPM</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <p class="footer-note">Demo with synthetic data only. Do not enter real patient information.</p>
+  <script type="module" src="/js/landing.js"></script>
+</body>
+</html>
