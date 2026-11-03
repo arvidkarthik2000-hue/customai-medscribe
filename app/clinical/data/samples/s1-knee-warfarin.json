@@ -1,0 +1,652 @@
+{
+ "id": "s1-knee-warfarin",
+ "title": "Knee pain on warfarin",
+ "patient_id": "p1",
+ "template": "soap",
+ "specialty": "family_medicine",
+ "highlights": [
+  "Warfarin with ibuprofen",
+  "Brand name spoken: Advil",
+  "INR, blood pressure and pain score"
+ ],
+ "speaker_roles": {
+  "A": "clinician",
+  "B": "patient"
+ },
+ "saved_note": {
+  "visit_summary": "Right knee osteoarthritis flare in a patient on warfarin (INR 2.6): ibuprofen continued, acetaminophen added; knee x-ray, physical therapy and an INR recheck.",
+  "speaker_roles": [
+   {
+    "speaker": "A",
+    "role": "clinician"
+   },
+   {
+    "speaker": "B",
+    "role": "patient"
+   }
+  ],
+  "sections": {
+   "chief_complaint": {
+    "items": [
+     {
+      "id": "chief_complaint-1",
+      "text": "Right knee pain for 2 weeks.",
+      "evidence": [
+       "t2"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "hpi": {
+    "items": [
+     {
+      "id": "hpi-1",
+      "text": "Right knee pain started about 2 weeks ago after yard work with raking and kneeling to plant bulbs; no fall or injury.",
+      "evidence": [
+       "t2",
+       "t4"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-2",
+      "text": "Pain going up stairs; mild swelling by the end of the day; no redness noticed.",
+      "evidence": [
+       "t4",
+       "t6"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-3",
+      "text": "Pain about 6/10 on most days, with morning stiffness for about 20 minutes.",
+      "evidence": [
+       "t7",
+       "t8"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-4",
+      "text": "No locking or giving way.",
+      "evidence": [
+       "t9",
+       "t10"
+      ],
+      "status": "negative"
+     },
+     {
+      "id": "hpi-5",
+      "text": "Taking ibuprofen 400 mg (two Advil) twice daily for about a week.",
+      "evidence": [
+       "t11",
+       "t12"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-6",
+      "text": "Taking warfarin 5 mg every evening; reports last INR 2.6.",
+      "evidence": [
+       "t13",
+       "t14"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-7",
+      "text": "Unexplained bruise on the arm last week; no nosebleeds or other bleeding.",
+      "evidence": [
+       "t15",
+       "t16"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "ros": {
+    "items": [
+     {
+      "id": "ros-1",
+      "text": "No chest pain; heart feels steady.",
+      "evidence": [
+       "t19",
+       "t20"
+      ],
+      "status": "negative"
+     }
+    ]
+   },
+   "exam": {
+    "items": [
+     {
+      "id": "exam-1",
+      "text": "BP 136/82; heart rate 72 and irregular (known atrial fibrillation).",
+      "evidence": [
+       "t21"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "exam-2",
+      "text": "Right knee: mild swelling without warmth or redness; tender along the medial joint line; full range of motion with mild crepitus; ligaments stable.",
+      "evidence": [
+       "t21"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "results": {
+    "items": [
+     {
+      "id": "results-1",
+      "text": "Last INR 2.6 by patient report.",
+      "evidence": [
+       "t14"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "assessment": {
+    "items": [
+     {
+      "id": "assessment-1",
+      "text": "Osteoarthritis flare of the right knee, likely set off by kneeling; no signs of infection or ligament tear.",
+      "evidence": [
+       "t23"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment-2",
+      "text": "Atrial fibrillation on warfarin with a reported INR of 2.6 and a recent unexplained bruise.",
+      "evidence": [
+       "t14",
+       "t16",
+       "t21"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "plan": {
+    "items": [
+     {
+      "id": "plan-1",
+      "text": "Continue ibuprofen 400 mg twice daily with food for another week.",
+      "evidence": [
+       "t25"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-2",
+      "text": "Add acetaminophen 500 mg, up to 2 tablets three times daily as needed.",
+      "evidence": [
+       "t25"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-3",
+      "text": "Ice for 15 minutes two or three times daily.",
+      "evidence": [
+       "t26",
+       "t27"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-4",
+      "text": "Physical therapy referral for strengthening; x-ray of the right knee.",
+      "evidence": [
+       "t27"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-5",
+      "text": "Recheck INR this week (patient plans Thursday) because of warfarin use and the bruise.",
+      "evidence": [
+       "t29",
+       "t30"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-6",
+      "text": "Influenza vaccine offered today; patient agreed.",
+      "evidence": [
+       "t31",
+       "t32"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-7",
+      "text": "Return in 4 weeks, sooner for a hot, red or much more swollen knee, or any bleeding.",
+      "evidence": [
+       "t33"
+      ],
+      "status": "documented"
+     }
+    ]
+   }
+  },
+  "medications": [
+   {
+    "id": "m1",
+    "name": "warfarin",
+    "as_spoken": "warfarin",
+    "dose": "5",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "every evening",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t13",
+     "t14"
+    ]
+   },
+   {
+    "id": "m2",
+    "name": "ibuprofen",
+    "as_spoken": "Advil",
+    "dose": "400",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "twice daily with food",
+    "duration": "another week",
+    "action": "continue",
+    "indication": "knee pain",
+    "evidence": [
+     "t12",
+     "t25"
+    ]
+   },
+   {
+    "id": "m3",
+    "name": "acetaminophen",
+    "as_spoken": "acetaminophen",
+    "dose": "500",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "up to 2 tablets three times daily as needed",
+    "duration": "",
+    "action": "start",
+    "indication": "knee pain",
+    "evidence": [
+     "t25"
+    ]
+   },
+   {
+    "id": "m4",
+    "name": "metoprolol",
+    "as_spoken": "metoprolol",
+    "dose": "",
+    "unit": "",
+    "route": "oral",
+    "frequency": "every morning",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t17",
+     "t18"
+    ]
+   },
+   {
+    "id": "m5",
+    "name": "lisinopril",
+    "as_spoken": "lisinopril",
+    "dose": "",
+    "unit": "",
+    "route": "oral",
+    "frequency": "every morning",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t17",
+     "t18"
+    ]
+   },
+   {
+    "id": "m6",
+    "name": "atorvastatin",
+    "as_spoken": "atorvastatin",
+    "dose": "",
+    "unit": "",
+    "route": "oral",
+    "frequency": "at night",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t18"
+    ]
+   }
+  ],
+  "allergies": [],
+  "orders": [
+   {
+    "type": "imaging",
+    "description": "X-ray of the right knee",
+    "evidence": [
+     "t27"
+    ]
+   },
+   {
+    "type": "referral",
+    "description": "Physical therapy for knee strengthening",
+    "evidence": [
+     "t27"
+    ]
+   },
+   {
+    "type": "lab",
+    "description": "INR this week",
+    "evidence": [
+     "t29"
+    ]
+   },
+   {
+    "type": "vaccine",
+    "description": "Influenza vaccine today",
+    "evidence": [
+     "t31",
+     "t32"
+    ]
+   }
+  ],
+  "diagnoses": [
+   {
+    "description": "Primary osteoarthritis, right knee",
+    "icd10": "M17.11",
+    "evidence": [
+     "t23"
+    ]
+   },
+   {
+    "description": "Atrial fibrillation",
+    "icd10": "I48.91",
+    "evidence": [
+     "t21"
+    ]
+   },
+   {
+    "description": "Long-term (current) use of anticoagulants",
+    "icd10": "Z79.01",
+    "evidence": [
+     "t13"
+    ]
+   }
+  ],
+  "follow_up": {
+   "text": "Return in 4 weeks; sooner for a hot, red or much more swollen knee, or any bleeding.",
+   "evidence": [
+    "t33"
+   ]
+  },
+  "patient_instructions": "Your knee pain looks like an arthritis flare from all the kneeling. Keep taking ibuprofen 400 mg twice a day with food for one more week. You can also take acetaminophen 500 mg, up to 2 tablets three times a day, if you need more relief. Ice your knee for 15 minutes, two or three times a day. We are sending you for a knee x-ray and to physical therapy. Because you take warfarin, please get your INR checked this week. Call us right away if you notice any bleeding, or if your knee gets hot, red or much more swollen. Come back in 4 weeks.",
+  "not_discussed": [
+   "Shortness of breath and palpitations (asked; no answer recorded)",
+   "Fever or chills"
+  ],
+  "uncertain": [
+   {
+    "text": "Whether the influenza vaccine was given before the patient left.",
+    "evidence": [
+     "t31",
+     "t32"
+    ]
+   }
+  ]
+ },
+ "turns": [
+  {
+   "id": "t1",
+   "speaker": "A",
+   "text": "Good morning, Mr. Okafor. How have you been since we saw you in the summer?",
+   "start_ms": 1200,
+   "end_ms": 7450
+  },
+  {
+   "id": "t2",
+   "speaker": "B",
+   "text": "Morning, doc. Mostly okay, but this right knee has been giving me a lot of trouble the last two weeks.",
+   "start_ms": 8100,
+   "end_ms": 16433
+  },
+  {
+   "id": "t3",
+   "speaker": "A",
+   "text": "I'm sorry to hear that. Tell me about it. Was there an injury or a fall?",
+   "start_ms": 17083,
+   "end_ms": 23749
+  },
+  {
+   "id": "t4",
+   "speaker": "B",
+   "text": "No fall. I was doing a lot of yard work, raking and kneeling to plant bulbs, and it just started aching. Now it hurts going up stairs.",
+   "start_ms": 24399,
+   "end_ms": 35649
+  },
+  {
+   "id": "t5",
+   "speaker": "A",
+   "text": "Any swelling, redness, or warmth in the knee?",
+   "start_ms": 36299,
+   "end_ms": 39632
+  },
+  {
+   "id": "t6",
+   "speaker": "B",
+   "text": "A little swelling by the end of the day. No redness that I've noticed.",
+   "start_ms": 40282,
+   "end_ms": 46115
+  },
+  {
+   "id": "t7",
+   "speaker": "A",
+   "text": "On a scale of 0 to 10, how bad is the pain?",
+   "start_ms": 46765,
+   "end_ms": 51765
+  },
+  {
+   "id": "t8",
+   "speaker": "B",
+   "text": "Most days it's about a 6. In the morning it's stiff for maybe 20 minutes, then it loosens up.",
+   "start_ms": 52415,
+   "end_ms": 60331
+  },
+  {
+   "id": "t9",
+   "speaker": "A",
+   "text": "Has it locked up or given way on you?",
+   "start_ms": 60981,
+   "end_ms": 64731
+  },
+  {
+   "id": "t10",
+   "speaker": "B",
+   "text": "No, nothing like that.",
+   "start_ms": 65381,
+   "end_ms": 67047
+  },
+  {
+   "id": "t11",
+   "speaker": "A",
+   "text": "What have you been taking for it?",
+   "start_ms": 67697,
+   "end_ms": 70613
+  },
+  {
+   "id": "t12",
+   "speaker": "B",
+   "text": "I've been taking Advil. Two of them, so 400 mg, twice a day, for about a week now.",
+   "start_ms": 71263,
+   "end_ms": 78763
+  },
+  {
+   "id": "t13",
+   "speaker": "A",
+   "text": "Okay. And you're still on the warfarin, 5 mg every day?",
+   "start_ms": 79413,
+   "end_ms": 83996
+  },
+  {
+   "id": "t14",
+   "speaker": "B",
+   "text": "Yes, 5 mg every evening. My last INR was 2.6.",
+   "start_ms": 84646,
+   "end_ms": 88812
+  },
+  {
+   "id": "t15",
+   "speaker": "A",
+   "text": "Good, that's in range. Any unusual bruising, nosebleeds, blood in your urine, or dark stools?",
+   "start_ms": 89462,
+   "end_ms": 95712
+  },
+  {
+   "id": "t16",
+   "speaker": "B",
+   "text": "I did notice a bruise on my arm last week, but I don't remember bumping it. No nosebleeds or anything else.",
+   "start_ms": 96362,
+   "end_ms": 105112
+  },
+  {
+   "id": "t17",
+   "speaker": "A",
+   "text": "All right. Are you still taking the metoprolol and the lisinopril?",
+   "start_ms": 105762,
+   "end_ms": 110345
+  },
+  {
+   "id": "t18",
+   "speaker": "B",
+   "text": "Every morning. And the atorvastatin at night.",
+   "start_ms": 110995,
+   "end_ms": 113911
+  },
+  {
+   "id": "t19",
+   "speaker": "A",
+   "text": "Great. Any chest pain, shortness of breath, or palpitations?",
+   "start_ms": 114561,
+   "end_ms": 118311
+  },
+  {
+   "id": "t20",
+   "speaker": "B",
+   "text": "No chest pain. My heart feels steady.",
+   "start_ms": 118961,
+   "end_ms": 121877
+  },
+  {
+   "id": "t21",
+   "speaker": "A",
+   "text": "Let me take a look at that knee. There's mild swelling on the right, no warmth, no redness. You're tender along the inside of the joint. Full range of motion, with a little crepitus when I bend it. The ligaments feel stable. Your blood pressure today is 136/82, and your heart rate is 72 and irregular, which is your usual atrial fibrillation.",
+   "start_ms": 130527,
+   "end_ms": 156360
+  },
+  {
+   "id": "t22",
+   "speaker": "B",
+   "text": "So what do you think it is?",
+   "start_ms": 157010,
+   "end_ms": 159926
+  },
+  {
+   "id": "t23",
+   "speaker": "A",
+   "text": "It looks like an osteoarthritis flare in the right knee, probably set off by all that kneeling. I don't see signs of infection or a torn ligament.",
+   "start_ms": 160576,
+   "end_ms": 171826
+  },
+  {
+   "id": "t24",
+   "speaker": "B",
+   "text": "That's a relief. Can I keep taking the Advil? It does help.",
+   "start_ms": 172476,
+   "end_ms": 177476
+  },
+  {
+   "id": "t25",
+   "speaker": "A",
+   "text": "Let's continue the ibuprofen at 400 mg twice a day with food for another week, and add acetaminophen 500 mg, up to 2 tablets three times a day if you need more relief.",
+   "start_ms": 178126,
+   "end_ms": 191876
+  },
+  {
+   "id": "t26",
+   "speaker": "B",
+   "text": "Okay. Should I ice it too?",
+   "start_ms": 192526,
+   "end_ms": 195026
+  },
+  {
+   "id": "t27",
+   "speaker": "A",
+   "text": "Yes, ice for 15 minutes two or three times a day. I'll send a referral to physical therapy for strengthening exercises, and I'd like an x-ray of the right knee.",
+   "start_ms": 195676,
+   "end_ms": 208176
+  },
+  {
+   "id": "t28",
+   "speaker": "B",
+   "text": "Sounds good.",
+   "start_ms": 208826,
+   "end_ms": 210026
+  },
+  {
+   "id": "t29",
+   "speaker": "A",
+   "text": "Since you're on warfarin and you mentioned that bruise, let's recheck your INR this week as well.",
+   "start_ms": 210676,
+   "end_ms": 217759
+  },
+  {
+   "id": "t30",
+   "speaker": "B",
+   "text": "I can do that Thursday.",
+   "start_ms": 218409,
+   "end_ms": 220492
+  },
+  {
+   "id": "t31",
+   "speaker": "A",
+   "text": "Perfect. You're also due for your flu shot. Would you like it today?",
+   "start_ms": 221142,
+   "end_ms": 226558
+  },
+  {
+   "id": "t32",
+   "speaker": "B",
+   "text": "Sure, let's do it.",
+   "start_ms": 227208,
+   "end_ms": 228874
+  },
+  {
+   "id": "t33",
+   "speaker": "A",
+   "text": "Great. Come back in 4 weeks, sooner if the knee gets hot, red, or much more swollen, or if you notice any bleeding.",
+   "start_ms": 229524,
+   "end_ms": 239107
+  },
+  {
+   "id": "t34",
+   "speaker": "B",
+   "text": "Will do. Thanks, doc.",
+   "start_ms": 239757,
+   "end_ms": 241423
+  }
+ ],
+ "minutes": 4.0
+}

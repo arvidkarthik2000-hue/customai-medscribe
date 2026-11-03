@@ -115,8 +115,8 @@ export async function render(root, { patientId }, ctx) {
           card("Vitals", vitals(chart.vitals)),
           card("Recent labs", el("div", { class: "stack" },
             egfr !== undefined && egfr !== null ? el("div", { class: `banner ${egfr < 30 ? "banner-critical" : egfr < 60 ? "banner-warning" : ""}` }, `eGFR ${egfr} mL/min/1.73m²`) : null,
-            list(chart.labs, (l) => el("div", { class: "row between" }, el("span", {}, l.name), el("span", { class: l.flag ? "strong" : "" }, `${l.value}${l.unit ? " " + l.unit : ""}`, l.flag ? el("span", { class: "badge badge-warning", style: { marginLeft: "6px" } }, l.flag) : null, el("span", { class: "muted small", style: { marginLeft: "6px" } }, l.date ? fmt.date(l.date) : ""))))))),
-        card("Last visit", chart.last_visit ? el("div", {}, el("div", { class: "muted small" }, fmt.date(chart.last_visit.date)), el("p", {}, chart.last_visit.summary)) : el("p", { class: "muted" }, "No prior visit.")),
+            list(chart.labs, (l) => el("div", { class: "row between" }, el("span", {}, l.name), el("span", { class: l.flag ? "strong" : "" }, `${l.value}${l.unit ? " " + l.unit : ""}`, l.flag ? el("span", { class: "badge badge-warning", style: { marginLeft: "6px" } }, l.flag) : null, el("span", { class: "muted small", style: { marginLeft: "6px" } }, l.date ? fmt.date(l.date) : l.days_ago != null ? `${l.days_ago} d ago` : ""))))))),
+        card("Last visit", chart.last_visit ? el("div", {}, el("div", { class: "muted small" }, chart.last_visit.date ? fmt.date(chart.last_visit.date) : chart.last_visit.days_ago != null ? `${chart.last_visit.days_ago} days ago` : ""), el("p", {}, chart.last_visit.summary)) : el("p", { class: "muted" }, "No prior visit.")),
         card("Care gaps", list(chart.care_gaps, (g) => el("div", {}, el("strong", {}, g.name), " ", el("span", { class: "muted" }, g.detail || ""), g.source ? el("div", { class: "muted small" }, g.source) : null)))),
       el("aside", { class: "stack-lg sticky-aside" },
         el("section", { class: "card" },
@@ -149,6 +149,7 @@ function list(items, renderItem) {
 
 function vitals(v) {
   if (!v || !Object.keys(v).length) return el("p", { class: "muted", style: { margin: 0 } }, "No vitals recorded.");
-  const labels = { bp: "Blood pressure", hr: "Heart rate", temp_f: "Temperature (°F)", rr: "Respiratory rate", spo2: "SpO₂", weight_kg: "Weight (kg)", height_cm: "Height (cm)", bmi: "BMI", date: "Taken" };
-  return el("dl", { class: "kv" }, Object.entries(v).map(([k, val]) => [el("dt", {}, labels[k] || k.replace(/_/g, " ")), el("dd", {}, k === "date" ? fmt.date(val) : String(val))]));
+  const labels = { bp: "Blood pressure", hr: "Heart rate", temp_f: "Temperature (°F)", rr: "Respiratory rate", spo2: "SpO₂ (%)", weight_kg: "Weight (kg)", height_cm: "Height (cm)", bmi: "BMI", date: "Taken", days_ago: "Taken" };
+  const val = (k, x) => (k === "date" ? fmt.date(x) : k === "days_ago" ? `${x} days ago` : String(x));
+  return el("dl", { class: "kv" }, Object.entries(v).filter(([k]) => !(k === "days_ago" && v.date)).map(([k, x]) => [el("dt", {}, labels[k] || k.replace(/_/g, " ")), el("dd", {}, val(k, x))]));
 }

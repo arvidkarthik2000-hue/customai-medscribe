@@ -1,0 +1,642 @@
+{
+ "id": "s4-pneumonia-hf",
+ "title": "Pneumonia in heart failure",
+ "patient_id": "p4",
+ "template": "soap",
+ "specialty": "family_medicine",
+ "highlights": [
+  "Simvastatin with clarithromycin",
+  "Lisinopril, spironolactone and potassium",
+  "Brand name spoken: Augmentin"
+ ],
+ "speaker_roles": {
+  "A": "clinician",
+  "B": "patient"
+ },
+ "saved_note": {
+  "visit_summary": "Right lower lobe pneumonia in a patient with heart failure: outpatient amoxicillin-clavulanate plus clarithromycin, heart medicines continued; chest x-ray and labs today, recheck in 2 days.",
+  "speaker_roles": [
+   {
+    "speaker": "A",
+    "role": "clinician"
+   },
+   {
+    "speaker": "B",
+    "role": "patient"
+   }
+  ],
+  "sections": {
+   "chief_complaint": {
+    "items": [
+     {
+      "id": "chief_complaint-1",
+      "text": "Cough for 5 days with fevers and chills for 2 days.",
+      "evidence": [
+       "t2"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "hpi": {
+    "items": [
+     {
+      "id": "hpi-1",
+      "text": "Cough for 5 days productive of thick yellow-green sputum, with fevers and chills for the past 2 days.",
+      "evidence": [
+       "t2",
+       "t4"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-2",
+      "text": "Right-sided chest pain with deep breaths.",
+      "evidence": [
+       "t4"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-3",
+      "text": "More short of breath than usual; winded walking to the mailbox.",
+      "evidence": [
+       "t5",
+       "t6"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-4",
+      "text": "Weight steady at 204 pounds; ankle swelling unchanged; sleeps on 2 pillows as usual.",
+      "evidence": [
+       "t8",
+       "t10"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-5",
+      "text": "Grandson had a bad cold last week.",
+      "evidence": [
+       "t11",
+       "t12"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-6",
+      "text": "Former smoker; quit 11 years ago.",
+      "evidence": [
+       "t13",
+       "t14"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "ros": {
+    "items": [
+     {
+      "id": "ros-1",
+      "text": "No new orthopnea or change in leg swelling.",
+      "evidence": [
+       "t7",
+       "t8",
+       "t9",
+       "t10"
+      ],
+      "status": "negative"
+     }
+    ]
+   },
+   "exam": {
+    "items": [
+     {
+      "id": "exam-1",
+      "text": "Temperature 100.9, heart rate 92, respiratory rate 20, BP 128/78, oxygen saturation 94%.",
+      "evidence": [
+       "t15"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "exam-2",
+      "text": "Crackles at the right lung base; regular heart sounds without a new murmur; trace ankle edema, unchanged.",
+      "evidence": [
+       "t15"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "results": {
+    "items": [
+     {
+      "id": "x",
+      "text": "Not discussed",
+      "evidence": [],
+      "status": "not_discussed"
+     }
+    ]
+   },
+   "assessment": {
+    "items": [
+     {
+      "id": "assessment-1",
+      "text": "Community-acquired pneumonia of the right lower lung, suitable for outpatient treatment with close follow-up.",
+      "evidence": [
+       "t16",
+       "t18"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment-2",
+      "text": "Heart failure: weight stable, no new orthopnea, trace ankle edema unchanged.",
+      "evidence": [
+       "t7",
+       "t8",
+       "t10",
+       "t15"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "plan": {
+    "items": [
+     {
+      "id": "plan-1",
+      "text": "Chest x-ray today; complete blood count and basic metabolic panel.",
+      "evidence": [
+       "t16"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-2",
+      "text": "Start amoxicillin-clavulanate 875 mg twice daily and clarithromycin 500 mg twice daily, both for 7 days.",
+      "evidence": [
+       "t19"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-3",
+      "text": "Continue carvedilol 12.5 mg twice daily, furosemide 40 mg in the morning, lisinopril 20 mg, spironolactone 25 mg, potassium chloride 20 mEq daily and simvastatin 40 mg at night.",
+      "evidence": [
+       "t21",
+       "t23"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-4",
+      "text": "Fluids within the usual limit of about 2 liters a day; acetaminophen up to 1,000 mg every 8 hours for fever.",
+      "evidence": [
+       "t25"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-5",
+      "text": "Check home pulse oximetry twice daily; go to the ER for worse breathing, oxygen below 92, confusion or inability to keep fluids down.",
+      "evidence": [
+       "t26",
+       "t27",
+       "t28"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-6",
+      "text": "Office to call with the x-ray result this afternoon; follow-up in 2 days.",
+      "evidence": [
+       "t28"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-7",
+      "text": "Pneumococcal vaccine once recovered.",
+      "evidence": [
+       "t29"
+      ],
+      "status": "documented"
+     }
+    ]
+   }
+  },
+  "medications": [
+   {
+    "id": "m1",
+    "name": "amoxicillin-clavulanate",
+    "as_spoken": "Augmentin",
+    "dose": "875",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "twice daily",
+    "duration": "7 days",
+    "action": "start",
+    "indication": "pneumonia",
+    "evidence": [
+     "t19"
+    ]
+   },
+   {
+    "id": "m2",
+    "name": "clarithromycin",
+    "as_spoken": "clarithromycin",
+    "dose": "500",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "twice daily",
+    "duration": "7 days",
+    "action": "start",
+    "indication": "pneumonia",
+    "evidence": [
+     "t19"
+    ]
+   },
+   {
+    "id": "m3",
+    "name": "carvedilol",
+    "as_spoken": "carvedilol",
+    "dose": "12.5",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "twice daily",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t21"
+    ]
+   },
+   {
+    "id": "m4",
+    "name": "furosemide",
+    "as_spoken": "furosemide",
+    "dose": "40",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "in the morning",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t21"
+    ]
+   },
+   {
+    "id": "m5",
+    "name": "lisinopril",
+    "as_spoken": "lisinopril",
+    "dose": "20",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t21"
+    ]
+   },
+   {
+    "id": "m6",
+    "name": "spironolactone",
+    "as_spoken": "spironolactone",
+    "dose": "25",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t21"
+    ]
+   },
+   {
+    "id": "m7",
+    "name": "potassium chloride",
+    "as_spoken": "potassium",
+    "dose": "20",
+    "unit": "mEq",
+    "route": "oral",
+    "frequency": "once daily",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t21"
+    ]
+   },
+   {
+    "id": "m8",
+    "name": "simvastatin",
+    "as_spoken": "simvastatin",
+    "dose": "40",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "at night",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t22",
+     "t23"
+    ]
+   },
+   {
+    "id": "m9",
+    "name": "acetaminophen",
+    "as_spoken": "acetaminophen",
+    "dose": "1000",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "up to every 8 hours as needed for fever",
+    "duration": "",
+    "action": "start",
+    "indication": "fever",
+    "evidence": [
+     "t25"
+    ]
+   }
+  ],
+  "allergies": [],
+  "orders": [
+   {
+    "type": "imaging",
+    "description": "Chest x-ray today",
+    "evidence": [
+     "t16"
+    ]
+   },
+   {
+    "type": "lab",
+    "description": "Complete blood count",
+    "evidence": [
+     "t16"
+    ]
+   },
+   {
+    "type": "lab",
+    "description": "Basic metabolic panel",
+    "evidence": [
+     "t16"
+    ]
+   },
+   {
+    "type": "vaccine",
+    "description": "Pneumococcal vaccine after recovery",
+    "evidence": [
+     "t29"
+    ]
+   }
+  ],
+  "diagnoses": [
+   {
+    "description": "Pneumonia, unspecified organism",
+    "icd10": "J18.9",
+    "evidence": [
+     "t16"
+    ]
+   },
+   {
+    "description": "Heart failure, unspecified",
+    "icd10": "I50.9",
+    "evidence": [
+     "t7"
+    ]
+   }
+  ],
+  "follow_up": {
+   "text": "Follow-up visit in 2 days; x-ray result by phone this afternoon.",
+   "evidence": [
+    "t28"
+   ]
+  },
+  "patient_instructions": "You likely have pneumonia in your right lung. Get a chest x-ray and blood tests today. Take amoxicillin-clavulanate 875 mg twice a day and clarithromycin 500 mg twice a day, both for 7 days. Keep taking all your heart medicines as before, including simvastatin at night. Drink fluids, but stay within your usual limit of about 2 liters a day. You can take acetaminophen for fever, up to 1,000 mg every 8 hours. Check your oxygen with the finger monitor twice a day. Go to the emergency room if your breathing gets worse, your oxygen drops below 92, you feel confused, or you can't keep fluids down. We will call you with your x-ray result this afternoon. Come back in 2 days. Once you feel better, we will give you the pneumonia vaccine.",
+  "not_discussed": [
+   "Influenza vaccine",
+   "Recent travel"
+  ],
+  "uncertain": []
+ },
+ "turns": [
+  {
+   "id": "t1",
+   "speaker": "A",
+   "text": "Mr. Whitfield, come on in. What's going on?",
+   "start_ms": 1200,
+   "end_ms": 4533
+  },
+  {
+   "id": "t2",
+   "speaker": "B",
+   "text": "I've had this cough for five days, and the last two days I've had fevers and chills.",
+   "start_ms": 5183,
+   "end_ms": 12266
+  },
+  {
+   "id": "t3",
+   "speaker": "A",
+   "text": "Are you bringing anything up when you cough?",
+   "start_ms": 12916,
+   "end_ms": 16249
+  },
+  {
+   "id": "t4",
+   "speaker": "B",
+   "text": "Yeah, thick yellow-green stuff. And it hurts on the right side when I take a deep breath.",
+   "start_ms": 16899,
+   "end_ms": 23982
+  },
+  {
+   "id": "t5",
+   "speaker": "A",
+   "text": "Any shortness of breath?",
+   "start_ms": 24632,
+   "end_ms": 26298
+  },
+  {
+   "id": "t6",
+   "speaker": "B",
+   "text": "More than usual. I get winded walking to the mailbox.",
+   "start_ms": 26948,
+   "end_ms": 31114
+  },
+  {
+   "id": "t7",
+   "speaker": "A",
+   "text": "With your heart failure, I want to make sure this isn't fluid. Any leg swelling or weight gain?",
+   "start_ms": 31764,
+   "end_ms": 39264
+  },
+  {
+   "id": "t8",
+   "speaker": "B",
+   "text": "My weight's been steady at 204 pounds. My ankles look the same as always.",
+   "start_ms": 39914,
+   "end_ms": 45747
+  },
+  {
+   "id": "t9",
+   "speaker": "A",
+   "text": "Are you sleeping flat, or do you need more pillows?",
+   "start_ms": 46397,
+   "end_ms": 50563
+  },
+  {
+   "id": "t10",
+   "speaker": "B",
+   "text": "Same two pillows as always.",
+   "start_ms": 51213,
+   "end_ms": 53296
+  },
+  {
+   "id": "t11",
+   "speaker": "A",
+   "text": "Have you been around anyone who's sick?",
+   "start_ms": 53946,
+   "end_ms": 56862
+  },
+  {
+   "id": "t12",
+   "speaker": "B",
+   "text": "My grandson had a bad cold last week.",
+   "start_ms": 57512,
+   "end_ms": 60845
+  },
+  {
+   "id": "t13",
+   "speaker": "A",
+   "text": "And you're still not smoking?",
+   "start_ms": 61495,
+   "end_ms": 63578
+  },
+  {
+   "id": "t14",
+   "speaker": "B",
+   "text": "Not since I quit, eleven years ago now.",
+   "start_ms": 64228,
+   "end_ms": 67561
+  },
+  {
+   "id": "t15",
+   "speaker": "A",
+   "text": "Good. Let me listen. Your temperature is 100.9, heart rate 92, breathing 20 a minute, blood pressure 128/78, and your oxygen is 94%. I hear crackles at the right lung base. Heart sounds are regular, with no new murmur. There's trace ankle swelling, the same as last time.",
+   "start_ms": 76211,
+   "end_ms": 96211
+  },
+  {
+   "id": "t16",
+   "speaker": "A",
+   "text": "I think you have pneumonia in the right lower lung. I'd like a chest x-ray today to confirm, and a blood count and a basic metabolic panel.",
+   "start_ms": 96861,
+   "end_ms": 108111
+  },
+  {
+   "id": "t17",
+   "speaker": "B",
+   "text": "Do I need to go to the hospital?",
+   "start_ms": 108761,
+   "end_ms": 112094
+  },
+  {
+   "id": "t18",
+   "speaker": "A",
+   "text": "Your oxygen and blood pressure are okay, so we can treat you at home, but I want to watch you closely.",
+   "start_ms": 112744,
+   "end_ms": 121494
+  },
+  {
+   "id": "t19",
+   "speaker": "A",
+   "text": "I'm going to start Augmentin, 875 mg twice a day, plus clarithromycin, 500 mg twice a day, both for 7 days.",
+   "start_ms": 122144,
+   "end_ms": 130894
+  },
+  {
+   "id": "t20",
+   "speaker": "B",
+   "text": "Okay. Should I keep taking all my heart pills?",
+   "start_ms": 131544,
+   "end_ms": 135294
+  },
+  {
+   "id": "t21",
+   "speaker": "A",
+   "text": "Yes. Keep the carvedilol 12.5 twice a day, the furosemide 40 in the morning, the lisinopril 20, the spironolactone 25, and the potassium, 20 milliequivalents a day.",
+   "start_ms": 135944,
+   "end_ms": 147194
+  },
+  {
+   "id": "t22",
+   "speaker": "B",
+   "text": "And the simvastatin at night?",
+   "start_ms": 147844,
+   "end_ms": 149927
+  },
+  {
+   "id": "t23",
+   "speaker": "A",
+   "text": "Yes, the simvastatin 40 at night too.",
+   "start_ms": 150577,
+   "end_ms": 153493
+  },
+  {
+   "id": "t24",
+   "speaker": "B",
+   "text": "All right.",
+   "start_ms": 154143,
+   "end_ms": 155343
+  },
+  {
+   "id": "t25",
+   "speaker": "A",
+   "text": "Drink fluids, but stay within your usual limit of about 2 liters a day because of your heart. Use acetaminophen for fever, up to 1,000 mg every 8 hours.",
+   "start_ms": 155993,
+   "end_ms": 168076
+  },
+  {
+   "id": "t26",
+   "speaker": "A",
+   "text": "If your breathing gets worse, your oxygen at home drops below 92, or you get confused or can't keep fluids down, go to the emergency room.",
+   "start_ms": 168726,
+   "end_ms": 179559
+  },
+  {
+   "id": "t27",
+   "speaker": "B",
+   "text": "My wife has one of those finger oxygen things.",
+   "start_ms": 180209,
+   "end_ms": 183959
+  },
+  {
+   "id": "t28",
+   "speaker": "A",
+   "text": "Perfect. Check it twice a day. We'll call you with the x-ray result this afternoon, and I want to see you back in 2 days.",
+   "start_ms": 184609,
+   "end_ms": 195025
+  },
+  {
+   "id": "t29",
+   "speaker": "A",
+   "text": "And once you're feeling better, we should get you the pneumonia vaccine.",
+   "start_ms": 195675,
+   "end_ms": 200675
+  },
+  {
+   "id": "t30",
+   "speaker": "B",
+   "text": "Okay, thank you.",
+   "start_ms": 201325,
+   "end_ms": 202575
+  }
+ ],
+ "minutes": 3.4
+}

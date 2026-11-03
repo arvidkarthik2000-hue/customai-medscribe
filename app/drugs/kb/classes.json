@@ -1,0 +1,485 @@
+{
+ "version": "2026-11-03",
+ "classes": {
+  "anticoagulant": {
+   "label": "Anticoagulant",
+   "duplicate": "critical"
+  },
+  "vka": {
+   "label": "Vitamin K antagonist",
+   "duplicate": null
+  },
+  "doac": {
+   "label": "Direct oral anticoagulant",
+   "duplicate": null
+  },
+  "heparin_class": {
+   "label": "Heparin / low-molecular-weight heparin",
+   "duplicate": null
+  },
+  "antiplatelet": {
+   "label": "Antiplatelet",
+   "duplicate": null
+  },
+  "p2y12": {
+   "label": "P2Y12 inhibitor",
+   "duplicate": "warning"
+  },
+  "nsaid": {
+   "label": "NSAID",
+   "duplicate": "warning"
+  },
+  "cox2": {
+   "label": "COX-2 selective NSAID",
+   "duplicate": null
+  },
+  "ssri": {
+   "label": "SSRI",
+   "duplicate": "warning"
+  },
+  "snri": {
+   "label": "SNRI",
+   "duplicate": "warning"
+  },
+  "tca": {
+   "label": "Tricyclic antidepressant",
+   "duplicate": "warning"
+  },
+  "maoi": {
+   "label": "MAO inhibitor",
+   "duplicate": "warning"
+  },
+  "maoi_like": {
+   "label": "Drug with MAO-inhibiting activity",
+   "duplicate": null
+  },
+  "serotonergic": {
+   "label": "Serotonergic drug",
+   "duplicate": null
+  },
+  "triptan": {
+   "label": "Triptan",
+   "duplicate": "warning"
+  },
+  "ergot": {
+   "label": "Ergot alkaloid",
+   "duplicate": null
+  },
+  "opioid": {
+   "label": "Opioid",
+   "duplicate": "warning"
+  },
+  "benzodiazepine": {
+   "label": "Benzodiazepine",
+   "duplicate": "warning"
+  },
+  "z_drug": {
+   "label": "Z-drug hypnotic",
+   "duplicate": "warning"
+  },
+  "gabapentinoid": {
+   "label": "Gabapentinoid",
+   "duplicate": "warning"
+  },
+  "muscle_relaxant": {
+   "label": "Skeletal muscle relaxant",
+   "duplicate": "warning"
+  },
+  "acei": {
+   "label": "ACE inhibitor",
+   "duplicate": "warning"
+  },
+  "arb": {
+   "label": "Angiotensin receptor blocker",
+   "duplicate": "warning"
+  },
+  "arni": {
+   "label": "ARNI (sacubitril/valsartan)",
+   "duplicate": null
+  },
+  "renin_inhibitor": {
+   "label": "Direct renin inhibitor",
+   "duplicate": null
+  },
+  "k_sparing": {
+   "label": "Potassium-sparing diuretic / MRA",
+   "duplicate": "warning"
+  },
+  "potassium_supplement": {
+   "label": "Potassium supplement",
+   "duplicate": "warning"
+  },
+  "thiazide": {
+   "label": "Thiazide or thiazide-like diuretic",
+   "duplicate": "warning"
+  },
+  "loop": {
+   "label": "Loop diuretic",
+   "duplicate": "warning"
+  },
+  "beta_blocker": {
+   "label": "Beta-blocker",
+   "duplicate": "warning"
+  },
+  "beta_blocker_nonselective": {
+   "label": "Non-selective beta-blocker",
+   "duplicate": null
+  },
+  "ccb_dhp": {
+   "label": "Dihydropyridine calcium channel blocker",
+   "duplicate": "warning"
+  },
+  "ccb_nondhp": {
+   "label": "Non-dihydropyridine calcium channel blocker",
+   "duplicate": "warning"
+  },
+  "alpha_blocker": {
+   "label": "Alpha-1 blocker",
+   "duplicate": "warning"
+  },
+  "statin": {
+   "label": "Statin",
+   "duplicate": "warning"
+  },
+  "fibrate": {
+   "label": "Fibrate",
+   "duplicate": null
+  },
+  "nitrate": {
+   "label": "Nitrate",
+   "duplicate": null
+  },
+  "pde5": {
+   "label": "PDE5 inhibitor",
+   "duplicate": "warning"
+  },
+  "antiarrhythmic": {
+   "label": "Antiarrhythmic",
+   "duplicate": null
+  },
+  "cardiac_glycoside": {
+   "label": "Cardiac glycoside",
+   "duplicate": null
+  },
+  "biguanide": {
+   "label": "Biguanide",
+   "duplicate": null
+  },
+  "sulfonylurea": {
+   "label": "Sulfonylurea",
+   "duplicate": "warning"
+  },
+  "long_acting_sulfonylurea": {
+   "label": "Long-acting sulfonylurea",
+   "duplicate": null
+  },
+  "sglt2": {
+   "label": "SGLT2 inhibitor",
+   "duplicate": "warning"
+  },
+  "dpp4": {
+   "label": "DPP-4 inhibitor",
+   "duplicate": "warning"
+  },
+  "glp1": {
+   "label": "GLP-1 (or GIP/GLP-1) receptor agonist",
+   "duplicate": "warning"
+  },
+  "tzd": {
+   "label": "Thiazolidinedione",
+   "duplicate": "warning"
+  },
+  "insulin": {
+   "label": "Insulin",
+   "duplicate": null
+  },
+  "thyroid": {
+   "label": "Thyroid hormone",
+   "duplicate": null
+  },
+  "ppi": {
+   "label": "Proton pump inhibitor",
+   "duplicate": "warning"
+  },
+  "h2ra": {
+   "label": "H2 blocker",
+   "duplicate": null
+  },
+  "penicillin": {
+   "label": "Penicillin",
+   "duplicate": null
+  },
+  "cephalosporin": {
+   "label": "Cephalosporin",
+   "duplicate": null
+  },
+  "macrolide": {
+   "label": "Macrolide",
+   "duplicate": null
+  },
+  "fluoroquinolone": {
+   "label": "Fluoroquinolone",
+   "duplicate": "warning"
+  },
+  "tetracycline_class": {
+   "label": "Tetracycline",
+   "duplicate": null
+  },
+  "sulfonamide_antibiotic": {
+   "label": "Sulfonamide antibiotic",
+   "duplicate": null
+  },
+  "nonantibiotic_sulfonamide": {
+   "label": "Non-antibiotic sulfonamide",
+   "duplicate": null
+  },
+  "azole_antifungal": {
+   "label": "Azole antifungal",
+   "duplicate": null
+  },
+  "strong_cyp3a4_inhibitor": {
+   "label": "Strong CYP3A4 inhibitor",
+   "duplicate": null
+  },
+  "moderate_cyp3a4_inhibitor": {
+   "label": "Moderate CYP3A4 inhibitor",
+   "duplicate": null
+  },
+  "strong_cyp3a4_inducer": {
+   "label": "Strong CYP3A4 inducer",
+   "duplicate": null
+  },
+  "protease_inhibitor": {
+   "label": "HIV/COVID protease inhibitor or booster",
+   "duplicate": null
+  },
+  "cyp1a2_strong_inhibitor": {
+   "label": "Strong CYP1A2 inhibitor",
+   "duplicate": null
+  },
+  "strong_cyp2d6_inhibitor": {
+   "label": "Strong CYP2D6 inhibitor",
+   "duplicate": null
+  },
+  "pgp_inhibitor": {
+   "label": "P-glycoprotein inhibitor",
+   "duplicate": null
+  },
+  "qt_prolonging": {
+   "label": "Drug whose label warns of QT prolongation",
+   "duplicate": null
+  },
+  "qt_high": {
+   "label": "High-risk QT-prolonging drug",
+   "duplicate": null
+  },
+  "first_gen_antihistamine": {
+   "label": "First-generation antihistamine",
+   "duplicate": "warning"
+  },
+  "second_gen_antihistamine": {
+   "label": "Second-generation antihistamine",
+   "duplicate": null
+  },
+  "anticholinergic": {
+   "label": "Strongly anticholinergic drug",
+   "duplicate": null
+  },
+  "antipsychotic": {
+   "label": "Antipsychotic",
+   "duplicate": "warning"
+  },
+  "amphetamine_like": {
+   "label": "Amphetamine or derivative / stimulant",
+   "duplicate": "warning"
+  },
+  "sympathomimetic": {
+   "label": "Sympathomimetic decongestant",
+   "duplicate": null
+  },
+  "thiopurine": {
+   "label": "Thiopurine",
+   "duplicate": null
+  },
+  "xanthine_oxidase_inhibitor": {
+   "label": "Xanthine oxidase inhibitor",
+   "duplicate": "warning"
+  },
+  "corticosteroid": {
+   "label": "Systemic corticosteroid",
+   "duplicate": "warning"
+  },
+  "inhaled_corticosteroid": {
+   "label": "Inhaled corticosteroid",
+   "duplicate": null
+  },
+  "saba": {
+   "label": "Short-acting beta agonist",
+   "duplicate": null
+  },
+  "laba": {
+   "label": "Long-acting beta agonist",
+   "duplicate": null
+  },
+  "lama": {
+   "label": "Long-acting muscarinic antagonist",
+   "duplicate": null
+  },
+  "leukotriene": {
+   "label": "Leukotriene receptor antagonist",
+   "duplicate": null
+  },
+  "lithium_class": {
+   "label": "Lithium",
+   "duplicate": null
+  },
+  "antiepileptic": {
+   "label": "Antiepileptic",
+   "duplicate": null
+  },
+  "immunosuppressant": {
+   "label": "Immunosuppressant",
+   "duplicate": null
+  },
+  "polyvalent_cation": {
+   "label": "Calcium/iron/magnesium/aluminium product",
+   "duplicate": null
+  },
+  "estrogen": {
+   "label": "Estrogen-containing product",
+   "duplicate": null
+  },
+  "antiviral": {
+   "label": "Antiviral",
+   "duplicate": null
+  },
+  "antiemetic": {
+   "label": "Antiemetic",
+   "duplicate": null
+  },
+  "bisphosphonate": {
+   "label": "Bisphosphonate",
+   "duplicate": null
+  },
+  "dementia_drug": {
+   "label": "Cholinesterase inhibitor / memantine",
+   "duplicate": null
+  },
+  "urinary_antimuscarinic": {
+   "label": "Urinary antimuscarinic",
+   "duplicate": "warning"
+  },
+  "five_ari": {
+   "label": "5-alpha-reductase inhibitor",
+   "duplicate": null
+  },
+  "smoking_cessation": {
+   "label": "Smoking cessation",
+   "duplicate": null
+  },
+  "opioid_antagonist": {
+   "label": "Opioid antagonist",
+   "duplicate": null
+  },
+  "analgesic_other": {
+   "label": "Analgesic (non-opioid, non-NSAID)",
+   "duplicate": null
+  },
+  "antiplatelet_other": {
+   "label": "Antiplatelet (other)",
+   "duplicate": null
+  },
+  "lipid_other": {
+   "label": "Lipid-lowering (non-statin)",
+   "duplicate": null
+  },
+  "antianginal": {
+   "label": "Antianginal",
+   "duplicate": null
+  },
+  "vasodilator": {
+   "label": "Direct vasodilator",
+   "duplicate": null
+  },
+  "central_alpha_agonist": {
+   "label": "Central alpha-2 agonist",
+   "duplicate": null
+  },
+  "gout_other": {
+   "label": "Gout therapy",
+   "duplicate": null
+  },
+  "chemotherapy": {
+   "label": "Antineoplastic",
+   "duplicate": null
+  },
+  "antihistamine_any": {
+   "label": "Antihistamine",
+   "duplicate": null
+  },
+  "anticonvulsant_sodium": {
+   "label": "Sodium-channel antiepileptic",
+   "duplicate": null
+  },
+  "laxative": {
+   "label": "Laxative",
+   "duplicate": null
+  },
+  "antidiarrheal": {
+   "label": "Antidiarrheal",
+   "duplicate": null
+  },
+  "nitrofuran": {
+   "label": "Nitrofuran antibiotic",
+   "duplicate": null
+  },
+  "lincosamide": {
+   "label": "Lincosamide",
+   "duplicate": null
+  },
+  "glycopeptide": {
+   "label": "Glycopeptide",
+   "duplicate": null
+  },
+  "oxazolidinone": {
+   "label": "Oxazolidinone",
+   "duplicate": null
+  },
+  "antitussive": {
+   "label": "Antitussive",
+   "duplicate": null
+  },
+  "expectorant": {
+   "label": "Expectorant",
+   "duplicate": null
+  },
+  "vitamin": {
+   "label": "Vitamin / mineral",
+   "duplicate": null
+  },
+  "hormone_other": {
+   "label": "Hormone",
+   "duplicate": null
+  },
+  "androgen": {
+   "label": "Androgen",
+   "duplicate": null
+  },
+  "serm": {
+   "label": "Selective estrogen receptor modulator",
+   "duplicate": null
+  },
+  "antimalarial": {
+   "label": "Antimalarial / DMARD",
+   "duplicate": null
+  },
+  "dmard": {
+   "label": "DMARD",
+   "duplicate": null
+  },
+  "pde4": {
+   "label": "PDE4 inhibitor",
+   "duplicate": null
+  }
+ }
+}

@@ -1,0 +1,8723 @@
+{
+ "version": "2026-11-03",
+ "note": "Curated for the CustomAi MedScribe demo. Generic names, US brands, classes, federal DEA schedules, boxed-warning presence and ISMP-style confused-name pairs. RxCUIs only where well established; others resolve via RxNav at runtime.",
+ "drugs": {
+  "warfarin": {
+   "brands": [
+    "Coumadin",
+    "Jantoven"
+   ],
+   "aliases": [],
+   "classes": [
+    "anticoagulant",
+    "vka"
+   ],
+   "ingredients": [
+    "warfarin"
+   ],
+   "high_risk": "anticoagulant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "11289",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "atrial fibrillation",
+    "afib",
+    "clot",
+    "dvt",
+    "pulmonary embolism",
+    "valve"
+   ]
+  },
+  "apixaban": {
+   "brands": [
+    "Eliquis"
+   ],
+   "aliases": [],
+   "classes": [
+    "anticoagulant",
+    "doac"
+   ],
+   "ingredients": [
+    "apixaban"
+   ],
+   "high_risk": "anticoagulant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "1364430",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "atrial fibrillation",
+    "afib",
+    "clot",
+    "dvt",
+    "pulmonary embolism"
+   ]
+  },
+  "rivaroxaban": {
+   "brands": [
+    "Xarelto"
+   ],
+   "aliases": [],
+   "classes": [
+    "anticoagulant",
+    "doac"
+   ],
+   "ingredients": [
+    "rivaroxaban"
+   ],
+   "high_risk": "anticoagulant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "1114195",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "atrial fibrillation",
+    "afib",
+    "clot",
+    "dvt"
+   ]
+  },
+  "dabigatran": {
+   "brands": [
+    "Pradaxa"
+   ],
+   "aliases": [],
+   "classes": [
+    "anticoagulant",
+    "doac"
+   ],
+   "ingredients": [
+    "dabigatran"
+   ],
+   "high_risk": "anticoagulant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "1037042",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "atrial fibrillation",
+    "clot"
+   ]
+  },
+  "edoxaban": {
+   "brands": [
+    "Savaysa"
+   ],
+   "aliases": [],
+   "classes": [
+    "anticoagulant",
+    "doac"
+   ],
+   "ingredients": [
+    "edoxaban"
+   ],
+   "high_risk": "anticoagulant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "enoxaparin": {
+   "brands": [
+    "Lovenox"
+   ],
+   "aliases": [],
+   "classes": [
+    "anticoagulant",
+    "heparin_class"
+   ],
+   "ingredients": [
+    "enoxaparin"
+   ],
+   "high_risk": "anticoagulant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "67108",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "heparin": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "anticoagulant",
+    "heparin_class"
+   ],
+   "ingredients": [
+    "heparin"
+   ],
+   "high_risk": "anticoagulant",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "5224",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "aspirin": {
+   "brands": [
+    "Bayer",
+    "Ecotrin"
+   ],
+   "aliases": [
+    "asa",
+    "baby aspirin",
+    "low-dose aspirin",
+    "acetylsalicylic acid"
+   ],
+   "classes": [
+    "antiplatelet"
+   ],
+   "ingredients": [
+    "aspirin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "1191",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "heart attack prevention",
+    "stent",
+    "pain"
+   ]
+  },
+  "clopidogrel": {
+   "brands": [
+    "Plavix"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiplatelet",
+    "p2y12"
+   ],
+   "ingredients": [
+    "clopidogrel"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "32968",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "prasugrel": {
+   "brands": [
+    "Effient"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiplatelet",
+    "p2y12"
+   ],
+   "ingredients": [
+    "prasugrel"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "613391",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ticagrelor": {
+   "brands": [
+    "Brilinta"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiplatelet",
+    "p2y12"
+   ],
+   "ingredients": [
+    "ticagrelor"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "1116632",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cilostazol": {
+   "brands": [
+    "Pletal"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiplatelet_other"
+   ],
+   "ingredients": [
+    "cilostazol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ibuprofen": {
+   "brands": [
+    "Advil",
+    "Motrin"
+   ],
+   "aliases": [],
+   "classes": [
+    "nsaid"
+   ],
+   "ingredients": [
+    "ibuprofen"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": true,
+   "rxcui": "5640",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "pain",
+    "arthritis",
+    "inflammation",
+    "fever"
+   ]
+  },
+  "naproxen": {
+   "brands": [
+    "Aleve",
+    "Naprosyn",
+    "Anaprox"
+   ],
+   "aliases": [
+    "naproxen sodium"
+   ],
+   "classes": [
+    "nsaid"
+   ],
+   "ingredients": [
+    "naproxen"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": true,
+   "rxcui": "7258",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "meloxicam": {
+   "brands": [
+    "Mobic"
+   ],
+   "aliases": [],
+   "classes": [
+    "nsaid"
+   ],
+   "ingredients": [
+    "meloxicam"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "41493",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "celecoxib": {
+   "brands": [
+    "Celebrex"
+   ],
+   "aliases": [],
+   "classes": [
+    "nsaid",
+    "cox2",
+    "nonantibiotic_sulfonamide"
+   ],
+   "ingredients": [
+    "celecoxib"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "140587",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "citalopram",
+     "pair": "Celebrex / Celexa"
+    }
+   ],
+   "uses": [
+    "arthritis",
+    "pain",
+    "inflammation"
+   ]
+  },
+  "diclofenac": {
+   "brands": [
+    "Voltaren",
+    "Cambia",
+    "Zipsor"
+   ],
+   "aliases": [],
+   "classes": [
+    "nsaid"
+   ],
+   "ingredients": [
+    "diclofenac"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "3355",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ketorolac": {
+   "brands": [
+    "Toradol"
+   ],
+   "aliases": [],
+   "classes": [
+    "nsaid"
+   ],
+   "ingredients": [
+    "ketorolac"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "35827",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "tramadol",
+     "pair": "Toradol / tramadol"
+    }
+   ],
+   "uses": [
+    "pain"
+   ]
+  },
+  "indomethacin": {
+   "brands": [
+    "Indocin"
+   ],
+   "aliases": [],
+   "classes": [
+    "nsaid"
+   ],
+   "ingredients": [
+    "indomethacin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "5781",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "etodolac": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "nsaid"
+   ],
+   "ingredients": [
+    "etodolac"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "nabumetone": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "nsaid"
+   ],
+   "ingredients": [
+    "nabumetone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "acetaminophen": {
+   "brands": [
+    "Tylenol"
+   ],
+   "aliases": [
+    "paracetamol",
+    "apap"
+   ],
+   "classes": [
+    "analgesic_other"
+   ],
+   "ingredients": [
+    "acetaminophen"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "161",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "oxycodone": {
+   "brands": [
+    "OxyContin",
+    "Roxicodone"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid"
+   ],
+   "ingredients": [
+    "oxycodone"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "7804",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "hydrocodone-acetaminophen",
+     "pair": "oxyCODONE / HYDROcodone"
+    }
+   ],
+   "uses": []
+  },
+  "oxycodone-acetaminophen": {
+   "brands": [
+    "Percocet"
+   ],
+   "aliases": [
+    "oxycodone/acetaminophen",
+    "oxycodone and acetaminophen"
+   ],
+   "classes": [
+    "opioid",
+    "analgesic_other"
+   ],
+   "ingredients": [
+    "oxycodone",
+    "acetaminophen"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "hydrocodone-acetaminophen": {
+   "brands": [
+    "Norco",
+    "Vicodin",
+    "Lortab"
+   ],
+   "aliases": [
+    "hydrocodone/acetaminophen",
+    "hydrocodone and acetaminophen",
+    "hydrocodone"
+   ],
+   "classes": [
+    "opioid",
+    "analgesic_other"
+   ],
+   "ingredients": [
+    "hydrocodone",
+    "acetaminophen"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "oxycodone",
+     "pair": "HYDROcodone / oxyCODONE"
+    }
+   ],
+   "uses": []
+  },
+  "morphine": {
+   "brands": [
+    "MS Contin"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid"
+   ],
+   "ingredients": [
+    "morphine"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "7052",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "hydromorphone",
+     "pair": "morphine / HYDROmorphone"
+    }
+   ],
+   "uses": []
+  },
+  "hydromorphone": {
+   "brands": [
+    "Dilaudid"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid"
+   ],
+   "ingredients": [
+    "hydromorphone"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "3423",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "morphine",
+     "pair": "HYDROmorphone / morphine"
+    }
+   ],
+   "uses": []
+  },
+  "fentanyl": {
+   "brands": [
+    "Duragesic"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "fentanyl"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "4337",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "methadone": {
+   "brands": [
+    "Dolophine",
+    "Methadose"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid",
+    "serotonergic",
+    "qt_prolonging",
+    "qt_high"
+   ],
+   "ingredients": [
+    "methadone"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "6813",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tramadol": {
+   "brands": [
+    "Ultram"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "tramadol"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CIV",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "10689",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "trazodone",
+     "pair": "traMADol / traZODone"
+    },
+    {
+     "drug": "ketorolac",
+     "pair": "traMADol / Toradol"
+    }
+   ],
+   "uses": [
+    "pain"
+   ]
+  },
+  "tapentadol": {
+   "brands": [
+    "Nucynta"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "tapentadol"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "codeine": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "opioid"
+   ],
+   "ingredients": [
+    "codeine"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "2670",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "acetaminophen-codeine": {
+   "brands": [
+    "Tylenol with Codeine",
+    "Tylenol #3"
+   ],
+   "aliases": [
+    "tylenol 3",
+    "acetaminophen/codeine"
+   ],
+   "classes": [
+    "opioid",
+    "analgesic_other"
+   ],
+   "ingredients": [
+    "acetaminophen",
+    "codeine"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CIII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "buprenorphine": {
+   "brands": [
+    "Subutex",
+    "Butrans"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid"
+   ],
+   "ingredients": [
+    "buprenorphine"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CIII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "1819",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "buprenorphine-naloxone": {
+   "brands": [
+    "Suboxone",
+    "Zubsolv"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid"
+   ],
+   "ingredients": [
+    "buprenorphine",
+    "naloxone"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CIII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "meperidine": {
+   "brands": [
+    "Demerol"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "meperidine"
+   ],
+   "high_risk": "opioid",
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "naloxone": {
+   "brands": [
+    "Narcan"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid_antagonist"
+   ],
+   "ingredients": [
+    "naloxone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "7242",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "naltrexone": {
+   "brands": [
+    "Vivitrol",
+    "Revia"
+   ],
+   "aliases": [],
+   "classes": [
+    "opioid_antagonist"
+   ],
+   "ingredients": [
+    "naltrexone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "7243",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "sertraline": {
+   "brands": [
+    "Zoloft"
+   ],
+   "aliases": [],
+   "classes": [
+    "ssri",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "sertraline"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "36437",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "cetirizine",
+     "pair": "sertraline / cetirizine"
+    }
+   ],
+   "uses": [
+    "depression",
+    "anxiety",
+    "ptsd",
+    "ocd",
+    "panic"
+   ]
+  },
+  "fluoxetine": {
+   "brands": [
+    "Prozac"
+   ],
+   "aliases": [],
+   "classes": [
+    "ssri",
+    "serotonergic",
+    "strong_cyp2d6_inhibitor"
+   ],
+   "ingredients": [
+    "fluoxetine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "4493",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "paroxetine",
+     "pair": "FLUoxetine / PARoxetine"
+    }
+   ],
+   "uses": [
+    "depression",
+    "anxiety"
+   ]
+  },
+  "paroxetine": {
+   "brands": [
+    "Paxil"
+   ],
+   "aliases": [],
+   "classes": [
+    "ssri",
+    "serotonergic",
+    "strong_cyp2d6_inhibitor",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "paroxetine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "32937",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "fluoxetine",
+     "pair": "PARoxetine / FLUoxetine"
+    }
+   ],
+   "uses": []
+  },
+  "citalopram": {
+   "brands": [
+    "Celexa"
+   ],
+   "aliases": [],
+   "classes": [
+    "ssri",
+    "serotonergic",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "citalopram"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "2556",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "celecoxib",
+     "pair": "Celexa / Celebrex"
+    }
+   ],
+   "uses": [
+    "depression",
+    "anxiety"
+   ]
+  },
+  "escitalopram": {
+   "brands": [
+    "Lexapro"
+   ],
+   "aliases": [],
+   "classes": [
+    "ssri",
+    "serotonergic",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "escitalopram"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "321988",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "fluvoxamine": {
+   "brands": [
+    "Luvox"
+   ],
+   "aliases": [],
+   "classes": [
+    "ssri",
+    "serotonergic",
+    "cyp1a2_strong_inhibitor"
+   ],
+   "ingredients": [
+    "fluvoxamine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "42355",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "venlafaxine": {
+   "brands": [
+    "Effexor"
+   ],
+   "aliases": [],
+   "classes": [
+    "snri",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "venlafaxine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "39786",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "desvenlafaxine": {
+   "brands": [
+    "Pristiq"
+   ],
+   "aliases": [],
+   "classes": [
+    "snri",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "desvenlafaxine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "duloxetine": {
+   "brands": [
+    "Cymbalta"
+   ],
+   "aliases": [],
+   "classes": [
+    "snri",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "duloxetine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "72625",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "bupropion": {
+   "brands": [
+    "Wellbutrin",
+    "Zyban"
+   ],
+   "aliases": [],
+   "classes": [
+    "strong_cyp2d6_inhibitor",
+    "smoking_cessation"
+   ],
+   "ingredients": [
+    "bupropion"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "42347",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "buspirone",
+     "pair": "buPROPion / busPIRone"
+    }
+   ],
+   "uses": [
+    "depression",
+    "smoking"
+   ]
+  },
+  "mirtazapine": {
+   "brands": [
+    "Remeron"
+   ],
+   "aliases": [],
+   "classes": [
+    "serotonergic"
+   ],
+   "ingredients": [
+    "mirtazapine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "15996",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "trazodone": {
+   "brands": [
+    "Desyrel"
+   ],
+   "aliases": [],
+   "classes": [
+    "serotonergic"
+   ],
+   "ingredients": [
+    "trazodone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "10737",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "tramadol",
+     "pair": "traZODone / traMADol"
+    }
+   ],
+   "uses": [
+    "sleep",
+    "insomnia",
+    "depression"
+   ]
+  },
+  "buspirone": {
+   "brands": [
+    "Buspar"
+   ],
+   "aliases": [],
+   "classes": [
+    "serotonergic"
+   ],
+   "ingredients": [
+    "buspirone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "1827",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "bupropion",
+     "pair": "busPIRone / buPROPion"
+    }
+   ],
+   "uses": []
+  },
+  "amitriptyline": {
+   "brands": [
+    "Elavil"
+   ],
+   "aliases": [],
+   "classes": [
+    "tca",
+    "serotonergic",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "amitriptyline"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "704",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "nortriptyline": {
+   "brands": [
+    "Pamelor"
+   ],
+   "aliases": [],
+   "classes": [
+    "tca",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "nortriptyline"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "7531",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "imipramine": {
+   "brands": [
+    "Tofranil"
+   ],
+   "aliases": [],
+   "classes": [
+    "tca",
+    "serotonergic",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "imipramine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "doxepin": {
+   "brands": [
+    "Silenor"
+   ],
+   "aliases": [],
+   "classes": [
+    "tca",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "doxepin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "clomipramine": {
+   "brands": [
+    "Anafranil"
+   ],
+   "aliases": [],
+   "classes": [
+    "tca",
+    "serotonergic",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "clomipramine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "phenelzine": {
+   "brands": [
+    "Nardil"
+   ],
+   "aliases": [],
+   "classes": [
+    "maoi"
+   ],
+   "ingredients": [
+    "phenelzine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "8123",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tranylcypromine": {
+   "brands": [
+    "Parnate"
+   ],
+   "aliases": [],
+   "classes": [
+    "maoi"
+   ],
+   "ingredients": [
+    "tranylcypromine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "isocarboxazid": {
+   "brands": [
+    "Marplan"
+   ],
+   "aliases": [],
+   "classes": [
+    "maoi"
+   ],
+   "ingredients": [
+    "isocarboxazid"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "selegiline": {
+   "brands": [
+    "Emsam",
+    "Zelapar"
+   ],
+   "aliases": [],
+   "classes": [
+    "maoi"
+   ],
+   "ingredients": [
+    "selegiline"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "9639",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "rasagiline": {
+   "brands": [
+    "Azilect"
+   ],
+   "aliases": [],
+   "classes": [
+    "maoi"
+   ],
+   "ingredients": [
+    "rasagiline"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "linezolid": {
+   "brands": [
+    "Zyvox"
+   ],
+   "aliases": [],
+   "classes": [
+    "maoi_like",
+    "oxazolidinone"
+   ],
+   "ingredients": [
+    "linezolid"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "190376",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "methylene blue": {
+   "brands": [
+    "ProvayBlue"
+   ],
+   "aliases": [],
+   "classes": [
+    "maoi_like"
+   ],
+   "ingredients": [
+    "methylene blue"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "lithium": {
+   "brands": [
+    "Lithobid"
+   ],
+   "aliases": [
+    "lithium carbonate"
+   ],
+   "classes": [
+    "lithium_class",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "lithium"
+   ],
+   "high_risk": "narrow therapeutic index",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "6448",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "dextromethorphan": {
+   "brands": [
+    "Delsym",
+    "Robitussin DM"
+   ],
+   "aliases": [],
+   "classes": [
+    "serotonergic",
+    "antitussive"
+   ],
+   "ingredients": [
+    "dextromethorphan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "3289",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "st johns wort": {
+   "brands": [
+    "St. John's wort"
+   ],
+   "aliases": [
+    "st. john's wort",
+    "saint john's wort",
+    "hypericum"
+   ],
+   "classes": [
+    "serotonergic",
+    "strong_cyp3a4_inducer"
+   ],
+   "ingredients": [
+    "st johns wort"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "sumatriptan": {
+   "brands": [
+    "Imitrex"
+   ],
+   "aliases": [],
+   "classes": [
+    "triptan",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "sumatriptan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "37418",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "sitagliptin",
+     "pair": "SUMAtriptan / SITagliptin"
+    }
+   ],
+   "uses": [
+    "migraine",
+    "headache"
+   ]
+  },
+  "rizatriptan": {
+   "brands": [
+    "Maxalt"
+   ],
+   "aliases": [],
+   "classes": [
+    "triptan",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "rizatriptan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "zolmitriptan": {
+   "brands": [
+    "Zomig"
+   ],
+   "aliases": [],
+   "classes": [
+    "triptan",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "zolmitriptan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "eletriptan": {
+   "brands": [
+    "Relpax"
+   ],
+   "aliases": [],
+   "classes": [
+    "triptan",
+    "serotonergic"
+   ],
+   "ingredients": [
+    "eletriptan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ergotamine": {
+   "brands": [
+    "Cafergot"
+   ],
+   "aliases": [],
+   "classes": [
+    "ergot"
+   ],
+   "ingredients": [
+    "ergotamine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "dihydroergotamine": {
+   "brands": [
+    "D.H.E. 45",
+    "Migranal"
+   ],
+   "aliases": [],
+   "classes": [
+    "ergot"
+   ],
+   "ingredients": [
+    "dihydroergotamine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "alprazolam": {
+   "brands": [
+    "Xanax"
+   ],
+   "aliases": [],
+   "classes": [
+    "benzodiazepine"
+   ],
+   "ingredients": [
+    "alprazolam"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "596",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "lorazepam",
+     "pair": "ALPRAZolam / LORazepam"
+    }
+   ],
+   "uses": []
+  },
+  "lorazepam": {
+   "brands": [
+    "Ativan"
+   ],
+   "aliases": [],
+   "classes": [
+    "benzodiazepine"
+   ],
+   "ingredients": [
+    "lorazepam"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "6470",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "alprazolam",
+     "pair": "LORazepam / ALPRAZolam"
+    },
+    {
+     "drug": "clonazepam",
+     "pair": "LORazepam / clonazePAM"
+    }
+   ],
+   "uses": []
+  },
+  "clonazepam": {
+   "brands": [
+    "Klonopin"
+   ],
+   "aliases": [],
+   "classes": [
+    "benzodiazepine"
+   ],
+   "ingredients": [
+    "clonazepam"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "2598",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "clonidine",
+     "pair": "Klonopin / clonidine"
+    },
+    {
+     "drug": "lorazepam",
+     "pair": "clonazePAM / LORazepam"
+    }
+   ],
+   "uses": [
+    "anxiety",
+    "panic",
+    "seizure"
+   ]
+  },
+  "diazepam": {
+   "brands": [
+    "Valium"
+   ],
+   "aliases": [],
+   "classes": [
+    "benzodiazepine"
+   ],
+   "ingredients": [
+    "diazepam"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "3322",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "temazepam": {
+   "brands": [
+    "Restoril"
+   ],
+   "aliases": [],
+   "classes": [
+    "benzodiazepine"
+   ],
+   "ingredients": [
+    "temazepam"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "chlordiazepoxide": {
+   "brands": [
+    "Librium"
+   ],
+   "aliases": [],
+   "classes": [
+    "benzodiazepine"
+   ],
+   "ingredients": [
+    "chlordiazepoxide"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "zolpidem": {
+   "brands": [
+    "Ambien"
+   ],
+   "aliases": [],
+   "classes": [
+    "z_drug"
+   ],
+   "ingredients": [
+    "zolpidem"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "39993",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "sleep",
+    "insomnia"
+   ]
+  },
+  "eszopiclone": {
+   "brands": [
+    "Lunesta"
+   ],
+   "aliases": [],
+   "classes": [
+    "z_drug"
+   ],
+   "ingredients": [
+    "eszopiclone"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ramelteon": {
+   "brands": [
+    "Rozerem"
+   ],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "ramelteon"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "suvorexant": {
+   "brands": [
+    "Belsomra"
+   ],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "suvorexant"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cyclobenzaprine": {
+   "brands": [
+    "Flexeril"
+   ],
+   "aliases": [],
+   "classes": [
+    "muscle_relaxant",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "cyclobenzaprine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "21949",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "methocarbamol": {
+   "brands": [
+    "Robaxin"
+   ],
+   "aliases": [],
+   "classes": [
+    "muscle_relaxant"
+   ],
+   "ingredients": [
+    "methocarbamol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "6845",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "carisoprodol": {
+   "brands": [
+    "Soma"
+   ],
+   "aliases": [],
+   "classes": [
+    "muscle_relaxant"
+   ],
+   "ingredients": [
+    "carisoprodol"
+   ],
+   "high_risk": null,
+   "schedule": "CIV",
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "2101",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tizanidine": {
+   "brands": [
+    "Zanaflex"
+   ],
+   "aliases": [],
+   "classes": [
+    "muscle_relaxant"
+   ],
+   "ingredients": [
+    "tizanidine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "57258",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "tiagabine",
+     "pair": "tiZANidine / tiaGABine"
+    }
+   ],
+   "uses": []
+  },
+  "baclofen": {
+   "brands": [
+    "Lioresal"
+   ],
+   "aliases": [],
+   "classes": [
+    "muscle_relaxant"
+   ],
+   "ingredients": [
+    "baclofen"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "1292",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "gabapentin": {
+   "brands": [
+    "Neurontin",
+    "Gralise"
+   ],
+   "aliases": [],
+   "classes": [
+    "gabapentinoid",
+    "antiepileptic"
+   ],
+   "ingredients": [
+    "gabapentin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "25480",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "nerve pain",
+    "neuropathy",
+    "seizure",
+    "shingles pain"
+   ]
+  },
+  "pregabalin": {
+   "brands": [
+    "Lyrica"
+   ],
+   "aliases": [],
+   "classes": [
+    "gabapentinoid",
+    "antiepileptic"
+   ],
+   "ingredients": [
+    "pregabalin"
+   ],
+   "high_risk": null,
+   "schedule": "CV",
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "187832",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "diphenhydramine": {
+   "brands": [
+    "Benadryl",
+    "ZzzQuil",
+    "Unisom SleepGels"
+   ],
+   "aliases": [
+    "tylenol pm"
+   ],
+   "classes": [
+    "first_gen_antihistamine",
+    "anticholinergic",
+    "antihistamine_any"
+   ],
+   "ingredients": [
+    "diphenhydramine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "3498",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "allergy",
+    "sleep",
+    "itch"
+   ]
+  },
+  "hydroxyzine": {
+   "brands": [
+    "Atarax",
+    "Vistaril"
+   ],
+   "aliases": [],
+   "classes": [
+    "first_gen_antihistamine",
+    "anticholinergic",
+    "antihistamine_any",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "hydroxyzine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "5553",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "hydralazine",
+     "pair": "hydrOXYzine / hydrALAZINE"
+    }
+   ],
+   "uses": [
+    "itch",
+    "itching",
+    "pruritus",
+    "hives",
+    "urticaria",
+    "anxiety",
+    "allergy",
+    "sleep"
+   ]
+  },
+  "chlorpheniramine": {
+   "brands": [
+    "Chlor-Trimeton"
+   ],
+   "aliases": [],
+   "classes": [
+    "first_gen_antihistamine",
+    "anticholinergic",
+    "antihistamine_any"
+   ],
+   "ingredients": [
+    "chlorpheniramine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "2400",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "promethazine": {
+   "brands": [
+    "Phenergan"
+   ],
+   "aliases": [],
+   "classes": [
+    "first_gen_antihistamine",
+    "anticholinergic",
+    "antihistamine_any",
+    "antiemetic"
+   ],
+   "ingredients": [
+    "promethazine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "8745",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "doxylamine": {
+   "brands": [
+    "Unisom SleepTabs"
+   ],
+   "aliases": [],
+   "classes": [
+    "first_gen_antihistamine",
+    "anticholinergic",
+    "antihistamine_any"
+   ],
+   "ingredients": [
+    "doxylamine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "3642",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "meclizine": {
+   "brands": [
+    "Antivert",
+    "Bonine"
+   ],
+   "aliases": [],
+   "classes": [
+    "first_gen_antihistamine",
+    "anticholinergic",
+    "antihistamine_any"
+   ],
+   "ingredients": [
+    "meclizine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "6694",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cetirizine": {
+   "brands": [
+    "Zyrtec"
+   ],
+   "aliases": [],
+   "classes": [
+    "second_gen_antihistamine",
+    "antihistamine_any"
+   ],
+   "ingredients": [
+    "cetirizine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "20610",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "sertraline",
+     "pair": "cetirizine / sertraline"
+    },
+    {
+     "drug": "olanzapine",
+     "pair": "Zyrtec / Zyprexa"
+    }
+   ],
+   "uses": []
+  },
+  "loratadine": {
+   "brands": [
+    "Claritin"
+   ],
+   "aliases": [],
+   "classes": [
+    "second_gen_antihistamine",
+    "antihistamine_any"
+   ],
+   "ingredients": [
+    "loratadine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "28889",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "fexofenadine": {
+   "brands": [
+    "Allegra"
+   ],
+   "aliases": [],
+   "classes": [
+    "second_gen_antihistamine",
+    "antihistamine_any"
+   ],
+   "ingredients": [
+    "fexofenadine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "87636",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ondansetron": {
+   "brands": [
+    "Zofran"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiemetic",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "ondansetron"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "26225",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "metoclopramide": {
+   "brands": [
+    "Reglan"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiemetic"
+   ],
+   "ingredients": [
+    "metoclopramide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "6915",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "prochlorperazine": {
+   "brands": [
+    "Compazine"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiemetic",
+    "antipsychotic"
+   ],
+   "ingredients": [
+    "prochlorperazine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "haloperidol": {
+   "brands": [
+    "Haldol"
+   ],
+   "aliases": [],
+   "classes": [
+    "antipsychotic",
+    "qt_prolonging",
+    "qt_high"
+   ],
+   "ingredients": [
+    "haloperidol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "5093",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "quetiapine": {
+   "brands": [
+    "Seroquel"
+   ],
+   "aliases": [],
+   "classes": [
+    "antipsychotic",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "quetiapine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "51272",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "olanzapine": {
+   "brands": [
+    "Zyprexa"
+   ],
+   "aliases": [],
+   "classes": [
+    "antipsychotic"
+   ],
+   "ingredients": [
+    "olanzapine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "61381",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "cetirizine",
+     "pair": "Zyprexa / Zyrtec"
+    }
+   ],
+   "uses": []
+  },
+  "risperidone": {
+   "brands": [
+    "Risperdal"
+   ],
+   "aliases": [],
+   "classes": [
+    "antipsychotic"
+   ],
+   "ingredients": [
+    "risperidone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "35636",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "ropinirole",
+     "pair": "risperiDONE / rOPINIRole"
+    }
+   ],
+   "uses": []
+  },
+  "aripiprazole": {
+   "brands": [
+    "Abilify"
+   ],
+   "aliases": [],
+   "classes": [
+    "antipsychotic"
+   ],
+   "ingredients": [
+    "aripiprazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "89013",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ziprasidone": {
+   "brands": [
+    "Geodon"
+   ],
+   "aliases": [],
+   "classes": [
+    "antipsychotic",
+    "qt_prolonging",
+    "qt_high"
+   ],
+   "ingredients": [
+    "ziprasidone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "pimozide": {
+   "brands": [
+    "Orap"
+   ],
+   "aliases": [],
+   "classes": [
+    "antipsychotic",
+    "qt_prolonging",
+    "qt_high"
+   ],
+   "ingredients": [
+    "pimozide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "chlorpromazine": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "antipsychotic",
+    "qt_prolonging",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "chlorpromazine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "thioridazine": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "antipsychotic",
+    "qt_prolonging",
+    "qt_high",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "thioridazine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ropinirole": {
+   "brands": [
+    "Requip"
+   ],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "ropinirole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "risperidone",
+     "pair": "rOPINIRole / risperiDONE"
+    }
+   ],
+   "uses": []
+  },
+  "amphetamine-dextroamphetamine": {
+   "brands": [
+    "Adderall"
+   ],
+   "aliases": [
+    "mixed amphetamine salts",
+    "amphetamine salts"
+   ],
+   "classes": [
+    "amphetamine_like"
+   ],
+   "ingredients": [
+    "amphetamine",
+    "dextroamphetamine"
+   ],
+   "high_risk": null,
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "dextroamphetamine": {
+   "brands": [
+    "Dexedrine"
+   ],
+   "aliases": [],
+   "classes": [
+    "amphetamine_like"
+   ],
+   "ingredients": [
+    "dextroamphetamine"
+   ],
+   "high_risk": null,
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "3288",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "lisdexamfetamine": {
+   "brands": [
+    "Vyvanse"
+   ],
+   "aliases": [],
+   "classes": [
+    "amphetamine_like"
+   ],
+   "ingredients": [
+    "lisdexamfetamine"
+   ],
+   "high_risk": null,
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "methylphenidate": {
+   "brands": [
+    "Ritalin",
+    "Concerta"
+   ],
+   "aliases": [],
+   "classes": [
+    "amphetamine_like"
+   ],
+   "ingredients": [
+    "methylphenidate"
+   ],
+   "high_risk": null,
+   "schedule": "CII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "6901",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "pseudoephedrine": {
+   "brands": [
+    "Sudafed"
+   ],
+   "aliases": [],
+   "classes": [
+    "sympathomimetic"
+   ],
+   "ingredients": [
+    "pseudoephedrine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "phenylephrine": {
+   "brands": [
+    "Sudafed PE"
+   ],
+   "aliases": [],
+   "classes": [
+    "sympathomimetic"
+   ],
+   "ingredients": [
+    "phenylephrine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "donepezil": {
+   "brands": [
+    "Aricept"
+   ],
+   "aliases": [],
+   "classes": [
+    "dementia_drug",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "donepezil"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "135447",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "memantine": {
+   "brands": [
+    "Namenda"
+   ],
+   "aliases": [],
+   "classes": [
+    "dementia_drug"
+   ],
+   "ingredients": [
+    "memantine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "6719",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "carbidopa-levodopa": {
+   "brands": [
+    "Sinemet",
+    "Rytary"
+   ],
+   "aliases": [
+    "carbidopa/levodopa",
+    "levodopa"
+   ],
+   "classes": [],
+   "ingredients": [
+    "carbidopa",
+    "levodopa"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "lamotrigine": {
+   "brands": [
+    "Lamictal"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiepileptic",
+    "anticonvulsant_sodium"
+   ],
+   "ingredients": [
+    "lamotrigine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "28439",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "terbinafine",
+     "pair": "LamICTAL / LamISIL"
+    },
+    {
+     "drug": "levetiracetam",
+     "pair": "lamoTRIgine / levETIRAcetam"
+    },
+    {
+     "drug": "levothyroxine",
+     "pair": "lamoTRIgine / levothyroxine"
+    }
+   ],
+   "uses": [
+    "seizure",
+    "epilepsy",
+    "bipolar"
+   ]
+  },
+  "levetiracetam": {
+   "brands": [
+    "Keppra"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiepileptic"
+   ],
+   "ingredients": [
+    "levetiracetam"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "114477",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "lamotrigine",
+     "pair": "levETIRAcetam / lamoTRIgine"
+    }
+   ],
+   "uses": []
+  },
+  "topiramate": {
+   "brands": [
+    "Topamax"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiepileptic"
+   ],
+   "ingredients": [
+    "topiramate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "38404",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "valproate": {
+   "brands": [
+    "Depakote",
+    "Depakene"
+   ],
+   "aliases": [
+    "valproic acid",
+    "divalproex",
+    "divalproex sodium"
+   ],
+   "classes": [
+    "antiepileptic"
+   ],
+   "ingredients": [
+    "valproate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "11118",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "carbamazepine": {
+   "brands": [
+    "Tegretol"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiepileptic",
+    "anticonvulsant_sodium",
+    "strong_cyp3a4_inducer"
+   ],
+   "ingredients": [
+    "carbamazepine"
+   ],
+   "high_risk": "narrow therapeutic index",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "2002",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "oxcarbazepine",
+     "pair": "carBAMazepine / OXcarbazepine"
+    }
+   ],
+   "uses": []
+  },
+  "oxcarbazepine": {
+   "brands": [
+    "Trileptal"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiepileptic",
+    "anticonvulsant_sodium"
+   ],
+   "ingredients": [
+    "oxcarbazepine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "carbamazepine",
+     "pair": "OXcarbazepine / carBAMazepine"
+    }
+   ],
+   "uses": []
+  },
+  "phenytoin": {
+   "brands": [
+    "Dilantin"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiepileptic",
+    "anticonvulsant_sodium",
+    "strong_cyp3a4_inducer"
+   ],
+   "ingredients": [
+    "phenytoin"
+   ],
+   "high_risk": "narrow therapeutic index",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "8183",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tiagabine": {
+   "brands": [
+    "Gabitril"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiepileptic"
+   ],
+   "ingredients": [
+    "tiagabine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "tizanidine",
+     "pair": "tiaGABine / tiZANidine"
+    }
+   ],
+   "uses": []
+  },
+  "lisinopril": {
+   "brands": [
+    "Prinivil",
+    "Zestril",
+    "Qbrelis"
+   ],
+   "aliases": [],
+   "classes": [
+    "acei"
+   ],
+   "ingredients": [
+    "lisinopril"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "29046",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "blood pressure",
+    "hypertension",
+    "heart failure",
+    "kidney protection"
+   ]
+  },
+  "enalapril": {
+   "brands": [
+    "Vasotec"
+   ],
+   "aliases": [],
+   "classes": [
+    "acei"
+   ],
+   "ingredients": [
+    "enalapril"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "3827",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ramipril": {
+   "brands": [
+    "Altace"
+   ],
+   "aliases": [],
+   "classes": [
+    "acei"
+   ],
+   "ingredients": [
+    "ramipril"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "35296",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "benazepril": {
+   "brands": [
+    "Lotensin"
+   ],
+   "aliases": [],
+   "classes": [
+    "acei"
+   ],
+   "ingredients": [
+    "benazepril"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "18867",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "captopril": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "acei"
+   ],
+   "ingredients": [
+    "captopril"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "quinapril": {
+   "brands": [
+    "Accupril"
+   ],
+   "aliases": [],
+   "classes": [
+    "acei"
+   ],
+   "ingredients": [
+    "quinapril"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "losartan": {
+   "brands": [
+    "Cozaar"
+   ],
+   "aliases": [],
+   "classes": [
+    "arb"
+   ],
+   "ingredients": [
+    "losartan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "52175",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "blood pressure",
+    "hypertension"
+   ]
+  },
+  "valsartan": {
+   "brands": [
+    "Diovan"
+   ],
+   "aliases": [],
+   "classes": [
+    "arb"
+   ],
+   "ingredients": [
+    "valsartan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "69749",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "irbesartan": {
+   "brands": [
+    "Avapro"
+   ],
+   "aliases": [],
+   "classes": [
+    "arb"
+   ],
+   "ingredients": [
+    "irbesartan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "83818",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "olmesartan": {
+   "brands": [
+    "Benicar"
+   ],
+   "aliases": [],
+   "classes": [
+    "arb"
+   ],
+   "ingredients": [
+    "olmesartan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "321064",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "telmisartan": {
+   "brands": [
+    "Micardis"
+   ],
+   "aliases": [],
+   "classes": [
+    "arb"
+   ],
+   "ingredients": [
+    "telmisartan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "73494",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "candesartan": {
+   "brands": [
+    "Atacand"
+   ],
+   "aliases": [],
+   "classes": [
+    "arb"
+   ],
+   "ingredients": [
+    "candesartan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "sacubitril-valsartan": {
+   "brands": [
+    "Entresto"
+   ],
+   "aliases": [
+    "sacubitril/valsartan"
+   ],
+   "classes": [
+    "arni"
+   ],
+   "ingredients": [
+    "sacubitril",
+    "valsartan"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "aliskiren": {
+   "brands": [
+    "Tekturna"
+   ],
+   "aliases": [],
+   "classes": [
+    "renin_inhibitor"
+   ],
+   "ingredients": [
+    "aliskiren"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "325646",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "spironolactone": {
+   "brands": [
+    "Aldactone",
+    "CaroSpir"
+   ],
+   "aliases": [],
+   "classes": [
+    "k_sparing"
+   ],
+   "ingredients": [
+    "spironolactone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "9997",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "heart failure",
+    "blood pressure",
+    "edema",
+    "aldosterone"
+   ]
+  },
+  "eplerenone": {
+   "brands": [
+    "Inspra"
+   ],
+   "aliases": [],
+   "classes": [
+    "k_sparing"
+   ],
+   "ingredients": [
+    "eplerenone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "298869",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "finerenone": {
+   "brands": [
+    "Kerendia"
+   ],
+   "aliases": [],
+   "classes": [
+    "k_sparing"
+   ],
+   "ingredients": [
+    "finerenone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "amiloride": {
+   "brands": [
+    "Midamor"
+   ],
+   "aliases": [],
+   "classes": [
+    "k_sparing"
+   ],
+   "ingredients": [
+    "amiloride"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "644",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "amlodipine",
+     "pair": "aMILoride / amLODIPine"
+    }
+   ],
+   "uses": []
+  },
+  "triamterene-hydrochlorothiazide": {
+   "brands": [
+    "Maxzide",
+    "Dyazide"
+   ],
+   "aliases": [
+    "triamterene/hctz",
+    "triamterene"
+   ],
+   "classes": [
+    "k_sparing",
+    "thiazide",
+    "nonantibiotic_sulfonamide"
+   ],
+   "ingredients": [
+    "triamterene",
+    "hydrochlorothiazide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "potassium chloride": {
+   "brands": [
+    "Klor-Con",
+    "K-Tab",
+    "Micro-K"
+   ],
+   "aliases": [
+    "kcl",
+    "potassium",
+    "potassium supplement"
+   ],
+   "classes": [
+    "potassium_supplement"
+   ],
+   "ingredients": [
+    "potassium chloride"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "8591",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "potassium citrate": {
+   "brands": [
+    "Urocit-K"
+   ],
+   "aliases": [],
+   "classes": [
+    "potassium_supplement"
+   ],
+   "ingredients": [
+    "potassium citrate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "hydrochlorothiazide": {
+   "brands": [
+    "Microzide"
+   ],
+   "aliases": [
+    "hctz"
+   ],
+   "classes": [
+    "thiazide",
+    "nonantibiotic_sulfonamide"
+   ],
+   "ingredients": [
+    "hydrochlorothiazide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "5487",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "chlorthalidone": {
+   "brands": [
+    "Thalitone"
+   ],
+   "aliases": [],
+   "classes": [
+    "thiazide",
+    "nonantibiotic_sulfonamide"
+   ],
+   "ingredients": [
+    "chlorthalidone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "2409",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "indapamide": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "thiazide",
+    "nonantibiotic_sulfonamide"
+   ],
+   "ingredients": [
+    "indapamide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "metolazone": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "thiazide",
+    "nonantibiotic_sulfonamide"
+   ],
+   "ingredients": [
+    "metolazone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "furosemide": {
+   "brands": [
+    "Lasix"
+   ],
+   "aliases": [],
+   "classes": [
+    "loop",
+    "nonantibiotic_sulfonamide"
+   ],
+   "ingredients": [
+    "furosemide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "4603",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "edema",
+    "heart failure",
+    "fluid"
+   ]
+  },
+  "bumetanide": {
+   "brands": [
+    "Bumex"
+   ],
+   "aliases": [],
+   "classes": [
+    "loop",
+    "nonantibiotic_sulfonamide"
+   ],
+   "ingredients": [
+    "bumetanide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "torsemide": {
+   "brands": [
+    "Soaanz",
+    "Demadex"
+   ],
+   "aliases": [],
+   "classes": [
+    "loop",
+    "nonantibiotic_sulfonamide"
+   ],
+   "ingredients": [
+    "torsemide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "metoprolol": {
+   "brands": [
+    "Lopressor",
+    "Toprol XL"
+   ],
+   "aliases": [
+    "metoprolol tartrate",
+    "metoprolol succinate"
+   ],
+   "classes": [
+    "beta_blocker"
+   ],
+   "ingredients": [
+    "metoprolol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "6918",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "blood pressure",
+    "heart rate",
+    "afib",
+    "heart failure",
+    "angina"
+   ]
+  },
+  "atenolol": {
+   "brands": [
+    "Tenormin"
+   ],
+   "aliases": [],
+   "classes": [
+    "beta_blocker"
+   ],
+   "ingredients": [
+    "atenolol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "1202",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "carvedilol": {
+   "brands": [
+    "Coreg"
+   ],
+   "aliases": [],
+   "classes": [
+    "beta_blocker",
+    "beta_blocker_nonselective"
+   ],
+   "ingredients": [
+    "carvedilol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "20352",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "propranolol": {
+   "brands": [
+    "Inderal",
+    "InnoPran"
+   ],
+   "aliases": [],
+   "classes": [
+    "beta_blocker",
+    "beta_blocker_nonselective"
+   ],
+   "ingredients": [
+    "propranolol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "8787",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "nadolol": {
+   "brands": [
+    "Corgard"
+   ],
+   "aliases": [],
+   "classes": [
+    "beta_blocker",
+    "beta_blocker_nonselective"
+   ],
+   "ingredients": [
+    "nadolol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "7226",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "bisoprolol": {
+   "brands": [
+    "Zebeta"
+   ],
+   "aliases": [],
+   "classes": [
+    "beta_blocker"
+   ],
+   "ingredients": [
+    "bisoprolol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "nebivolol": {
+   "brands": [
+    "Bystolic"
+   ],
+   "aliases": [],
+   "classes": [
+    "beta_blocker"
+   ],
+   "ingredients": [
+    "nebivolol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "labetalol": {
+   "brands": [
+    "Trandate"
+   ],
+   "aliases": [],
+   "classes": [
+    "beta_blocker",
+    "beta_blocker_nonselective"
+   ],
+   "ingredients": [
+    "labetalol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "amlodipine": {
+   "brands": [
+    "Norvasc"
+   ],
+   "aliases": [],
+   "classes": [
+    "ccb_dhp"
+   ],
+   "ingredients": [
+    "amlodipine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "17767",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "amiloride",
+     "pair": "amLODIPine / aMILoride"
+    }
+   ],
+   "uses": [
+    "blood pressure",
+    "hypertension",
+    "angina"
+   ]
+  },
+  "nifedipine": {
+   "brands": [
+    "Procardia",
+    "Adalat CC"
+   ],
+   "aliases": [],
+   "classes": [
+    "ccb_dhp"
+   ],
+   "ingredients": [
+    "nifedipine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "nicardipine",
+     "pair": "NIFEdipine / niCARdipine"
+    }
+   ],
+   "uses": []
+  },
+  "felodipine": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "ccb_dhp"
+   ],
+   "ingredients": [
+    "felodipine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "nicardipine": {
+   "brands": [
+    "Cardene"
+   ],
+   "aliases": [],
+   "classes": [
+    "ccb_dhp"
+   ],
+   "ingredients": [
+    "nicardipine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "nifedipine",
+     "pair": "niCARdipine / NIFEdipine"
+    }
+   ],
+   "uses": []
+  },
+  "diltiazem": {
+   "brands": [
+    "Cardizem",
+    "Cartia XT"
+   ],
+   "aliases": [],
+   "classes": [
+    "ccb_nondhp",
+    "moderate_cyp3a4_inhibitor"
+   ],
+   "ingredients": [
+    "diltiazem"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "3443",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "verapamil": {
+   "brands": [
+    "Calan",
+    "Verelan"
+   ],
+   "aliases": [],
+   "classes": [
+    "ccb_nondhp",
+    "moderate_cyp3a4_inhibitor",
+    "pgp_inhibitor"
+   ],
+   "ingredients": [
+    "verapamil"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "11170",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "hydralazine": {
+   "brands": [
+    "Apresoline"
+   ],
+   "aliases": [],
+   "classes": [
+    "vasodilator"
+   ],
+   "ingredients": [
+    "hydralazine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "5470",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "hydroxyzine",
+     "pair": "hydrALAZINE / hydrOXYzine"
+    }
+   ],
+   "uses": [
+    "blood pressure",
+    "hypertension",
+    "heart failure"
+   ]
+  },
+  "clonidine": {
+   "brands": [
+    "Catapres",
+    "Kapvay"
+   ],
+   "aliases": [],
+   "classes": [
+    "central_alpha_agonist"
+   ],
+   "ingredients": [
+    "clonidine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "2599",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "clonazepam",
+     "pair": "cloNIDine / Klonopin"
+    }
+   ],
+   "uses": [
+    "blood pressure",
+    "hypertension",
+    "adhd",
+    "withdrawal"
+   ]
+  },
+  "doxazosin": {
+   "brands": [
+    "Cardura"
+   ],
+   "aliases": [],
+   "classes": [
+    "alpha_blocker"
+   ],
+   "ingredients": [
+    "doxazosin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "49276",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "terazosin": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "alpha_blocker"
+   ],
+   "ingredients": [
+    "terazosin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "37798",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tamsulosin": {
+   "brands": [
+    "Flomax"
+   ],
+   "aliases": [],
+   "classes": [
+    "alpha_blocker"
+   ],
+   "ingredients": [
+    "tamsulosin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "77492",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "prazosin": {
+   "brands": [
+    "Minipress"
+   ],
+   "aliases": [],
+   "classes": [
+    "alpha_blocker"
+   ],
+   "ingredients": [
+    "prazosin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "8629",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "minoxidil": {
+   "brands": [
+    "Loniten"
+   ],
+   "aliases": [],
+   "classes": [
+    "vasodilator"
+   ],
+   "ingredients": [
+    "minoxidil"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "6984",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "atorvastatin": {
+   "brands": [
+    "Lipitor"
+   ],
+   "aliases": [],
+   "classes": [
+    "statin"
+   ],
+   "ingredients": [
+    "atorvastatin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "83367",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "cholesterol",
+    "lipids",
+    "ldl"
+   ]
+  },
+  "simvastatin": {
+   "brands": [
+    "Zocor"
+   ],
+   "aliases": [],
+   "classes": [
+    "statin"
+   ],
+   "ingredients": [
+    "simvastatin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "36567",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "cholesterol",
+    "lipids"
+   ]
+  },
+  "rosuvastatin": {
+   "brands": [
+    "Crestor"
+   ],
+   "aliases": [],
+   "classes": [
+    "statin"
+   ],
+   "ingredients": [
+    "rosuvastatin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "301542",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "pravastatin": {
+   "brands": [
+    "Pravachol"
+   ],
+   "aliases": [],
+   "classes": [
+    "statin"
+   ],
+   "ingredients": [
+    "pravastatin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "42463",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "lovastatin": {
+   "brands": [
+    "Altoprev"
+   ],
+   "aliases": [],
+   "classes": [
+    "statin"
+   ],
+   "ingredients": [
+    "lovastatin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "6472",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "pitavastatin": {
+   "brands": [
+    "Livalo"
+   ],
+   "aliases": [],
+   "classes": [
+    "statin"
+   ],
+   "ingredients": [
+    "pitavastatin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ezetimibe": {
+   "brands": [
+    "Zetia"
+   ],
+   "aliases": [],
+   "classes": [
+    "lipid_other"
+   ],
+   "ingredients": [
+    "ezetimibe"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "341248",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "gemfibrozil": {
+   "brands": [
+    "Lopid"
+   ],
+   "aliases": [],
+   "classes": [
+    "fibrate"
+   ],
+   "ingredients": [
+    "gemfibrozil"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "4719",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "fenofibrate": {
+   "brands": [
+    "Tricor",
+    "Trilipix"
+   ],
+   "aliases": [],
+   "classes": [
+    "fibrate"
+   ],
+   "ingredients": [
+    "fenofibrate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "8703",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "nitroglycerin": {
+   "brands": [
+    "Nitrostat",
+    "Nitro-Dur"
+   ],
+   "aliases": [
+    "ntg",
+    "nitro"
+   ],
+   "classes": [
+    "nitrate"
+   ],
+   "ingredients": [
+    "nitroglycerin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "4917",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "isosorbide mononitrate": {
+   "brands": [
+    "Imdur"
+   ],
+   "aliases": [
+    "isosorbide"
+   ],
+   "classes": [
+    "nitrate"
+   ],
+   "ingredients": [
+    "isosorbide mononitrate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "isosorbide dinitrate": {
+   "brands": [
+    "Isordil"
+   ],
+   "aliases": [],
+   "classes": [
+    "nitrate"
+   ],
+   "ingredients": [
+    "isosorbide dinitrate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ranolazine": {
+   "brands": [
+    "Ranexa"
+   ],
+   "aliases": [],
+   "classes": [
+    "antianginal",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "ranolazine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "amiodarone": {
+   "brands": [
+    "Pacerone"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiarrhythmic",
+    "qt_prolonging",
+    "qt_high",
+    "moderate_cyp3a4_inhibitor",
+    "pgp_inhibitor",
+    "cyp1a2_strong_inhibitor"
+   ],
+   "ingredients": [
+    "amiodarone"
+   ],
+   "high_risk": "antiarrhythmic",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "703",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "dronedarone": {
+   "brands": [
+    "Multaq"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiarrhythmic",
+    "qt_prolonging",
+    "qt_high"
+   ],
+   "ingredients": [
+    "dronedarone"
+   ],
+   "high_risk": "antiarrhythmic",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "dofetilide": {
+   "brands": [
+    "Tikosyn"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiarrhythmic",
+    "qt_prolonging",
+    "qt_high"
+   ],
+   "ingredients": [
+    "dofetilide"
+   ],
+   "high_risk": "antiarrhythmic",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "49247",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "sotalol": {
+   "brands": [
+    "Betapace",
+    "Sorine"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiarrhythmic",
+    "beta_blocker",
+    "beta_blocker_nonselective",
+    "qt_prolonging",
+    "qt_high"
+   ],
+   "ingredients": [
+    "sotalol"
+   ],
+   "high_risk": "antiarrhythmic",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "9947",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "flecainide": {
+   "brands": [
+    "Tambocor"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiarrhythmic"
+   ],
+   "ingredients": [
+    "flecainide"
+   ],
+   "high_risk": "antiarrhythmic",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "4441",
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "propafenone": {
+   "brands": [
+    "Rythmol"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiarrhythmic"
+   ],
+   "ingredients": [
+    "propafenone"
+   ],
+   "high_risk": "antiarrhythmic",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "digoxin": {
+   "brands": [
+    "Lanoxin"
+   ],
+   "aliases": [],
+   "classes": [
+    "cardiac_glycoside"
+   ],
+   "ingredients": [
+    "digoxin"
+   ],
+   "high_risk": "narrow therapeutic index",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "3407",
+   "specialties": [
+    "cardiology",
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "sildenafil": {
+   "brands": [
+    "Viagra",
+    "Revatio"
+   ],
+   "aliases": [],
+   "classes": [
+    "pde5"
+   ],
+   "ingredients": [
+    "sildenafil"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "136411",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tadalafil": {
+   "brands": [
+    "Cialis",
+    "Adcirca"
+   ],
+   "aliases": [],
+   "classes": [
+    "pde5"
+   ],
+   "ingredients": [
+    "tadalafil"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "358263",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "vardenafil": {
+   "brands": [
+    "Levitra"
+   ],
+   "aliases": [],
+   "classes": [
+    "pde5",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "vardenafil"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "riociguat": {
+   "brands": [
+    "Adempas"
+   ],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "riociguat"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "metformin": {
+   "brands": [
+    "Glucophage",
+    "Glumetza",
+    "Fortamet"
+   ],
+   "aliases": [],
+   "classes": [
+    "biguanide"
+   ],
+   "ingredients": [
+    "metformin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "6809",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "metronidazole",
+     "pair": "metFORMIN / metroNIDAZOLE"
+    }
+   ],
+   "uses": [
+    "diabetes",
+    "blood sugar",
+    "glucose",
+    "a1c",
+    "prediabetes",
+    "pcos"
+   ]
+  },
+  "glipizide": {
+   "brands": [
+    "Glucotrol"
+   ],
+   "aliases": [],
+   "classes": [
+    "sulfonylurea"
+   ],
+   "ingredients": [
+    "glipizide"
+   ],
+   "high_risk": "hypoglycaemia (sulfonylurea)",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "4821",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "glyburide",
+     "pair": "glipiZIDE / glyBURIDE"
+    }
+   ],
+   "uses": []
+  },
+  "glyburide": {
+   "brands": [
+    "Glynase",
+    "Diabeta"
+   ],
+   "aliases": [
+    "glibenclamide"
+   ],
+   "classes": [
+    "sulfonylurea",
+    "long_acting_sulfonylurea"
+   ],
+   "ingredients": [
+    "glyburide"
+   ],
+   "high_risk": "hypoglycaemia (sulfonylurea)",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "4815",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "glipizide",
+     "pair": "glyBURIDE / glipiZIDE"
+    }
+   ],
+   "uses": []
+  },
+  "glimepiride": {
+   "brands": [
+    "Amaryl"
+   ],
+   "aliases": [],
+   "classes": [
+    "sulfonylurea",
+    "long_acting_sulfonylurea"
+   ],
+   "ingredients": [
+    "glimepiride"
+   ],
+   "high_risk": "hypoglycaemia (sulfonylurea)",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "25789",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "pioglitazone": {
+   "brands": [
+    "Actos"
+   ],
+   "aliases": [],
+   "classes": [
+    "tzd"
+   ],
+   "ingredients": [
+    "pioglitazone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "33738",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "rosiglitazone": {
+   "brands": [
+    "Avandia"
+   ],
+   "aliases": [],
+   "classes": [
+    "tzd"
+   ],
+   "ingredients": [
+    "rosiglitazone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "sitagliptin": {
+   "brands": [
+    "Januvia",
+    "Zituvio"
+   ],
+   "aliases": [],
+   "classes": [
+    "dpp4"
+   ],
+   "ingredients": [
+    "sitagliptin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "593411",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "sumatriptan",
+     "pair": "SITagliptin / SUMAtriptan"
+    }
+   ],
+   "uses": []
+  },
+  "linagliptin": {
+   "brands": [
+    "Tradjenta"
+   ],
+   "aliases": [],
+   "classes": [
+    "dpp4"
+   ],
+   "ingredients": [
+    "linagliptin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "saxagliptin": {
+   "brands": [
+    "Onglyza"
+   ],
+   "aliases": [],
+   "classes": [
+    "dpp4"
+   ],
+   "ingredients": [
+    "saxagliptin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "empagliflozin": {
+   "brands": [
+    "Jardiance"
+   ],
+   "aliases": [],
+   "classes": [
+    "sglt2"
+   ],
+   "ingredients": [
+    "empagliflozin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "1545653",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "diabetes",
+    "heart failure",
+    "kidney"
+   ]
+  },
+  "dapagliflozin": {
+   "brands": [
+    "Farxiga"
+   ],
+   "aliases": [],
+   "classes": [
+    "sglt2"
+   ],
+   "ingredients": [
+    "dapagliflozin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "1488564",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "canagliflozin": {
+   "brands": [
+    "Invokana"
+   ],
+   "aliases": [],
+   "classes": [
+    "sglt2"
+   ],
+   "ingredients": [
+    "canagliflozin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "1373458",
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ertugliflozin": {
+   "brands": [
+    "Steglatro"
+   ],
+   "aliases": [],
+   "classes": [
+    "sglt2"
+   ],
+   "ingredients": [
+    "ertugliflozin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "semaglutide": {
+   "brands": [
+    "Ozempic",
+    "Wegovy",
+    "Rybelsus"
+   ],
+   "aliases": [],
+   "classes": [
+    "glp1"
+   ],
+   "ingredients": [
+    "semaglutide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "1991302",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "liraglutide": {
+   "brands": [
+    "Victoza",
+    "Saxenda"
+   ],
+   "aliases": [],
+   "classes": [
+    "glp1"
+   ],
+   "ingredients": [
+    "liraglutide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "475968",
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "dulaglutide": {
+   "brands": [
+    "Trulicity"
+   ],
+   "aliases": [],
+   "classes": [
+    "glp1"
+   ],
+   "ingredients": [
+    "dulaglutide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tirzepatide": {
+   "brands": [
+    "Mounjaro",
+    "Zepbound"
+   ],
+   "aliases": [],
+   "classes": [
+    "glp1"
+   ],
+   "ingredients": [
+    "tirzepatide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "exenatide": {
+   "brands": [
+    "Byetta",
+    "Bydureon BCise"
+   ],
+   "aliases": [],
+   "classes": [
+    "glp1"
+   ],
+   "ingredients": [
+    "exenatide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "insulin glargine": {
+   "brands": [
+    "Lantus",
+    "Basaglar",
+    "Toujeo",
+    "Semglee",
+    "Rezvoglar"
+   ],
+   "aliases": [
+    "glargine",
+    "long-acting insulin",
+    "basal insulin"
+   ],
+   "classes": [
+    "insulin"
+   ],
+   "ingredients": [
+    "insulin glargine"
+   ],
+   "high_risk": "insulin",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "274783",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "insulin detemir": {
+   "brands": [
+    "Levemir"
+   ],
+   "aliases": [
+    "detemir"
+   ],
+   "classes": [
+    "insulin"
+   ],
+   "ingredients": [
+    "insulin detemir"
+   ],
+   "high_risk": "insulin",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "139825",
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "insulin degludec": {
+   "brands": [
+    "Tresiba"
+   ],
+   "aliases": [
+    "degludec"
+   ],
+   "classes": [
+    "insulin"
+   ],
+   "ingredients": [
+    "insulin degludec"
+   ],
+   "high_risk": "insulin",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "1670007",
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "insulin lispro": {
+   "brands": [
+    "Humalog",
+    "Admelog",
+    "Lyumjev"
+   ],
+   "aliases": [
+    "lispro"
+   ],
+   "classes": [
+    "insulin"
+   ],
+   "ingredients": [
+    "insulin lispro"
+   ],
+   "high_risk": "insulin",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "86009",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "insulin regular",
+     "pair": "HumaLOG / HumuLIN"
+    }
+   ],
+   "uses": []
+  },
+  "insulin aspart": {
+   "brands": [
+    "NovoLog",
+    "Fiasp"
+   ],
+   "aliases": [
+    "aspart"
+   ],
+   "classes": [
+    "insulin"
+   ],
+   "ingredients": [
+    "insulin aspart"
+   ],
+   "high_risk": "insulin",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "51428",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "insulin regular",
+     "pair": "NovoLOG / NovoLIN"
+    }
+   ],
+   "uses": []
+  },
+  "insulin regular": {
+   "brands": [
+    "Humulin R",
+    "Novolin R"
+   ],
+   "aliases": [
+    "regular insulin",
+    "insulin human regular"
+   ],
+   "classes": [
+    "insulin"
+   ],
+   "ingredients": [
+    "insulin regular"
+   ],
+   "high_risk": "insulin",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "insulin lispro",
+     "pair": "HumuLIN / HumaLOG"
+    },
+    {
+     "drug": "insulin aspart",
+     "pair": "NovoLIN / NovoLOG"
+    }
+   ],
+   "uses": []
+  },
+  "insulin nph": {
+   "brands": [
+    "Humulin N",
+    "Novolin N"
+   ],
+   "aliases": [
+    "nph insulin",
+    "insulin isophane",
+    "nph"
+   ],
+   "classes": [
+    "insulin"
+   ],
+   "ingredients": [
+    "insulin nph"
+   ],
+   "high_risk": "insulin",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "levothyroxine": {
+   "brands": [
+    "Synthroid",
+    "Levoxyl",
+    "Unithroid",
+    "Euthyrox"
+   ],
+   "aliases": [],
+   "classes": [
+    "thyroid"
+   ],
+   "ingredients": [
+    "levothyroxine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "10582",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "lamotrigine",
+     "pair": "levothyroxine / lamoTRIgine"
+    }
+   ],
+   "uses": [
+    "thyroid",
+    "hypothyroidism"
+   ]
+  },
+  "liothyronine": {
+   "brands": [
+    "Cytomel"
+   ],
+   "aliases": [],
+   "classes": [
+    "thyroid"
+   ],
+   "ingredients": [
+    "liothyronine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "methimazole": {
+   "brands": [
+    "Tapazole"
+   ],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "methimazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "propylthiouracil": {
+   "brands": [],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "propylthiouracil"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "alendronate": {
+   "brands": [
+    "Fosamax"
+   ],
+   "aliases": [],
+   "classes": [
+    "bisphosphonate"
+   ],
+   "ingredients": [
+    "alendronate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "46041",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "risedronate": {
+   "brands": [
+    "Actonel"
+   ],
+   "aliases": [],
+   "classes": [
+    "bisphosphonate"
+   ],
+   "ingredients": [
+    "risedronate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "testosterone": {
+   "brands": [
+    "AndroGel",
+    "Testim",
+    "Depo-Testosterone"
+   ],
+   "aliases": [],
+   "classes": [
+    "androgen"
+   ],
+   "ingredients": [
+    "testosterone"
+   ],
+   "high_risk": null,
+   "schedule": "CIII",
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "10379",
+   "specialties": [
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "estradiol": {
+   "brands": [
+    "Estrace",
+    "Vivelle-Dot",
+    "Climara"
+   ],
+   "aliases": [],
+   "classes": [
+    "estrogen"
+   ],
+   "ingredients": [
+    "estradiol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "4083",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "endocrinology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ethinyl estradiol-norethindrone": {
+   "brands": [
+    "Loestrin",
+    "Junel"
+   ],
+   "aliases": [
+    "birth control pill",
+    "combined oral contraceptive"
+   ],
+   "classes": [
+    "estrogen"
+   ],
+   "ingredients": [
+    "ethinyl estradiol",
+    "norethindrone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "medroxyprogesterone": {
+   "brands": [
+    "Provera",
+    "Depo-Provera"
+   ],
+   "aliases": [],
+   "classes": [
+    "hormone_other"
+   ],
+   "ingredients": [
+    "medroxyprogesterone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tamoxifen": {
+   "brands": [
+    "Soltamox"
+   ],
+   "aliases": [],
+   "classes": [
+    "serm"
+   ],
+   "ingredients": [
+    "tamoxifen"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "10324",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "prednisone": {
+   "brands": [
+    "Rayos"
+   ],
+   "aliases": [],
+   "classes": [
+    "corticosteroid"
+   ],
+   "ingredients": [
+    "prednisone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "8640",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [
+    {
+     "drug": "prednisolone",
+     "pair": "predniSONE / prednisoLONE"
+    }
+   ],
+   "uses": []
+  },
+  "prednisolone": {
+   "brands": [
+    "Orapred"
+   ],
+   "aliases": [],
+   "classes": [
+    "corticosteroid"
+   ],
+   "ingredients": [
+    "prednisolone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "prednisone",
+     "pair": "prednisoLONE / predniSONE"
+    }
+   ],
+   "uses": []
+  },
+  "methylprednisolone": {
+   "brands": [
+    "Medrol"
+   ],
+   "aliases": [],
+   "classes": [
+    "corticosteroid"
+   ],
+   "ingredients": [
+    "methylprednisolone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "6902",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "dexamethasone": {
+   "brands": [
+    "Decadron"
+   ],
+   "aliases": [],
+   "classes": [
+    "corticosteroid"
+   ],
+   "ingredients": [
+    "dexamethasone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "3264",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "omeprazole": {
+   "brands": [
+    "Prilosec"
+   ],
+   "aliases": [],
+   "classes": [
+    "ppi"
+   ],
+   "ingredients": [
+    "omeprazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "7646",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "esomeprazole": {
+   "brands": [
+    "Nexium"
+   ],
+   "aliases": [],
+   "classes": [
+    "ppi"
+   ],
+   "ingredients": [
+    "esomeprazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "283742",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "pantoprazole": {
+   "brands": [
+    "Protonix"
+   ],
+   "aliases": [],
+   "classes": [
+    "ppi"
+   ],
+   "ingredients": [
+    "pantoprazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "40790",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology",
+    "endocrinology",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "lansoprazole": {
+   "brands": [
+    "Prevacid"
+   ],
+   "aliases": [],
+   "classes": [
+    "ppi"
+   ],
+   "ingredients": [
+    "lansoprazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "rabeprazole": {
+   "brands": [
+    "Aciphex"
+   ],
+   "aliases": [],
+   "classes": [
+    "ppi"
+   ],
+   "ingredients": [
+    "rabeprazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "dexlansoprazole": {
+   "brands": [
+    "Dexilant"
+   ],
+   "aliases": [],
+   "classes": [
+    "ppi"
+   ],
+   "ingredients": [
+    "dexlansoprazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "famotidine": {
+   "brands": [
+    "Pepcid"
+   ],
+   "aliases": [],
+   "classes": [
+    "h2ra"
+   ],
+   "ingredients": [
+    "famotidine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "4278",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cimetidine": {
+   "brands": [
+    "Tagamet"
+   ],
+   "aliases": [],
+   "classes": [
+    "h2ra"
+   ],
+   "ingredients": [
+    "cimetidine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "sucralfate": {
+   "brands": [
+    "Carafate"
+   ],
+   "aliases": [],
+   "classes": [
+    "polyvalent_cation"
+   ],
+   "ingredients": [
+    "sucralfate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "10156",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "calcium carbonate": {
+   "brands": [
+    "Tums",
+    "Os-Cal",
+    "Caltrate"
+   ],
+   "aliases": [
+    "calcium"
+   ],
+   "classes": [
+    "polyvalent_cation",
+    "vitamin"
+   ],
+   "ingredients": [
+    "calcium carbonate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "1897",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ferrous sulfate": {
+   "brands": [
+    "Feosol",
+    "Slow Fe"
+   ],
+   "aliases": [
+    "iron",
+    "iron supplement"
+   ],
+   "classes": [
+    "polyvalent_cation",
+    "vitamin"
+   ],
+   "ingredients": [
+    "ferrous sulfate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "24947",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "magnesium oxide": {
+   "brands": [
+    "Mag-Ox"
+   ],
+   "aliases": [
+    "magnesium"
+   ],
+   "classes": [
+    "polyvalent_cation",
+    "vitamin"
+   ],
+   "ingredients": [
+    "magnesium oxide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "aluminum hydroxide-magnesium hydroxide": {
+   "brands": [
+    "Maalox",
+    "Mylanta"
+   ],
+   "aliases": [
+    "antacid",
+    "maalox"
+   ],
+   "classes": [
+    "polyvalent_cation"
+   ],
+   "ingredients": [
+    "aluminum hydroxide-magnesium hydroxide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "loperamide": {
+   "brands": [
+    "Imodium"
+   ],
+   "aliases": [],
+   "classes": [
+    "antidiarrheal"
+   ],
+   "ingredients": [
+    "loperamide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "6468",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "polyethylene glycol 3350": {
+   "brands": [
+    "MiraLAX"
+   ],
+   "aliases": [
+    "miralax",
+    "peg 3350",
+    "polyethylene glycol"
+   ],
+   "classes": [
+    "laxative"
+   ],
+   "ingredients": [
+    "polyethylene glycol 3350"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "docusate": {
+   "brands": [
+    "Colace"
+   ],
+   "aliases": [],
+   "classes": [
+    "laxative"
+   ],
+   "ingredients": [
+    "docusate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "senna": {
+   "brands": [
+    "Senokot"
+   ],
+   "aliases": [
+    "sennosides"
+   ],
+   "classes": [
+    "laxative"
+   ],
+   "ingredients": [
+    "senna"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "amoxicillin": {
+   "brands": [
+    "Amoxil"
+   ],
+   "aliases": [],
+   "classes": [
+    "penicillin"
+   ],
+   "ingredients": [
+    "amoxicillin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "723",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "infection",
+    "strep",
+    "sinusitis",
+    "ear infection",
+    "pneumonia"
+   ]
+  },
+  "amoxicillin-clavulanate": {
+   "brands": [
+    "Augmentin"
+   ],
+   "aliases": [
+    "amoxicillin/clavulanate",
+    "amox-clav",
+    "augmentin"
+   ],
+   "classes": [
+    "penicillin"
+   ],
+   "ingredients": [
+    "amoxicillin",
+    "clavulanate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ampicillin": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "penicillin"
+   ],
+   "ingredients": [
+    "ampicillin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "penicillin v": {
+   "brands": [
+    "Penicillin VK"
+   ],
+   "aliases": [
+    "penicillin vk",
+    "pen vk",
+    "penicillin v potassium",
+    "penicillin"
+   ],
+   "classes": [
+    "penicillin"
+   ],
+   "ingredients": [
+    "penicillin v"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "penicillin g benzathine": {
+   "brands": [
+    "Bicillin L-A"
+   ],
+   "aliases": [
+    "bicillin",
+    "penicillin g"
+   ],
+   "classes": [
+    "penicillin"
+   ],
+   "ingredients": [
+    "penicillin g benzathine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "dicloxacillin": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "penicillin"
+   ],
+   "ingredients": [
+    "dicloxacillin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "piperacillin-tazobactam": {
+   "brands": [
+    "Zosyn"
+   ],
+   "aliases": [],
+   "classes": [
+    "penicillin"
+   ],
+   "ingredients": [
+    "piperacillin",
+    "tazobactam"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cephalexin": {
+   "brands": [
+    "Keflex"
+   ],
+   "aliases": [],
+   "classes": [
+    "cephalosporin"
+   ],
+   "ingredients": [
+    "cephalexin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "2231",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": [
+    "infection",
+    "skin infection",
+    "cellulitis",
+    "uti"
+   ]
+  },
+  "cefadroxil": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "cephalosporin"
+   ],
+   "ingredients": [
+    "cefadroxil"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cefuroxime": {
+   "brands": [
+    "Ceftin"
+   ],
+   "aliases": [],
+   "classes": [
+    "cephalosporin"
+   ],
+   "ingredients": [
+    "cefuroxime"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "2194",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cefdinir": {
+   "brands": [
+    "Omnicef"
+   ],
+   "aliases": [],
+   "classes": [
+    "cephalosporin"
+   ],
+   "ingredients": [
+    "cefdinir"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "25037",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cefpodoxime": {
+   "brands": [
+    "Vantin"
+   ],
+   "aliases": [],
+   "classes": [
+    "cephalosporin"
+   ],
+   "ingredients": [
+    "cefpodoxime"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ceftriaxone": {
+   "brands": [
+    "Rocephin"
+   ],
+   "aliases": [],
+   "classes": [
+    "cephalosporin"
+   ],
+   "ingredients": [
+    "ceftriaxone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "2193",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cefazolin": {
+   "brands": [
+    "Ancef"
+   ],
+   "aliases": [],
+   "classes": [
+    "cephalosporin"
+   ],
+   "ingredients": [
+    "cefazolin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "azithromycin": {
+   "brands": [
+    "Zithromax",
+    "Z-Pak"
+   ],
+   "aliases": [
+    "z-pack",
+    "zpack",
+    "z pak"
+   ],
+   "classes": [
+    "macrolide",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "azithromycin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "18631",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "clarithromycin": {
+   "brands": [
+    "Biaxin"
+   ],
+   "aliases": [],
+   "classes": [
+    "macrolide",
+    "qt_prolonging",
+    "strong_cyp3a4_inhibitor",
+    "pgp_inhibitor"
+   ],
+   "ingredients": [
+    "clarithromycin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "21212",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "erythromycin": {
+   "brands": [
+    "Ery-Tab",
+    "EryPed"
+   ],
+   "aliases": [],
+   "classes": [
+    "macrolide",
+    "qt_prolonging",
+    "moderate_cyp3a4_inhibitor"
+   ],
+   "ingredients": [
+    "erythromycin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "4053",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ciprofloxacin": {
+   "brands": [
+    "Cipro"
+   ],
+   "aliases": [],
+   "classes": [
+    "fluoroquinolone",
+    "qt_prolonging",
+    "cyp1a2_strong_inhibitor"
+   ],
+   "ingredients": [
+    "ciprofloxacin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "2551",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "levofloxacin": {
+   "brands": [
+    "Levaquin"
+   ],
+   "aliases": [],
+   "classes": [
+    "fluoroquinolone",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "levofloxacin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "82122",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "moxifloxacin": {
+   "brands": [
+    "Avelox"
+   ],
+   "aliases": [],
+   "classes": [
+    "fluoroquinolone",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "moxifloxacin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "139462",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "doxycycline": {
+   "brands": [
+    "Vibramycin",
+    "Doryx"
+   ],
+   "aliases": [],
+   "classes": [
+    "tetracycline_class"
+   ],
+   "ingredients": [
+    "doxycycline"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "3640",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "minocycline": {
+   "brands": [
+    "Minocin",
+    "Solodyn"
+   ],
+   "aliases": [],
+   "classes": [
+    "tetracycline_class"
+   ],
+   "ingredients": [
+    "minocycline"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "6980",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tetracycline": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "tetracycline_class"
+   ],
+   "ingredients": [
+    "tetracycline"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "10395",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "sulfamethoxazole-trimethoprim": {
+   "brands": [
+    "Bactrim",
+    "Septra"
+   ],
+   "aliases": [
+    "tmp-smx",
+    "smx-tmp",
+    "bactrim ds",
+    "sulfamethoxazole/trimethoprim",
+    "co-trimoxazole",
+    "trimethoprim-sulfamethoxazole",
+    "trimethoprim/sulfamethoxazole"
+   ],
+   "classes": [
+    "sulfonamide_antibiotic"
+   ],
+   "ingredients": [
+    "sulfamethoxazole",
+    "trimethoprim"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "trimethoprim": {
+   "brands": [
+    "Primsol"
+   ],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "trimethoprim"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "10829",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "nitrofurantoin": {
+   "brands": [
+    "Macrobid",
+    "Macrodantin"
+   ],
+   "aliases": [],
+   "classes": [
+    "nitrofuran"
+   ],
+   "ingredients": [
+    "nitrofurantoin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "7454",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "metronidazole": {
+   "brands": [
+    "Flagyl"
+   ],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "metronidazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "6922",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "metformin",
+     "pair": "metroNIDAZOLE / metFORMIN"
+    }
+   ],
+   "uses": [
+    "infection",
+    "bacterial vaginosis",
+    "c diff",
+    "trichomonas"
+   ]
+  },
+  "clindamycin": {
+   "brands": [
+    "Cleocin"
+   ],
+   "aliases": [],
+   "classes": [
+    "lincosamide"
+   ],
+   "ingredients": [
+    "clindamycin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "2582",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "vancomycin": {
+   "brands": [
+    "Vancocin",
+    "Firvanq"
+   ],
+   "aliases": [],
+   "classes": [
+    "glycopeptide"
+   ],
+   "ingredients": [
+    "vancomycin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "11124",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "fluconazole": {
+   "brands": [
+    "Diflucan"
+   ],
+   "aliases": [],
+   "classes": [
+    "azole_antifungal",
+    "qt_prolonging",
+    "moderate_cyp3a4_inhibitor"
+   ],
+   "ingredients": [
+    "fluconazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "4450",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "itraconazole": {
+   "brands": [
+    "Sporanox"
+   ],
+   "aliases": [],
+   "classes": [
+    "azole_antifungal",
+    "strong_cyp3a4_inhibitor",
+    "pgp_inhibitor"
+   ],
+   "ingredients": [
+    "itraconazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "28031",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ketoconazole": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "azole_antifungal",
+    "strong_cyp3a4_inhibitor",
+    "pgp_inhibitor"
+   ],
+   "ingredients": [
+    "ketoconazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "6135",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "voriconazole": {
+   "brands": [
+    "Vfend"
+   ],
+   "aliases": [],
+   "classes": [
+    "azole_antifungal",
+    "strong_cyp3a4_inhibitor",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "voriconazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "posaconazole": {
+   "brands": [
+    "Noxafil"
+   ],
+   "aliases": [],
+   "classes": [
+    "azole_antifungal",
+    "strong_cyp3a4_inhibitor",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "posaconazole"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "terbinafine": {
+   "brands": [
+    "Lamisil"
+   ],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "terbinafine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "37801",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [
+    {
+     "drug": "lamotrigine",
+     "pair": "LamISIL / LamICTAL"
+    }
+   ],
+   "uses": [
+    "fungal",
+    "nail fungus",
+    "athlete's foot",
+    "ringworm"
+   ]
+  },
+  "valacyclovir": {
+   "brands": [
+    "Valtrex"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiviral"
+   ],
+   "ingredients": [
+    "valacyclovir"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "73645",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "acyclovir": {
+   "brands": [
+    "Zovirax"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiviral"
+   ],
+   "ingredients": [
+    "acyclovir"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "281",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "oseltamivir": {
+   "brands": [
+    "Tamiflu"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiviral"
+   ],
+   "ingredients": [
+    "oseltamivir"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "260101",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "nirmatrelvir-ritonavir": {
+   "brands": [
+    "Paxlovid"
+   ],
+   "aliases": [
+    "paxlovid",
+    "nirmatrelvir/ritonavir"
+   ],
+   "classes": [
+    "antiviral",
+    "protease_inhibitor",
+    "strong_cyp3a4_inhibitor"
+   ],
+   "ingredients": [
+    "nirmatrelvir",
+    "ritonavir"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ritonavir": {
+   "brands": [
+    "Norvir"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiviral",
+    "protease_inhibitor",
+    "strong_cyp3a4_inhibitor",
+    "pgp_inhibitor"
+   ],
+   "ingredients": [
+    "ritonavir"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "85762",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "atazanavir": {
+   "brands": [
+    "Reyataz"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiviral",
+    "protease_inhibitor"
+   ],
+   "ingredients": [
+    "atazanavir"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "darunavir": {
+   "brands": [
+    "Prezista"
+   ],
+   "aliases": [],
+   "classes": [
+    "antiviral",
+    "protease_inhibitor"
+   ],
+   "ingredients": [
+    "darunavir"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "rifampin": {
+   "brands": [
+    "Rifadin"
+   ],
+   "aliases": [
+    "rifampicin"
+   ],
+   "classes": [
+    "strong_cyp3a4_inducer"
+   ],
+   "ingredients": [
+    "rifampin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "9384",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "isoniazid": {
+   "brands": [],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "isoniazid"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "6038",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "hydroxychloroquine": {
+   "brands": [
+    "Plaquenil"
+   ],
+   "aliases": [],
+   "classes": [
+    "antimalarial",
+    "dmard",
+    "qt_prolonging"
+   ],
+   "ingredients": [
+    "hydroxychloroquine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "5521",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "albuterol": {
+   "brands": [
+    "ProAir",
+    "Ventolin",
+    "Proventil"
+   ],
+   "aliases": [
+    "salbutamol",
+    "rescue inhaler"
+   ],
+   "classes": [
+    "saba"
+   ],
+   "ingredients": [
+    "albuterol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "435",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "levalbuterol": {
+   "brands": [
+    "Xopenex"
+   ],
+   "aliases": [],
+   "classes": [
+    "saba"
+   ],
+   "ingredients": [
+    "levalbuterol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ipratropium": {
+   "brands": [
+    "Atrovent"
+   ],
+   "aliases": [],
+   "classes": [
+    "lama"
+   ],
+   "ingredients": [
+    "ipratropium"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "7213",
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ipratropium-albuterol": {
+   "brands": [
+    "Combivent Respimat",
+    "DuoNeb"
+   ],
+   "aliases": [
+    "duoneb",
+    "combivent"
+   ],
+   "classes": [
+    "saba",
+    "lama"
+   ],
+   "ingredients": [
+    "ipratropium",
+    "albuterol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tiotropium": {
+   "brands": [
+    "Spiriva"
+   ],
+   "aliases": [],
+   "classes": [
+    "lama"
+   ],
+   "ingredients": [
+    "tiotropium"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "69120",
+   "specialties": [
+    "pulmonology",
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "umeclidinium-vilanterol": {
+   "brands": [
+    "Anoro Ellipta"
+   ],
+   "aliases": [],
+   "classes": [
+    "lama",
+    "laba"
+   ],
+   "ingredients": [
+    "umeclidinium",
+    "vilanterol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "fluticasone-salmeterol": {
+   "brands": [
+    "Advair",
+    "Wixela",
+    "AirDuo"
+   ],
+   "aliases": [
+    "advair diskus",
+    "fluticasone/salmeterol"
+   ],
+   "classes": [
+    "inhaled_corticosteroid",
+    "laba"
+   ],
+   "ingredients": [
+    "fluticasone",
+    "salmeterol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology",
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "budesonide-formoterol": {
+   "brands": [
+    "Symbicort",
+    "Breyna"
+   ],
+   "aliases": [
+    "budesonide/formoterol"
+   ],
+   "classes": [
+    "inhaled_corticosteroid",
+    "laba"
+   ],
+   "ingredients": [
+    "budesonide",
+    "formoterol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology",
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "fluticasone-vilanterol": {
+   "brands": [
+    "Breo Ellipta"
+   ],
+   "aliases": [],
+   "classes": [
+    "inhaled_corticosteroid",
+    "laba"
+   ],
+   "ingredients": [
+    "fluticasone",
+    "vilanterol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "fluticasone-umeclidinium-vilanterol": {
+   "brands": [
+    "Trelegy Ellipta"
+   ],
+   "aliases": [
+    "trelegy"
+   ],
+   "classes": [
+    "inhaled_corticosteroid",
+    "laba",
+    "lama"
+   ],
+   "ingredients": [
+    "fluticasone",
+    "umeclidinium",
+    "vilanterol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "fluticasone": {
+   "brands": [
+    "Flovent",
+    "Flonase",
+    "Arnuity"
+   ],
+   "aliases": [],
+   "classes": [
+    "inhaled_corticosteroid"
+   ],
+   "ingredients": [
+    "fluticasone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "41126",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "budesonide": {
+   "brands": [
+    "Pulmicort",
+    "Entocort"
+   ],
+   "aliases": [],
+   "classes": [
+    "inhaled_corticosteroid"
+   ],
+   "ingredients": [
+    "budesonide"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "19831",
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "mometasone": {
+   "brands": [
+    "Asmanex",
+    "Nasonex"
+   ],
+   "aliases": [],
+   "classes": [
+    "inhaled_corticosteroid"
+   ],
+   "ingredients": [
+    "mometasone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "montelukast": {
+   "brands": [
+    "Singulair"
+   ],
+   "aliases": [],
+   "classes": [
+    "leukotriene"
+   ],
+   "ingredients": [
+    "montelukast"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "88249",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "roflumilast": {
+   "brands": [
+    "Daliresp"
+   ],
+   "aliases": [],
+   "classes": [
+    "pde4"
+   ],
+   "ingredients": [
+    "roflumilast"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "benzonatate": {
+   "brands": [
+    "Tessalon"
+   ],
+   "aliases": [],
+   "classes": [
+    "antitussive"
+   ],
+   "ingredients": [
+    "benzonatate"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "guaifenesin": {
+   "brands": [
+    "Mucinex"
+   ],
+   "aliases": [],
+   "classes": [
+    "expectorant"
+   ],
+   "ingredients": [
+    "guaifenesin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "5032",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "theophylline": {
+   "brands": [
+    "Theo-24",
+    "Elixophyllin"
+   ],
+   "aliases": [],
+   "classes": [],
+   "ingredients": [
+    "theophylline"
+   ],
+   "high_risk": "narrow therapeutic index",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "varenicline": {
+   "brands": [
+    "Chantix"
+   ],
+   "aliases": [],
+   "classes": [
+    "smoking_cessation"
+   ],
+   "ingredients": [
+    "varenicline"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "591622",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "nicotine": {
+   "brands": [
+    "Nicoderm CQ",
+    "Nicorette"
+   ],
+   "aliases": [
+    "nicotine patch",
+    "nicotine gum"
+   ],
+   "classes": [
+    "smoking_cessation"
+   ],
+   "ingredients": [
+    "nicotine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "7407",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "pulmonology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "allopurinol": {
+   "brands": [
+    "Zyloprim"
+   ],
+   "aliases": [],
+   "classes": [
+    "xanthine_oxidase_inhibitor",
+    "gout_other"
+   ],
+   "ingredients": [
+    "allopurinol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "519",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "febuxostat": {
+   "brands": [
+    "Uloric"
+   ],
+   "aliases": [],
+   "classes": [
+    "xanthine_oxidase_inhibitor",
+    "gout_other"
+   ],
+   "ingredients": [
+    "febuxostat"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "colchicine": {
+   "brands": [
+    "Colcrys",
+    "Mitigare"
+   ],
+   "aliases": [],
+   "classes": [
+    "gout_other"
+   ],
+   "ingredients": [
+    "colchicine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "2683",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine",
+    "cardiology"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "methotrexate": {
+   "brands": [
+    "Trexall",
+    "Otrexup",
+    "Rasuvo"
+   ],
+   "aliases": [],
+   "classes": [
+    "dmard",
+    "immunosuppressant"
+   ],
+   "ingredients": [
+    "methotrexate"
+   ],
+   "high_risk": "methotrexate (weekly dosing)",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "6851",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "azathioprine": {
+   "brands": [
+    "Imuran"
+   ],
+   "aliases": [],
+   "classes": [
+    "thiopurine",
+    "immunosuppressant"
+   ],
+   "ingredients": [
+    "azathioprine"
+   ],
+   "high_risk": "immunosuppressant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "1256",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "mercaptopurine": {
+   "brands": [
+    "Purixan"
+   ],
+   "aliases": [],
+   "classes": [
+    "thiopurine",
+    "immunosuppressant"
+   ],
+   "ingredients": [
+    "mercaptopurine"
+   ],
+   "high_risk": "immunosuppressant",
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "103",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cyclosporine": {
+   "brands": [
+    "Neoral",
+    "Gengraf",
+    "Sandimmune"
+   ],
+   "aliases": [],
+   "classes": [
+    "immunosuppressant",
+    "pgp_inhibitor"
+   ],
+   "ingredients": [
+    "cyclosporine"
+   ],
+   "high_risk": "immunosuppressant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "3008",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tacrolimus": {
+   "brands": [
+    "Prograf",
+    "Envarsus XR"
+   ],
+   "aliases": [],
+   "classes": [
+    "immunosuppressant"
+   ],
+   "ingredients": [
+    "tacrolimus"
+   ],
+   "high_risk": "immunosuppressant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": "42316",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "mycophenolate": {
+   "brands": [
+    "CellCept",
+    "Myfortic"
+   ],
+   "aliases": [
+    "mycophenolate mofetil"
+   ],
+   "classes": [
+    "immunosuppressant"
+   ],
+   "ingredients": [
+    "mycophenolate"
+   ],
+   "high_risk": "immunosuppressant",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "irinotecan": {
+   "brands": [
+    "Camptosar"
+   ],
+   "aliases": [],
+   "classes": [
+    "chemotherapy"
+   ],
+   "ingredients": [
+    "irinotecan"
+   ],
+   "high_risk": "chemotherapy",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "procarbazine": {
+   "brands": [
+    "Matulane"
+   ],
+   "aliases": [],
+   "classes": [
+    "chemotherapy",
+    "maoi_like"
+   ],
+   "ingredients": [
+    "procarbazine"
+   ],
+   "high_risk": "chemotherapy",
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "oxybutynin": {
+   "brands": [
+    "Ditropan XL"
+   ],
+   "aliases": [],
+   "classes": [
+    "urinary_antimuscarinic",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "oxybutynin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "32675",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "tolterodine": {
+   "brands": [
+    "Detrol"
+   ],
+   "aliases": [],
+   "classes": [
+    "urinary_antimuscarinic",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "tolterodine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "finasteride": {
+   "brands": [
+    "Proscar",
+    "Propecia"
+   ],
+   "aliases": [],
+   "classes": [
+    "five_ari"
+   ],
+   "ingredients": [
+    "finasteride"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": false,
+   "rxcui": "25025",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cyanocobalamin": {
+   "brands": [
+    "Nascobal"
+   ],
+   "aliases": [
+    "vitamin b12",
+    "b12"
+   ],
+   "classes": [
+    "vitamin"
+   ],
+   "ingredients": [
+    "cyanocobalamin"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "11248",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "folic acid": {
+   "brands": [],
+   "aliases": [],
+   "classes": [
+    "vitamin"
+   ],
+   "ingredients": [
+    "folic acid"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "4511",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "cholecalciferol": {
+   "brands": [
+    "Vitamin D3"
+   ],
+   "aliases": [
+    "vitamin d",
+    "vitamin d3"
+   ],
+   "classes": [
+    "vitamin"
+   ],
+   "ingredients": [
+    "cholecalciferol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": "2418",
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  }
+ }
+}

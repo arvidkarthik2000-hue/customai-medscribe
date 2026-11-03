@@ -1,0 +1,650 @@
+{
+ "id": "s2-diabetes-ckd",
+ "title": "Diabetes and kidney disease, with daughter",
+ "patient_id": "p2",
+ "template": "progress",
+ "specialty": "family_medicine",
+ "highlights": [
+  "Metformin with eGFR 28",
+  "Hydralazine and hydroxyzine sound alike",
+  "Caregiver voice (daughter)",
+  "Retracted plan: glipizide"
+ ],
+ "speaker_roles": {
+  "A": "clinician",
+  "B": "patient",
+  "C": "caregiver"
+ },
+ "saved_note": {
+  "visit_summary": "Type 2 diabetes with stage 4 CKD (eGFR 28) and A1c 7.8%: metformin reduced to 500 mg twice daily, linagliptin started, glipizide not started; nephrology and eye referrals.",
+  "speaker_roles": [
+   {
+    "speaker": "A",
+    "role": "clinician"
+   },
+   {
+    "speaker": "B",
+    "role": "patient"
+   },
+   {
+    "speaker": "C",
+    "role": "caregiver"
+   }
+  ],
+  "sections": {
+   "interval_history": {
+    "items": [
+     {
+      "id": "interval_history-1",
+      "text": "Reports fatigue and itching of the legs at night, mainly the shins, for a few months.",
+      "evidence": [
+       "t5",
+       "t7"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "interval_history-2",
+      "text": "Hydroxyzine 25 mg at bedtime helps her sleep through the itching.",
+      "evidence": [
+       "t7",
+       "t9"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "interval_history-3",
+      "text": "Daughter Rosa, who helps with her medicines, reports missed evening metformin doses a few times a week.",
+      "evidence": [
+       "t2",
+       "t15"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "interval_history-4",
+      "text": "Reports eating more bread.",
+      "evidence": [
+       "t14"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "current_status": {
+    "items": [
+     {
+      "id": "current_status-1",
+      "text": "Taking metformin 1,000 mg twice daily when she remembers.",
+      "evidence": [
+       "t17"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "current_status-2",
+      "text": "Taking hydralazine 25 mg three times daily for blood pressure; her daughter keeps hydralazine and hydroxyzine in separate boxes because the names sound alike.",
+      "evidence": [
+       "t10",
+       "t11"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "ros": {
+    "items": [
+     {
+      "id": "ros-1",
+      "text": "Mild dizziness when standing quickly; no falls.",
+      "evidence": [
+       "t11",
+       "t12"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "exam": {
+    "items": [
+     {
+      "id": "exam-1",
+      "text": "BP 148/86.",
+      "evidence": [
+       "t28"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "results": {
+    "items": [
+     {
+      "id": "results-1",
+      "text": "A1c 7.8%, up from 7.1% in the spring.",
+      "evidence": [
+       "t13"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "results-2",
+      "text": "Creatinine 1.85; eGFR 28, consistent with stage 4 chronic kidney disease.",
+      "evidence": [
+       "t18",
+       "t20"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "assessment_plan": {
+    "items": [
+     {
+      "id": "assessment_plan-1",
+      "text": "Type 2 diabetes, control worse (A1c 7.8%) with missed evening doses: reduce metformin to 500 mg twice daily and start linagliptin 5 mg once daily in the morning.",
+      "evidence": [
+       "t13",
+       "t15",
+       "t21",
+       "t23"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment_plan-2",
+      "text": "Glipizide considered and not started because of the risk of low blood sugar with kidney disease.",
+      "evidence": [
+       "t25"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment_plan-3",
+      "text": "Check glucose once daily before breakfast and keep a log; call for readings under 70 or over 300.",
+      "evidence": [
+       "t27"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment_plan-4",
+      "text": "Chronic kidney disease stage 4 (eGFR 28): referral to nephrology; urine albumin test and basic metabolic panel in 1 month.",
+      "evidence": [
+       "t18",
+       "t20",
+       "t32"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment_plan-5",
+      "text": "Hypertension, BP 148/86: continue amlodipine 10 mg and hydralazine 25 mg three times daily for now.",
+      "evidence": [
+       "t28"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment_plan-6",
+      "text": "Itching, likely related to kidney disease: thick moisturizer twice daily; continue hydroxyzine at bedtime.",
+      "evidence": [
+       "t30"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment_plan-7",
+      "text": "Diabetic eye exam overdue (none in 2 years): referral placed.",
+      "evidence": [
+       "t33",
+       "t34"
+      ],
+      "status": "documented"
+     }
+    ]
+   }
+  },
+  "medications": [
+   {
+    "id": "m1",
+    "name": "metformin",
+    "as_spoken": "metformin",
+    "dose": "500",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "twice daily",
+    "duration": "",
+    "action": "change",
+    "indication": "",
+    "evidence": [
+     "t17",
+     "t21",
+     "t22"
+    ]
+   },
+   {
+    "id": "m2",
+    "name": "linagliptin",
+    "as_spoken": "linagliptin",
+    "dose": "5",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "once daily in the morning",
+    "duration": "",
+    "action": "start",
+    "indication": "type 2 diabetes",
+    "evidence": [
+     "t23"
+    ]
+   },
+   {
+    "id": "m3",
+    "name": "glipizide",
+    "as_spoken": "glipizide",
+    "dose": "",
+    "unit": "",
+    "route": "",
+    "frequency": "",
+    "duration": "",
+    "action": "discussed",
+    "indication": "",
+    "evidence": [
+     "t25"
+    ]
+   },
+   {
+    "id": "m4",
+    "name": "amlodipine",
+    "as_spoken": "amlodipine",
+    "dose": "10",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t28"
+    ]
+   },
+   {
+    "id": "m5",
+    "name": "hydralazine",
+    "as_spoken": "hydralazine",
+    "dose": "25",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "three times daily",
+    "duration": "",
+    "action": "continue",
+    "indication": "blood pressure",
+    "evidence": [
+     "t10",
+     "t28"
+    ]
+   },
+   {
+    "id": "m6",
+    "name": "hydroxyzine",
+    "as_spoken": "hydroxyzine",
+    "dose": "25",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "at bedtime",
+    "duration": "",
+    "action": "continue",
+    "indication": "itching",
+    "evidence": [
+     "t7",
+     "t9",
+     "t30"
+    ]
+   }
+  ],
+  "allergies": [],
+  "orders": [
+   {
+    "type": "referral",
+    "description": "Nephrology",
+    "evidence": [
+     "t32"
+    ]
+   },
+   {
+    "type": "lab",
+    "description": "Urine albumin test in 1 month",
+    "evidence": [
+     "t32"
+    ]
+   },
+   {
+    "type": "lab",
+    "description": "Basic metabolic panel in 1 month",
+    "evidence": [
+     "t32"
+    ]
+   },
+   {
+    "type": "referral",
+    "description": "Diabetic eye exam",
+    "evidence": [
+     "t34"
+    ]
+   }
+  ],
+  "diagnoses": [
+   {
+    "description": "Type 2 diabetes mellitus with diabetic chronic kidney disease",
+    "icd10": "E11.22",
+    "evidence": [
+     "t13",
+     "t20"
+    ]
+   },
+   {
+    "description": "Chronic kidney disease, stage 4",
+    "icd10": "N18.4",
+    "evidence": [
+     "t20"
+    ]
+   },
+   {
+    "description": "Hypertensive chronic kidney disease (stage 1 to 4 CKD)",
+    "icd10": "I12.9",
+    "evidence": [
+     "t28"
+    ]
+   },
+   {
+    "description": "Pruritus",
+    "icd10": "L29.9",
+    "evidence": [
+     "t5",
+     "t30"
+    ]
+   }
+  ],
+  "follow_up": {
+   "text": "Return in 6 weeks with the glucose log.",
+   "evidence": [
+    "t35"
+   ]
+  },
+  "patient_instructions": "Your diabetes number (A1c) went up to 7.8%, and your kidneys are working at about a quarter of normal. Take metformin 500 mg twice a day. This is a lower dose than before. Start linagliptin 5 mg once every morning. Check your blood sugar once a day before breakfast and write it down. Call us if it is under 70 or over 300. Keep taking amlodipine 10 mg, and hydralazine 25 mg three times a day. Keep hydralazine and hydroxyzine in separate boxes. Use a thick moisturizer on your legs twice a day, and keep taking hydroxyzine at bedtime. We are sending you to a kidney doctor and for a diabetic eye exam. You will have blood and urine tests in 1 month. Come back in 6 weeks and bring your sugar log.",
+  "not_discussed": [
+   "Low blood sugar episodes",
+   "Foot exam"
+  ],
+  "uncertain": [
+   {
+    "text": "Whether hydroxyzine is taken every night or only as needed.",
+    "evidence": [
+     "t9"
+    ]
+   }
+  ]
+ },
+ "turns": [
+  {
+   "id": "t1",
+   "speaker": "A",
+   "text": "Hi, Mrs. Martinez, good to see you. And you brought your daughter today.",
+   "start_ms": 1200,
+   "end_ms": 6616
+  },
+  {
+   "id": "t2",
+   "speaker": "B",
+   "text": "Yes, this is Rosa. She helps me with my pills.",
+   "start_ms": 7266,
+   "end_ms": 11432
+  },
+  {
+   "id": "t3",
+   "speaker": "C",
+   "text": "Hi, Doctor. I wanted to come because I have some questions about her medicines.",
+   "start_ms": 12082,
+   "end_ms": 17915
+  },
+  {
+   "id": "t4",
+   "speaker": "A",
+   "text": "Of course, I'm glad you're here. Let's start with how you've been feeling, Mrs. Martinez.",
+   "start_ms": 18565,
+   "end_ms": 24815
+  },
+  {
+   "id": "t5",
+   "speaker": "B",
+   "text": "Tired, mostly. And my legs itch at night, especially my shins.",
+   "start_ms": 25465,
+   "end_ms": 30048
+  },
+  {
+   "id": "t6",
+   "speaker": "A",
+   "text": "How long has the itching been going on?",
+   "start_ms": 30698,
+   "end_ms": 34031
+  },
+  {
+   "id": "t7",
+   "speaker": "B",
+   "text": "A few months now. The hydroxyzine helps me sleep through it.",
+   "start_ms": 34681,
+   "end_ms": 39264
+  },
+  {
+   "id": "t8",
+   "speaker": "A",
+   "text": "How often are you taking the hydroxyzine?",
+   "start_ms": 39914,
+   "end_ms": 42830
+  },
+  {
+   "id": "t9",
+   "speaker": "B",
+   "text": "Just one at bedtime, the 25.",
+   "start_ms": 43480,
+   "end_ms": 45980
+  },
+  {
+   "id": "t10",
+   "speaker": "C",
+   "text": "And she takes the hydralazine three times a day, 25 mg each time, for her blood pressure. The two names sound so alike that I keep them in separate boxes.",
+   "start_ms": 46630,
+   "end_ms": 59130
+  },
+  {
+   "id": "t11",
+   "speaker": "A",
+   "text": "That's a really good idea. Those two get mixed up a lot, so keeping them apart matters. Any dizziness or falls?",
+   "start_ms": 59780,
+   "end_ms": 68530
+  },
+  {
+   "id": "t12",
+   "speaker": "B",
+   "text": "A little dizzy when I stand up fast. No falls.",
+   "start_ms": 69180,
+   "end_ms": 73346
+  },
+  {
+   "id": "t13",
+   "speaker": "A",
+   "text": "Okay. Let's talk about your sugars. Your A1c came back at 7.8%, up from 7.1% in the spring.",
+   "start_ms": 73996,
+   "end_ms": 81496
+  },
+  {
+   "id": "t14",
+   "speaker": "B",
+   "text": "I know. I've been eating more bread.",
+   "start_ms": 82146,
+   "end_ms": 85062
+  },
+  {
+   "id": "t15",
+   "speaker": "C",
+   "text": "And honestly, she's been forgetting her evening metformin a few times a week.",
+   "start_ms": 85712,
+   "end_ms": 91128
+  },
+  {
+   "id": "t16",
+   "speaker": "A",
+   "text": "Thanks for telling me. How much metformin are you taking now?",
+   "start_ms": 91778,
+   "end_ms": 96361
+  },
+  {
+   "id": "t17",
+   "speaker": "B",
+   "text": "1,000 mg in the morning and 1,000 at night, when I remember.",
+   "start_ms": 97011,
+   "end_ms": 102011
+  },
+  {
+   "id": "t18",
+   "speaker": "A",
+   "text": "Your kidney function has also come down. Your creatinine is 1.85, and your eGFR is 28.",
+   "start_ms": 102661,
+   "end_ms": 109327
+  },
+  {
+   "id": "t19",
+   "speaker": "C",
+   "text": "What does that mean for her?",
+   "start_ms": 109977,
+   "end_ms": 112477
+  },
+  {
+   "id": "t20",
+   "speaker": "A",
+   "text": "It means her kidneys are filtering at about a quarter of normal, which is stage 4 kidney disease. That changes which diabetes medicines are a good fit.",
+   "start_ms": 113127,
+   "end_ms": 124377
+  },
+  {
+   "id": "t21",
+   "speaker": "A",
+   "text": "So I'd like to cut the metformin down to 500 mg twice a day.",
+   "start_ms": 125027,
+   "end_ms": 130860
+  },
+  {
+   "id": "t22",
+   "speaker": "C",
+   "text": "Okay, 500 twice a day.",
+   "start_ms": 131510,
+   "end_ms": 133593
+  },
+  {
+   "id": "t23",
+   "speaker": "A",
+   "text": "And I'm going to start linagliptin, 5 mg once a day in the morning. It's a diabetes pill that doesn't need a dose change for the kidneys.",
+   "start_ms": 134243,
+   "end_ms": 145493
+  },
+  {
+   "id": "t24",
+   "speaker": "B",
+   "text": "Another pill?",
+   "start_ms": 146143,
+   "end_ms": 147343
+  },
+  {
+   "id": "t25",
+   "speaker": "A",
+   "text": "Just one more, once a day. I was also thinking about adding glipizide, but actually, let's hold off on that. It can drop your sugar too low, especially with kidney disease.",
+   "start_ms": 147993,
+   "end_ms": 160909
+  },
+  {
+   "id": "t26",
+   "speaker": "C",
+   "text": "Should she keep checking her sugar at home?",
+   "start_ms": 161559,
+   "end_ms": 164892
+  },
+  {
+   "id": "t27",
+   "speaker": "A",
+   "text": "Yes, once a day before breakfast is enough, and write the numbers down. Call me if any are under 70 or over 300.",
+   "start_ms": 165542,
+   "end_ms": 175125
+  },
+  {
+   "id": "t28",
+   "speaker": "A",
+   "text": "Her blood pressure today is 148/86. Let's keep the amlodipine at 10 mg and the hydralazine at 25 mg three times a day for now.",
+   "start_ms": 181775,
+   "end_ms": 192191
+  },
+  {
+   "id": "t29",
+   "speaker": "B",
+   "text": "Okay.",
+   "start_ms": 192841,
+   "end_ms": 194041
+  },
+  {
+   "id": "t30",
+   "speaker": "A",
+   "text": "The itching is common with kidney disease. Use a thick moisturizer twice a day, and you can keep the hydroxyzine at bedtime.",
+   "start_ms": 194691,
+   "end_ms": 203857
+  },
+  {
+   "id": "t31",
+   "speaker": "C",
+   "text": "Does she need to see a kidney specialist?",
+   "start_ms": 204507,
+   "end_ms": 207840
+  },
+  {
+   "id": "t32",
+   "speaker": "A",
+   "text": "Yes. With an eGFR under 30, I'm referring her to nephrology. I'll also order a urine albumin test and a basic metabolic panel in 1 month.",
+   "start_ms": 208490,
+   "end_ms": 219323
+  },
+  {
+   "id": "t33",
+   "speaker": "C",
+   "text": "And her eyes? She hasn't had the eye exam in two years.",
+   "start_ms": 219973,
+   "end_ms": 224973
+  },
+  {
+   "id": "t34",
+   "speaker": "A",
+   "text": "Good catch. I'll put in a referral for a diabetic eye exam too.",
+   "start_ms": 225623,
+   "end_ms": 231039
+  },
+  {
+   "id": "t35",
+   "speaker": "A",
+   "text": "Let's see you back in 6 weeks. Bring the sugar log.",
+   "start_ms": 231689,
+   "end_ms": 236272
+  },
+  {
+   "id": "t36",
+   "speaker": "B",
+   "text": "Thank you, Doctor.",
+   "start_ms": 236922,
+   "end_ms": 238172
+  },
+  {
+   "id": "t37",
+   "speaker": "C",
+   "text": "Thank you.",
+   "start_ms": 238822,
+   "end_ms": 240022
+  }
+ ],
+ "minutes": 4.0
+}

@@ -1,0 +1,637 @@
+{
+ "id": "s5-insomnia-back-pain",
+ "title": "Insomnia and back pain at 82",
+ "patient_id": "p5",
+ "template": "soap",
+ "specialty": "family_medicine",
+ "highlights": [
+  "Diphenhydramine in an 82-year-old",
+  "Sertraline with tramadol",
+  "Retracted plan: zolpidem",
+  "Fall risk"
+ ],
+ "speaker_roles": {
+  "A": "clinician",
+  "B": "patient"
+ },
+ "saved_note": {
+  "visit_summary": "Sleep-maintenance insomnia on nightly diphenhydramine and a 3-week lumbar strain: tramadol started, diphenhydramine reduced, zolpidem not started; lumbar x-ray, sodium check and physical therapy.",
+  "speaker_roles": [
+   {
+    "speaker": "A",
+    "role": "clinician"
+   },
+   {
+    "speaker": "B",
+    "role": "patient"
+   }
+  ],
+  "sections": {
+   "chief_complaint": {
+    "items": [
+     {
+      "id": "chief_complaint-1",
+      "text": "Trouble sleeping since the summer and low back pain for 3 weeks.",
+      "evidence": [
+       "t2",
+       "t4",
+       "t16"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "hpi": {
+    "items": [
+     {
+      "id": "hpi-1",
+      "text": "Falls asleep without trouble but wakes at 2 or 3 a.m. and cannot get back to sleep; ongoing since the summer.",
+      "evidence": [
+       "t4"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-2",
+      "text": "Takes diphenhydramine 50 mg (Benadryl, two tablets) most nights, with partial benefit, morning fogginess and dry mouth.",
+      "evidence": [
+       "t6",
+       "t8"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-3",
+      "text": "Tripped on a rug last month and caught herself on the counter, without injury.",
+      "evidence": [
+       "t10",
+       "t11"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-4",
+      "text": "Mood all right on sertraline 100 mg every morning; misses her husband but managing; denies thoughts of self-harm.",
+      "evidence": [
+       "t11",
+       "t12",
+       "t13",
+       "t14"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-5",
+      "text": "Midline low back pain for about 3 weeks after lifting a bag of potting soil; worse with prolonged standing; no radiation down the legs.",
+      "evidence": [
+       "t16"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-6",
+      "text": "Takes acetaminophen (Tylenol) 500 mg about twice daily, which takes the edge off.",
+      "evidence": [
+       "t19",
+       "t20"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "ros": {
+    "items": [
+     {
+      "id": "ros-1",
+      "text": "No numbness, weakness, or bladder or bowel problems.",
+      "evidence": [
+       "t17",
+       "t18"
+      ],
+      "status": "negative"
+     }
+    ]
+   },
+   "exam": {
+    "items": [
+     {
+      "id": "exam-1",
+      "text": "BP 132/74.",
+      "evidence": [
+       "t21"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "exam-2",
+      "text": "Bilateral lumbar paraspinal muscle tenderness without midline spinal tenderness; normal leg strength and reflexes; negative straight leg raise.",
+      "evidence": [
+       "t21"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "results": {
+    "items": [
+     {
+      "id": "results-1",
+      "text": "Last sodium 134, a little low.",
+      "evidence": [
+       "t30"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "assessment": {
+    "items": [
+     {
+      "id": "assessment-1",
+      "text": "Lumbar muscle strain.",
+      "evidence": [
+       "t22"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment-2",
+      "text": "Sleep-maintenance insomnia, using diphenhydramine; recent trip without a fall.",
+      "evidence": [
+       "t4",
+       "t6",
+       "t9",
+       "t10"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment-3",
+      "text": "Depression, stable on sertraline.",
+      "evidence": [
+       "t12"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "plan": {
+    "items": [
+     {
+      "id": "plan-1",
+      "text": "Lumbar spine x-ray to rule out a compression fracture, given osteoporosis.",
+      "evidence": [
+       "t22"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-2",
+      "text": "Start tramadol 50 mg every 6 hours as needed, no more than 4 tablets a day; continue acetaminophen up to 1,000 mg three times daily.",
+      "evidence": [
+       "t24"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-3",
+      "text": "Zolpidem considered and not started because of fall risk.",
+      "evidence": [
+       "t26"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-4",
+      "text": "Reduce diphenhydramine to 25 mg at bedtime; sleep habits: same bedtime and wake time daily, no naps after 3 p.m., get out of bed if awake more than 20 minutes.",
+      "evidence": [
+       "t27",
+       "t28"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-5",
+      "text": "Sodium level today, since sertraline can lower it.",
+      "evidence": [
+       "t30"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-6",
+      "text": "Fall prevention: rug gripper or remove the rug; physical therapy referral for back pain and balance.",
+      "evidence": [
+       "t32",
+       "t33"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-7",
+      "text": "Return in 2 weeks; call sooner for pain spreading down the legs, weakness or bladder problems.",
+      "evidence": [
+       "t34"
+      ],
+      "status": "documented"
+     }
+    ]
+   }
+  },
+  "medications": [
+   {
+    "id": "m1",
+    "name": "diphenhydramine",
+    "as_spoken": "Benadryl",
+    "dose": "25",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "at bedtime",
+    "duration": "",
+    "action": "change",
+    "indication": "sleep",
+    "evidence": [
+     "t6",
+     "t28"
+    ]
+   },
+   {
+    "id": "m2",
+    "name": "sertraline",
+    "as_spoken": "sertraline",
+    "dose": "100",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "every morning",
+    "duration": "",
+    "action": "continue",
+    "indication": "",
+    "evidence": [
+     "t11",
+     "t12"
+    ]
+   },
+   {
+    "id": "m3",
+    "name": "tramadol",
+    "as_spoken": "tramadol",
+    "dose": "50",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "every 6 hours as needed, no more than 4 tablets a day",
+    "duration": "",
+    "action": "start",
+    "indication": "low back pain",
+    "evidence": [
+     "t24"
+    ]
+   },
+   {
+    "id": "m4",
+    "name": "acetaminophen",
+    "as_spoken": "Tylenol",
+    "dose": "1000",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "up to three times daily",
+    "duration": "",
+    "action": "continue",
+    "indication": "low back pain",
+    "evidence": [
+     "t20",
+     "t24"
+    ]
+   },
+   {
+    "id": "m5",
+    "name": "zolpidem",
+    "as_spoken": "zolpidem",
+    "dose": "",
+    "unit": "",
+    "route": "",
+    "frequency": "",
+    "duration": "",
+    "action": "discussed",
+    "indication": "",
+    "evidence": [
+     "t26"
+    ]
+   }
+  ],
+  "allergies": [],
+  "orders": [
+   {
+    "type": "imaging",
+    "description": "Lumbar spine x-ray",
+    "evidence": [
+     "t22"
+    ]
+   },
+   {
+    "type": "lab",
+    "description": "Sodium level today",
+    "evidence": [
+     "t30"
+    ]
+   },
+   {
+    "type": "referral",
+    "description": "Physical therapy for back pain and balance",
+    "evidence": [
+     "t32"
+    ]
+   }
+  ],
+  "diagnoses": [
+   {
+    "description": "Strain of muscle, fascia and tendon of lower back, initial encounter",
+    "icd10": "S39.012A",
+    "evidence": [
+     "t22"
+    ]
+   },
+   {
+    "description": "Insomnia, unspecified",
+    "icd10": "G47.00",
+    "evidence": [
+     "t4"
+    ]
+   },
+   {
+    "description": "Depression, unspecified",
+    "icd10": "F32.A",
+    "evidence": [
+     "t11",
+     "t12"
+    ]
+   },
+   {
+    "description": "Age-related osteoporosis without current pathological fracture",
+    "icd10": "M81.0",
+    "evidence": [
+     "t22"
+    ]
+   }
+  ],
+  "follow_up": {
+   "text": "Return in 2 weeks; call sooner for pain spreading down the legs, weakness or bladder problems.",
+   "evidence": [
+    "t34"
+   ]
+  },
+  "patient_instructions": "Your back pain looks like a pulled muscle. Because of your thin bones, we are getting an x-ray of your lower back. For pain, you can take tramadol 50 mg every 6 hours if you need it, but no more than 4 tablets a day. It can make you sleepy, so be careful getting up at night. You can keep taking Tylenol, up to 1,000 mg three times a day. Cut Benadryl down to one 25 mg tablet at bedtime. Go to bed and get up at the same time every day, don't nap after 3 p.m., and get out of bed if you are awake for more than 20 minutes. The nurse will check your sodium today. Use a rug gripper or take the rug out, and we are sending you to physical therapy for your back and balance. Come back in 2 weeks. Call sooner if the pain spreads down your legs or you have weakness or bladder problems.",
+  "not_discussed": [
+   "Alcohol use",
+   "Appetite and weight"
+  ],
+  "uncertain": []
+ },
+ "turns": [
+  {
+   "id": "t1",
+   "speaker": "A",
+   "text": "Good morning, Mrs. Fitzgerald. How are you doing?",
+   "start_ms": 1200,
+   "end_ms": 4533
+  },
+  {
+   "id": "t2",
+   "speaker": "B",
+   "text": "Oh, not so well, dear. I can't sleep, and my back has been killing me.",
+   "start_ms": 5183,
+   "end_ms": 11433
+  },
+  {
+   "id": "t3",
+   "speaker": "A",
+   "text": "Let's take those one at a time. Tell me about the sleep.",
+   "start_ms": 12083,
+   "end_ms": 17083
+  },
+  {
+   "id": "t4",
+   "speaker": "B",
+   "text": "I fall asleep okay, but I wake up at 2 or 3 in the morning and I just lie there. It's been going on since the summer.",
+   "start_ms": 17733,
+   "end_ms": 28983
+  },
+  {
+   "id": "t5",
+   "speaker": "A",
+   "text": "What have you tried?",
+   "start_ms": 29633,
+   "end_ms": 31299
+  },
+  {
+   "id": "t6",
+   "speaker": "B",
+   "text": "I take Benadryl, two of the little pink ones, so 50 mg, most nights. My neighbor swears by it.",
+   "start_ms": 31949,
+   "end_ms": 39865
+  },
+  {
+   "id": "t7",
+   "speaker": "A",
+   "text": "Does it help?",
+   "start_ms": 40515,
+   "end_ms": 41765
+  },
+  {
+   "id": "t8",
+   "speaker": "B",
+   "text": "Some. But I feel foggy in the morning, and my mouth is so dry.",
+   "start_ms": 42415,
+   "end_ms": 48248
+  },
+  {
+   "id": "t9",
+   "speaker": "A",
+   "text": "Those are common side effects, and at your age Benadryl can also cause confusion and falls. Have you had any falls?",
+   "start_ms": 48898,
+   "end_ms": 57648
+  },
+  {
+   "id": "t10",
+   "speaker": "B",
+   "text": "I tripped on the rug last month, but I caught myself on the counter.",
+   "start_ms": 58298,
+   "end_ms": 64131
+  },
+  {
+   "id": "t11",
+   "speaker": "A",
+   "text": "I'm glad you didn't get hurt. How's your mood been? You're on the sertraline, 100 mg?",
+   "start_ms": 64781,
+   "end_ms": 71447
+  },
+  {
+   "id": "t12",
+   "speaker": "B",
+   "text": "Yes, 100 every morning. My mood is all right. I miss my husband, but I'm managing.",
+   "start_ms": 72097,
+   "end_ms": 78763
+  },
+  {
+   "id": "t13",
+   "speaker": "A",
+   "text": "Any thoughts of hurting yourself?",
+   "start_ms": 79413,
+   "end_ms": 81496
+  },
+  {
+   "id": "t14",
+   "speaker": "B",
+   "text": "No, nothing like that.",
+   "start_ms": 82146,
+   "end_ms": 83812
+  },
+  {
+   "id": "t15",
+   "speaker": "A",
+   "text": "Okay. Now tell me about your back.",
+   "start_ms": 84462,
+   "end_ms": 87378
+  },
+  {
+   "id": "t16",
+   "speaker": "B",
+   "text": "It's my lower back, right in the middle. It started about three weeks ago when I lifted a bag of potting soil. It's worse when I stand for a long time. It doesn't go down my legs.",
+   "start_ms": 88028,
+   "end_ms": 103444
+  },
+  {
+   "id": "t17",
+   "speaker": "A",
+   "text": "Any numbness, weakness, or trouble controlling your bladder or bowels?",
+   "start_ms": 104094,
+   "end_ms": 108260
+  },
+  {
+   "id": "t18",
+   "speaker": "B",
+   "text": "No, none of that.",
+   "start_ms": 108910,
+   "end_ms": 110576
+  },
+  {
+   "id": "t19",
+   "speaker": "A",
+   "text": "What are you taking for the pain?",
+   "start_ms": 111226,
+   "end_ms": 114142
+  },
+  {
+   "id": "t20",
+   "speaker": "B",
+   "text": "Tylenol, 500 mg, maybe twice a day. It takes the edge off.",
+   "start_ms": 114792,
+   "end_ms": 119792
+  },
+  {
+   "id": "t21",
+   "speaker": "A",
+   "text": "Let me examine you. Your blood pressure is 132/74. There's tenderness over the muscles of your lower back on both sides, but not over the spine itself. Your leg strength and reflexes are normal, and the straight leg raise is negative.",
+   "start_ms": 129442,
+   "end_ms": 146525
+  },
+  {
+   "id": "t22",
+   "speaker": "A",
+   "text": "This looks like a muscle strain in your lower back. Because of your osteoporosis, I'd still like an x-ray of the lumbar spine to make sure there's no compression fracture.",
+   "start_ms": 147175,
+   "end_ms": 159675
+  },
+  {
+   "id": "t23",
+   "speaker": "B",
+   "text": "All right.",
+   "start_ms": 160325,
+   "end_ms": 161525
+  },
+  {
+   "id": "t24",
+   "speaker": "A",
+   "text": "For the pain, let's start tramadol, 50 mg, one tablet every 6 hours as needed, no more than 4 tablets a day. You can keep taking the Tylenol, up to 1,000 mg three times a day.",
+   "start_ms": 162175,
+   "end_ms": 177175
+  },
+  {
+   "id": "t25",
+   "speaker": "B",
+   "text": "Will that make me sleepy?",
+   "start_ms": 177825,
+   "end_ms": 179908
+  },
+  {
+   "id": "t26",
+   "speaker": "A",
+   "text": "It can, so be careful getting up at night. For sleep, I was going to start you on zolpidem, but actually, let's hold off on that. It raises the risk of falls at your age.",
+   "start_ms": 180558,
+   "end_ms": 195141
+  },
+  {
+   "id": "t27",
+   "speaker": "B",
+   "text": "So what should I do about the Benadryl?",
+   "start_ms": 195791,
+   "end_ms": 199124
+  },
+  {
+   "id": "t28",
+   "speaker": "A",
+   "text": "Let's cut it down to one tablet, 25 mg, at bedtime. And let's work on sleep habits: the same bedtime and wake-up time every day, no naps after 3, and get out of bed if you're awake for more than 20 minutes.",
+   "start_ms": 199774,
+   "end_ms": 217274
+  },
+  {
+   "id": "t29",
+   "speaker": "B",
+   "text": "I can try that.",
+   "start_ms": 217924,
+   "end_ms": 219590
+  },
+  {
+   "id": "t30",
+   "speaker": "A",
+   "text": "I'll also have the nurse check your sodium today, since sertraline can lower it, and your last level was a little low at 134.",
+   "start_ms": 220240,
+   "end_ms": 230240
+  },
+  {
+   "id": "t31",
+   "speaker": "B",
+   "text": "Okay.",
+   "start_ms": 230890,
+   "end_ms": 232090
+  },
+  {
+   "id": "t32",
+   "speaker": "A",
+   "text": "Let's get a rug gripper or take that rug out, and I'll send a referral to physical therapy for your back and your balance.",
+   "start_ms": 232740,
+   "end_ms": 242740
+  },
+  {
+   "id": "t33",
+   "speaker": "B",
+   "text": "My granddaughter can help me with the rug.",
+   "start_ms": 243390,
+   "end_ms": 246723
+  },
+  {
+   "id": "t34",
+   "speaker": "A",
+   "text": "Wonderful. Come back in 2 weeks so we can see how your back and your sleep are doing. Call sooner if the pain spreads down your legs or you have any weakness or bladder problems.",
+   "start_ms": 247373,
+   "end_ms": 261956
+  },
+  {
+   "id": "t35",
+   "speaker": "B",
+   "text": "Thank you, Doctor.",
+   "start_ms": 262606,
+   "end_ms": 263856
+  }
+ ],
+ "minutes": 4.4
+}

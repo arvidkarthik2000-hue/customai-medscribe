@@ -1,0 +1,539 @@
+{
+ "id": "s3-strep-penicillin",
+ "title": "Strep throat with a penicillin allergy",
+ "patient_id": "p3",
+ "template": "soap",
+ "specialty": "family_medicine",
+ "highlights": [
+  "Penicillin allergy: amoxicillin switched to cephalexin",
+  "Rapid strep result",
+  "Return-to-work advice"
+ ],
+ "speaker_roles": {
+  "A": "clinician",
+  "B": "patient"
+ },
+ "saved_note": {
+  "visit_summary": "Strep pharyngitis (rapid strep positive) with a penicillin allergy (childhood hives): cephalexin for 10 days instead of amoxicillin.",
+  "speaker_roles": [
+   {
+    "speaker": "A",
+    "role": "clinician"
+   },
+   {
+    "speaker": "B",
+    "role": "patient"
+   }
+  ],
+  "sections": {
+   "chief_complaint": {
+    "items": [
+     {
+      "id": "chief_complaint-1",
+      "text": "Sore throat for 2 days.",
+      "evidence": [
+       "t2"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "hpi": {
+    "items": [
+     {
+      "id": "hpi-1",
+      "text": "Sore throat for 2 days with painful swallowing; fever of about 101 last night.",
+      "evidence": [
+       "t2"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-2",
+      "text": "Reports neck swelling.",
+      "evidence": [
+       "t4"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-3",
+      "text": "Son had strep throat last week.",
+      "evidence": [
+       "t6"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-4",
+      "text": "Takes a birth control pill daily and cetirizine as needed for allergies.",
+      "evidence": [
+       "t7",
+       "t8"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "hpi-5",
+      "text": "Reports no chance of pregnancy: on the pill, with a period last week.",
+      "evidence": [
+       "t9",
+       "t10"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "ros": {
+    "items": [
+     {
+      "id": "ros-1",
+      "text": "No cough or runny nose.",
+      "evidence": [
+       "t3",
+       "t4"
+      ],
+      "status": "negative"
+     }
+    ]
+   },
+   "exam": {
+    "items": [
+     {
+      "id": "exam-1",
+      "text": "Temperature 101.2. Tonsils red and swollen with white exudate; tender anterior cervical lymph nodes; ears normal; lungs clear.",
+      "evidence": [
+       "t11"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "results": {
+    "items": [
+     {
+      "id": "results-1",
+      "text": "Rapid strep test positive.",
+      "evidence": [
+       "t12"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "assessment": {
+    "items": [
+     {
+      "id": "assessment-1",
+      "text": "Streptococcal pharyngitis.",
+      "evidence": [
+       "t12",
+       "t14"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "assessment-2",
+      "text": "Penicillin allergy: hives in childhood, with no breathing problems or facial swelling.",
+      "evidence": [
+       "t15",
+       "t16",
+       "t17"
+      ],
+      "status": "documented"
+     }
+    ]
+   },
+   "plan": {
+    "items": [
+     {
+      "id": "plan-1",
+      "text": "Amoxicillin proposed, then not prescribed because of the penicillin allergy.",
+      "evidence": [
+       "t14",
+       "t15",
+       "t18"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-2",
+      "text": "Cephalexin 500 mg twice daily for 10 days; stop it and call or go to the ER for rash, swelling or trouble breathing.",
+      "evidence": [
+       "t18"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-3",
+      "text": "Ibuprofen 400 mg every 6 to 8 hours with food for pain; warm salt-water gargles.",
+      "evidence": [
+       "t20"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-4",
+      "text": "Stay home until on the antibiotic for at least 12 hours and fever-free; work note provided.",
+      "evidence": [
+       "t21",
+       "t22"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-5",
+      "text": "Husband to be tested only if he develops symptoms; replace toothbrush after a couple of days on the antibiotic.",
+      "evidence": [
+       "t23",
+       "t24"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-6",
+      "text": "Call if not better in 48 to 72 hours or unable to swallow liquids.",
+      "evidence": [
+       "t25"
+      ],
+      "status": "documented"
+     },
+     {
+      "id": "plan-7",
+      "text": "No food restrictions; cephalexin can be taken with food if it upsets the stomach.",
+      "evidence": [
+       "t26",
+       "t27"
+      ],
+      "status": "documented"
+     }
+    ]
+   }
+  },
+  "medications": [
+   {
+    "id": "m1",
+    "name": "amoxicillin",
+    "as_spoken": "amoxicillin",
+    "dose": "500",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "twice daily",
+    "duration": "10 days",
+    "action": "discussed",
+    "indication": "strep throat",
+    "evidence": [
+     "t14",
+     "t15",
+     "t18"
+    ]
+   },
+   {
+    "id": "m2",
+    "name": "cephalexin",
+    "as_spoken": "cephalexin",
+    "dose": "500",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "twice daily",
+    "duration": "10 days",
+    "action": "start",
+    "indication": "strep throat",
+    "evidence": [
+     "t18"
+    ]
+   },
+   {
+    "id": "m3",
+    "name": "ibuprofen",
+    "as_spoken": "ibuprofen",
+    "dose": "400",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "every 6 to 8 hours with food as needed",
+    "duration": "",
+    "action": "start",
+    "indication": "throat pain",
+    "evidence": [
+     "t20"
+    ]
+   },
+   {
+    "id": "m4",
+    "name": "norgestimate and ethinyl estradiol",
+    "as_spoken": "birth control pill",
+    "dose": "",
+    "unit": "",
+    "route": "oral",
+    "frequency": "every day",
+    "duration": "",
+    "action": "continue",
+    "indication": "contraception",
+    "evidence": [
+     "t8"
+    ]
+   },
+   {
+    "id": "m5",
+    "name": "cetirizine",
+    "as_spoken": "cetirizine",
+    "dose": "",
+    "unit": "",
+    "route": "oral",
+    "frequency": "as needed",
+    "duration": "",
+    "action": "continue",
+    "indication": "allergies",
+    "evidence": [
+     "t8"
+    ]
+   }
+  ],
+  "allergies": [
+   {
+    "substance": "penicillin",
+    "reaction": "hives in childhood; no breathing problems",
+    "evidence": [
+     "t15",
+     "t17"
+    ]
+   }
+  ],
+  "orders": [
+   {
+    "type": "other",
+    "description": "Work note",
+    "evidence": [
+     "t22"
+    ]
+   }
+  ],
+  "diagnoses": [
+   {
+    "description": "Streptococcal pharyngitis",
+    "icd10": "J02.0",
+    "evidence": [
+     "t12"
+    ]
+   },
+   {
+    "description": "Allergy status to penicillin",
+    "icd10": "Z88.0",
+    "evidence": [
+     "t15"
+    ]
+   }
+  ],
+  "follow_up": {
+   "text": "Call if not better in 48 to 72 hours or unable to swallow liquids.",
+   "evidence": [
+    "t25"
+   ]
+  },
+  "patient_instructions": "You have strep throat. Because you are allergic to penicillin, we are not using amoxicillin. Take cephalexin 500 mg twice a day for 10 days. You can take it with food if it upsets your stomach. If you get a rash, swelling, or trouble breathing, stop the medicine and call us or go to the ER. For pain, you can take ibuprofen 400 mg every 6 to 8 hours with food, and gargle with warm salt water. Stay home until you have taken the antibiotic for at least 12 hours and have no fever. Replace your toothbrush after a couple of days on the antibiotic. Call us if you are not better in 48 to 72 hours or cannot swallow liquids.",
+  "not_discussed": [
+   "Vaccination status",
+   "Other drug allergies"
+  ],
+  "uncertain": []
+ },
+ "turns": [
+  {
+   "id": "t1",
+   "speaker": "A",
+   "text": "Hi, Priya. I hear you've got a bad sore throat.",
+   "start_ms": 1200,
+   "end_ms": 5366
+  },
+  {
+   "id": "t2",
+   "speaker": "B",
+   "text": "Yeah, it started two days ago. It really hurts to swallow, and I had a fever last night, about 101.",
+   "start_ms": 6016,
+   "end_ms": 14349
+  },
+  {
+   "id": "t3",
+   "speaker": "A",
+   "text": "Any cough or runny nose?",
+   "start_ms": 14999,
+   "end_ms": 17082
+  },
+  {
+   "id": "t4",
+   "speaker": "B",
+   "text": "No cough. My nose is fine. Just the throat, and my neck feels swollen.",
+   "start_ms": 17732,
+   "end_ms": 23565
+  },
+  {
+   "id": "t5",
+   "speaker": "A",
+   "text": "Anyone sick at home?",
+   "start_ms": 24215,
+   "end_ms": 25881
+  },
+  {
+   "id": "t6",
+   "speaker": "B",
+   "text": "My son had strep last week.",
+   "start_ms": 26531,
+   "end_ms": 29031
+  },
+  {
+   "id": "t7",
+   "speaker": "A",
+   "text": "Are you taking any medicines right now?",
+   "start_ms": 29681,
+   "end_ms": 32597
+  },
+  {
+   "id": "t8",
+   "speaker": "B",
+   "text": "Just my birth control pill every day, and cetirizine when my allergies act up.",
+   "start_ms": 33247,
+   "end_ms": 39080
+  },
+  {
+   "id": "t9",
+   "speaker": "A",
+   "text": "Any chance you could be pregnant?",
+   "start_ms": 39730,
+   "end_ms": 42230
+  },
+  {
+   "id": "t10",
+   "speaker": "B",
+   "text": "No, I'm on the pill and my period was last week.",
+   "start_ms": 42880,
+   "end_ms": 47463
+  },
+  {
+   "id": "t11",
+   "speaker": "A",
+   "text": "That fits with strep. Let me take a look. Your temperature here is 101.2. Your tonsils are red and swollen with white patches, and the lymph nodes in the front of your neck are tender. Your ears look normal, and your lungs are clear.",
+   "start_ms": 55113,
+   "end_ms": 73446
+  },
+  {
+   "id": "t12",
+   "speaker": "A",
+   "text": "The rapid strep test we did when you came in is positive.",
+   "start_ms": 74096,
+   "end_ms": 79096
+  },
+  {
+   "id": "t13",
+   "speaker": "B",
+   "text": "I figured.",
+   "start_ms": 79746,
+   "end_ms": 80946
+  },
+  {
+   "id": "t14",
+   "speaker": "A",
+   "text": "So this is strep throat. I'll start you on amoxicillin, 500 mg twice a day for 10 days.",
+   "start_ms": 81596,
+   "end_ms": 89096
+  },
+  {
+   "id": "t15",
+   "speaker": "B",
+   "text": "Wait, I'm allergic to penicillin. I broke out in hives when I was a kid.",
+   "start_ms": 89746,
+   "end_ms": 95996
+  },
+  {
+   "id": "t16",
+   "speaker": "A",
+   "text": "Thank you for reminding me. Was it just hives, or did you have any trouble breathing or swelling of your face?",
+   "start_ms": 96646,
+   "end_ms": 105396
+  },
+  {
+   "id": "t17",
+   "speaker": "B",
+   "text": "Just hives, all over. No breathing problems.",
+   "start_ms": 106046,
+   "end_ms": 108962
+  },
+  {
+   "id": "t18",
+   "speaker": "A",
+   "text": "Okay. Then we won't use amoxicillin. Let's do cephalexin instead, 500 mg twice a day for 10 days. The chance of a reaction is low with a history like yours, but if you get any rash, swelling, or trouble breathing, stop it and call us or go to the ER.",
+   "start_ms": 109612,
+   "end_ms": 130445
+  },
+  {
+   "id": "t19",
+   "speaker": "B",
+   "text": "Okay.",
+   "start_ms": 131095,
+   "end_ms": 132295
+  },
+  {
+   "id": "t20",
+   "speaker": "A",
+   "text": "For the pain, you can take ibuprofen 400 mg every 6 to 8 hours with food, and warm salt water gargles help.",
+   "start_ms": 132945,
+   "end_ms": 142111
+  },
+  {
+   "id": "t21",
+   "speaker": "B",
+   "text": "Can I go to work tomorrow?",
+   "start_ms": 142761,
+   "end_ms": 145261
+  },
+  {
+   "id": "t22",
+   "speaker": "A",
+   "text": "Stay home until you've been on the antibiotic for at least 12 hours and you're fever free. I'll write you a work note.",
+   "start_ms": 145911,
+   "end_ms": 155494
+  },
+  {
+   "id": "t23",
+   "speaker": "B",
+   "text": "Thanks. Should my husband get tested?",
+   "start_ms": 156144,
+   "end_ms": 158644
+  },
+  {
+   "id": "t24",
+   "speaker": "A",
+   "text": "Only if he gets symptoms. And replace your toothbrush after a couple of days on the antibiotic.",
+   "start_ms": 159294,
+   "end_ms": 166377
+  },
+  {
+   "id": "t25",
+   "speaker": "A",
+   "text": "If you're not better in 48 to 72 hours, or you can't swallow liquids, call us. Any other questions for me?",
+   "start_ms": 167027,
+   "end_ms": 175777
+  },
+  {
+   "id": "t26",
+   "speaker": "B",
+   "text": "Should I avoid anything while I'm on the antibiotic?",
+   "start_ms": 176427,
+   "end_ms": 180177
+  },
+  {
+   "id": "t27",
+   "speaker": "A",
+   "text": "No special foods. You can take it with food if it upsets your stomach.",
+   "start_ms": 180827,
+   "end_ms": 186660
+  },
+  {
+   "id": "t28",
+   "speaker": "B",
+   "text": "Okay. Got it. Thank you.",
+   "start_ms": 187310,
+   "end_ms": 189393
+  }
+ ],
+ "minutes": 3.2
+}
