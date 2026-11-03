@@ -18,6 +18,7 @@ const PRESETS = [
   { label: "Sertraline + tramadol", meds: [{ name: "sertraline", dose: "100", unit: "mg", frequency: "once daily" }, { name: "tramadol", dose: "50", unit: "mg", frequency: "every 6 hours as needed" }], ctx: { age: 52, sex: "F" } },
   { label: "Metformin at eGFR 28", meds: [{ name: "metformin", dose: "1000", unit: "mg", frequency: "twice daily" }], ctx: { age: 68, sex: "M", egfr: 28, problems: "type 2 diabetes, chronic kidney disease", plan_key: "MAPD-B" } },
   { label: "Sleep aid at 82", meds: [{ name: "diphenhydramine", dose: "50", unit: "mg", frequency: "at bedtime" }, { name: "lorazepam", dose: "0.5", unit: "mg", frequency: "at bedtime" }], ctx: { age: 82, sex: "F", plan_key: "PDP-A" } },
+  { label: "Apixaban at 82, 58 kg", meds: [{ name: "apixaban", dose: "5", unit: "mg", frequency: "twice daily" }], ctx: { age: 82, sex: "F", weight_kg: 58, creatinine: 0.9, problems: "atrial fibrillation", plan_key: "PDP-A" } },
   { label: "Penicillin allergy", meds: [{ name: "amoxicillin-clavulanate", dose: "875", unit: "mg", frequency: "twice daily" }], ctx: { age: 34, sex: "F", allergies: "penicillin (hives)" } },
 ];
 
@@ -101,6 +102,9 @@ function buildChecker() {
     sex: select("ctx-sex", [["", "Not set"], ["F", "Female"], ["M", "Male"]]),
     egfr: el("input", { class: "input", id: "ctx-egfr", type: "number", min: "1", max: "200", placeholder: "mL/min/1.73 m²" }),
     creatinine: el("input", { class: "input", id: "ctx-cr", type: "number", step: "0.01", min: "0.1", max: "30", placeholder: "mg/dL" }),
+    weight: el("input", { class: "input", id: "ctx-wt", type: "number", step: "0.1", min: "1", max: "400", placeholder: "kg" }),
+    potassium: el("input", { class: "input", id: "ctx-k", type: "number", step: "0.1", min: "1", max: "10", placeholder: "mmol/L" }),
+    sodium: el("input", { class: "input", id: "ctx-na", type: "number", step: "1", min: "100", max: "180", placeholder: "mmol/L" }),
     allergies: el("input", { class: "input", id: "ctx-allergies", placeholder: "e.g. penicillin, sulfa" }),
     problems: el("input", { class: "input", id: "ctx-problems", placeholder: "e.g. heart failure, asthma, CKD" }),
     plan: select("ctx-plan", [["", "None"]]),
@@ -112,10 +116,11 @@ function buildChecker() {
 
   const context = el("details", { class: "ph-context", id: "ph-context" },
     el("summary", {}, "Patient details (optional)"),
-    el("p", { class: "muted small", style: { margin: "8px 0 0" } }, "Adds allergy, condition, kidney, older-adult and formulary checks. eGFR is computed with CKD-EPI 2021 when only creatinine, age and sex are given."),
+    el("p", { class: "muted small", style: { margin: "8px 0 0" } }, "Adds allergy, condition, kidney, older-adult and formulary checks. eGFR is computed with CKD-EPI 2021 when only creatinine, age and sex are given; creatinine clearance (Cockcroft-Gault) needs weight too."),
     el("div", { class: "ph-context-grid" },
       field("Age", ctx.age), field("Sex", ctx.sex), field("Medicare plan", ctx.plan),
-      field("eGFR", ctx.egfr), field("Creatinine", ctx.creatinine), el("div"),
+      field("eGFR", ctx.egfr), field("Creatinine", ctx.creatinine), field("Weight", ctx.weight),
+      field("Potassium", ctx.potassium), field("Sodium", ctx.sodium), el("div"),
       field("Allergies (comma-separated)", ctx.allergies, "wide"),
       field("Conditions (comma-separated)", ctx.problems, "wide"),
       el("label", { class: "checkbox", for: "ctx-preg" }, ctx.pregnant, "Pregnant"),
@@ -143,7 +148,8 @@ function buildChecker() {
 function loadPreset(p) {
   state.meds = p.meds.map((m) => ({ ...m }));
   const c = state.ctx;
-  c.age.value = p.ctx.age ?? ""; c.sex.value = p.ctx.sex ?? ""; c.egfr.value = p.ctx.egfr ?? ""; c.creatinine.value = "";
+  c.age.value = p.ctx.age ?? ""; c.sex.value = p.ctx.sex ?? ""; c.egfr.value = p.ctx.egfr ?? ""; c.creatinine.value = p.ctx.creatinine ?? "";
+  c.weight.value = p.ctx.weight_kg ?? ""; c.potassium.value = p.ctx.potassium ?? ""; c.sodium.value = p.ctx.sodium ?? "";
   c.allergies.value = p.ctx.allergies ?? ""; c.problems.value = p.ctx.problems ?? ""; c.plan.value = p.ctx.plan_key ?? "";
   c.pregnant.checked = false;
   if (p.ctx.age || p.ctx.allergies || p.ctx.problems) $("#ph-context").open = true;
@@ -166,6 +172,7 @@ function contextPayload() {
   const num = (v) => (v === "" || v === null || v === undefined ? null : Number(v));
   const p = {
     age: num(c.age.value), sex: c.sex.value || null, egfr: num(c.egfr.value), creatinine: num(c.creatinine.value),
+    weight_kg: num(c.weight.value), potassium: num(c.potassium.value), sodium: num(c.sodium.value),
     allergies: splitList(c.allergies.value), problems: splitList(c.problems.value), plan_key: c.plan.value || null,
     pregnant: c.pregnant.checked,
   };
@@ -212,6 +219,12 @@ function renderCard(c) {
     body.push(el("p", { style: { margin: 0 } }, main));
   }
   if (also) body.push(el("p", { class: "small ink-2", style: { margin: 0 } }, el("strong", {}, "Also: "), also.replace(/\.$/, "")));
+  const vals = [];
+  if (c.potassium != null) vals.push(`Potassium ${c.potassium} mmol/L`);
+  if (c.sodium != null) vals.push(`Sodium ${c.sodium} mmol/L`);
+  if (c.crcl != null) vals.push(`CrCl about ${c.crcl} mL/min${c.crcl_basis ? ` (${c.crcl_basis})` : ""}`);
+  if (Array.isArray(c.criteria_met) && c.criteria_met.length) vals.push(`Label criteria met: ${c.criteria_met.join(", ")}`);
+  if (vals.length) body.push(el("p", { class: "small ink-2", style: { margin: 0 } }, vals.join(" · ")));
   const alts = c.alternatives && c.alternatives.length
     ? el("div", { class: "alts" }, "Alternatives on this plan: ", c.alternatives.map((a) => `${show(a.drug)} (tier ${a.tier}${a.prior_auth ? ", PA" : ""}${a.step_therapy ? ", ST" : ""})`).join(", "))
     : null;

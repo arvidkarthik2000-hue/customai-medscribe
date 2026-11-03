@@ -1032,8 +1032,12 @@ def check_list(medications: list[dict], patient_ctx: dict | None = None, *, incl
                      "problems": [{"name": p} if isinstance(p, str) else p for p in (ctx.get("problems") or [])],
                      "allergies": [{"substance": a} if isinstance(a, str) else a for a in (ctx.get("allergies") or [])],
                      "insurance": {"plan_key": ctx.get("plan_key")} if ctx.get("plan_key") else {}}
-    if ctx.get("creatinine") not in (None, ""):
-        patient["labs"] = [{"name": "Creatinine", "value": ctx["creatinine"], "unit": "mg/dL"}]
+    labs = []
+    for key, name, unit in (("creatinine", "Creatinine", "mg/dL"), ("potassium", "Potassium", "mmol/L"), ("sodium", "Sodium", "mmol/L")):
+        if ctx.get(key) not in (None, ""):
+            labs.append({"name": name, "value": ctx[key], "unit": unit})
+    if labs:
+        patient["labs"] = labs
     if ctx.get("weight_kg") not in (None, ""):
         patient["vitals"] = {"weight_kg": ctx.get("weight_kg")}
     result = check_visit(rows, patient, timeout_s=timeout_s, use_network=use_network, include_prevention_reminders=False)

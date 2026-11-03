@@ -340,9 +340,10 @@ export async function render(root, { visitId }, ctx) {
 
   function cdsCard(c, ack) {
     const reasons = c.override_reasons && c.override_reasons.length ? c.override_reasons : ["Benefit outweighs risk", "Will monitor", "Plan changed", "Other"];
-    const sel = el("select", { class: "select", style: { height: "30px", fontSize: "12.5px" } }, el("option", { value: "" }, c.indicator === "critical" ? "Reason (required)" : "Reason (optional)"), reasons.map((r) => el("option", { value: r }, r)));
+    const required = c.requires_ack === true || (c.requires_ack === undefined && c.indicator === "critical");
+    const sel = el("select", { class: "select", style: { height: "30px", fontSize: "12.5px" } }, el("option", { value: "" }, required ? "Reason (required to sign)" : "Reason (optional)"), reasons.map((r) => el("option", { value: r }, r)));
     const ackBtn = el("button", { class: "btn btn-sm", onclick: async () => {
-      if (c.indicator === "critical" && !sel.value) { toast("Choose a reason to acknowledge a critical alert.", "error"); return; }
+      if (required && !sel.value) { toast("Choose a reason to acknowledge this alert.", "error"); return; }
       try {
         await api(`/api/visits/${visitId}/cards/${encodeURIComponent(c.id)}/ack`, { method: "POST", body: { reason: sel.value || "Acknowledged" } });
         visit = await api(`/api/visits/${visitId}`);
@@ -356,11 +357,24 @@ export async function render(root, { visitId }, ctx) {
         ack ? el("span", { class: "badge badge-ok", title: ack.reason }, "Acknowledged") : null),
       el("div", { class: "cds-summary", style: { marginTop: "4px" } }, c.summary),
       c.detail ? el("div", { class: "small ink-2", style: { marginTop: "4px" } }, c.detail) : null,
-      c.context === "existing" ? el("div", { class: "muted small", style: { marginTop: "4px" } }, "Involves only medicines the patient was already taking before this visit.") : null,
+      valuesLine(c),
+      c.items && c.items.length ? el("ul", { class: "plain-list small", style: { marginTop: "6px" } }, c.items.map((it) => el("li", {}, el("strong", {}, it.name), it.detail ? ` · ${it.detail}` : ""))) : null,
+      c.context === "existing" ? el("div", { class: "muted small", style: { marginTop: "4px" } }, `The patient was already taking these before this visit.${required ? " Review it before signing." : ""}`) : null,
       c.source ? el("div", { class: "cds-source" }, "Source: ", c.source.url ? el("a", { href: c.source.url, target: "_blank", rel: "noopener noreferrer" }, c.source.label) : c.source.label,
         c.source.date ? ` · ${c.source.date_type === "label_effective" ? "label effective" : c.source.date_type === "reviewed" ? "reviewed" : ""} ${c.source.date}` : "",
         c.grading ? el("span", { class: "muted" }, ` · ${c.grading}`) : null) : null,
-      !ack && !signed() && (c.indicator === "critical" || c.indicator === "warning") ? el("div", { class: "row", style: { marginTop: "8px" } }, sel, ackBtn) : null);
+      !ack && !signed() && (required || c.indicator === "critical" || c.indicator === "warning") ? el("div", { class: "row", style: { marginTop: "8px" } }, sel, ackBtn) : null);
+  }
+
+  function valuesLine(c) {
+    const bits = [];
+    if (c.potassium != null) bits.push(`Potassium ${c.potassium} mmol/L`);
+    if (c.sodium != null) bits.push(`Sodium ${c.sodium} mmol/L`);
+    if (c.egfr != null) bits.push(`eGFR ${c.egfr}`);
+    if (c.crcl != null) bits.push(`CrCl about ${c.crcl} mL/min${c.crcl_basis ? ` (${c.crcl_basis})` : ""}`);
+    if (Array.isArray(c.criteria_met) && c.criteria_met.length) bits.push(`Label criteria met: ${c.criteria_met.join(", ")}`);
+    if (c.condition) bits.push(`Chart: ${c.condition}`);
+    return bits.length ? el("div", { class: "small", style: { marginTop: "4px", color: "var(--ink-2)" } }, bits.join(" · ")) : null;
   }
 
   function transcriptPanel() {

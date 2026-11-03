@@ -349,3 +349,13 @@ def test_sample_notes_use_generic_names_and_symptom_codes():
     s4 = fixtures.sample("s4-pneumonia-hf")["saved_note"]
     assert {d["icd10"] for d in s4["diagnoses"]} == {"R05.1", "R50.9", "I50.22"}
     assert "Suspected" in s4["visit_summary"]
+
+
+def test_pharmacy_check_takes_weight_potassium_and_sodium():
+    r = check_list([row("apixaban", "5", frequency="twice daily")],
+                   {"age": 84, "sex": "F", "weight_kg": 57, "creatinine": 1.1, "problems": ["Atrial fibrillation"]})
+    assert r["patient_context"]["crcl"] is not None
+    assert find(r, "dose", "apixaban")["indicator"] == "warning"
+    r2 = check_list([row("potassium chloride", "20", unit="mEq", frequency="daily")],
+                    {"age": 70, "potassium": 5.4, "problems": []})
+    assert r2["patient_context"]["potassium"] == 5.4

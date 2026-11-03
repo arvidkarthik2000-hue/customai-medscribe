@@ -26,6 +26,9 @@ class PatientIn(BaseModel):
     sex: str | None = None
     egfr: float | None = Field(default=None, ge=1, le=200)
     creatinine: float | None = Field(default=None, gt=0, le=30)
+    weight_kg: float | None = Field(default=None, gt=0, le=400)
+    potassium: float | None = Field(default=None, gt=0, le=12)
+    sodium: float | None = Field(default=None, gt=80, le=200)
     allergies: list[str] = Field(default_factory=list, max_length=20)
     problems: list[str] = Field(default_factory=list, max_length=30)
     plan_key: str | None = None
