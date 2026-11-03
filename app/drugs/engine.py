@@ -636,15 +636,15 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
         if not reasons:
             continue
         detail = ("Tramadol label: hyponatremia (sodium below 135 mmol/L, many cases below 120) has been reported, most often in women over 65 "
-                  "within the first week, sometimes from SIADH. Check sodium and watch for confusion or disorientation, especially when starting; "
-                  "stop tramadol if hyponatremia develops.")
+                  "and within the first week, sometimes from SIADH. Assess for signs such as confusion or disorientation, especially when starting; "
+                  "if they appear, treat (for example fluid restriction) and stop tramadol, following the label's guidance on safe discontinuation.")
         srcs = [{"label": "FDA label: tramadol, Warnings and Precautions: hyponatremia", "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tramadol"}]
         if any(o.drug.classes & {"ssri", "snri"} for o in active if o is not m):
             detail += " SSRI and SNRI labels also warn of hyponatremia (SIADH), with older adults at greater risk."
             srcs.append({"label": "FDA label: sertraline, Warnings and Precautions: hyponatremia", "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sertraline"})
         findings.append(Finding(category="condition", indicator="warning", summary=f"Tramadol and hyponatremia risk ({', '.join(reasons)})",
                                 detail=detail, meds=[m.generic], sources=srcs, rule_id="tramadol-hyponatremia",
-                                effect="Hyponatremia, sometimes severe.", management="Check sodium; watch for confusion.",
+                                effect="Hyponatremia, sometimes severe.", management="Assess for confusion or disorientation, especially when starting.",
                                 context="new" if m.new else "existing", extra={"sodium": sodium}))
 
     # 5. older adults

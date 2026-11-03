@@ -9,14 +9,35 @@ as the argument). Edit the scripts, not the JSON.
 |---|---|---|
 | `drugs.json` | ~340 US outpatient medicines: generic, US brands, aliases, classes, high-risk reason, federal DEA schedule, boxed-warning flag, ISMP-style confused-name partners, uses (for the sound-alike context check). RxCUIs only where well established; the rest resolve live through RxNav. | FDA labels (DailyMed), RxNorm, ISMP List of Confused Drug Names |
 | `classes.json` | Pharmacologic and interaction classes; which classes count as duplicate therapy. | — |
-| `interactions.json` | 85 rules: the 15 ONC high-priority pairs (verified against Phansalkar et al., JAMIA 2012;19:735-743, table 2) as critical, plus curated label-based pairs and class rules. Each rule cites its FDA label section. | [ONC list](https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/), FDA labels |
+| `interactions.json` | 102 rules. The 15 ONC high-priority pairs are named as in Phansalkar et al., JAMIA 2012;19:735-743, Table 2; each has one critical rule (id `onc-…`). Their drug membership is ours, built from FDA labels: the paper's drug lists were not reproduced line by line, so treat membership as demo content. Pair #25 (HMG-CoA reductase inhibitors with CYP3A4 inhibitors) also has warning rules where a label allows a limited statin dose. The rest are curated label-based pairs and class rules. Each rule cites its FDA label section. | [ONC list](https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/), FDA labels |
 | `allergies.json` | Allergy classes with cross-sensitivity notes. | FDA labels (cephalexin, celecoxib, ACE inhibitors, NSAIDs) |
 | `conditions.json` | Drug–condition rules matched on ICD-10 prefixes and problem names. | FDA labels (contraindications, boxed warnings), STOPP/START v3 |
-| `doses.json` | Usual adult ranges and label maximum daily doses; methotrexate weekly-dosing check. Flags only; the app never computes a dose. | FDA labels |
-| `renal.json` | eGFR thresholds at which the label's renal text is shown (with live label text from openFDA when reachable). | FDA labels |
+| `doses.json` | Usual adult ranges and label maximum daily doses, plus `limits`: lower label maximums for age or a co-medication (citalopram over 60 or with a CYP2C19 inhibitor, zolpidem in older adults, tramadol over 75). Methotrexate weekly-dosing check. Flags only; the app never computes a dose. | FDA labels |
+| `renal.json` | Kidney-function thresholds at which the label's renal text is shown (with live label text from openFDA when reachable). Entries marked `basis: crcl` use Cockcroft-Gault creatinine clearance with actual body weight, as those labels do; without weight or creatinine the check falls back to eGFR and says so. `doac_af` holds the apixaban, rivaroxaban, dabigatran and edoxaban atrial-fibrillation dose criteria, shown next to the patient's age, weight, creatinine and clearance. | FDA labels |
 | `older_adult.json` | Selected STOPP/START v3 criteria for patients 65 and older. | [STOPP/START v3](https://link.springer.com/article/10.1007/s41999-023-00777-y) (CC BY 4.0). The AGS Beers table is not reproduced. |
-| `prevention.json` | Adult screening and vaccine reminders from age and sex. | [USPSTF A/B list](https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics/uspstf-a-and-b-recommendations) (checked 2026-11-03), [CDC adult schedule](https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-age.html) (page shows the 2025 schedule) |
+| `prevention.json` | Adult screening and vaccine reminders from age, sex, smoking, BMI, problems and medicines; `keys` remove reminders the chart already lists as care gaps. | [USPSTF A/B list](https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics/uspstf-a-and-b-recommendations) (checked 2026-11-03), [CDC adult schedule](https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-age.html) (page shows the 2025 schedule) |
 | `formulary_sample.json` | **Sample formulary (structure of the CMS Part D files; demo data)** for plan keys `PDP-A` and `MAPD-B`. | Layout of the [CMS Part D public use files](https://data.cms.gov/sites/default/files/2025-10/0564eb37-402d-4110-bd98-2d5399dc30e7/PUFRecordLayout-2026.pdf) |
+
+## Severity rubric
+
+- **Critical**: the label contraindicates the combination, or says to avoid it because of serious
+  toxicity. Every ONC pair's main rule is critical. Every critical alert blocks signing until acknowledged.
+- **Warning**: clinically significant; monitor, adjust or choose an alternative. ONC pair #25 rules
+  whose labels allow a limited statin dose are warnings, and drop to info when the recorded dose is
+  within the label's limit. New warnings for interactions, QT, allergies, conditions, kidney function
+  and doses block signing until acknowledged.
+- **Info**: worth knowing; never blocks.
+- Lab-aware: a hyperkalemia combination becomes critical when the latest potassium is above 5.0 mmol/L.
+
+## QT prolongation
+
+ONC defines its QT pair by the torsades.org (CredibleMeds) high-risk list, which needs a licence and
+is not reproduced. The demo's QT pair instead uses drugs whose FDA labels warn of QT prolongation or
+torsades de pointes in Warnings and Precautions or a boxed warning (for example azithromycin,
+clarithromycin, the fluoroquinolones, citalopram, ondansetron, methadone and the class III
+antiarrhythmics); two of them together are critical. Drugs whose labels mention QT effects only outside
+Warnings and Precautions, for example in postmarketing reports (escitalopram, donepezil,
+chlorpromazine), stay in a broader QT class, where a pair is a warning. This is an approximation of the ONC pair, not the CredibleMeds list.
 
 ## Formulary decision
 

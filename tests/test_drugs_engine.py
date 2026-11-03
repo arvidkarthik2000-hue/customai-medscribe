@@ -144,7 +144,8 @@ def test_lisinopril_spironolactone_potassium_single_merged_card():
 def test_qt_pair_and_high_risk_qt():
     r = check_visit([row("ondansetron", "4", frequency="every 8 hours")], {"medications": [{"name": "azithromycin"}]})
     c = find(r, "qt", "ondansetron", "azithromycin")
-    assert c and c["indicator"] == "warning"
+    # both FDA labels warn of QT prolongation, so this is the ONC QT pair
+    assert c and c["indicator"] == "critical" and c["onc_high_priority"]
     r2 = check_visit([row("methadone", "10", frequency="twice daily")], {"medications": [{"name": "amiodarone"}]})
     c2 = find(r2, "qt", "methadone", "amiodarone")
     assert c2 and c2["indicator"] == "critical" and c2["onc_high_priority"]

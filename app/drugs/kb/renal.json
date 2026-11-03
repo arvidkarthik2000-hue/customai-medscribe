@@ -1,7 +1,7 @@
 {
  "version": "2026-11-03",
  "grading": "Demo grading, pending pharmacist review",
- "note": "eGFR thresholds at which the label's renal text is shown. The app never computes a renal dose.",
+ "note": "Kidney-function thresholds at which the label's renal text is shown: eGFR, or Cockcroft-Gault creatinine clearance (actual body weight) where the label uses it (basis: crcl). doac_af holds the DOAC labels' atrial fibrillation dose criteria, shown next to the patient's values. The app never computes a renal dose.",
  "drugs": {
   "metformin": [
    {

@@ -690,7 +690,7 @@ meta = {"version": REVIEWED, "grading": GRADE_NOTE}
 (OUT / "doses.json").write_text(json.dumps({**meta, "note": "Usual adult ranges and label maximum daily doses (mg/day). Checks flag doses above the label maximum; they never compute or recommend a dose.",
                                             "doses": {g: {"usual": u, "max_mg_per_day": m, "note": n, "limits": DOSE_LIMITS.get(g, []), "source": lab(g, "Dosage and Administration")} for g, (u, m, n) in DOSES.items()},
                                             "special": {g: {**v, "source": lab(g, "Dosage and Administration; Boxed Warning")} for g, v in DOSE_SPECIAL.items()}}, indent=1, ensure_ascii=False) + "\n")
-(OUT / "renal.json").write_text(json.dumps({**meta, "note": "eGFR thresholds at which the label's renal text is shown. The app never computes a renal dose.",
+(OUT / "renal.json").write_text(json.dumps({**meta, "note": "Kidney-function thresholds at which the label's renal text is shown: eGFR, or Cockcroft-Gault creatinine clearance (actual body weight) where the label uses it (basis: crcl). doac_af holds the DOAC labels' atrial fibrillation dose criteria, shown next to the patient's values. The app never computes a renal dose.",
                                             "drugs": {g: [{**t, "source": lab(g, "Dosage and Administration: renal impairment")} for t in v] for g, v in RENAL.items()},
                                             "doac_af": {g: {**v, "source": lab(g, "Dosage and Administration")} for g, v in DOAC_AF.items()}}, indent=1, ensure_ascii=False) + "\n")
 (OUT / "older_adult.json").write_text(json.dumps({**meta, "min_age": 65, "source": STOPP, "rules": OLDER}, indent=1, ensure_ascii=False) + "\n")
