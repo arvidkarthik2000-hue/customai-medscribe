@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-test · CustomAi MedScribe</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <main class="page page-narrow" id="app">
+    <div class="page-title">
+      <div>
+        <div class="eyebrow">Deployment check</div>
+        <h1>Self-test</h1>
+        <p class="muted" style="margin:4px 0 0">Checks each outside service this server depends on. Runs at most once every 10 minutes; costs a few cents of API usage.</p>
+      </div>
+      <button class="btn btn-primary" id="run">Run self-test</button>
+    </div>
+    <div id="results" class="stack"></div>
+  </main>
+  <script type="module" src="/selftest/selftest.js"></script>
+</body>
+</html>

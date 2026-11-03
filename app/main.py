@@ -32,7 +32,8 @@ CSP = "; ".join(
         "img-src 'self' data: blob:",
         "media-src 'self' blob:",
         "font-src 'self'",
-        "connect-src 'self' wss://streaming.assemblyai.com wss://streaming.us.assemblyai.com wss://streaming.eu.assemblyai.com",
+        "connect-src 'self' wss://streaming.assemblyai.com wss://streaming.us.assemblyai.com wss://streaming.eu.assemblyai.com"
+        + (" " + settings.assemblyai_test_base.replace("http", "ws", 1) if settings.assemblyai_test_base else ""),
         "frame-ancestors 'none'",
         "base-uri 'self'",
         "form-action 'self'",
