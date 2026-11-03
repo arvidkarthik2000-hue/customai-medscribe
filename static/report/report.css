@@ -1,0 +1,18 @@
+/* On screen every chart carries its own watermark and the strip sits on top; the page
+   watermark is for print and PDF only. */
+.report-watermark { display: none; pointer-events: none; font-weight: 800; letter-spacing: .3em; }
+.report-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 16px; }
+.report-head h1 { font-size: 26px; }
+.report-head .meta { color: var(--ink-2); margin-top: 6px; display: flex; gap: 6px 14px; flex-wrap: wrap; font-size: 13px; }
+.share-header { position: sticky; top: 0; z-index: 50; height: var(--header-h); display: flex; align-items: center; gap: 12px; padding: 0 20px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.campaign-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.campaign-tile { display: flex; flex-direction: column; gap: 10px; padding: 16px; }
+.campaign-tile .row-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.campaign-tile .row-kpis .v { font-weight: 700; font-size: 16px; }
+.campaign-tile .row-kpis .l { color: var(--ink-3); font-size: 11.5px; }
+.method td:first-child { white-space: nowrap; }
+@media print {
+  .share-header .btn, .no-print { display: none !important; }
+  .report-watermark { display: block; position: fixed; top: 45%; left: 0; right: 0; text-align: center; font-size: 64px; color: rgba(122, 77, 0, .12); transform: rotate(-24deg); }
+  .page { max-width: none; padding: 0 8mm; }
+}

@@ -1,0 +1,5968 @@
+{
+ "label": "Sample formulary (structure of the CMS Part D files; demo data)",
+ "year": 2026,
+ "layout": "Mirrors the CMS Part D Basic Drugs Formulary File fields: TIER_LEVEL_VALUE, PRIOR_AUTHORIZATION_YN, STEP_THERAPY_YN, QUANTITY_LIMIT_YN (see the CMS public use file record layout).",
+ "layout_url": "https://data.cms.gov/sites/default/files/2025-10/0564eb37-402d-4110-bd98-2d5399dc30e7/PUFRecordLayout-2026.pdf",
+ "tiers": {
+  "1": "Preferred generic",
+  "2": "Generic",
+  "3": "Preferred brand",
+  "4": "Non-preferred drug",
+  "5": "Specialty tier"
+ },
+ "plans": {
+  "PDP-A": {
+   "plan_key": "PDP-A",
+   "name": "Sample Part D Plan A (standalone PDP)",
+   "type": "PDP",
+   "contract_id": "S0000",
+   "plan_id": "001",
+   "year": 2026,
+   "source": "Sample formulary (structure of the CMS Part D files; demo data)"
+  },
+  "MAPD-B": {
+   "plan_key": "MAPD-B",
+   "name": "Sample Medicare Advantage Plan B with drug coverage (MA-PD)",
+   "type": "MA-PD",
+   "contract_id": "H0000",
+   "plan_id": "002",
+   "year": 2026,
+   "source": "Sample formulary (structure of the CMS Part D files; demo data)"
+  }
+ },
+ "commercial_note": "Commercial formulary not available in the demo; production uses real-time benefit checks through an e-prescribing partner.",
+ "groups": {
+  "warfarin": "vka",
+  "apixaban": "doac",
+  "rivaroxaban": "doac",
+  "dabigatran": "doac",
+  "edoxaban": "doac",
+  "enoxaparin": "heparin_class",
+  "heparin": "heparin_class",
+  "aspirin": null,
+  "clopidogrel": "p2y12",
+  "prasugrel": "p2y12",
+  "ticagrelor": "p2y12",
+  "cilostazol": null,
+  "ibuprofen": "nsaid",
+  "naproxen": "nsaid",
+  "meloxicam": "nsaid",
+  "celecoxib": "nsaid",
+  "diclofenac": "nsaid",
+  "ketorolac": "nsaid",
+  "indomethacin": "nsaid",
+  "etodolac": "nsaid",
+  "nabumetone": "nsaid",
+  "acetaminophen": "analgesic",
+  "oxycodone": "opioid",
+  "oxycodone-acetaminophen": "opioid",
+  "hydrocodone-acetaminophen": "opioid",
+  "morphine": "opioid",
+  "hydromorphone": "opioid",
+  "fentanyl": "opioid",
+  "methadone": "opioid",
+  "tramadol": "opioid",
+  "tapentadol": "opioid",
+  "codeine": "opioid",
+  "acetaminophen-codeine": "opioid",
+  "buprenorphine": "opioid",
+  "buprenorphine-naloxone": "opioid",
+  "meperidine": "opioid",
+  "naloxone": null,
+  "naltrexone": null,
+  "sertraline": "ssri",
+  "fluoxetine": "ssri",
+  "paroxetine": "ssri",
+  "citalopram": "ssri",
+  "escitalopram": "ssri",
+  "fluvoxamine": "ssri",
+  "venlafaxine": "snri",
+  "desvenlafaxine": "snri",
+  "duloxetine": "snri",
+  "bupropion": null,
+  "mirtazapine": null,
+  "trazodone": null,
+  "buspirone": null,
+  "amitriptyline": "tca",
+  "nortriptyline": "tca",
+  "imipramine": "tca",
+  "doxepin": "tca",
+  "clomipramine": "tca",
+  "phenelzine": null,
+  "tranylcypromine": null,
+  "isocarboxazid": null,
+  "selegiline": null,
+  "rasagiline": null,
+  "linezolid": null,
+  "methylene blue": null,
+  "lithium": null,
+  "dextromethorphan": null,
+  "st johns wort": null,
+  "sumatriptan": "triptan",
+  "rizatriptan": "triptan",
+  "zolmitriptan": "triptan",
+  "eletriptan": "triptan",
+  "ergotamine": null,
+  "dihydroergotamine": null,
+  "alprazolam": "benzodiazepine",
+  "lorazepam": "benzodiazepine",
+  "clonazepam": "benzodiazepine",
+  "diazepam": "benzodiazepine",
+  "temazepam": "benzodiazepine",
+  "chlordiazepoxide": "benzodiazepine",
+  "zolpidem": "z_drug",
+  "eszopiclone": "z_drug",
+  "ramelteon": null,
+  "suvorexant": null,
+  "cyclobenzaprine": "muscle_relaxant",
+  "methocarbamol": "muscle_relaxant",
+  "carisoprodol": "muscle_relaxant",
+  "tizanidine": "muscle_relaxant",
+  "baclofen": "muscle_relaxant",
+  "gabapentin": "gabapentinoid",
+  "pregabalin": "gabapentinoid",
+  "diphenhydramine": "first_gen_antihistamine",
+  "acetaminophen-diphenhydramine": "first_gen_antihistamine",
+  "ibuprofen-diphenhydramine": "nsaid",
+  "hydroxyzine": "first_gen_antihistamine",
+  "chlorpheniramine": "first_gen_antihistamine",
+  "promethazine": "first_gen_antihistamine",
+  "doxylamine": "first_gen_antihistamine",
+  "meclizine": "first_gen_antihistamine",
+  "cetirizine": "second_gen_antihistamine",
+  "loratadine": "second_gen_antihistamine",
+  "fexofenadine": "second_gen_antihistamine",
+  "ondansetron": null,
+  "metoclopramide": null,
+  "prochlorperazine": "antipsychotic",
+  "haloperidol": "antipsychotic",
+  "quetiapine": "antipsychotic",
+  "olanzapine": "antipsychotic",
+  "risperidone": "antipsychotic",
+  "aripiprazole": "antipsychotic",
+  "ziprasidone": "antipsychotic",
+  "pimozide": "antipsychotic",
+  "chlorpromazine": "antipsychotic",
+  "thioridazine": "antipsychotic",
+  "ropinirole": null,
+  "amphetamine-dextroamphetamine": null,
+  "dextroamphetamine": null,
+  "lisdexamfetamine": null,
+  "methylphenidate": null,
+  "pseudoephedrine": null,
+  "phenylephrine": null,
+  "donepezil": null,
+  "memantine": null,
+  "carbidopa-levodopa": null,
+  "lamotrigine": "antiepileptic",
+  "levetiracetam": "antiepileptic",
+  "topiramate": "antiepileptic",
+  "valproate": "antiepileptic",
+  "carbamazepine": "antiepileptic",
+  "oxcarbazepine": "antiepileptic",
+  "phenytoin": "antiepileptic",
+  "tiagabine": "antiepileptic",
+  "lisinopril": "acei",
+  "enalapril": "acei",
+  "ramipril": "acei",
+  "benazepril": "acei",
+  "captopril": "acei",
+  "quinapril": "acei",
+  "losartan": "arb",
+  "valsartan": "arb",
+  "irbesartan": "arb",
+  "olmesartan": "arb",
+  "telmisartan": "arb",
+  "candesartan": "arb",
+  "sacubitril-valsartan": "arni",
+  "aliskiren": null,
+  "spironolactone": "k_sparing",
+  "eplerenone": "k_sparing",
+  "finerenone": "k_sparing",
+  "amiloride": "k_sparing",
+  "triamterene-hydrochlorothiazide": "thiazide",
+  "potassium chloride": null,
+  "potassium citrate": null,
+  "hydrochlorothiazide": "thiazide",
+  "chlorthalidone": "thiazide",
+  "indapamide": "thiazide",
+  "metolazone": "thiazide",
+  "furosemide": "loop",
+  "bumetanide": "loop",
+  "torsemide": "loop",
+  "metoprolol": "beta_blocker",
+  "atenolol": "beta_blocker",
+  "carvedilol": "beta_blocker",
+  "propranolol": "beta_blocker",
+  "nadolol": "beta_blocker",
+  "bisoprolol": "beta_blocker",
+  "nebivolol": "beta_blocker",
+  "labetalol": "beta_blocker",
+  "amlodipine": "ccb_dhp",
+  "nifedipine": "ccb_dhp",
+  "felodipine": "ccb_dhp",
+  "nicardipine": "ccb_dhp",
+  "diltiazem": "ccb_nondhp",
+  "verapamil": "ccb_nondhp",
+  "hydralazine": null,
+  "clonidine": null,
+  "doxazosin": "alpha_blocker",
+  "terazosin": "alpha_blocker",
+  "tamsulosin": "alpha_blocker",
+  "prazosin": "alpha_blocker",
+  "minoxidil": null,
+  "atorvastatin": "statin",
+  "simvastatin": "statin",
+  "rosuvastatin": "statin",
+  "pravastatin": "statin",
+  "lovastatin": "statin",
+  "pitavastatin": "statin",
+  "ezetimibe": "lipid_other",
+  "gemfibrozil": "fibrate",
+  "fenofibrate": "fibrate",
+  "nitroglycerin": "nitrate",
+  "isosorbide mononitrate": "nitrate",
+  "isosorbide dinitrate": "nitrate",
+  "ranolazine": null,
+  "amiodarone": null,
+  "dronedarone": null,
+  "dofetilide": null,
+  "sotalol": "beta_blocker",
+  "flecainide": null,
+  "propafenone": null,
+  "digoxin": null,
+  "sildenafil": "pde5",
+  "tadalafil": "pde5",
+  "vardenafil": "pde5",
+  "riociguat": null,
+  "metformin": "biguanide",
+  "glipizide": "sulfonylurea",
+  "glyburide": "sulfonylurea",
+  "glimepiride": "sulfonylurea",
+  "pioglitazone": "tzd",
+  "rosiglitazone": "tzd",
+  "sitagliptin": "dpp4",
+  "linagliptin": "dpp4",
+  "saxagliptin": "dpp4",
+  "empagliflozin": "sglt2",
+  "dapagliflozin": "sglt2",
+  "canagliflozin": "sglt2",
+  "ertugliflozin": "sglt2",
+  "semaglutide": "glp1",
+  "liraglutide": "glp1",
+  "dulaglutide": "glp1",
+  "tirzepatide": "glp1",
+  "exenatide": "glp1",
+  "insulin glargine": "insulin_basal",
+  "insulin detemir": "insulin_basal",
+  "insulin degludec": "insulin_basal",
+  "insulin lispro": "insulin_bolus",
+  "insulin aspart": "insulin_bolus",
+  "insulin regular": "insulin_bolus",
+  "insulin nph": "insulin_basal",
+  "levothyroxine": "thyroid",
+  "liothyronine": "thyroid",
+  "methimazole": null,
+  "propylthiouracil": null,
+  "alendronate": "bisphosphonate",
+  "risedronate": "bisphosphonate",
+  "testosterone": null,
+  "estradiol": "estrogen",
+  "ethinyl estradiol-norethindrone": "estrogen",
+  "medroxyprogesterone": null,
+  "norgestimate-ethinyl estradiol": "estrogen",
+  "levonorgestrel-ethinyl estradiol": "estrogen",
+  "drospirenone-ethinyl estradiol": "estrogen",
+  "norethindrone": null,
+  "tamoxifen": null,
+  "prednisone": "corticosteroid",
+  "prednisolone": "corticosteroid",
+  "methylprednisolone": "corticosteroid",
+  "dexamethasone": "corticosteroid",
+  "omeprazole": "ppi",
+  "esomeprazole": "ppi",
+  "pantoprazole": "ppi",
+  "lansoprazole": "ppi",
+  "rabeprazole": "ppi",
+  "dexlansoprazole": "ppi",
+  "famotidine": "h2ra",
+  "cimetidine": "h2ra",
+  "sucralfate": null,
+  "calcium carbonate": null,
+  "ferrous sulfate": null,
+  "magnesium oxide": null,
+  "aluminum hydroxide-magnesium hydroxide": null,
+  "loperamide": null,
+  "polyethylene glycol 3350": null,
+  "docusate": null,
+  "senna": null,
+  "amoxicillin": "penicillin",
+  "amoxicillin-clavulanate": "penicillin",
+  "ampicillin": "penicillin",
+  "penicillin v": "penicillin",
+  "penicillin g benzathine": "penicillin",
+  "dicloxacillin": "penicillin",
+  "piperacillin-tazobactam": "penicillin",
+  "cephalexin": "cephalosporin",
+  "cefadroxil": "cephalosporin",
+  "cefuroxime": "cephalosporin",
+  "cefdinir": "cephalosporin",
+  "cefpodoxime": "cephalosporin",
+  "ceftriaxone": "cephalosporin",
+  "cefazolin": "cephalosporin",
+  "azithromycin": "macrolide",
+  "clarithromycin": "macrolide",
+  "erythromycin": "macrolide",
+  "ciprofloxacin": "fluoroquinolone",
+  "levofloxacin": "fluoroquinolone",
+  "moxifloxacin": "fluoroquinolone",
+  "doxycycline": "tetracycline_class",
+  "minocycline": "tetracycline_class",
+  "tetracycline": "tetracycline_class",
+  "sulfamethoxazole-trimethoprim": null,
+  "trimethoprim": null,
+  "nitrofurantoin": null,
+  "metronidazole": null,
+  "clindamycin": null,
+  "vancomycin": null,
+  "fluconazole": "azole_antifungal",
+  "itraconazole": "azole_antifungal",
+  "ketoconazole": "azole_antifungal",
+  "voriconazole": "azole_antifungal",
+  "posaconazole": "azole_antifungal",
+  "terbinafine": null,
+  "valacyclovir": "antiviral",
+  "acyclovir": "antiviral",
+  "oseltamivir": "antiviral",
+  "nirmatrelvir-ritonavir": "antiviral",
+  "ritonavir": "antiviral",
+  "atazanavir": "antiviral",
+  "darunavir": "antiviral",
+  "rifampin": null,
+  "isoniazid": null,
+  "hydroxychloroquine": null,
+  "albuterol": "saba",
+  "levalbuterol": "saba",
+  "ipratropium": "short_antimuscarinic",
+  "ipratropium-albuterol": "saba_sama",
+  "tiotropium": "lama",
+  "umeclidinium-vilanterol": "lama_laba",
+  "fluticasone-salmeterol": "ics_laba",
+  "budesonide-formoterol": "ics_laba",
+  "fluticasone-vilanterol": "ics_laba",
+  "fluticasone-umeclidinium-vilanterol": "ics_lama_laba",
+  "fluticasone": "ics",
+  "budesonide": "ics",
+  "mometasone": "ics",
+  "montelukast": "leukotriene",
+  "roflumilast": null,
+  "benzonatate": null,
+  "guaifenesin": null,
+  "theophylline": null,
+  "varenicline": null,
+  "nicotine": null,
+  "allopurinol": "xanthine_oxidase_inhibitor",
+  "febuxostat": "xanthine_oxidase_inhibitor",
+  "colchicine": null,
+  "methotrexate": null,
+  "azathioprine": null,
+  "mercaptopurine": null,
+  "cyclosporine": null,
+  "tacrolimus": null,
+  "mycophenolate": null,
+  "irinotecan": null,
+  "procarbazine": null,
+  "oxybutynin": null,
+  "tolterodine": null,
+  "finasteride": null,
+  "cyanocobalamin": null,
+  "folic acid": null,
+  "cholecalciferol": null
+ },
+ "group_labels": {
+  "insulin_basal": "Basal insulin",
+  "insulin_bolus": "Mealtime insulin",
+  "ics_laba": "ICS/LABA inhaler",
+  "lama_laba": "LAMA/LABA inhaler",
+  "ics_lama_laba": "ICS/LAMA/LABA inhaler",
+  "lama": "LAMA inhaler",
+  "saba": "Rescue inhaler",
+  "ics": "Inhaled corticosteroid",
+  "short_antimuscarinic": "Short-acting antimuscarinic",
+  "saba_sama": "SABA/SAMA",
+  "analgesic": "Analgesic"
+ },
+ "entries": {
+  "PDP-A": {
+   "warfarin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "apixaban": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "60 tablets per 30 days",
+    "note": null,
+    "generic_available": false
+   },
+   "rivaroxaban": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "60 tablets per 30 days",
+    "note": null,
+    "generic_available": false
+   },
+   "dabigatran": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "edoxaban": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "enoxaparin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clopidogrel": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prasugrel": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ticagrelor": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "cilostazol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ibuprofen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "naproxen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "meloxicam": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "celecoxib": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "diclofenac": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ketorolac": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "20 tablets per 5 days",
+    "note": null,
+    "generic_available": true
+   },
+   "indomethacin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "etodolac": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nabumetone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "oxycodone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "oxycodone-acetaminophen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "hydrocodone-acetaminophen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "morphine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "hydromorphone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "fentanyl": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "methadone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "tramadol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "8 tablets (400 mg) per day",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "tapentadol": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": false
+   },
+   "codeine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "acetaminophen-codeine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "buprenorphine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "buprenorphine-naloxone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "meperidine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "naloxone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Naloxone nasal spray is also sold OTC.",
+    "generic_available": true
+   },
+   "naltrexone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sertraline": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fluoxetine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "paroxetine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "citalopram": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "escitalopram": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fluvoxamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "venlafaxine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "desvenlafaxine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "duloxetine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "bupropion": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "mirtazapine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "trazodone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "buspirone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amitriptyline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nortriptyline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "imipramine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "doxepin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clomipramine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "phenelzine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "selegiline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "rasagiline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "linezolid": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lithium": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sumatriptan": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "9 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "rizatriptan": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "12 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "zolmitriptan": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "6 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "eletriptan": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "6 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "dihydroergotamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "alprazolam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "90 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "lorazepam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "90 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "clonazepam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "90 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "diazepam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "120 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "temazepam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "chlordiazepoxide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "zolpidem": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "30 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "eszopiclone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "30 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "ramelteon": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "suvorexant": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "30 tablets per 30 days",
+    "note": null,
+    "generic_available": false
+   },
+   "cyclobenzaprine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "methocarbamol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "carisoprodol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tizanidine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "baclofen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "gabapentin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pregabalin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "hydroxyzine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "promethazine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "meclizine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ondansetron": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "metoclopramide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prochlorperazine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "haloperidol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "quetiapine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "olanzapine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "risperidone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "aripiprazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ziprasidone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pimozide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "chlorpromazine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ropinirole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amphetamine-dextroamphetamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": null,
+    "generic_available": true
+   },
+   "dextroamphetamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lisdexamfetamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "30 capsules per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "methylphenidate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": null,
+    "generic_available": true
+   },
+   "donepezil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "memantine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "carbidopa-levodopa": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lamotrigine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "levetiracetam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "topiramate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "valproate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "carbamazepine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "oxcarbazepine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "phenytoin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tiagabine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lisinopril": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "enalapril": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ramipril": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "benazepril": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "captopril": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "quinapril": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "losartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "valsartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "irbesartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "olmesartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "telmisartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "candesartan": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sacubitril-valsartan": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "aliskiren": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "spironolactone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "eplerenone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "finerenone": {
+    "tier": 4,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "amiloride": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "triamterene-hydrochlorothiazide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "potassium chloride": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "potassium citrate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "hydrochlorothiazide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "chlorthalidone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "indapamide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "metolazone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "furosemide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "bumetanide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "torsemide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "metoprolol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "atenolol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "carvedilol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "propranolol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nadolol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "bisoprolol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nebivolol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "labetalol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amlodipine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nifedipine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "felodipine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nicardipine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "diltiazem": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "verapamil": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "hydralazine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clonidine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "doxazosin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "terazosin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tamsulosin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prazosin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "minoxidil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "atorvastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "simvastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "rosuvastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pravastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lovastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pitavastatin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ezetimibe": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "gemfibrozil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fenofibrate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nitroglycerin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "isosorbide mononitrate": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "isosorbide dinitrate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ranolazine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amiodarone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dronedarone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dofetilide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sotalol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "flecainide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "propafenone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "digoxin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sildenafil": {
+    "tier": 2,
+    "pa": true,
+    "st": false,
+    "ql": true,
+    "ql_detail": "90 tablets per 30 days",
+    "note": "Covered only for pulmonary arterial hypertension (Revatio); Part D excludes drugs used for erectile dysfunction.",
+    "generic_available": true
+   },
+   "tadalafil": {
+    "tier": 2,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Covered for pulmonary arterial hypertension or BPH with prior authorization; Part D excludes drugs used for erectile dysfunction.",
+    "generic_available": true
+   },
+   "riociguat": {
+    "tier": 5,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "metformin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "glipizide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "glyburide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "glimepiride": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pioglitazone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sitagliptin": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "linagliptin": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "saxagliptin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "empagliflozin": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "dapagliflozin": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "canagliflozin": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "ertugliflozin": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "semaglutide": {
+    "tier": 3,
+    "pa": true,
+    "st": false,
+    "ql": true,
+    "ql_detail": "1 pen per 28 days",
+    "note": "Covered for type 2 diabetes (and Wegovy for cardiovascular risk reduction); Part D excludes weight-loss-only use.",
+    "generic_available": false
+   },
+   "liraglutide": {
+    "tier": 2,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Covered for type 2 diabetes; Part D excludes weight-loss-only use.",
+    "generic_available": true
+   },
+   "dulaglutide": {
+    "tier": 3,
+    "pa": true,
+    "st": false,
+    "ql": true,
+    "ql_detail": "4 pens per 28 days",
+    "note": "Covered for type 2 diabetes.",
+    "generic_available": false
+   },
+   "tirzepatide": {
+    "tier": 3,
+    "pa": true,
+    "st": false,
+    "ql": true,
+    "ql_detail": "4 pens per 28 days",
+    "note": "Covered for type 2 diabetes; Part D excludes weight-loss-only use.",
+    "generic_available": false
+   },
+   "exenatide": {
+    "tier": 4,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "insulin glargine": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin degludec": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin lispro": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin aspart": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin regular": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin nph": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "levothyroxine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "liothyronine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "methimazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "propylthiouracil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "alendronate": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "risedronate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "testosterone": {
+    "tier": 2,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "estradiol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ethinyl estradiol-norethindrone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "medroxyprogesterone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "norgestimate-ethinyl estradiol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "levonorgestrel-ethinyl estradiol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "drospirenone-ethinyl estradiol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "norethindrone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tamoxifen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prednisone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prednisolone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "methylprednisolone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dexamethasone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "omeprazole": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "esomeprazole": {
+    "tier": 2,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try omeprazole or pantoprazole first.",
+    "generic_available": true
+   },
+   "pantoprazole": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lansoprazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "rabeprazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dexlansoprazole": {
+    "tier": 4,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try omeprazole or pantoprazole first.",
+    "generic_available": true
+   },
+   "famotidine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cimetidine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sucralfate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amoxicillin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amoxicillin-clavulanate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ampicillin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "penicillin v": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dicloxacillin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cephalexin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cefadroxil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cefuroxime": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cefdinir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cefpodoxime": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "azithromycin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clarithromycin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "erythromycin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ciprofloxacin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "levofloxacin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "moxifloxacin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "doxycycline": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "minocycline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tetracycline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sulfamethoxazole-trimethoprim": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "trimethoprim": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nitrofurantoin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "metronidazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clindamycin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "vancomycin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fluconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "itraconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ketoconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "voriconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "posaconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "terbinafine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "valacyclovir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "acyclovir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "oseltamivir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nirmatrelvir-ritonavir": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "ritonavir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "atazanavir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "darunavir": {
+    "tier": 5,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "rifampin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "isoniazid": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "hydroxychloroquine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "albuterol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "2 inhalers per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "levalbuterol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ipratropium": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ipratropium-albuterol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tiotropium": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "umeclidinium-vilanterol": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "fluticasone-salmeterol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "budesonide-formoterol": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fluticasone-vilanterol": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "fluticasone-umeclidinium-vilanterol": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "1 inhaler per 30 days",
+    "note": null,
+    "generic_available": false
+   },
+   "fluticasone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "budesonide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "mometasone": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "montelukast": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "roflumilast": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "benzonatate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "theophylline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "varenicline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nicotine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "allopurinol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "febuxostat": {
+    "tier": 2,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try allopurinol first.",
+    "generic_available": false
+   },
+   "colchicine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "methotrexate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "azathioprine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "mercaptopurine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cyclosporine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tacrolimus": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "mycophenolate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "oxybutynin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tolterodine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "finasteride": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cyanocobalamin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "folic acid": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   }
+  },
+  "MAPD-B": {
+   "warfarin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "apixaban": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "60 tablets per 30 days",
+    "note": null,
+    "generic_available": false
+   },
+   "rivaroxaban": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "60 tablets per 30 days",
+    "note": null,
+    "generic_available": false
+   },
+   "dabigatran": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "edoxaban": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "enoxaparin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clopidogrel": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prasugrel": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ticagrelor": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "cilostazol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ibuprofen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "naproxen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "meloxicam": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "celecoxib": {
+    "tier": 2,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try two generic NSAIDs first.",
+    "generic_available": true
+   },
+   "diclofenac": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ketorolac": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "20 tablets per 5 days",
+    "note": null,
+    "generic_available": true
+   },
+   "indomethacin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "etodolac": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nabumetone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "oxycodone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "oxycodone-acetaminophen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "hydrocodone-acetaminophen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "morphine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "hydromorphone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "fentanyl": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "methadone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "tramadol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "8 tablets (400 mg) per day",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "tapentadol": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": false
+   },
+   "codeine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "acetaminophen-codeine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "buprenorphine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "buprenorphine-naloxone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "meperidine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": "Opioid safety edits: 7-day supply limit for first fills in opioid-naive patients; pharmacist care-coordination alert at 90 MME/day or more (CMS Part D policy).",
+    "generic_available": true
+   },
+   "naloxone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Naloxone nasal spray is also sold OTC.",
+    "generic_available": true
+   },
+   "naltrexone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sertraline": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fluoxetine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "paroxetine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "citalopram": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "escitalopram": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fluvoxamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "venlafaxine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "desvenlafaxine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "duloxetine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "bupropion": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "mirtazapine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "trazodone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "buspirone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amitriptyline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nortriptyline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "imipramine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "doxepin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clomipramine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "phenelzine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "selegiline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "rasagiline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "linezolid": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lithium": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sumatriptan": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "9 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "rizatriptan": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "12 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "zolmitriptan": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "6 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "eletriptan": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "6 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "dihydroergotamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "alprazolam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "90 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "lorazepam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "90 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "clonazepam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "90 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "diazepam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "120 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "temazepam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "chlordiazepoxide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "zolpidem": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "30 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "eszopiclone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "30 tablets per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "ramelteon": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "suvorexant": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "30 tablets per 30 days",
+    "note": null,
+    "generic_available": false
+   },
+   "cyclobenzaprine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "methocarbamol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "carisoprodol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tizanidine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "baclofen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "gabapentin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pregabalin": {
+    "tier": 2,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try gabapentin first.",
+    "generic_available": true
+   },
+   "hydroxyzine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "promethazine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "meclizine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ondansetron": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "metoclopramide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prochlorperazine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "haloperidol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "quetiapine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "olanzapine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "risperidone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "aripiprazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ziprasidone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pimozide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "chlorpromazine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ropinirole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amphetamine-dextroamphetamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": null,
+    "generic_available": true
+   },
+   "dextroamphetamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lisdexamfetamine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "30 capsules per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "methylphenidate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "Daily limit applies",
+    "note": null,
+    "generic_available": true
+   },
+   "donepezil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "memantine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "carbidopa-levodopa": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lamotrigine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "levetiracetam": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "topiramate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "valproate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "carbamazepine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "oxcarbazepine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "phenytoin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tiagabine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lisinopril": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "enalapril": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ramipril": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "benazepril": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "captopril": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "quinapril": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "losartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "valsartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "irbesartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "olmesartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "telmisartan": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "candesartan": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sacubitril-valsartan": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "aliskiren": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "spironolactone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "eplerenone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "finerenone": {
+    "tier": 4,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "amiloride": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "triamterene-hydrochlorothiazide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "potassium chloride": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "potassium citrate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "hydrochlorothiazide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "chlorthalidone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "indapamide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "metolazone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "furosemide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "bumetanide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "torsemide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "metoprolol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "atenolol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "carvedilol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "propranolol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nadolol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "bisoprolol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nebivolol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "labetalol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amlodipine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nifedipine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "felodipine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nicardipine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "diltiazem": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "verapamil": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "hydralazine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clonidine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "doxazosin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "terazosin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tamsulosin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prazosin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "minoxidil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "atorvastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "simvastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "rosuvastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pravastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lovastatin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pitavastatin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ezetimibe": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "gemfibrozil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fenofibrate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nitroglycerin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "isosorbide mononitrate": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "isosorbide dinitrate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ranolazine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amiodarone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dronedarone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dofetilide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sotalol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "flecainide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "propafenone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "digoxin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sildenafil": {
+    "tier": 2,
+    "pa": true,
+    "st": false,
+    "ql": true,
+    "ql_detail": "90 tablets per 30 days",
+    "note": "Covered only for pulmonary arterial hypertension (Revatio); Part D excludes drugs used for erectile dysfunction.",
+    "generic_available": true
+   },
+   "tadalafil": {
+    "tier": 2,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Covered for pulmonary arterial hypertension or BPH with prior authorization; Part D excludes drugs used for erectile dysfunction.",
+    "generic_available": true
+   },
+   "riociguat": {
+    "tier": 5,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "metformin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "glipizide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "glyburide": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "glimepiride": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "pioglitazone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sitagliptin": {
+    "tier": 4,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try metformin first.",
+    "generic_available": false
+   },
+   "linagliptin": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "saxagliptin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "empagliflozin": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "dapagliflozin": {
+    "tier": 4,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try metformin first.",
+    "generic_available": false
+   },
+   "canagliflozin": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "ertugliflozin": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "semaglutide": {
+    "tier": 3,
+    "pa": true,
+    "st": false,
+    "ql": true,
+    "ql_detail": "1 pen per 28 days",
+    "note": "Covered for type 2 diabetes (and Wegovy for cardiovascular risk reduction); Part D excludes weight-loss-only use.",
+    "generic_available": false
+   },
+   "liraglutide": {
+    "tier": 2,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Covered for type 2 diabetes; Part D excludes weight-loss-only use.",
+    "generic_available": true
+   },
+   "dulaglutide": {
+    "tier": 4,
+    "pa": true,
+    "st": false,
+    "ql": true,
+    "ql_detail": "4 pens per 28 days",
+    "note": "Covered for type 2 diabetes.",
+    "generic_available": false
+   },
+   "tirzepatide": {
+    "tier": 3,
+    "pa": true,
+    "st": false,
+    "ql": true,
+    "ql_detail": "4 pens per 28 days",
+    "note": "Covered for type 2 diabetes; Part D excludes weight-loss-only use.",
+    "generic_available": false
+   },
+   "exenatide": {
+    "tier": 4,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "insulin glargine": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin degludec": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin lispro": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin aspart": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin regular": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "insulin nph": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Insulin cost-sharing is capped at $35 for a month's supply (Inflation Reduction Act).",
+    "generic_available": false
+   },
+   "levothyroxine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "liothyronine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "methimazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "propylthiouracil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "alendronate": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "risedronate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "testosterone": {
+    "tier": 2,
+    "pa": true,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "estradiol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ethinyl estradiol-norethindrone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "medroxyprogesterone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "norgestimate-ethinyl estradiol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "levonorgestrel-ethinyl estradiol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "drospirenone-ethinyl estradiol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "norethindrone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tamoxifen": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prednisone": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "prednisolone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "methylprednisolone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dexamethasone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "omeprazole": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "esomeprazole": {
+    "tier": 2,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try omeprazole or pantoprazole first.",
+    "generic_available": true
+   },
+   "pantoprazole": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "lansoprazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "rabeprazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dexlansoprazole": {
+    "tier": 4,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try omeprazole or pantoprazole first.",
+    "generic_available": true
+   },
+   "famotidine": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cimetidine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sucralfate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amoxicillin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "amoxicillin-clavulanate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ampicillin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "penicillin v": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "dicloxacillin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cephalexin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cefadroxil": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cefuroxime": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cefdinir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cefpodoxime": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "azithromycin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clarithromycin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "erythromycin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ciprofloxacin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "levofloxacin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "moxifloxacin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "doxycycline": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "minocycline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tetracycline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "sulfamethoxazole-trimethoprim": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "trimethoprim": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nitrofurantoin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "metronidazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "clindamycin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "vancomycin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fluconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "itraconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ketoconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "voriconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "posaconazole": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "terbinafine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "valacyclovir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "acyclovir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "oseltamivir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nirmatrelvir-ritonavir": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "ritonavir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "atazanavir": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "darunavir": {
+    "tier": 5,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "rifampin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "isoniazid": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "hydroxychloroquine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "albuterol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "2 inhalers per 30 days",
+    "note": null,
+    "generic_available": true
+   },
+   "levalbuterol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ipratropium": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "ipratropium-albuterol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tiotropium": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "umeclidinium-vilanterol": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "fluticasone-salmeterol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "budesonide-formoterol": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "fluticasone-vilanterol": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "fluticasone-umeclidinium-vilanterol": {
+    "tier": 3,
+    "pa": false,
+    "st": false,
+    "ql": true,
+    "ql_detail": "1 inhaler per 30 days",
+    "note": null,
+    "generic_available": false
+   },
+   "fluticasone": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "budesonide": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "mometasone": {
+    "tier": 4,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": false
+   },
+   "montelukast": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "roflumilast": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "benzonatate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "theophylline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "varenicline": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "nicotine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "allopurinol": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "febuxostat": {
+    "tier": 2,
+    "pa": false,
+    "st": true,
+    "ql": false,
+    "ql_detail": null,
+    "note": "Step therapy: try allopurinol first.",
+    "generic_available": false
+   },
+   "colchicine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "methotrexate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "azathioprine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "mercaptopurine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cyclosporine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tacrolimus": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "mycophenolate": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "oxybutynin": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "tolterodine": {
+    "tier": 2,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "finasteride": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "cyanocobalamin": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   },
+   "folic acid": {
+    "tier": 1,
+    "pa": false,
+    "st": false,
+    "ql": false,
+    "ql_detail": null,
+    "note": null,
+    "generic_available": true
+   }
+  }
+ },
+ "not_covered": {
+  "heparin": "Usually given in a clinic or hospital: Part B or Part A, not Part D.",
+  "aspirin": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "acetaminophen": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "tranylcypromine": "Not on this sample formulary.",
+  "isocarboxazid": "Not on this sample formulary.",
+  "methylene blue": "Hospital use: Part A or B.",
+  "dextromethorphan": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "st johns wort": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "ergotamine": "Not on this sample formulary.",
+  "diphenhydramine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "acetaminophen-diphenhydramine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "ibuprofen-diphenhydramine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "chlorpheniramine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "doxylamine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "cetirizine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "loratadine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "fexofenadine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "thioridazine": "Not on this sample formulary.",
+  "pseudoephedrine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "phenylephrine": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "vardenafil": "Part D excludes drugs used for erectile dysfunction.",
+  "rosiglitazone": "Not on this sample formulary.",
+  "insulin detemir": "Discontinued in the US.",
+  "calcium carbonate": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "ferrous sulfate": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "magnesium oxide": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "aluminum hydroxide-magnesium hydroxide": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "loperamide": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "polyethylene glycol 3350": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "docusate": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "senna": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "penicillin g benzathine": "Injection given in the office: usually Part B.",
+  "piperacillin-tazobactam": "Infusion: usually Part A or B.",
+  "ceftriaxone": "Injection given in the office: usually Part B.",
+  "cefazolin": "Injection given in a clinic or hospital: usually Part B or A.",
+  "guaifenesin": "Over-the-counter product: Part D excludes most non-prescription drugs.",
+  "irinotecan": "Given in a clinic or infusion center: covered under Part B, not Part D.",
+  "procarbazine": "Not on this sample formulary.",
+  "cholecalciferol": "Over-the-counter product: Part D excludes most non-prescription drugs."
+ }
+}

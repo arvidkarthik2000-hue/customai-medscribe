@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Ad slot preview · CustomAi MedScribe</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <main class="page page-narrow">
+    <div class="page-title">
+      <div>
+        <div class="eyebrow">QA tool · no patient data on this page</div>
+        <h1>Ad slot preview</h1>
+      </div>
+    </div>
+    <p class="muted">Mounts each sponsored slot for the demo prescriber, exactly as the doctor app does. Impressions count as test traffic and show up on the console's live feed.</p>
+    <div class="row-wrap" style="margin: 12px 0 20px">
+      <label class="label" for="spec">Practice specialty</label>
+      <select class="select" id="spec" style="width:auto">
+        <option value="family_medicine">Family medicine</option>
+        <option value="internal_medicine">Internal medicine</option>
+        <option value="cardiology">Cardiology</option>
+        <option value="endocrinology">Endocrinology</option>
+        <option value="pulmonology">Pulmonology</option>
+      </select>
+      <label class="label" for="state">State</label>
+      <select class="select" id="state" style="width:auto">
+        <option>NJ</option><option>NY</option><option>PA</option><option>TX</option><option>FL</option><option>IL</option>
+      </select>
+      <button class="btn btn-primary" id="mount" type="button">Mount slots</button>
+      <button class="btn" id="unmount" type="button">Unmount all</button>
+      <button class="btn" id="tray" type="button">Open resources tray</button>
+    </div>
+    <div class="grid grid-3">
+      <section class="stack"><h4>Schedule card</h4><div id="s1"></div></section>
+      <section class="stack"><h4>Note-drafting wait</h4><div id="s2"></div></section>
+      <section class="stack"><h4>Post-sign card</h4><div id="s3"></div></section>
+    </div>
+    <p class="note muted" id="status" style="margin-top:16px"></p>
+  </main>
+  <script type="module" src="/ads/preview.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+{
+ "version": "2026-11-03",
+ "note": "Reminders computed from age and sex only; confirm what has already been done in the record.",
+ "sources": {
+  "uspstf": {
+   "label": "USPSTF A and B recommendations",
+   "url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics/uspstf-a-and-b-recommendations"
+  },
+  "cdc": {
+   "label": "CDC adult immunization schedule",
+   "url": "https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-age.html"
+  }
+ },
+ "items": [
+  {
+   "id": "crc",
+   "name": "Colorectal cancer screening",
+   "min_age": 45,
+   "max_age": 75,
+   "sex": null,
+   "source": "uspstf",
+   "detail": "Adults 45–75 (USPSTF A for 50–75, B for 45–49, May 2021)."
+  },
+  {
+   "id": "breast",
+   "name": "Breast cancer screening",
+   "min_age": 40,
+   "max_age": 74,
+   "sex": "F",
+   "source": "uspstf",
+   "detail": "Biennial mammography for women 40–74 (USPSTF B, April 2024)."
+  },
+  {
+   "id": "cervical",
+   "name": "Cervical cancer screening",
+   "min_age": 21,
+   "max_age": 65,
+   "sex": "F",
+   "source": "uspstf",
+   "detail": "Cytology every 3 years from 21; from 30, hrHPV every 5 years or cotesting (USPSTF A, August 2018)."
+  },
+  {
+   "id": "lung",
+   "name": "Lung cancer screening",
+   "min_age": 50,
+   "max_age": 80,
+   "sex": null,
+   "source": "uspstf",
+   "requires": "smoking",
+   "detail": "Annual low-dose CT for adults 50–80 with a 20 pack-year history who smoke or quit within 15 years (USPSTF B, March 2021)."
+  },
+  {
+   "id": "aaa",
+   "name": "Abdominal aortic aneurysm screening",
+   "min_age": 65,
+   "max_age": 75,
+   "sex": "M",
+   "source": "uspstf",
+   "requires": "ever_smoked",
+   "detail": "One-time ultrasound for men 65–75 who have ever smoked (USPSTF B, December 2019)."
+  },
+  {
+   "id": "diabetes",
+   "name": "Prediabetes and type 2 diabetes screening",
+   "min_age": 35,
+   "max_age": 70,
+   "sex": null,
+   "source": "uspstf",
+   "requires": "overweight",
+   "detail": "Adults 35–70 with overweight or obesity (USPSTF B, August 2021)."
+  },
+  {
+   "id": "osteoporosis",
+   "name": "Osteoporosis screening",
+   "min_age": 65,
+   "max_age": null,
+   "sex": "F",
+   "source": "uspstf",
+   "detail": "Women 65 and older (USPSTF B, January 2025)."
+  },
+  {
+   "id": "hcv",
+   "name": "Hepatitis C screening (once)",
+   "min_age": 18,
+   "max_age": 79,
+   "sex": null,
+   "source": "uspstf",
+   "detail": "Adults 18–79 (USPSTF B, March 2020)."
+  },
+  {
+   "id": "hiv",
+   "name": "HIV screening",
+   "min_age": 15,
+   "max_age": 65,
+   "sex": null,
+   "source": "uspstf",
+   "detail": "Adolescents and adults 15–65 (USPSTF A, June 2019)."
+  },
+  {
+   "id": "influenza",
+   "name": "Influenza vaccine",
+   "min_age": 19,
+   "max_age": null,
+   "sex": null,
+   "source": "cdc",
+   "detail": "One dose every season for all adults."
+  },
+  {
+   "id": "tdap",
+   "name": "Tdap/Td booster",
+   "min_age": 19,
+   "max_age": null,
+   "sex": null,
+   "source": "cdc",
+   "detail": "Tdap once, then Td or Tdap every 10 years."
+  },
+  {
+   "id": "zoster",
+   "name": "Recombinant zoster vaccine",
+   "min_age": 50,
+   "max_age": null,
+   "sex": null,
+   "source": "cdc",
+   "detail": "Two doses for adults 50 and older."
+  },
+  {
+   "id": "pneumococcal",
+   "name": "Pneumococcal vaccine",
+   "min_age": 50,
+   "max_age": null,
+   "sex": null,
+   "source": "cdc",
+   "detail": "Adults 50 and older (PCV20 or PCV21 alone, or PCV15 followed by PPSV23)."
+  },
+  {
+   "id": "rsv",
+   "name": "RSV vaccine",
+   "min_age": 75,
+   "max_age": null,
+   "sex": null,
+   "source": "cdc",
+   "detail": "Adults 75 and older; also 50–74 at increased risk."
+  }
+ ]
+}

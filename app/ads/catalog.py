@@ -139,7 +139,7 @@ BRANDS = [
         "risks": "BOXED WARNING (fictional): risk of thyroid C-cell tumors. Serious risks include pancreatitis and gallbladder problems.",
     },
     {
-        "id": "b-vaxcendra", "name": "Vaxcendra", "generic": "adult respiratory vaccine (fictional)", "category": "Adult immunization",
+        "id": "b-vaxcendra", "name": "Vaxcendra", "generic": "adult respiratory vaccine", "category": "Adult immunization",
         "company": "Wrenfield Laboratories", "boxed_warning": False, "color": "#3f6b9a", "motif": "shield",
         "indication": "a vaccine for adults 60 and older (fictional)",
         "claim": "Single-dose vaccine studied in adults 60 and older (fictional).",

@@ -21,7 +21,7 @@ from ..config import settings
 from . import catalog, db
 from .creative_art import brand_art  # noqa: F401  (imported so artwork errors surface at seed time)
 
-SEED_VERSION = "4"
+SEED_VERSION = "5"
 RNG_SEED = 20261103
 HISTORY_DAYS = 30
 

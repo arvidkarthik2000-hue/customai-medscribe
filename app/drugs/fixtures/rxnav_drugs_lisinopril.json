@@ -1,0 +1,7 @@
+{"drugGroup": {"name": "lisinopril", "conceptGroup": [
+  {"tty": "SBD", "conceptProperties": [{"rxcui": "206765", "name": "lisinopril 20 MG Oral Tablet [Zestril]", "synonym": "Zestril 20 MG Oral Tablet", "tty": "SBD", "language": "ENG", "suppress": "N", "umlscui": ""}]},
+  {"tty": "SCD", "conceptProperties": [
+    {"rxcui": "314076", "name": "lisinopril 10 MG Oral Tablet", "synonym": "", "tty": "SCD", "language": "ENG", "suppress": "N", "umlscui": ""},
+    {"rxcui": "314077", "name": "lisinopril 20 MG Oral Tablet", "synonym": "", "tty": "SCD", "language": "ENG", "suppress": "N", "umlscui": ""}
+  ]}
+]}}

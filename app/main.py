@@ -134,6 +134,18 @@ from .drugs.routes import router as drugs_router  # noqa: E402
 from .ads.app import app as ads_app  # noqa: E402
 
 app.include_router(clinical_router, prefix="/api")
+
+
+@app.on_event("startup")
+def _warm_ad_zone() -> None:
+    # Mounted sub-apps get no startup events of their own; seed the ad zone now
+    # so the first sponsored slot isn't slowed by the one-off seeding.
+    try:
+        startup = getattr(__import__("app.ads.app", fromlist=["startup"]), "startup", None)
+        if callable(startup):
+            startup()
+    except Exception as exc:  # never block the clinical zone on the ad zone
+        log.warning("ad zone warm-up failed: %s", exc)
 app.include_router(drugs_router, prefix="/api")
 app.mount("/adzone", ads_app)
 

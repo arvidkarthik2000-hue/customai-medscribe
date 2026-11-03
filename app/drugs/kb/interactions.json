@@ -1,0 +1,2712 @@
+{
+ "version": "2026-11-03",
+ "grading": "Demo grading, pending pharmacist review",
+ "rules": [
+  {
+   "id": "onc-stimulant-maoi",
+   "all": [
+    {
+     "classes": [
+      "amphetamine_like"
+     ]
+    },
+    {
+     "classes": [
+      "maoi"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Stimulant with an MAO inhibitor",
+   "effect": "Risk of hypertensive crisis.",
+   "management": "Do not combine. Stimulant labels contraindicate use during or within 14 days after stopping an MAOI. (The ONC panel notes low-dose selegiline is MAO-B selective.)",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: amphetamine-dextroamphetamine, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=amphetamine-dextroamphetamine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-atazanavir-ppi",
+   "all": [
+    {
+     "drugs": [
+      "atazanavir"
+     ]
+    },
+    {
+     "classes": [
+      "ppi"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Atazanavir with a proton pump inhibitor",
+   "effect": "PPIs sharply reduce atazanavir absorption, risking loss of virologic response and resistance.",
+   "management": "Avoid the combination; follow the atazanavir label for the narrow exceptions.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: atazanavir, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=atazanavir"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-febuxostat-thiopurine",
+   "all": [
+    {
+     "drugs": [
+      "febuxostat"
+     ]
+    },
+    {
+     "classes": [
+      "thiopurine"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Febuxostat with azathioprine or mercaptopurine",
+   "effect": "Xanthine oxidase inhibition raises thiopurine levels and can cause severe bone-marrow suppression.",
+   "management": "Contraindicated per the febuxostat label.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: febuxostat, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=febuxostat"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-serotonergic-maoi",
+   "all": [
+    {
+     "classes": [
+      "ssri",
+      "snri",
+      "serotonergic"
+     ]
+    },
+    {
+     "classes": [
+      "maoi",
+      "maoi_like"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Serotonergic drug with an MAO inhibitor",
+   "effect": "Risk of serotonin syndrome (agitation, hyperthermia, clonus, autonomic instability), which can be fatal. Linezolid and methylene blue also inhibit MAO.",
+   "management": "Do not combine. Labels require a washout (generally 14 days; 5 weeks after fluoxetine).",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: sertraline, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sertraline"
+    },
+    {
+     "label": "FDA label: linezolid, Warnings and Precautions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=linezolid"
+    }
+   ],
+   "group": "serotonin",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-irinotecan-cyp3a4",
+   "all": [
+    {
+     "drugs": [
+      "irinotecan"
+     ]
+    },
+    {
+     "classes": [
+      "strong_cyp3a4_inhibitor"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Irinotecan with a strong CYP3A4 inhibitor",
+   "effect": "Raises exposure to irinotecan's active metabolite, with severe diarrhea and neutropenia.",
+   "management": "Avoid; the irinotecan label advises stopping strong CYP3A4 inhibitors at least 1 week before therapy.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: irinotecan, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=irinotecan"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-opioid-maoi",
+   "all": [
+    {
+     "classes": [
+      "opioid"
+     ]
+    },
+    {
+     "classes": [
+      "maoi"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Opioid with an MAO inhibitor",
+   "effect": "Risk of serotonin syndrome or opioid toxicity (respiratory depression, coma).",
+   "management": "Avoid; several opioid labels (for example meperidine, tramadol, methadone) contraindicate use with or within 14 days of an MAOI.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: tramadol, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tramadol"
+    }
+   ],
+   "group": "serotonin",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-tca-maoi",
+   "all": [
+    {
+     "classes": [
+      "tca"
+     ]
+    },
+    {
+     "classes": [
+      "maoi"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Tricyclic antidepressant with an MAO inhibitor",
+   "effect": "Risk of serotonin syndrome and hypertensive reactions.",
+   "management": "Do not combine; observe the label washout periods.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: amitriptyline, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=amitriptyline"
+    }
+   ],
+   "group": "serotonin",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-qt-high",
+   "all": [
+    {
+     "classes": [
+      "qt_high"
+     ]
+    },
+    {
+     "classes": [
+      "qt_high"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Two high-risk QT-prolonging drugs",
+   "effect": "Additive QT prolongation with a risk of torsades de pointes and sudden cardiac death.",
+   "management": "Avoid the combination where possible. If both are needed, get a baseline ECG, correct potassium and magnesium, and monitor the QTc.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: amiodarone, Warnings and Precautions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=amiodarone"
+    }
+   ],
+   "group": "qt",
+   "category": "qt",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-ramelteon-cyp1a2",
+   "all": [
+    {
+     "drugs": [
+      "ramelteon"
+     ]
+    },
+    {
+     "drugs": [
+      "fluvoxamine",
+      "amiodarone",
+      "ciprofloxacin"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Ramelteon with a strong CYP1A2 inhibitor",
+   "effect": "Markedly higher ramelteon levels and excess sedation.",
+   "management": "Avoid; the ramelteon label says not to use with fluvoxamine.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: ramelteon, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ramelteon"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-inducer-protease",
+   "all": [
+    {
+     "classes": [
+      "strong_cyp3a4_inducer"
+     ]
+    },
+    {
+     "classes": [
+      "protease_inhibitor"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Strong CYP3A4 inducer with a protease inhibitor",
+   "effect": "Loss of antiviral effect and risk of resistance.",
+   "management": "Do not combine; check the antiviral's label for contraindicated inducers.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: ritonavir, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ritonavir"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-simva-lova-cyp3a4",
+   "all": [
+    {
+     "drugs": [
+      "simvastatin",
+      "lovastatin"
+     ]
+    },
+    {
+     "drugs": [
+      "erythromycin",
+      "cyclosporine"
+     ],
+     "classes": [
+      "strong_cyp3a4_inhibitor",
+      "protease_inhibitor"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Simvastatin or lovastatin with a strong CYP3A4 inhibitor",
+   "effect": "Large rise in statin levels: myopathy and rhabdomyolysis.",
+   "management": "Contraindicated per the simvastatin label (clarithromycin, erythromycin, azole antifungals, HIV protease inhibitors, cyclosporine and others). Hold the statin during a short antibiotic course or choose a non-interacting antibiotic.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: simvastatin, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=simvastatin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-ergot-cyp3a4",
+   "all": [
+    {
+     "classes": [
+      "ergot"
+     ]
+    },
+    {
+     "classes": [
+      "strong_cyp3a4_inhibitor",
+      "protease_inhibitor"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Ergot alkaloid with a strong CYP3A4 inhibitor",
+   "effect": "Ergotism: severe vasospasm with limb or cerebral ischemia (boxed warning).",
+   "management": "Contraindicated.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: ergotamine, Boxed Warning",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ergotamine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-tizanidine-cyp1a2",
+   "all": [
+    {
+     "drugs": [
+      "tizanidine"
+     ]
+    },
+    {
+     "classes": [
+      "cyp1a2_strong_inhibitor"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Tizanidine with a CYP1A2 inhibitor",
+   "effect": "Tizanidine levels rise many-fold: severe hypotension, bradycardia and sedation.",
+   "management": "Contraindicated with ciprofloxacin and fluvoxamine; avoid other CYP1A2 inhibitors (tizanidine label).",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: tizanidine, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tizanidine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-tranylcypromine-procarbazine",
+   "all": [
+    {
+     "drugs": [
+      "tranylcypromine"
+     ]
+    },
+    {
+     "drugs": [
+      "procarbazine"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Tranylcypromine with procarbazine",
+   "effect": "Additive MAO inhibition: hypertensive crisis.",
+   "management": "Do not combine.",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: procarbazine, Warnings",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=procarbazine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "onc-triptan-maoi",
+   "all": [
+    {
+     "drugs": [
+      "sumatriptan",
+      "rizatriptan",
+      "zolmitriptan"
+     ]
+    },
+    {
+     "classes": [
+      "maoi"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": true,
+   "title": "Triptan with an MAO inhibitor",
+   "effect": "MAO-A inhibitors raise sumatriptan, rizatriptan and zolmitriptan levels; serotonin toxicity.",
+   "management": "Contraindicated (triptan labels).",
+   "sources": [
+    {
+     "label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"
+    },
+    {
+     "label": "FDA label: sumatriptan, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sumatriptan"
+    }
+   ],
+   "group": "serotonin",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "anticoag-nsaid",
+   "all": [
+    {
+     "classes": [
+      "anticoagulant"
+     ]
+    },
+    {
+     "classes": [
+      "nsaid"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Anticoagulant with an NSAID",
+   "effect": "Higher risk of serious bleeding, especially gastrointestinal.",
+   "management": "Avoid if possible; acetaminophen is usually preferred for pain. If an NSAID is needed, use the shortest course, consider GI protection, and monitor for bleeding (and INR with warfarin).",
+   "sources": [
+    {
+     "label": "FDA label: warfarin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=warfarin"
+    },
+    {
+     "label": "FDA label: ibuprofen, Warnings and Precautions: bleeding",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ibuprofen"
+    }
+   ],
+   "group": "bleeding",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "anticoag-antiplatelet",
+   "all": [
+    {
+     "classes": [
+      "anticoagulant"
+     ]
+    },
+    {
+     "classes": [
+      "antiplatelet"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Anticoagulant with an antiplatelet",
+   "effect": "Additive bleeding risk.",
+   "management": "Confirm there is a current indication for both and how long the combination should last.",
+   "sources": [
+    {
+     "label": "FDA label: apixaban, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=apixaban"
+    },
+    {
+     "label": "FDA label: aspirin, Warnings",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=aspirin"
+    }
+   ],
+   "group": "bleeding",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "anticoag-anticoag-ssri",
+   "all": [
+    {
+     "classes": [
+      "anticoagulant"
+     ]
+    },
+    {
+     "classes": [
+      "ssri",
+      "snri"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "Anticoagulant with an SSRI or SNRI",
+   "effect": "SSRIs and SNRIs impair platelet function and add to bleeding risk.",
+   "management": "Monitor for bleeding.",
+   "sources": [
+    {
+     "label": "FDA label: sertraline, Warnings and Precautions: abnormal bleeding",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sertraline"
+    }
+   ],
+   "group": "bleeding",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "antiplatelet-nsaid",
+   "all": [
+    {
+     "classes": [
+      "antiplatelet"
+     ]
+    },
+    {
+     "classes": [
+      "nsaid"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Antiplatelet with an NSAID",
+   "effect": "Higher risk of GI bleeding; ibuprofen can blunt aspirin's antiplatelet effect.",
+   "management": "Avoid regular NSAID use where possible; if needed, consider GI protection. With low-dose aspirin, take ibuprofen at least 30 minutes after immediate-release aspirin or 8 hours before.",
+   "sources": [
+    {
+     "label": "FDA label: ibuprofen, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ibuprofen"
+    },
+    {
+     "label": "FDA label: clopidogrel, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=clopidogrel"
+    }
+   ],
+   "group": "bleeding",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "nsaid-ssri",
+   "all": [
+    {
+     "classes": [
+      "nsaid"
+     ]
+    },
+    {
+     "classes": [
+      "ssri",
+      "snri"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "NSAID with an SSRI or SNRI",
+   "effect": "Increased risk of GI bleeding.",
+   "management": "Consider GI protection for longer courses.",
+   "sources": [
+    {
+     "label": "FDA label: sertraline, Warnings and Precautions: abnormal bleeding",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sertraline"
+    }
+   ],
+   "group": "bleeding",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "warfarin-azole",
+   "all": [
+    {
+     "drugs": [
+      "warfarin"
+     ]
+    },
+    {
+     "classes": [
+      "azole_antifungal"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Warfarin with an azole antifungal",
+   "effect": "Azoles (notably fluconazole) inhibit warfarin metabolism: INR rise and bleeding.",
+   "management": "Avoid if possible; otherwise check INR within a few days of starting and adjust warfarin.",
+   "sources": [
+    {
+     "label": "FDA label: warfarin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=warfarin"
+    },
+    {
+     "label": "FDA label: fluconazole, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=fluconazole"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "warfarin-amiodarone",
+   "all": [
+    {
+     "drugs": [
+      "warfarin"
+     ]
+    },
+    {
+     "drugs": [
+      "amiodarone"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Warfarin with amiodarone",
+   "effect": "Amiodarone inhibits warfarin metabolism; the INR rises over weeks.",
+   "management": "Monitor INR closely when starting or changing amiodarone; warfarin doses usually need reducing.",
+   "sources": [
+    {
+     "label": "FDA label: warfarin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=warfarin"
+    },
+    {
+     "label": "FDA label: amiodarone, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=amiodarone"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "warfarin-tmpsmx",
+   "all": [
+    {
+     "drugs": [
+      "warfarin"
+     ]
+    },
+    {
+     "drugs": [
+      "sulfamethoxazole-trimethoprim"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Warfarin with sulfamethoxazole-trimethoprim",
+   "effect": "CYP2C9 inhibition raises the INR; bleeding risk.",
+   "management": "Prefer another antibiotic if possible; otherwise check INR within 3–5 days.",
+   "sources": [
+    {
+     "label": "FDA label: warfarin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=warfarin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "warfarin-metronidazole",
+   "all": [
+    {
+     "drugs": [
+      "warfarin"
+     ]
+    },
+    {
+     "drugs": [
+      "metronidazole"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Warfarin with metronidazole",
+   "effect": "Metronidazole inhibits warfarin metabolism: INR rise and bleeding.",
+   "management": "Avoid if possible; otherwise monitor INR closely.",
+   "sources": [
+    {
+     "label": "FDA label: warfarin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=warfarin"
+    },
+    {
+     "label": "FDA label: metronidazole, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=metronidazole"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "warfarin-fluoroquinolone",
+   "all": [
+    {
+     "drugs": [
+      "warfarin"
+     ]
+    },
+    {
+     "classes": [
+      "fluoroquinolone"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "Warfarin with a fluoroquinolone",
+   "effect": "Fluoroquinolones can raise the INR.",
+   "management": "Check INR during the course.",
+   "sources": [
+    {
+     "label": "FDA label: ciprofloxacin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ciprofloxacin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "anticoag-inducer",
+   "all": [
+    {
+     "classes": [
+      "vka",
+      "doac"
+     ]
+    },
+    {
+     "classes": [
+      "strong_cyp3a4_inducer"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Anticoagulant with a strong enzyme inducer",
+   "effect": "Lower anticoagulant levels and loss of stroke or clot protection.",
+   "management": "DOAC labels advise avoiding combined P-gp and strong CYP3A4 inducers (rifampin, carbamazepine, phenytoin, St John's wort); with warfarin, monitor INR closely.",
+   "sources": [
+    {
+     "label": "FDA label: apixaban, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=apixaban"
+    },
+    {
+     "label": "FDA label: rivaroxaban, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=rivaroxaban"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "doac-strong-inhibitor",
+   "all": [
+    {
+     "drugs": [
+      "apixaban",
+      "rivaroxaban"
+     ]
+    },
+    {
+     "drugs": [
+      "ketoconazole",
+      "itraconazole",
+      "ritonavir",
+      "nirmatrelvir-ritonavir"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Apixaban or rivaroxaban with a combined strong CYP3A4 and P-gp inhibitor",
+   "effect": "Higher anticoagulant levels and bleeding risk.",
+   "management": "Follow the DOAC label: rivaroxaban, avoid; apixaban, the label calls for a dose change or avoidance depending on the current dose.",
+   "sources": [
+    {
+     "label": "FDA label: apixaban, Dosage and Administration",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=apixaban"
+    },
+    {
+     "label": "FDA label: rivaroxaban, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=rivaroxaban"
+    }
+   ],
+   "group": "bleeding",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "ketorolac-nsaid",
+   "all": [
+    {
+     "drugs": [
+      "ketorolac"
+     ]
+    },
+    {
+     "drugs": [
+      "aspirin"
+     ],
+     "classes": [
+      "nsaid"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Ketorolac with another NSAID or aspirin",
+   "effect": "Cumulative risk of serious NSAID adverse effects (bleeding, kidney injury).",
+   "management": "Contraindicated per the ketorolac label.",
+   "sources": [
+    {
+     "label": "FDA label: ketorolac, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ketorolac"
+    }
+   ],
+   "group": "bleeding",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "simva-gemfibrozil",
+   "all": [
+    {
+     "drugs": [
+      "simvastatin",
+      "lovastatin"
+     ]
+    },
+    {
+     "drugs": [
+      "gemfibrozil"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Simvastatin or lovastatin with gemfibrozil",
+   "effect": "Myopathy and rhabdomyolysis.",
+   "management": "Contraindicated with simvastatin; avoid with lovastatin.",
+   "sources": [
+    {
+     "label": "FDA label: simvastatin, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=simvastatin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "statin-gemfibrozil",
+   "all": [
+    {
+     "classes": [
+      "statin"
+     ]
+    },
+    {
+     "drugs": [
+      "gemfibrozil"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Statin with gemfibrozil",
+   "effect": "Higher risk of myopathy and rhabdomyolysis.",
+   "management": "Avoid; if a fibrate is needed, fenofibrate interacts less.",
+   "sources": [
+    {
+     "label": "FDA label: rosuvastatin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=rosuvastatin"
+    },
+    {
+     "label": "FDA label: atorvastatin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=atorvastatin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "simva-10mg-limit",
+   "all": [
+    {
+     "drugs": [
+      "simvastatin"
+     ]
+    },
+    {
+     "drugs": [
+      "verapamil",
+      "diltiazem",
+      "dronedarone"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Simvastatin with verapamil, diltiazem or dronedarone",
+   "effect": "Higher simvastatin levels; myopathy risk.",
+   "management": "The simvastatin label says not to exceed 10 mg daily with these drugs.",
+   "sources": [
+    {
+     "label": "FDA label: simvastatin, Dosage and Administration",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=simvastatin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": {
+    "drug": "simvastatin",
+    "max_mg_per_day": 10
+   }
+  },
+  {
+   "id": "simva-20mg-limit",
+   "all": [
+    {
+     "drugs": [
+      "simvastatin"
+     ]
+    },
+    {
+     "drugs": [
+      "amiodarone",
+      "amlodipine",
+      "ranolazine"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Simvastatin with amiodarone, amlodipine or ranolazine",
+   "effect": "Higher simvastatin levels; myopathy risk.",
+   "management": "The simvastatin label says not to exceed 20 mg daily with these drugs.",
+   "sources": [
+    {
+     "label": "FDA label: simvastatin, Dosage and Administration",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=simvastatin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": {
+    "drug": "simvastatin",
+    "max_mg_per_day": 20
+   }
+  },
+  {
+   "id": "atorva-clarithro-itra",
+   "all": [
+    {
+     "drugs": [
+      "atorvastatin"
+     ]
+    },
+    {
+     "drugs": [
+      "clarithromycin",
+      "itraconazole"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Atorvastatin with clarithromycin or itraconazole",
+   "effect": "Higher atorvastatin levels; myopathy risk.",
+   "management": "The atorvastatin label says not to exceed 20 mg daily with these drugs.",
+   "sources": [
+    {
+     "label": "FDA label: atorvastatin, Dosage and Administration",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=atorvastatin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": {
+    "drug": "atorvastatin",
+    "max_mg_per_day": 20
+   }
+  },
+  {
+   "id": "colchicine-strong",
+   "all": [
+    {
+     "drugs": [
+      "colchicine"
+     ]
+    },
+    {
+     "drugs": [
+      "clarithromycin",
+      "ketoconazole",
+      "itraconazole",
+      "ritonavir",
+      "nirmatrelvir-ritonavir",
+      "cyclosporine",
+      "posaconazole",
+      "voriconazole"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Colchicine with a strong CYP3A4 or P-gp inhibitor",
+   "effect": "Fatal colchicine toxicity has been reported.",
+   "management": "Contraindicated in patients with renal or hepatic impairment; otherwise the colchicine label requires a dose reduction. Prefer another antibiotic or hold colchicine.",
+   "sources": [
+    {
+     "label": "FDA label: colchicine, Contraindications; Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=colchicine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "colchicine-moderate",
+   "all": [
+    {
+     "drugs": [
+      "colchicine"
+     ]
+    },
+    {
+     "drugs": [
+      "erythromycin",
+      "diltiazem",
+      "verapamil",
+      "fluconazole"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Colchicine with a moderate CYP3A4 inhibitor",
+   "effect": "Higher colchicine levels and toxicity.",
+   "management": "The colchicine label calls for a dose reduction.",
+   "sources": [
+    {
+     "label": "FDA label: colchicine, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=colchicine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "ticagrelor-strong",
+   "all": [
+    {
+     "drugs": [
+      "ticagrelor"
+     ]
+    },
+    {
+     "classes": [
+      "strong_cyp3a4_inhibitor"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Ticagrelor with a strong CYP3A4 inhibitor",
+   "effect": "Much higher ticagrelor levels; bleeding.",
+   "management": "Avoid (ticagrelor label).",
+   "sources": [
+    {
+     "label": "FDA label: ticagrelor, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ticagrelor"
+    }
+   ],
+   "group": "bleeding",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "ticagrelor-inducer",
+   "all": [
+    {
+     "drugs": [
+      "ticagrelor"
+     ]
+    },
+    {
+     "classes": [
+      "strong_cyp3a4_inducer"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Ticagrelor with a strong CYP3A4 inducer",
+   "effect": "Lower ticagrelor levels; loss of effect.",
+   "management": "Avoid (ticagrelor label).",
+   "sources": [
+    {
+     "label": "FDA label: ticagrelor, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ticagrelor"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "calcineurin-strong",
+   "all": [
+    {
+     "drugs": [
+      "tacrolimus",
+      "cyclosporine"
+     ]
+    },
+    {
+     "classes": [
+      "strong_cyp3a4_inhibitor"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Tacrolimus or cyclosporine with a strong CYP3A4 inhibitor",
+   "effect": "Large rise in immunosuppressant levels: nephrotoxicity and neurotoxicity.",
+   "management": "Avoid or monitor levels closely with the transplant team.",
+   "sources": [
+    {
+     "label": "FDA label: tacrolimus, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tacrolimus"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "calcineurin-inducer",
+   "all": [
+    {
+     "drugs": [
+      "tacrolimus",
+      "cyclosporine"
+     ]
+    },
+    {
+     "classes": [
+      "strong_cyp3a4_inducer"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Tacrolimus or cyclosporine with a strong CYP3A4 inducer",
+   "effect": "Lower immunosuppressant levels; rejection risk.",
+   "management": "Avoid or monitor levels closely.",
+   "sources": [
+    {
+     "label": "FDA label: tacrolimus, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tacrolimus"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "carbamazepine-macrolide",
+   "all": [
+    {
+     "drugs": [
+      "carbamazepine"
+     ]
+    },
+    {
+     "drugs": [
+      "clarithromycin",
+      "erythromycin"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Carbamazepine with clarithromycin or erythromycin",
+   "effect": "Carbamazepine toxicity (ataxia, dizziness, hyponatremia).",
+   "management": "Prefer azithromycin or another antibiotic; otherwise monitor levels.",
+   "sources": [
+    {
+     "label": "FDA label: carbamazepine, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=carbamazepine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "eplerenone-strong",
+   "all": [
+    {
+     "drugs": [
+      "eplerenone"
+     ]
+    },
+    {
+     "classes": [
+      "strong_cyp3a4_inhibitor"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Eplerenone with a strong CYP3A4 inhibitor",
+   "effect": "Much higher eplerenone levels and hyperkalemia.",
+   "management": "Contraindicated (eplerenone label).",
+   "sources": [
+    {
+     "label": "FDA label: eplerenone, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=eplerenone"
+    }
+   ],
+   "group": "hyperkalemia",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "pde5-nitrate",
+   "all": [
+    {
+     "classes": [
+      "pde5"
+     ]
+    },
+    {
+     "classes": [
+      "nitrate"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "PDE5 inhibitor with a nitrate",
+   "effect": "Severe, potentially fatal hypotension.",
+   "management": "Contraindicated. Do not give a nitrate within 24 hours of sildenafil or 48 hours of tadalafil.",
+   "sources": [
+    {
+     "label": "FDA label: sildenafil, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sildenafil"
+    },
+    {
+     "label": "FDA label: tadalafil, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tadalafil"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "riociguat-pde5-nitrate",
+   "all": [
+    {
+     "drugs": [
+      "riociguat"
+     ]
+    },
+    {
+     "classes": [
+      "pde5",
+      "nitrate"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Riociguat with a PDE5 inhibitor or nitrate",
+   "effect": "Severe hypotension.",
+   "management": "Contraindicated (riociguat label).",
+   "sources": [
+    {
+     "label": "FDA label: riociguat, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=riociguat"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "pde5-alpha",
+   "all": [
+    {
+     "classes": [
+      "pde5"
+     ]
+    },
+    {
+     "classes": [
+      "alpha_blocker"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "PDE5 inhibitor with an alpha-blocker",
+   "effect": "Additive blood-pressure lowering; dizziness or fainting.",
+   "management": "Start the PDE5 inhibitor at the lowest dose once the alpha-blocker is stable.",
+   "sources": [
+    {
+     "label": "FDA label: tadalafil, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tadalafil"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "mtx-tmp",
+   "all": [
+    {
+     "drugs": [
+      "methotrexate"
+     ]
+    },
+    {
+     "drugs": [
+      "sulfamethoxazole-trimethoprim",
+      "trimethoprim"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Methotrexate with trimethoprim",
+   "effect": "Additive folate antagonism and reduced methotrexate clearance: pancytopenia, sometimes fatal.",
+   "management": "Avoid; choose another antibiotic.",
+   "sources": [
+    {
+     "label": "FDA label: methotrexate, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=methotrexate"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "mtx-nsaid",
+   "all": [
+    {
+     "drugs": [
+      "methotrexate"
+     ]
+    },
+    {
+     "classes": [
+      "nsaid"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "Methotrexate with an NSAID",
+   "effect": "NSAIDs can reduce methotrexate clearance; most serious with high-dose methotrexate.",
+   "management": "With low-dose weekly methotrexate, monitor blood counts and kidney function.",
+   "sources": [
+    {
+     "label": "FDA label: methotrexate, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=methotrexate"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "allopurinol-thiopurine",
+   "all": [
+    {
+     "drugs": [
+      "allopurinol"
+     ]
+    },
+    {
+     "classes": [
+      "thiopurine"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Allopurinol with azathioprine or mercaptopurine",
+   "effect": "Allopurinol blocks thiopurine breakdown: severe bone-marrow suppression.",
+   "management": "The allopurinol label calls for reducing the azathioprine or mercaptopurine dose to one-third to one-quarter of usual, with close blood-count monitoring; consider an alternative.",
+   "sources": [
+    {
+     "label": "FDA label: allopurinol, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=allopurinol"
+    },
+    {
+     "label": "FDA label: azathioprine, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=azathioprine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "lithium-nsaid",
+   "all": [
+    {
+     "classes": [
+      "lithium_class"
+     ]
+    },
+    {
+     "classes": [
+      "nsaid"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Lithium with an NSAID",
+   "effect": "NSAIDs raise lithium levels: toxicity (tremor, confusion, arrhythmia).",
+   "management": "Avoid or check lithium levels within about 5 days.",
+   "sources": [
+    {
+     "label": "FDA label: lithium, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lithium"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "lithium-raas",
+   "all": [
+    {
+     "classes": [
+      "lithium_class"
+     ]
+    },
+    {
+     "classes": [
+      "acei",
+      "arb",
+      "arni"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Lithium with an ACE inhibitor or ARB",
+   "effect": "Reduced lithium clearance: toxicity.",
+   "management": "Monitor lithium levels closely after starting or changing the dose.",
+   "sources": [
+    {
+     "label": "FDA label: lithium, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lithium"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "lithium-thiazide",
+   "all": [
+    {
+     "classes": [
+      "lithium_class"
+     ]
+    },
+    {
+     "classes": [
+      "thiazide"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Lithium with a thiazide diuretic",
+   "effect": "Thiazides reduce lithium clearance: toxicity.",
+   "management": "Avoid or monitor lithium levels closely.",
+   "sources": [
+    {
+     "label": "FDA label: lithium, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lithium"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "digoxin-amiodarone",
+   "all": [
+    {
+     "drugs": [
+      "digoxin"
+     ]
+    },
+    {
+     "drugs": [
+      "amiodarone",
+      "dronedarone"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Digoxin with amiodarone or dronedarone",
+   "effect": "Higher digoxin levels: bradycardia, heart block, toxicity.",
+   "management": "The digoxin label advises measuring levels and reducing the digoxin dose when starting these drugs.",
+   "sources": [
+    {
+     "label": "FDA label: digoxin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=digoxin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "digoxin-ccb",
+   "all": [
+    {
+     "drugs": [
+      "digoxin"
+     ]
+    },
+    {
+     "drugs": [
+      "verapamil",
+      "diltiazem"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Digoxin with verapamil or diltiazem",
+   "effect": "Higher digoxin levels and additive AV-node slowing.",
+   "management": "Monitor heart rate and digoxin levels.",
+   "sources": [
+    {
+     "label": "FDA label: digoxin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=digoxin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "digoxin-clarithromycin",
+   "all": [
+    {
+     "drugs": [
+      "digoxin"
+     ]
+    },
+    {
+     "drugs": [
+      "clarithromycin",
+      "itraconazole"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Digoxin with clarithromycin or itraconazole",
+   "effect": "P-gp inhibition raises digoxin levels.",
+   "management": "Monitor digoxin levels and symptoms.",
+   "sources": [
+    {
+     "label": "FDA label: digoxin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=digoxin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "dofetilide-contra",
+   "all": [
+    {
+     "drugs": [
+      "dofetilide"
+     ]
+    },
+    {
+     "drugs": [
+      "verapamil",
+      "hydrochlorothiazide",
+      "triamterene-hydrochlorothiazide",
+      "trimethoprim",
+      "sulfamethoxazole-trimethoprim",
+      "cimetidine",
+      "ketoconazole",
+      "prochlorperazine"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Dofetilide with a contraindicated drug",
+   "effect": "Higher dofetilide levels or hypokalemia: torsades de pointes.",
+   "management": "Contraindicated (dofetilide label).",
+   "sources": [
+    {
+     "label": "FDA label: dofetilide, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=dofetilide"
+    }
+   ],
+   "group": "qt",
+   "category": "qt",
+   "dose_limit": null
+  },
+  {
+   "id": "arni-acei",
+   "all": [
+    {
+     "classes": [
+      "arni"
+     ]
+    },
+    {
+     "classes": [
+      "acei"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Sacubitril/valsartan with an ACE inhibitor",
+   "effect": "High risk of angioedema.",
+   "management": "Contraindicated. Stop the ACE inhibitor at least 36 hours before starting sacubitril/valsartan.",
+   "sources": [
+    {
+     "label": "FDA label: sacubitril-valsartan, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sacubitril-valsartan"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "arni-arb",
+   "all": [
+    {
+     "classes": [
+      "arni"
+     ]
+    },
+    {
+     "classes": [
+      "arb"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Sacubitril/valsartan with an ARB",
+   "effect": "Sacubitril/valsartan already contains valsartan: duplicate angiotensin blockade.",
+   "management": "Do not combine (label).",
+   "sources": [
+    {
+     "label": "FDA label: sacubitril-valsartan, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sacubitril-valsartan"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "acei-arb",
+   "all": [
+    {
+     "classes": [
+      "acei"
+     ]
+    },
+    {
+     "classes": [
+      "arb"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "ACE inhibitor with an ARB (dual RAAS blockade)",
+   "effect": "More hyperkalemia, hypotension and acute kidney injury without outcome benefit in most patients.",
+   "management": "Generally avoid; monitor potassium and creatinine if used.",
+   "sources": [
+    {
+     "label": "FDA label: lisinopril, Warnings and Precautions: dual blockade",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lisinopril"
+    },
+    {
+     "label": "FDA label: losartan, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=losartan"
+    }
+   ],
+   "group": "raas",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "aliskiren-raas",
+   "all": [
+    {
+     "classes": [
+      "renin_inhibitor"
+     ]
+    },
+    {
+     "classes": [
+      "acei",
+      "arb",
+      "arni"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Aliskiren with an ACE inhibitor or ARB",
+   "effect": "Hyperkalemia, hypotension and kidney injury.",
+   "management": "Contraindicated in patients with diabetes; avoid when eGFR is below 60 (aliskiren label).",
+   "sources": [
+    {
+     "label": "FDA label: aliskiren, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=aliskiren"
+    }
+   ],
+   "group": "raas",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "ksparing-potassium",
+   "all": [
+    {
+     "classes": [
+      "k_sparing"
+     ]
+    },
+    {
+     "classes": [
+      "potassium_supplement"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Potassium-sparing diuretic with a potassium supplement",
+   "effect": "Risk of severe hyperkalemia.",
+   "management": "Avoid potassium supplements unless hypokalemia is documented; check potassium and creatinine.",
+   "sources": [
+    {
+     "label": "FDA label: spironolactone, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=spironolactone"
+    }
+   ],
+   "group": "hyperkalemia",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "raas-ksparing",
+   "all": [
+    {
+     "classes": [
+      "acei",
+      "arb",
+      "arni",
+      "renin_inhibitor"
+     ]
+    },
+    {
+     "classes": [
+      "k_sparing"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "ACE inhibitor or ARB with a potassium-sparing diuretic",
+   "effect": "Risk of hyperkalemia, especially with reduced kidney function.",
+   "management": "Check potassium and creatinine within about a week of starting, then periodically.",
+   "sources": [
+    {
+     "label": "FDA label: spironolactone, Warnings and Precautions: hyperkalemia",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=spironolactone"
+    }
+   ],
+   "group": "hyperkalemia",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "raas-potassium",
+   "all": [
+    {
+     "classes": [
+      "acei",
+      "arb",
+      "arni",
+      "renin_inhibitor"
+     ]
+    },
+    {
+     "classes": [
+      "potassium_supplement"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "ACE inhibitor or ARB with a potassium supplement",
+   "effect": "Risk of hyperkalemia.",
+   "management": "Confirm the supplement is still needed; check potassium.",
+   "sources": [
+    {
+     "label": "FDA label: lisinopril, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lisinopril"
+    }
+   ],
+   "group": "hyperkalemia",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "raas-ksparing-potassium",
+   "all": [
+    {
+     "classes": [
+      "acei",
+      "arb",
+      "arni"
+     ]
+    },
+    {
+     "classes": [
+      "k_sparing"
+     ]
+    },
+    {
+     "classes": [
+      "potassium_supplement"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "ACE inhibitor or ARB, potassium-sparing diuretic and potassium supplement together",
+   "effect": "Three potassium-raising drugs: high risk of life-threatening hyperkalemia.",
+   "management": "Avoid the potassium supplement unless hypokalemia is documented; check potassium and creatinine promptly.",
+   "sources": [
+    {
+     "label": "FDA label: spironolactone, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=spironolactone"
+    },
+    {
+     "label": "FDA label: lisinopril, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lisinopril"
+    }
+   ],
+   "group": "hyperkalemia",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "eplerenone-potassium",
+   "all": [
+    {
+     "drugs": [
+      "eplerenone"
+     ]
+    },
+    {
+     "drugs": [
+      "spironolactone",
+      "amiloride",
+      "triamterene-hydrochlorothiazide"
+     ],
+     "classes": [
+      "potassium_supplement"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Eplerenone with a potassium supplement or another potassium-sparing diuretic",
+   "effect": "Hyperkalemia.",
+   "management": "Contraindicated in hypertension (eplerenone label).",
+   "sources": [
+    {
+     "label": "FDA label: eplerenone, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=eplerenone"
+    }
+   ],
+   "group": "hyperkalemia",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "trimethoprim-potassium",
+   "all": [
+    {
+     "drugs": [
+      "trimethoprim",
+      "sulfamethoxazole-trimethoprim"
+     ]
+    },
+    {
+     "classes": [
+      "acei",
+      "arb",
+      "arni",
+      "k_sparing"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "Trimethoprim with a potassium-raising drug",
+   "effect": "Trimethoprim reduces potassium excretion; hyperkalemia in older or kidney-impaired patients.",
+   "management": "Consider checking potassium.",
+   "sources": [
+    {
+     "label": "FDA label: sulfamethoxazole-trimethoprim, Warnings and Precautions: hyperkalemia",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sulfamethoxazole-trimethoprim"
+    }
+   ],
+   "group": "hyperkalemia",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "triple-whammy",
+   "all": [
+    {
+     "classes": [
+      "acei",
+      "arb",
+      "arni"
+     ]
+    },
+    {
+     "classes": [
+      "thiazide",
+      "loop",
+      "k_sparing"
+     ]
+    },
+    {
+     "classes": [
+      "nsaid"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "ACE inhibitor or ARB, diuretic and NSAID together",
+   "effect": "The 'triple whammy': acute kidney injury.",
+   "management": "Avoid the NSAID if possible; otherwise check creatinine and keep the patient hydrated.",
+   "sources": [
+    {
+     "label": "FDA label: ibuprofen, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ibuprofen"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "opioid-benzo",
+   "all": [
+    {
+     "classes": [
+      "opioid"
+     ]
+    },
+    {
+     "classes": [
+      "benzodiazepine"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Opioid with a benzodiazepine",
+   "effect": "Profound sedation, respiratory depression, coma and death (FDA boxed warning, 2016).",
+   "management": "Reserve for patients without alternatives; use the lowest doses and shortest duration, and consider naloxone.",
+   "sources": [
+    {
+     "label": "FDA label: oxycodone, Boxed Warning",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=oxycodone"
+    },
+    {
+     "label": "FDA label: alprazolam, Boxed Warning",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=alprazolam"
+    }
+   ],
+   "group": "cns",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "opioid-gabapentinoid",
+   "all": [
+    {
+     "classes": [
+      "opioid"
+     ]
+    },
+    {
+     "classes": [
+      "gabapentinoid"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Opioid with gabapentin or pregabalin",
+   "effect": "Serious breathing problems (FDA safety communication, 2019).",
+   "management": "Start low, monitor for sedation and breathing, consider naloxone.",
+   "sources": [
+    {
+     "label": "FDA label: gabapentin, Warnings and Precautions: respiratory depression",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=gabapentin"
+    }
+   ],
+   "group": "cns",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "opioid-zdrug",
+   "all": [
+    {
+     "classes": [
+      "opioid"
+     ]
+    },
+    {
+     "classes": [
+      "z_drug"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Opioid with a sleep medicine",
+   "effect": "Additive sedation and respiratory depression.",
+   "management": "Avoid if possible; use the lowest doses.",
+   "sources": [
+    {
+     "label": "FDA label: zolpidem, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=zolpidem"
+    }
+   ],
+   "group": "cns",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "opioid-muscle-relaxant",
+   "all": [
+    {
+     "classes": [
+      "opioid"
+     ]
+    },
+    {
+     "classes": [
+      "muscle_relaxant"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Opioid with a muscle relaxant",
+   "effect": "Additive CNS and respiratory depression.",
+   "management": "Avoid if possible; warn about sedation and driving.",
+   "sources": [
+    {
+     "label": "FDA label: oxycodone, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=oxycodone"
+    }
+   ],
+   "group": "cns",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "benzo-zdrug",
+   "all": [
+    {
+     "classes": [
+      "benzodiazepine"
+     ]
+    },
+    {
+     "classes": [
+      "z_drug"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Benzodiazepine with a Z-drug",
+   "effect": "Duplicate sedative effect: falls, confusion, respiratory depression.",
+   "management": "Avoid combining sedative-hypnotics.",
+   "sources": [
+    {
+     "label": "FDA label: zolpidem, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=zolpidem"
+    }
+   ],
+   "group": "cns",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "naltrexone-opioid",
+   "all": [
+    {
+     "drugs": [
+      "naltrexone"
+     ]
+    },
+    {
+     "classes": [
+      "opioid"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Naltrexone with an opioid",
+   "effect": "Naltrexone blocks opioid analgesia and can precipitate withdrawal.",
+   "management": "Contraindicated in patients receiving opioid analgesics (naltrexone label).",
+   "sources": [
+    {
+     "label": "FDA label: naltrexone, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=naltrexone"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "ssri-tramadol",
+   "all": [
+    {
+     "classes": [
+      "ssri",
+      "snri"
+     ]
+    },
+    {
+     "drugs": [
+      "tramadol"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "SSRI or SNRI with tramadol",
+   "effect": "Serotonin syndrome and seizure risk. Fluoxetine and paroxetine also block tramadol's activation (CYP2D6), weakening pain relief.",
+   "management": "Prefer a non-serotonergic analgesic; if used, start low and teach the warning signs of serotonin syndrome.",
+   "sources": [
+    {
+     "label": "FDA label: tramadol, Warnings and Precautions: serotonin syndrome",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tramadol"
+    },
+    {
+     "label": "FDA label: sertraline, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sertraline"
+    }
+   ],
+   "group": "serotonin",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "ssri-triptan",
+   "all": [
+    {
+     "classes": [
+      "ssri",
+      "snri"
+     ]
+    },
+    {
+     "classes": [
+      "triptan"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "SSRI or SNRI with a triptan",
+   "effect": "Serotonin syndrome has been reported, though rarely.",
+   "management": "Usually acceptable; counsel on warning signs.",
+   "sources": [
+    {
+     "label": "FDA label: sumatriptan, Warnings and Precautions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sumatriptan"
+    }
+   ],
+   "group": "serotonin",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "ssri-other-serotonergic",
+   "all": [
+    {
+     "classes": [
+      "ssri",
+      "snri"
+     ]
+    },
+    {
+     "drugs": [
+      "trazodone",
+      "mirtazapine",
+      "buspirone",
+      "lithium",
+      "dextromethorphan",
+      "st johns wort",
+      "fentanyl",
+      "methadone",
+      "meperidine",
+      "tapentadol"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "SSRI or SNRI with another serotonergic drug",
+   "effect": "Additive serotonergic effects.",
+   "management": "Monitor for serotonin syndrome, especially after dose increases.",
+   "sources": [
+    {
+     "label": "FDA label: sertraline, Warnings and Precautions: serotonin syndrome",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sertraline"
+    }
+   ],
+   "group": "serotonin",
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "bupropion-maoi",
+   "all": [
+    {
+     "drugs": [
+      "bupropion"
+     ]
+    },
+    {
+     "classes": [
+      "maoi",
+      "maoi_like"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Bupropion with an MAO inhibitor",
+   "effect": "Hypertensive reactions.",
+   "management": "Contraindicated; allow 14 days after stopping an MAOI (bupropion label).",
+   "sources": [
+    {
+     "label": "FDA label: bupropion, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=bupropion"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "maoi-sympathomimetic",
+   "all": [
+    {
+     "classes": [
+      "maoi"
+     ]
+    },
+    {
+     "classes": [
+      "sympathomimetic"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "MAO inhibitor with a decongestant",
+   "effect": "Hypertensive crisis.",
+   "management": "Avoid pseudoephedrine and phenylephrine with MAOIs.",
+   "sources": [
+    {
+     "label": "FDA label: phenelzine, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=phenelzine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "tamoxifen-cyp2d6",
+   "all": [
+    {
+     "drugs": [
+      "tamoxifen"
+     ]
+    },
+    {
+     "classes": [
+      "strong_cyp2d6_inhibitor"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Tamoxifen with a strong CYP2D6 inhibitor",
+   "effect": "Less conversion to endoxifen, which may reduce tamoxifen's effect.",
+   "management": "Prefer an antidepressant with little CYP2D6 inhibition.",
+   "sources": [
+    {
+     "label": "FDA label: tamoxifen, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tamoxifen"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "ergot-triptan",
+   "all": [
+    {
+     "classes": [
+      "ergot"
+     ]
+    },
+    {
+     "classes": [
+      "triptan"
+     ]
+    }
+   ],
+   "severity": "critical",
+   "onc": false,
+   "title": "Ergot with a triptan",
+   "effect": "Additive vasospasm.",
+   "management": "Do not use within 24 hours of each other (triptan labels).",
+   "sources": [
+    {
+     "label": "FDA label: sumatriptan, Contraindications",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sumatriptan"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "qt-qt",
+   "all": [
+    {
+     "classes": [
+      "qt_prolonging"
+     ]
+    },
+    {
+     "classes": [
+      "qt_prolonging"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Two drugs that prolong the QT interval",
+   "effect": "Additive QT prolongation; torsades risk rises with low potassium or magnesium, bradycardia, heart disease and older age.",
+   "management": "Consider an alternative to one drug; otherwise check an ECG and electrolytes.",
+   "sources": [
+    {
+     "label": "FDA label: ondansetron, Warnings and Precautions: QT prolongation",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ondansetron"
+    },
+    {
+     "label": "FDA label: azithromycin, Warnings and Precautions: QT prolongation",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=azithromycin"
+    }
+   ],
+   "group": "qt",
+   "category": "qt",
+   "dose_limit": null
+  },
+  {
+   "id": "fq-steroid",
+   "all": [
+    {
+     "classes": [
+      "fluoroquinolone"
+     ]
+    },
+    {
+     "classes": [
+      "corticosteroid"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Fluoroquinolone with a systemic corticosteroid",
+   "effect": "Higher risk of tendinitis and tendon rupture, especially over age 60 (boxed warning).",
+   "management": "Prefer another antibiotic when reasonable; counsel to stop at the first tendon pain.",
+   "sources": [
+    {
+     "label": "FDA label: levofloxacin, Boxed Warning",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=levofloxacin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "chelation",
+   "all": [
+    {
+     "classes": [
+      "fluoroquinolone",
+      "tetracycline_class"
+     ]
+    },
+    {
+     "classes": [
+      "polyvalent_cation"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "Antibiotic with calcium, iron, magnesium or antacids",
+   "effect": "Chelation sharply reduces antibiotic absorption.",
+   "management": "Separate doses (for ciprofloxacin: 2 hours before or 6 hours after).",
+   "sources": [
+    {
+     "label": "FDA label: ciprofloxacin, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ciprofloxacin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "levothyroxine-cation",
+   "all": [
+    {
+     "drugs": [
+      "levothyroxine"
+     ]
+    },
+    {
+     "classes": [
+      "polyvalent_cation"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "Levothyroxine with calcium, iron or antacids",
+   "effect": "Reduced levothyroxine absorption.",
+   "management": "Take levothyroxine at least 4 hours apart from these products.",
+   "sources": [
+    {
+     "label": "FDA label: levothyroxine, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=levothyroxine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "theophylline-cyp1a2",
+   "all": [
+    {
+     "drugs": [
+      "theophylline"
+     ]
+    },
+    {
+     "classes": [
+      "cyp1a2_strong_inhibitor"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Theophylline with ciprofloxacin or fluvoxamine",
+   "effect": "Theophylline toxicity: seizures, arrhythmias.",
+   "management": "Avoid or monitor theophylline levels.",
+   "sources": [
+    {
+     "label": "FDA label: theophylline, Drug Interactions",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=theophylline"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "lamotrigine-valproate",
+   "all": [
+    {
+     "drugs": [
+      "lamotrigine"
+     ]
+    },
+    {
+     "drugs": [
+      "valproate"
+     ]
+    }
+   ],
+   "severity": "warning",
+   "onc": false,
+   "title": "Lamotrigine with valproate",
+   "effect": "Valproate more than doubles lamotrigine levels; higher risk of serious rash.",
+   "management": "The lamotrigine label has a separate, slower titration for patients on valproate.",
+   "sources": [
+    {
+     "label": "FDA label: lamotrigine, Dosage and Administration",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lamotrigine"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  },
+  {
+   "id": "sulfonylurea-fq",
+   "all": [
+    {
+     "classes": [
+      "sulfonylurea"
+     ]
+    },
+    {
+     "classes": [
+      "fluoroquinolone"
+     ]
+    }
+   ],
+   "severity": "info",
+   "onc": false,
+   "title": "Sulfonylurea with a fluoroquinolone",
+   "effect": "Fluoroquinolones can cause serious hypoglycemia (or hyperglycemia).",
+   "management": "Counsel on hypoglycemia; check glucose more often.",
+   "sources": [
+    {
+     "label": "FDA label: ciprofloxacin, Warnings and Precautions: blood glucose",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ciprofloxacin"
+    }
+   ],
+   "group": null,
+   "category": "interaction",
+   "dose_limit": null
+  }
+ ]
+}

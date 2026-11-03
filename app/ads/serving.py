@@ -142,8 +142,8 @@ def _candidates(conn, prescriber, slot: str, specialty: str, state: str, now: da
     for c in rows:
         if effective_status(c, t) != "active":
             continue
-        if slot not in json.loads(c["slots"]):
-            continue
+        if slot != "resources_tray" and slot not in json.loads(c["slots"]):
+            continue  # the tray lists every active, matching brand's clinician resources
         specs, states = json.loads(c["specialties"] or "[]"), json.loads(c["states"] or "[]")
         if specs and specialty not in specs:
             continue

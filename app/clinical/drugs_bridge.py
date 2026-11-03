@@ -46,12 +46,27 @@ _FALLBACK_TERMS = {
 _PAREN = re.compile(r"\s*\(([A-Za-z][A-Za-z0-9\-]*(?:[ \-][A-Za-z0-9]+){0,2})\)")
 
 
+_engine_cache: dict[str, Any] = {"module": None, "failed_at": 0.0}
+_RETRY_S = 30.0
+
+
 def engine():
+    """The drug engine module, or None. A failed import is retried every 30 s."""
+    import time
+
+    mod = _engine_cache["module"]
+    if mod is not None:
+        return mod
+    if _engine_cache["failed_at"] and time.monotonic() - _engine_cache["failed_at"] < _RETRY_S:
+        return None
     try:
-        return importlib.import_module("app.drugs.engine")
+        mod = importlib.import_module("app.drugs.engine")
     except Exception as exc:  # missing or broken engine: callers fall back and say so
+        _engine_cache["failed_at"] = time.monotonic()
         log.warning("drug engine unavailable: %s", exc.__class__.__name__)
         return None
+    _engine_cache["module"] = mod
+    return mod
 
 
 def engine_status() -> str:

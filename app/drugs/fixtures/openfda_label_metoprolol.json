@@ -1,0 +1,7 @@
+{"meta": {"results": {"skip": 0, "limit": 1, "total": 12}}, "results": [{
+  "effective_time": "20240315",
+  "set_id": "00000000-0000-0000-0000-00000000demo",
+  "drug_interactions": ["7 DRUG INTERACTIONS 7.1 Catecholamine Depleting Drugs Catecholamine depleting drugs (eg, reserpine, monoamine oxidase (MAO) inhibitors) may have an additive effect when given with beta-blocking agents. 7.2 CYP2D6 Inhibitors Drugs that are strong inhibitors of CYP2D6, such as quinidine, fluoxetine, paroxetine, and propafenone, are likely to increase metoprolol concentration. Monitor patients closely when the combination cannot be avoided."],
+  "dosage_and_administration": ["2 DOSAGE AND ADMINISTRATION 2.1 Hypertension The usual initial dosage is 25 to 100 mg daily in a single dose."],
+  "openfda": {"generic_name": ["METOPROLOL SUCCINATE"], "brand_name": ["TOPROL XL"], "product_type": ["HUMAN PRESCRIPTION DRUG"]}
+}]}

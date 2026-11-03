@@ -2338,9 +2338,7 @@
     "ZzzQuil",
     "Unisom SleepGels"
    ],
-   "aliases": [
-    "tylenol pm"
-   ],
+   "aliases": [],
    "classes": [
     "first_gen_antihistamine",
     "anticholinergic",
@@ -2364,6 +2362,63 @@
     "sleep",
     "itch"
    ]
+  },
+  "acetaminophen-diphenhydramine": {
+   "brands": [
+    "Tylenol PM"
+   ],
+   "aliases": [
+    "acetaminophen/diphenhydramine"
+   ],
+   "classes": [
+    "first_gen_antihistamine",
+    "anticholinergic",
+    "analgesic_other"
+   ],
+   "ingredients": [
+    "acetaminophen",
+    "diphenhydramine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "ibuprofen-diphenhydramine": {
+   "brands": [
+    "Advil PM",
+    "Motrin PM"
+   ],
+   "aliases": [
+    "ibuprofen/diphenhydramine"
+   ],
+   "classes": [
+    "nsaid",
+    "first_gen_antihistamine",
+    "anticholinergic"
+   ],
+   "ingredients": [
+    "ibuprofen",
+    "diphenhydramine"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": true,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
   },
   "hydroxyzine": {
    "brands": [
@@ -5262,7 +5317,7 @@
    "ingredients": [
     "glipizide"
    ],
-   "high_risk": "hypoglycaemia (sulfonylurea)",
+   "high_risk": "hypoglycemia (sulfonylurea)",
    "schedule": null,
    "boxed_warning": false,
    "otc": false,
@@ -5295,7 +5350,7 @@
    "ingredients": [
     "glyburide"
    ],
-   "high_risk": "hypoglycaemia (sulfonylurea)",
+   "high_risk": "hypoglycemia (sulfonylurea)",
    "schedule": null,
    "boxed_warning": false,
    "otc": false,
@@ -5325,7 +5380,7 @@
    "ingredients": [
     "glimepiride"
    ],
-   "high_risk": "hypoglycaemia (sulfonylurea)",
+   "high_risk": "hypoglycemia (sulfonylurea)",
    "schedule": null,
    "boxed_warning": false,
    "otc": false,
@@ -6123,6 +6178,118 @@
    "high_risk": null,
    "schedule": null,
    "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "norgestimate-ethinyl estradiol": {
+   "brands": [
+    "Sprintec",
+    "Tri-Sprintec",
+    "Ortho Tri-Cyclen"
+   ],
+   "aliases": [
+    "norgestimate/ethinyl estradiol",
+    "norgestimate and ethinyl estradiol"
+   ],
+   "classes": [
+    "estrogen"
+   ],
+   "ingredients": [
+    "norgestimate",
+    "ethinyl estradiol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "levonorgestrel-ethinyl estradiol": {
+   "brands": [
+    "Aviane",
+    "Seasonique",
+    "Levora"
+   ],
+   "aliases": [
+    "levonorgestrel/ethinyl estradiol"
+   ],
+   "classes": [
+    "estrogen"
+   ],
+   "ingredients": [
+    "levonorgestrel",
+    "ethinyl estradiol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "drospirenone-ethinyl estradiol": {
+   "brands": [
+    "Yaz",
+    "Yasmin"
+   ],
+   "aliases": [
+    "drospirenone/ethinyl estradiol"
+   ],
+   "classes": [
+    "estrogen"
+   ],
+   "ingredients": [
+    "drospirenone",
+    "ethinyl estradiol"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": true,
+   "otc": false,
+   "rxcui": null,
+   "specialties": [
+    "family_medicine",
+    "internal_medicine"
+   ],
+   "sound_alike": [],
+   "uses": []
+  },
+  "norethindrone": {
+   "brands": [
+    "Camila",
+    "Errin",
+    "Aygestin"
+   ],
+   "aliases": [
+    "progestin-only pill",
+    "mini-pill"
+   ],
+   "classes": [
+    "hormone_other"
+   ],
+   "ingredients": [
+    "norethindrone"
+   ],
+   "high_risk": null,
+   "schedule": null,
+   "boxed_warning": false,
    "otc": false,
    "rxcui": null,
    "specialties": [

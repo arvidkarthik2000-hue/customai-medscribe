@@ -1,0 +1,494 @@
+{
+ "version": "2026-11-03",
+ "grading": "Demo grading, pending pharmacist review",
+ "rules": [
+  {
+   "id": "nsaid-heart-failure",
+   "drugs": {
+    "classes": [
+     "nsaid"
+    ]
+   },
+   "icd10": [
+    "I50"
+   ],
+   "terms": [
+    "heart failure",
+    "chf",
+    "hfref",
+    "hfpef",
+    "congestive heart failure"
+   ],
+   "severity": "warning",
+   "summary": "NSAID in a patient with heart failure",
+   "detail": "NSAIDs cause fluid retention and can worsen heart failure; labels advise avoiding them in severe heart failure unless the benefit outweighs the risk.",
+   "source": {
+    "label": "FDA label: ibuprofen, Warnings and Precautions: heart failure and edema",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ibuprofen"
+   }
+  },
+  {
+   "id": "nsaid-ckd",
+   "drugs": {
+    "classes": [
+     "nsaid"
+    ]
+   },
+   "icd10": [
+    "N18"
+   ],
+   "terms": [
+    "chronic kidney disease",
+    "ckd",
+    "renal insufficiency",
+    "kidney disease"
+   ],
+   "egfr_below": 60,
+   "severity": "warning",
+   "summary": "NSAID in a patient with chronic kidney disease",
+   "detail": "NSAIDs can reduce kidney function; labels say they are not recommended in advanced renal disease.",
+   "source": {
+    "label": "FDA label: ibuprofen, Warnings and Precautions: renal toxicity",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ibuprofen"
+   }
+  },
+  {
+   "id": "nsaid-gi-bleed",
+   "drugs": {
+    "classes": [
+     "nsaid"
+    ]
+   },
+   "icd10": [
+    "K25",
+    "K26",
+    "K27",
+    "K28",
+    "K92.0",
+    "K92.1",
+    "K92.2"
+   ],
+   "terms": [
+    "peptic ulcer",
+    "gi bleed",
+    "gastrointestinal bleed",
+    "gastrointestinal bleeding",
+    "stomach ulcer",
+    "gastric ulcer",
+    "duodenal ulcer",
+    "upper gi bleed"
+   ],
+   "severity": "warning",
+   "summary": "NSAID with a history of ulcer or GI bleeding",
+   "detail": "NSAID labels carry a boxed warning for serious GI bleeding; prior ulcer or bleeding greatly raises the risk.",
+   "source": {
+    "label": "FDA label: naproxen, Boxed Warning",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=naproxen"
+   }
+  },
+  {
+   "id": "nsbb-asthma",
+   "drugs": {
+    "classes": [
+     "beta_blocker_nonselective"
+    ]
+   },
+   "icd10": [
+    "J45"
+   ],
+   "terms": [
+    "asthma"
+   ],
+   "severity": "critical",
+   "summary": "Non-selective beta-blocker in a patient with asthma",
+   "detail": "Can provoke bronchospasm; labels for propranolol, nadolol, carvedilol, labetalol, sotalol and timolol list bronchial asthma as a contraindication.",
+   "source": {
+    "label": "FDA label: propranolol, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=propranolol"
+   }
+  },
+  {
+   "id": "tzd-heart-failure",
+   "drugs": {
+    "classes": [
+     "tzd"
+    ]
+   },
+   "icd10": [
+    "I50"
+   ],
+   "terms": [
+    "heart failure",
+    "chf"
+   ],
+   "severity": "critical",
+   "summary": "Thiazolidinedione in a patient with heart failure",
+   "detail": "Boxed warning: thiazolidinediones cause or worsen heart failure; not recommended in symptomatic heart failure and contraindicated in NYHA class III–IV.",
+   "source": {
+    "label": "FDA label: pioglitazone, Boxed Warning",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=pioglitazone"
+   }
+  },
+  {
+   "id": "nondhp-hfref",
+   "drugs": {
+    "classes": [
+     "ccb_nondhp"
+    ]
+   },
+   "icd10": [
+    "I50.2",
+    "I50.4"
+   ],
+   "terms": [
+    "hfref",
+    "reduced ejection fraction",
+    "systolic heart failure"
+   ],
+   "severity": "warning",
+   "summary": "Verapamil or diltiazem in heart failure with reduced ejection fraction",
+   "detail": "Negative inotropes that can worsen HFrEF; the verapamil label contraindicates use in severe left ventricular dysfunction.",
+   "source": {
+    "label": "FDA label: verapamil, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=verapamil"
+   }
+  },
+  {
+   "id": "fq-myasthenia",
+   "drugs": {
+    "classes": [
+     "fluoroquinolone"
+    ]
+   },
+   "icd10": [
+    "G70.0"
+   ],
+   "terms": [
+    "myasthenia gravis",
+    "myasthenia"
+   ],
+   "severity": "critical",
+   "summary": "Fluoroquinolone in a patient with myasthenia gravis",
+   "detail": "Boxed warning: fluoroquinolones may exacerbate muscle weakness in myasthenia gravis; avoid.",
+   "source": {
+    "label": "FDA label: ciprofloxacin, Boxed Warning",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ciprofloxacin"
+   }
+  },
+  {
+   "id": "fq-aneurysm",
+   "drugs": {
+    "classes": [
+     "fluoroquinolone"
+    ]
+   },
+   "icd10": [
+    "I71"
+   ],
+   "terms": [
+    "aortic aneurysm",
+    "abdominal aortic aneurysm",
+    "thoracic aortic aneurysm",
+    "aaa"
+   ],
+   "severity": "warning",
+   "summary": "Fluoroquinolone in a patient with an aortic aneurysm",
+   "detail": "Fluoroquinolones increase the risk of aortic aneurysm rupture or dissection; labels advise avoiding them in patients with an aneurysm unless there is no alternative.",
+   "source": {
+    "label": "FDA label: levofloxacin, Warnings and Precautions: aortic aneurysm",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=levofloxacin"
+   }
+  },
+  {
+   "id": "triptan-cad",
+   "drugs": {
+    "classes": [
+     "triptan"
+    ]
+   },
+   "icd10": [
+    "I20",
+    "I21",
+    "I22",
+    "I24",
+    "I25"
+   ],
+   "terms": [
+    "coronary artery disease",
+    "cad",
+    "angina",
+    "myocardial infarction",
+    "heart attack",
+    "ischemic heart disease"
+   ],
+   "severity": "critical",
+   "summary": "Triptan in a patient with coronary artery disease",
+   "detail": "Triptans are contraindicated in ischemic coronary artery disease (labels).",
+   "source": {
+    "label": "FDA label: sumatriptan, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sumatriptan"
+   }
+  },
+  {
+   "id": "bupropion-seizure",
+   "drugs": {
+    "drugs": [
+     "bupropion"
+    ]
+   },
+   "icd10": [
+    "G40",
+    "F50"
+   ],
+   "terms": [
+    "seizure disorder",
+    "epilepsy",
+    "seizures",
+    "bulimia",
+    "anorexia nervosa"
+   ],
+   "severity": "critical",
+   "summary": "Bupropion with a seizure disorder or eating disorder",
+   "detail": "Contraindicated: bupropion lowers the seizure threshold (bupropion label).",
+   "source": {
+    "label": "FDA label: bupropion, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=bupropion"
+   }
+  },
+  {
+   "id": "tramadol-seizure",
+   "drugs": {
+    "drugs": [
+     "tramadol"
+    ]
+   },
+   "icd10": [
+    "G40"
+   ],
+   "terms": [
+    "seizure disorder",
+    "epilepsy",
+    "seizures"
+   ],
+   "severity": "warning",
+   "summary": "Tramadol in a patient with a seizure disorder",
+   "detail": "Tramadol can cause seizures, with higher risk in patients with epilepsy.",
+   "source": {
+    "label": "FDA label: tramadol, Warnings and Precautions: seizure risk",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tramadol"
+   }
+  },
+  {
+   "id": "antipsychotic-dementia",
+   "drugs": {
+    "classes": [
+     "antipsychotic"
+    ]
+   },
+   "icd10": [
+    "F01",
+    "F02",
+    "F03",
+    "G30"
+   ],
+   "terms": [
+    "dementia",
+    "alzheimer",
+    "alzheimer's disease"
+   ],
+   "severity": "warning",
+   "summary": "Antipsychotic in an older patient with dementia",
+   "detail": "Boxed warning: increased mortality in elderly patients with dementia-related psychosis; not approved for that use.",
+   "source": {
+    "label": "FDA label: quetiapine, Boxed Warning",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=quetiapine"
+   }
+  },
+  {
+   "id": "anticholinergic-dementia",
+   "drugs": {
+    "classes": [
+     "anticholinergic",
+     "first_gen_antihistamine",
+     "urinary_antimuscarinic"
+    ]
+   },
+   "icd10": [
+    "F01",
+    "F02",
+    "F03",
+    "G30"
+   ],
+   "terms": [
+    "dementia",
+    "alzheimer",
+    "cognitive impairment"
+   ],
+   "severity": "warning",
+   "summary": "Strongly anticholinergic drug with dementia or cognitive impairment",
+   "detail": "Anticholinergic drugs worsen cognition and raise delirium risk; STOPP/START v3 advises avoiding them in dementia.",
+   "source": {
+    "label": "STOPP/START v3 (O'Mahony et al., Eur Geriatr Med 2023), CC BY 4.0",
+    "url": "https://link.springer.com/article/10.1007/s41999-023-00777-y"
+   }
+  },
+  {
+   "id": "anticholinergic-bph",
+   "drugs": {
+    "classes": [
+     "anticholinergic",
+     "first_gen_antihistamine"
+    ]
+   },
+   "icd10": [
+    "N40",
+    "R33"
+   ],
+   "terms": [
+    "bph",
+    "benign prostatic hyperplasia",
+    "enlarged prostate",
+    "urinary retention"
+   ],
+   "severity": "warning",
+   "summary": "Anticholinergic drug with prostate enlargement or urinary retention",
+   "detail": "Can precipitate urinary retention (STOPP/START v3).",
+   "source": {
+    "label": "STOPP/START v3 (O'Mahony et al., Eur Geriatr Med 2023), CC BY 4.0",
+    "url": "https://link.springer.com/article/10.1007/s41999-023-00777-y"
+   }
+  },
+  {
+   "id": "acei-angioedema",
+   "drugs": {
+    "classes": [
+     "acei",
+     "arni"
+    ]
+   },
+   "icd10": [
+    "T78.3",
+    "D84.1"
+   ],
+   "terms": [
+    "angioedema",
+    "hereditary angioedema"
+   ],
+   "severity": "critical",
+   "summary": "ACE inhibitor or sacubitril/valsartan with a history of angioedema",
+   "detail": "Contraindicated with a history of angioedema (labels).",
+   "source": {
+    "label": "FDA label: lisinopril, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lisinopril"
+   }
+  },
+  {
+   "id": "estrogen-vte",
+   "drugs": {
+    "classes": [
+     "estrogen"
+    ]
+   },
+   "icd10": [
+    "I26",
+    "I80",
+    "I81",
+    "I82",
+    "Z86.71"
+   ],
+   "terms": [
+    "dvt",
+    "deep vein thrombosis",
+    "pulmonary embolism",
+    "blood clot",
+    "vte"
+   ],
+   "severity": "critical",
+   "summary": "Estrogen-containing product with a history of venous thromboembolism",
+   "detail": "Contraindicated with active or past VTE (estrogen and combined hormonal contraceptive labels).",
+   "source": {
+    "label": "FDA label: estradiol, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=estradiol"
+   }
+  },
+  {
+   "id": "ksparing-hyperkalemia",
+   "drugs": {
+    "classes": [
+     "k_sparing",
+     "potassium_supplement"
+    ]
+   },
+   "icd10": [
+    "E87.5"
+   ],
+   "terms": [
+    "hyperkalemia",
+    "high potassium"
+   ],
+   "severity": "critical",
+   "summary": "Potassium-raising drug in a patient with hyperkalemia",
+   "detail": "Spironolactone and potassium supplements are contraindicated in hyperkalemia (labels).",
+   "source": {
+    "label": "FDA label: spironolactone, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=spironolactone"
+   }
+  },
+  {
+   "id": "qt-long-qt",
+   "drugs": {
+    "classes": [
+     "qt_prolonging"
+    ]
+   },
+   "icd10": [
+    "I45.81"
+   ],
+   "terms": [
+    "long qt",
+    "long qt syndrome",
+    "qt prolongation",
+    "prolonged qt"
+   ],
+   "severity": "critical",
+   "summary": "QT-prolonging drug in a patient with long QT",
+   "detail": "Avoid drugs that prolong the QT interval in congenital long QT or known QT prolongation.",
+   "source": {
+    "label": "FDA label: citalopram, Warnings and Precautions: QT prolongation",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=citalopram"
+   }
+  },
+  {
+   "id": "pregnancy-fetal",
+   "drugs": {
+    "drugs": [
+     "methotrexate",
+     "warfarin",
+     "valproate"
+    ],
+    "classes": [
+     "acei",
+     "arb",
+     "arni",
+     "renin_inhibitor"
+    ]
+   },
+   "icd10": [
+    "Z33.1",
+    "O09"
+   ],
+   "terms": [
+    "pregnant",
+    "currently pregnant"
+   ],
+   "pregnancy": true,
+   "severity": "critical",
+   "summary": "Drug with fetal toxicity in a pregnant patient",
+   "detail": "Boxed or contraindication warnings for use in pregnancy (fetal toxicity). Review alternatives.",
+   "source": {
+    "label": "FDA label: lisinopril, Boxed Warning: fetal toxicity",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lisinopril"
+   }
+  }
+ ]
+}

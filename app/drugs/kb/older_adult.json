@@ -1,0 +1,77 @@
+{
+ "version": "2026-11-03",
+ "grading": "Demo grading, pending pharmacist review",
+ "min_age": 65,
+ "source": {
+  "label": "STOPP/START v3 (O'Mahony et al., Eur Geriatr Med 2023), CC BY 4.0",
+  "url": "https://link.springer.com/article/10.1007/s41999-023-00777-y"
+ },
+ "rules": [
+  {
+   "id": "older-first-gen-antihistamine",
+   "drugs": {
+    "classes": [
+     "first_gen_antihistamine"
+    ]
+   },
+   "severity": "warning",
+   "summary": "First-generation antihistamine in an older adult",
+   "detail": "Strongly anticholinergic and sedating: confusion, falls, constipation and urinary retention. STOPP/START v3 advises avoiding it; a non-sedating antihistamine, or sleep measures for insomnia, are alternatives."
+  },
+  {
+   "id": "older-benzodiazepine",
+   "drugs": {
+    "classes": [
+     "benzodiazepine"
+    ]
+   },
+   "severity": "warning",
+   "summary": "Benzodiazepine in an older adult",
+   "detail": "Raises the risk of sedation, confusion, falls and fractures; STOPP/START v3 flags use beyond 4 weeks and in patients who fall."
+  },
+  {
+   "id": "older-z-drug",
+   "drugs": {
+    "classes": [
+     "z_drug"
+    ]
+   },
+   "severity": "warning",
+   "summary": "Z-drug hypnotic in an older adult",
+   "detail": "Z-drugs raise the risk of falls and fractures (STOPP/START v3)."
+  },
+  {
+   "id": "older-long-sulfonylurea",
+   "drugs": {
+    "classes": [
+     "long_acting_sulfonylurea"
+    ]
+   },
+   "severity": "warning",
+   "summary": "Long-acting sulfonylurea in an older adult",
+   "detail": "Risk of prolonged hypoglycemia; STOPP/START v3 names glibenclamide (glyburide) and glimepiride."
+  },
+  {
+   "id": "older-tca",
+   "drugs": {
+    "classes": [
+     "tca"
+    ]
+   },
+   "severity": "info",
+   "summary": "Tricyclic antidepressant in an older adult",
+   "detail": "Anticholinergic, sedating and can cause orthostatic hypotension and falls (STOPP/START v3)."
+  },
+  {
+   "id": "older-nsaid",
+   "drugs": {
+    "classes": [
+     "nsaid"
+    ]
+   },
+   "severity": "info",
+   "summary": "NSAID in an older adult",
+   "detail": "Higher risk of GI bleeding, kidney injury and heart failure; STOPP/START v3 flags NSAIDs with reduced kidney function, heart failure or an anticoagulant."
+  }
+ ]
+}

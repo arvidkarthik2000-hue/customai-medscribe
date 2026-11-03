@@ -1,0 +1,4 @@
+{"approximateGroup": {"inputTerm": null, "candidate": [
+  {"rxcui": "999001", "rxaui": "1", "score": "2.10", "rank": "1", "name": "zolmitriptan", "source": "RXNORM"},
+  {"rxcui": "999002", "rxaui": "2", "score": "1.90", "rank": "2", "name": "zonisamide", "source": "RXNORM"}
+]}}

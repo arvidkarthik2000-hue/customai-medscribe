@@ -184,7 +184,7 @@ def main() -> int:
             def live_flow():
                 page.goto(APP + "/doctor/#/")
                 expect(page.locator("text=Today's schedule")).to_be_visible(timeout=10000)
-                page.locator("table.schedule tbody tr").nth(1).click()
+                page.locator("table.schedule tbody tr", has=page.locator("span.badge", has_text="Scheduled")).first.click()
                 expect(page.locator("text=Visit setup")).to_be_visible(timeout=10000)
                 page.click("button:has-text('Start recording')")
                 for cb in page.locator(".modal input[type=checkbox]").all(): cb.check()

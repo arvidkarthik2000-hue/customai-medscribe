@@ -1,7 +1,7 @@
 // Today: the schedule, practice profile, sample visits and the one sponsored
 // schedule card. The card sits beside the schedule list only; opening a chart
 // navigates away and the router removes it.
-import { api, el, mount, toast } from "/js/common.js";
+import { api, el, mount, toast, modal } from "/js/common.js";
 import { ads } from "/doctor/adsbridge.js";
 import { SPECIALTIES, STATES, statusBadge, sexAge, readinessBanner } from "/doctor/shared.js";
 
@@ -12,6 +12,7 @@ export async function render(root, _params, ctx) {
   ]);
   const me = ctx.me;
   const appts = schedule.appointments || [];
+  const tz = schedule.timezone || "America/New_York";
   const done = appts.filter((a) => a.status === "signed").length;
 
   const adBox = el("div", { class: "home-ad" });
@@ -34,13 +35,14 @@ export async function render(root, _params, ctx) {
         el("h1", {}, `Good ${greeting()}, ${me.prescriber.name.replace(/,.*$/, "")}`),
         el("p", { class: "muted", style: { margin: "4px 0 0" } }, `${appts.length} visits today · ${done} signed`)),
       el("div", { class: "row" },
+        el("button", { class: "btn btn-ghost", title: "Archive today's visits and start the schedule fresh", onclick: () => resetDay() }, "Reset today"),
         el("button", { class: "btn", onclick: () => ads.openTray(ctx.me) }, "Resources"))),
     readinessBanner(me),
     el("div", { class: "home-grid" },
       el("div", { class: "stack-lg" },
         el("section", { class: "card" },
           el("div", { class: "card-head" }, el("h2", {}, "Today's schedule"), el("span", { class: "muted small" }, "Synthetic patients")),
-          scheduleTable(appts)),
+          scheduleTable(appts, tz)),
         samplesCard(samples.samples || [])),
       el("aside", { class: "stack-lg" },
         adBox,
@@ -48,6 +50,17 @@ export async function render(root, _params, ctx) {
         guideCard())));
 
   ads.mount(adBox, "schedule_card", me);
+
+  function resetDay() {
+    modal({
+      title: "Start today's schedule fresh?",
+      body: el("p", {}, "Today's demo visits are archived and every appointment goes back to Scheduled. Useful between testers."),
+      actions: [{ label: "Cancel" }, { label: "Reset", primary: true, onClick: async () => {
+        try { await api("/api/schedule/reset", { method: "POST" }); toast("Schedule reset.", "ok"); render(root, _params, ctx); }
+        catch (e) { toast(e.message, "error"); return true; }
+      } }],
+    });
+  }
 }
 
 function greeting() {
@@ -55,7 +68,13 @@ function greeting() {
   return h < 12 ? "morning" : h < 17 ? "afternoon" : "evening";
 }
 
-function scheduleTable(appts) {
+export function apptTime(iso, tz) {
+  if (!iso) return "";
+  if (!/T/.test(iso)) return iso;
+  try { return new Date(iso).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: tz }); } catch { return iso; }
+}
+
+function scheduleTable(appts, tz) {
   if (!appts.length) return el("div", { class: "empty" }, "No visits scheduled.");
   return el("div", { class: "table-wrap" },
     el("table", { class: "table schedule" },
@@ -65,7 +84,7 @@ function scheduleTable(appts) {
           ? (a.status === "signed" ? `#/visit/${a.visit_id}/review` : `#/visit/${a.visit_id}/review`)
           : `#/patient/${a.patient_id}`;
         return el("tr", { class: "clickable", onclick: () => (location.hash = target) },
-          el("td", { class: "nowrap mono" }, a.time),
+          el("td", { class: "nowrap mono" }, apptTime(a.time, tz)),
           el("td", {}, el("div", { class: "strong" }, a.name), el("div", { class: "muted small" }, `${sexAge(a)} · ${a.visit_type || "Office visit"}`)),
           el("td", {}, a.reason),
           el("td", {}, statusBadge(a.status)),
@@ -100,7 +119,7 @@ function renderProfile(me, onChange) {
         el("dt", {}, "Clinician"), el("dd", {}, p.name),
         el("dt", {}, "Practice"), el("dd", {}, p.practice),
         el("dt", {}, "NPI"), el("dd", { class: "mono" }, `${p.npi} (fictional)`)),
-      el("div", { class: "grid grid-2" },
+      el("div", { class: "grid grid-2 profile-grid" },
         el("div", { class: "field" }, el("label", {}, "Declared specialty"), spec),
         el("div", { class: "field" }, el("label", {}, "State"), st)),
       el("p", { class: "muted small", style: { margin: 0 } }, "Sponsored units are chosen by declared specialty and state only, never by anything said in a visit.")));

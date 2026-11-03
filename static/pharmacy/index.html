@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pharmacy tools · CustomAi MedScribe</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/pharmacy/pharmacy.css">
+</head>
+<body>
+  <main class="page" id="pharmacy-root">
+    <div class="page-title">
+      <div>
+        <div class="eyebrow">Pharmacy tools</div>
+        <h1>Medication check</h1>
+        <p class="muted page-lead">Check any list of medicines for interactions, allergies, conditions, doses and kidney function, look up Medicare formulary status, and run common calculators. Every finding shows its source.</p>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Pharmacy tools">
+      <button role="tab" class="active" data-tab="check" aria-selected="true" id="tab-check">Interaction checker</button>
+      <button role="tab" data-tab="formulary" aria-selected="false" id="tab-formulary">Formulary lookup</button>
+      <button role="tab" data-tab="calc" aria-selected="false" id="tab-calc">Calculators</button>
+    </div>
+
+    <section id="panel-check" class="tab-panel" role="tabpanel" aria-labelledby="tab-check"></section>
+    <section id="panel-formulary" class="tab-panel hidden" role="tabpanel" aria-labelledby="tab-formulary"></section>
+    <section id="panel-calc" class="tab-panel hidden" role="tabpanel" aria-labelledby="tab-calc"></section>
+
+    <footer class="ph-footer">
+      <p>Decision support for clinicians: it shows sources and never replaces clinical judgment. Severity grades are demo grading, pending pharmacist review. Demo data only; do not enter real patient information.</p>
+      <p id="rx-attribution"></p>
+    </footer>
+  </main>
+  <script type="module" src="/pharmacy/pharmacy.js"></script>
+</body>
+</html>

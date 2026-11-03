@@ -50,7 +50,9 @@ export async function render(root, { visitId }, ctx) {
           el("span", {}, visit.source === "sample" ? "Scripted sample visit" : visit.source === "live" ? "Live transcript" : "Final-pass transcript"),
           visit.audio_seconds ? el("span", {}, `· ${fmt.dur(visit.audio_seconds)}`) : null),
         el("div", { class: "row-wrap", style: { marginTop: "8px" } },
-          el("span", { class: "badge badge-ok" }, `${counts.supported} supported`),
+          counts.supported || counts.partial || counts.unsupported || counts.contradicted
+            ? el("span", { class: "badge badge-ok" }, `${counts.supported} of ${items.length} lines verified`)
+            : el("span", { class: "badge", title: "The line-by-line check needs the AI engine; evidence links and number checks still apply." }, "Line-by-line check not run"),
           counts.partial ? el("span", { class: "badge badge-warning" }, `${counts.partial} partly supported`) : null,
           counts.unsupported + counts.contradicted ? el("span", { class: "badge badge-critical" }, `${counts.unsupported + counts.contradicted} to fix`) : null,
           meds.length ? el("span", { class: `badge ${toConfirm ? "badge-warning" : "badge-ok"}` }, toConfirm ? `${toConfirm} medicine${toConfirm > 1 ? "s" : ""} to confirm` : "Medicines confirmed") : null)),
@@ -91,7 +93,7 @@ export async function render(root, { visitId }, ctx) {
 
   function verdictBadge(item) {
     const v = item.verdict || "unchecked";
-    if (v === "supported") return null; // quiet when fine
+    if (v === "supported" || v === "unchecked") return null; // quiet when fine or when the verifier did not run
     const [cls, label] = VERDICT[v] || VERDICT.unchecked;
     return el("span", { class: `badge ${cls}`, title: item.verdict_reason || "" }, item.edited ? "Edited" : label);
   }
@@ -198,19 +200,23 @@ export async function render(root, { visitId }, ctx) {
     const nameCell = el("td", {},
       el("div", { class: "row-wrap" }, el("strong", {}, m.name), m.action ? el("span", { class: `badge ${ACTION_BADGE[m.action] || ""}` }, m.action) : null,
         m.high_risk ? el("span", { class: "badge badge-critical", title: m.high_risk_reason || "" }, "High risk") : null,
-        m.schedule && m.schedule !== "None" ? el("span", { class: "badge" }, m.schedule) : null),
-      match.status === "matched" ? el("div", { class: "muted small" }, `RxNorm ${match.rxcui ? "RxCUI " + match.rxcui : ""}${match.display ? " · " + match.display : ""}`) : null,
+        m.schedule && m.schedule !== "None" ? el("span", { class: "badge" }, m.schedule) : null,
+        ["unsupported", "contradicted"].includes(m.verdict) ? el("span", { class: "badge badge-critical", title: m.verdict_reason || "" }, "Check against transcript") : m.verdict === "partial" ? el("span", { class: "badge badge-warning", title: m.verdict_reason || "" }, "Partly supported") : null),
+      match.status === "matched" ? el("div", { class: "muted small" }, match.source === "RxNorm"
+        ? `RxNorm${match.rxcui ? " RxCUI " + match.rxcui : ""}${match.display ? " · " + match.display : ""}`
+        : `Matched on the local drug list${match.rxcui ? " (RxCUI " + match.rxcui + ", not yet confirmed with RxNorm)" : ""}`) : null,
+      match.reason && match.status !== "matched" ? el("div", { class: "muted small" }, match.reason) : null,
       match.status === "ambiguous" ? ambiguousPicker(m) : null,
       match.status === "unmatched" ? el("div", { class: "small", style: { color: "var(--critical)" } }, "Not found in RxNorm: check the name") : null,
       m.as_spoken && m.as_spoken.toLowerCase() !== (m.name || "").toLowerCase() ? el("div", { class: "muted small" }, `Heard as “${m.as_spoken}”`) : null,
       evidenceChips(m.evidence));
     const doseText = [m.dose && `${m.dose}${m.unit ? " " + m.unit : ""}`, m.route, m.frequency, m.duration].filter(Boolean).join(" · ") || "Not stated";
     const dc = m.dose_check || {};
-    const checks = el("td", { class: "stack", style: { gap: "4px" } },
+    const checks = el("td", {}, el("div", { class: "stack", style: { gap: "4px", alignItems: "flex-start" } },
       dc.status === "above_max" ? el("span", { class: "badge badge-critical", title: dc.detail || "" }, "Above label maximum") : null,
       dc.status === "below_usual" ? el("span", { class: "badge badge-warning", title: dc.detail || "" }, "Below usual dose") : null,
       formularyBadge(m.formulary),
-      dc.detail && dc.status !== "ok" && dc.status !== "unknown" ? el("div", { class: "muted small" }, dc.detail) : null);
+      dc.detail && dc.status !== "ok" && dc.status !== "unknown" ? el("div", { class: "muted small" }, dc.detail) : null));
     const confirm = el("input", { type: "checkbox", checked: !!m.confirmed, disabled: signed(), "aria-label": `Confirm ${m.name}`, onchange: () => confirmMed(m, { confirmed: confirm.checked, dose_confirmed: doseBox ? doseBox.checked : undefined }) });
     const doseBox = m.high_risk ? el("input", { type: "checkbox", checked: !!m.dose_confirmed, disabled: signed(), "aria-label": `Confirm dose of ${m.name}`, onchange: () => confirmMed(m, { confirmed: confirm.checked || doseBox.checked, dose_confirmed: doseBox.checked }) }) : null;
     return el("tr", { class: m.confirmed && (!m.high_risk || m.dose_confirmed) ? "confirmed" : "" },
@@ -255,7 +261,7 @@ export async function render(root, { visitId }, ctx) {
   }
 
   function sourcesLine(sources) {
-    return sources.map((s) => `${s.name}${s.status === "ok" ? "" : " (unavailable)"}`).join(" · ");
+    return sources.map((s) => `${s.name}${s.status === "ok" ? "" : s.status === "not_used" ? " (not needed)" : " (unavailable)"}`).join(" · ");
   }
 
   // ---------------------------------------------------------------- other cards
@@ -343,14 +349,17 @@ export async function render(root, { visitId }, ctx) {
         drawAll();
       } catch (e) { toast(e.message, "error"); }
     } }, "Acknowledge");
-    const label = { interaction: "Interaction", allergy: "Allergy", condition: "Condition", dose: "Dose", duplicate: "Duplicate therapy", renal: "Kidney function", older_adult: "Older adult", qt: "QT", formulary: "Formulary", prevention: "Prevention", calculator: "Score" }[c.category] || c.category;
+    const label = { interaction: "Interaction", allergy: "Allergy", condition: "Condition", dose: "Dose", duplicate: "Duplicate therapy", renal: "Kidney function", older_adult: "Older adult", qt: "QT", formulary: "Formulary", prevention: "Prevention", calculator: "Score", name_check: "Look-alike names" }[c.category] || c.category;
     return el("div", { class: `cds cds-${c.indicator}` },
       el("div", { class: "row between" },
         el("div", { class: "row-wrap" }, el("span", { class: `badge badge-${c.indicator === "critical" ? "critical" : c.indicator === "warning" ? "warning" : "info"}` }, c.indicator), el("span", { class: "muted small" }, label)),
         ack ? el("span", { class: "badge badge-ok", title: ack.reason }, "Acknowledged") : null),
       el("div", { class: "cds-summary", style: { marginTop: "4px" } }, c.summary),
       c.detail ? el("div", { class: "small ink-2", style: { marginTop: "4px" } }, c.detail) : null,
-      c.source ? el("div", { class: "cds-source" }, "Source: ", c.source.url ? el("a", { href: c.source.url, target: "_blank", rel: "noopener noreferrer" }, c.source.label) : c.source.label, c.source.date ? ` · ${c.source.date}` : "") : null,
+      c.context === "existing" ? el("div", { class: "muted small", style: { marginTop: "4px" } }, "Already in the chart before this visit.") : null,
+      c.source ? el("div", { class: "cds-source" }, "Source: ", c.source.url ? el("a", { href: c.source.url, target: "_blank", rel: "noopener noreferrer" }, c.source.label) : c.source.label,
+        c.source.date ? ` · ${c.source.date_type === "label_effective" ? "label effective" : c.source.date_type === "reviewed" ? "reviewed" : ""} ${c.source.date}` : "",
+        c.grading ? el("span", { class: "muted" }, ` · ${c.grading}`) : null) : null,
       !ack && !signed() && (c.indicator === "critical" || c.indicator === "warning") ? el("div", { class: "row", style: { marginTop: "8px" } }, sel, ackBtn) : null);
   }
 

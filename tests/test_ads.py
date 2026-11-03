@@ -224,6 +224,20 @@ def test_one_brand_per_category_per_office(client):
     client.post("/api/test/reset-caps")
 
 
+def test_resources_tray_lists_matching_brands_and_is_not_served_inventory(client):
+    before = client.get("/api/overview").json()["live_today"]
+    r = client.post("/tray", json={"prescriber_id": "DEMO-001", "specialty": "cardiology", "state": "NJ", "hour": 11})
+    assert r.status_code == 200
+    items = r.json()["items"]
+    assert items and all(i["impression_id"].startswith("imp_") for i in items)
+    assert any(i["brand"] == "Cardelion" for i in items)
+    assert _event(client, items[0]["impression_id"], "click").json()["traffic"] == "test"
+    after = client.get("/api/overview").json()["live_today"]
+    assert after["test"]["served"] == before["test"]["served"]  # tray opens never count as served
+    assert client.post("/tray", json={"prescriber_id": "DEMO-001", "specialty": "cardiology", "state": "NJ", "hour": 11,
+                                      "patient_id": "p1"}).status_code == 422
+
+
 def test_disabled_slot_serves_nothing(client):
     client.post("/api/network", json={"enabled_slots": ["schedule_card", "post_sign"], "default_cap": 3})
     r = _serve(client, slot="drafting_wait")

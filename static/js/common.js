@@ -1,7 +1,7 @@
 // Shared helpers for every page. ES module; no build step, no third-party code.
 // CSP is script-src 'self': never use inline <script> blocks or onclick="" attributes.
 
-export async function api(path, { method = "GET", body, form, headers = {}, raw = false } = {}) {
+export async function api(path, { method = "GET", body, form, headers = {}, raw = false, redirect = true } = {}) {
   const opts = { method, headers: { ...headers }, credentials: "same-origin" };
   if (form) {
     opts.body = form;
@@ -18,7 +18,7 @@ export async function api(path, { method = "GET", body, form, headers = {}, raw 
     const err = new Error((data && (data.detail || data.error)) || `Request failed (${res.status})`);
     err.status = res.status;
     err.data = data;
-    if (res.status === 401 && !path.startsWith("/api/session")) {
+    if (res.status === 401 && redirect && !path.startsWith("/api/session") && location.pathname !== "/") {
       const next = encodeURIComponent(location.pathname + location.search);
       location.href = `/?next=${next}`;
     }

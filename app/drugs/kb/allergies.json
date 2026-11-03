@@ -1,0 +1,286 @@
+{
+ "version": "2026-11-03",
+ "grading": "Demo grading, pending pharmacist review",
+ "groups": [
+  {
+   "id": "penicillin",
+   "label": "Penicillins",
+   "terms": [
+    "penicillin",
+    "penicillins",
+    "pcn",
+    "pen",
+    "beta-lactam",
+    "amoxicillin",
+    "amoxil",
+    "augmentin",
+    "ampicillin",
+    "dicloxacillin",
+    "nafcillin",
+    "piperacillin"
+   ],
+   "member_classes": [
+    "penicillin"
+   ],
+   "severity": "critical",
+   "cross": [
+    {
+     "classes": [
+      "cephalosporin"
+     ],
+     "severity": "warning",
+     "note": "Cross-sensitivity among beta-lactams is documented (see the cephalosporin label). Risk is highest when side chains are similar, such as amoxicillin or ampicillin with cephalexin or cefadroxil. Review the type of reaction."
+    }
+   ],
+   "source": {
+    "label": "FDA label: cephalexin, Warnings and Precautions: hypersensitivity",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=cephalexin"
+   }
+  },
+  {
+   "id": "cephalosporin",
+   "label": "Cephalosporins",
+   "terms": [
+    "cephalosporin",
+    "cephalosporins",
+    "cephalexin",
+    "keflex",
+    "cefuroxime",
+    "ceftriaxone",
+    "cefdinir",
+    "cefazolin",
+    "cefadroxil",
+    "cefpodoxime"
+   ],
+   "member_classes": [
+    "cephalosporin"
+   ],
+   "severity": "critical",
+   "cross": [
+    {
+     "classes": [
+      "penicillin"
+     ],
+     "severity": "info",
+     "note": "Some patients allergic to a cephalosporin react to penicillins with a similar side chain."
+    }
+   ],
+   "source": {
+    "label": "FDA label: cephalexin, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=cephalexin"
+   }
+  },
+  {
+   "id": "sulfonamide_antibiotic",
+   "label": "Sulfonamide antibiotics",
+   "terms": [
+    "sulfa",
+    "sulfa drugs",
+    "sulfonamide",
+    "sulfonamides",
+    "bactrim",
+    "septra",
+    "sulfamethoxazole",
+    "tmp-smx",
+    "smx-tmp"
+   ],
+   "member_classes": [
+    "sulfonamide_antibiotic"
+   ],
+   "severity": "critical",
+   "cross": [
+    {
+     "drugs": [
+      "celecoxib"
+     ],
+     "severity": "critical",
+     "note": "The celecoxib label lists allergic-type reactions to sulfonamides as a contraindication."
+    },
+    {
+     "classes": [
+      "nonantibiotic_sulfonamide"
+     ],
+     "severity": "info",
+     "note": "Cross-reactivity between sulfonamide antibiotics and non-antibiotic sulfonamides (thiazides, loop diuretics) appears uncommon; labels advise caution."
+    }
+   ],
+   "source": {
+    "label": "FDA label: sulfamethoxazole-trimethoprim, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sulfamethoxazole-trimethoprim"
+   }
+  },
+  {
+   "id": "nsaid",
+   "label": "NSAIDs and aspirin",
+   "terms": [
+    "nsaid",
+    "nsaids",
+    "aspirin",
+    "asa",
+    "ibuprofen",
+    "motrin",
+    "advil",
+    "naproxen",
+    "aleve",
+    "naprosyn",
+    "meloxicam",
+    "diclofenac",
+    "ketorolac",
+    "toradol",
+    "indomethacin",
+    "celecoxib",
+    "celebrex"
+   ],
+   "member_classes": [
+    "nsaid"
+   ],
+   "member_drugs": [
+    "aspirin"
+   ],
+   "severity": "critical",
+   "cross": [],
+   "source": {
+    "label": "FDA label: ibuprofen, Contraindications: aspirin or NSAID reactions",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ibuprofen"
+   }
+  },
+  {
+   "id": "opioid",
+   "label": "Opioids",
+   "terms": [
+    "opioid",
+    "opioids",
+    "opiate",
+    "opiates",
+    "codeine",
+    "morphine",
+    "oxycodone",
+    "hydrocodone",
+    "tramadol",
+    "hydromorphone",
+    "fentanyl",
+    "percocet",
+    "vicodin",
+    "norco"
+   ],
+   "member_classes": [
+    "opioid"
+   ],
+   "severity": "warning",
+   "same_drug_severity": "critical",
+   "cross": [],
+   "note": "Many opioid reactions are non-allergic (itching or nausea from histamine release). Document the reaction; cross-sensitivity between opioid chemical classes is lower.",
+   "source": {
+    "label": "FDA label: morphine, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=morphine"
+   }
+  },
+  {
+   "id": "ace_inhibitor",
+   "label": "ACE inhibitors (including angioedema)",
+   "terms": [
+    "ace inhibitor",
+    "ace inhibitors",
+    "acei",
+    "lisinopril",
+    "enalapril",
+    "ramipril",
+    "benazepril",
+    "captopril",
+    "quinapril",
+    "ace inhibitor angioedema"
+   ],
+   "member_classes": [
+    "acei"
+   ],
+   "severity": "critical",
+   "cross": [
+    {
+     "classes": [
+      "arni"
+     ],
+     "severity": "critical",
+     "note": "Sacubitril/valsartan is contraindicated with a history of angioedema related to ACE inhibitor or ARB therapy."
+    },
+    {
+     "classes": [
+      "arb"
+     ],
+     "severity": "warning",
+     "note": "ARBs can also cause angioedema; use with caution after ACE inhibitor angioedema."
+    }
+   ],
+   "source": {
+    "label": "FDA label: lisinopril, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lisinopril"
+   }
+  },
+  {
+   "id": "macrolide",
+   "label": "Macrolides",
+   "terms": [
+    "macrolide",
+    "macrolides",
+    "azithromycin",
+    "zithromax",
+    "z-pak",
+    "z-pack",
+    "clarithromycin",
+    "biaxin",
+    "erythromycin"
+   ],
+   "member_classes": [
+    "macrolide"
+   ],
+   "severity": "critical",
+   "cross": [],
+   "source": {
+    "label": "FDA label: azithromycin, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=azithromycin"
+   }
+  },
+  {
+   "id": "fluoroquinolone",
+   "label": "Fluoroquinolones",
+   "terms": [
+    "fluoroquinolone",
+    "fluoroquinolones",
+    "quinolone",
+    "quinolones",
+    "cipro",
+    "ciprofloxacin",
+    "levaquin",
+    "levofloxacin",
+    "moxifloxacin"
+   ],
+   "member_classes": [
+    "fluoroquinolone"
+   ],
+   "severity": "critical",
+   "cross": [],
+   "source": {
+    "label": "FDA label: ciprofloxacin, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ciprofloxacin"
+   }
+  },
+  {
+   "id": "tetracycline",
+   "label": "Tetracyclines",
+   "terms": [
+    "tetracycline",
+    "tetracyclines",
+    "doxycycline",
+    "minocycline"
+   ],
+   "member_classes": [
+    "tetracycline_class"
+   ],
+   "severity": "critical",
+   "cross": [],
+   "source": {
+    "label": "FDA label: doxycycline, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=doxycycline"
+   }
+  }
+ ]
+}

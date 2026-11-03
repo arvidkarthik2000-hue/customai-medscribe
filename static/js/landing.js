@@ -12,7 +12,7 @@ function showViews() {
 
 async function init() {
   try {
-    await api("/api/me", { raw: false });
+    await api("/api/me", { redirect: false });
     if (next && next.startsWith("/") && !next.startsWith("//")) { location.href = next; return; }
     showViews();
   } catch { /* not signed in yet */ }

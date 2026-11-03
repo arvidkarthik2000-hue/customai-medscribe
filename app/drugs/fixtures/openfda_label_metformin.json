@@ -1,0 +1,7 @@
+{"meta": {"results": {"skip": 0, "limit": 1, "total": 40}}, "results": [{
+  "effective_time": "20250102",
+  "set_id": "00000000-0000-0000-0000-0000000demo2",
+  "dosage_and_administration": ["2.3 Recommendations for Use in Renal Impairment Assess renal function prior to initiation of metformin hydrochloride tablets and periodically thereafter. Metformin hydrochloride tablets are contraindicated in patients with an estimated glomerular filtration rate (eGFR) below 30 mL/minute/1.73 m2. Initiation of metformin hydrochloride tablets in patients with an eGFR between 30 to 45 mL/minute/1.73 m2 is not recommended."],
+  "contraindications": ["4 CONTRAINDICATIONS Severe renal impairment (eGFR below 30 mL/min/1.73 m2)."],
+  "openfda": {"generic_name": ["METFORMIN HYDROCHLORIDE"], "brand_name": ["GLUCOPHAGE"], "product_type": ["HUMAN PRESCRIPTION DRUG"]}
+}]}

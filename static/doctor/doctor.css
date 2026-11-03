@@ -7,6 +7,8 @@
 .schedule td:first-child { width: 84px; }
 .samples { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; padding: 14px 16px 16px; }
 .sample { display: block; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--surface); }
+.sample .badge { white-space: normal; height: auto; min-height: 22px; padding: 2px 8px; line-height: 1.35; }
+.profile-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) !important; }
 .sample:hover { border-color: var(--brand-2); text-decoration: none; box-shadow: var(--shadow-1); }
 .guide { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--ink-2); }
 .sticky-aside { position: sticky; top: calc(var(--header-h) + 16px); }
