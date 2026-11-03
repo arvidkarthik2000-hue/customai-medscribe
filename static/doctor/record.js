@@ -14,6 +14,11 @@ export async function render(root, { visitId }, ctx) {
 
   // ---------- state
   const turns = new Map(); // key "session:order" -> {key, session, order, text, final, speaker, start_ms, end_ms}
+  // Each reconnect starts a new AssemblyAI stream whose word times restart at 0,
+  // so every session's times are shifted by when that session began.
+  const sessionOffsetMs = new Map();
+  const unassigned = (spk) => !spk || spk === "PENDING" || spk === "UNKNOWN";
+  let pendingReconnect = null;
   let phase = "starting"; // starting | live | paused | stopping | error
   let elapsed = 0; let lastTick = 0; let timerId = null;
   let liveStatus = "connecting";
@@ -69,7 +74,7 @@ export async function render(root, { visitId }, ctx) {
       return;
     }
     mount(transcriptEl, items.map((t) => el("div", { class: `turn ${t.final ? "" : "partial"}` },
-      el("span", { class: `spk spk-${(t.speaker || "U").replace(/[^A-Z]/g, "") || "U"}` }, t.speaker && t.speaker !== "PENDING" ? `Speaker ${t.speaker}` : "Speaker …"),
+      el("span", { class: `spk spk-${(t.speaker || "U").replace(/[^A-Z]/g, "") || "U"}` }, !unassigned(t.speaker) ? `Speaker ${t.speaker}` : "Speaker …"),
       el("span", { class: "turn-text" }, t.text))));
     const scroller = transcriptEl.parentElement;
     if (scroller) scroller.scrollTop = scroller.scrollHeight;
@@ -80,13 +85,14 @@ export async function render(root, { visitId }, ctx) {
     const key = `${session}:${order}`;
     const words = msg.words || [];
     const prev = turns.get(key) || {};
+    const off = sessionOffsetMs.get(session) || 0;
     turns.set(key, {
       key, session, order,
       text: msg.transcript || (words.map((w) => w.text).join(" ")),
       final: !!msg.end_of_turn,
-      speaker: msg.speaker_label || prev.speaker || "",
-      start_ms: words.length ? words[0].start : prev.start_ms,
-      end_ms: words.length ? words[words.length - 1].end : prev.end_ms,
+      speaker: !unassigned(msg.speaker_label) ? msg.speaker_label : prev.speaker || "",
+      start_ms: words.length && words[0].start != null ? words[0].start + off : prev.start_ms,
+      end_ms: words.length && words[words.length - 1].end != null ? words[words.length - 1].end + off : prev.end_ms,
     });
     renderTranscript();
   }
@@ -94,7 +100,7 @@ export async function render(root, { visitId }, ctx) {
   function onRevision(session, msg) {
     for (const r of msg.revisions || []) {
       const t = turns.get(`${session}:${r.turn_order}`);
-      if (t && r.speaker_label) t.speaker = r.speaker_label;
+      if (t && !unassigned(r.speaker_label)) t.speaker = r.speaker_label;
     }
     renderTranscript();
   }
@@ -103,7 +109,7 @@ export async function render(root, { visitId }, ctx) {
     return Array.from(turns.values())
       .filter((t) => t.text && t.text.trim())
       .sort((a, b) => a.session - b.session || a.order - b.order)
-      .map((t, i) => ({ id: `t${i + 1}`, speaker: t.speaker && t.speaker !== "PENDING" ? t.speaker : "A", role: "unknown", text: t.text.trim(), start_ms: t.start_ms ?? null, end_ms: t.end_ms ?? null, final: t.final }));
+      .map((t, i) => ({ id: `t${i + 1}`, speaker: unassigned(t.speaker) ? "" : t.speaker, role: "unknown", text: t.text.trim(), start_ms: t.start_ms ?? null, end_ms: t.end_ms ?? null, final: t.final }));
   }
 
   async function saveTurns() {
@@ -139,10 +145,18 @@ export async function render(root, { visitId }, ctx) {
       onStatus: (kind, info) => {
         if (destroyed) return;
         if (kind === "live") {
+          sessionOffsetMs.set(live.session, Math.round(elapsed * 1000));
           const model = live && live.model ? ` · ${live.model}` : "";
-          setStatus("live", `Live transcript${model} · Medical Mode`);
+          const mm = live && live.domain === "medical-v1" ? " · Medical Mode" : live && live.domain ? "" : " · Medical Mode requested";
+          setStatus("live", `Live transcript${model}${mm}`);
           banner.textContent = "";
         } else if (kind === "dropped" && phase !== "stopping") {
+          if (info && info.code === 1008) {
+            setStatus("local", "Recording locally");
+            showBanner("warning", `The live transcript service refused the session (${info.reason || "unauthorized"}). Recording continues on this device; the final pass will transcribe everything.`);
+            return;
+          }
+          if (phase === "paused") { pendingReconnect = info || {}; setStatus("paused", "Paused: not recording"); return; }
           setStatus("dropped", "Live transcript paused");
           reconnect(info);
         } else if (kind === "error") {
@@ -217,6 +231,7 @@ export async function render(root, { visitId }, ctx) {
       document.getElementById("rec-dot")?.classList.remove("dot-live");
     } else if (phase === "paused") {
       phase = "live"; mic && mic.resume(); lastTick = performance.now(); pauseBtn.textContent = "Pause";
+      if (pendingReconnect) { const info = pendingReconnect; pendingReconnect = null; reconnect(info); }
       setStatus(live && live.ready ? "live" : "local", live && live.ready ? "Live transcript · Medical Mode" : "Recording locally");
       document.getElementById("rec-dot")?.classList.add("dot-live");
     }

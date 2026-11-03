@@ -172,7 +172,7 @@ def test_max_tokens_retries_with_more_room(fake):
     s = fixtures.sample("s1-knee-warfarin")
     note, meta = run(notes.generate_note(s["turns"], None, template="soap", specialty="family_medicine",
                                          style="concise", engine="sonnet", visit_date="2026-11-03"))
-    assert client.messages.calls[1]["max_tokens"] == 2 * client.messages.calls[0]["max_tokens"]
+    assert client.messages.calls[1]["max_tokens"] == 24000 > client.messages.calls[0]["max_tokens"]
     assert any("more space" in w for w in meta["warnings"])
 
 

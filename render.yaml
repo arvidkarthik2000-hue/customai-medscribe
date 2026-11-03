@@ -29,6 +29,9 @@ services:
         sync: false
       - key: ANTHROPIC_API_KEY
         sync: false
+      # Keep the token, the WebSocket and the API in AssemblyAI's US zone.
+      - key: ASSEMBLYAI_REGION
+        value: us
       - key: NOTE_MODEL
         value: claude-sonnet-5-5
       - key: FAST_MODEL

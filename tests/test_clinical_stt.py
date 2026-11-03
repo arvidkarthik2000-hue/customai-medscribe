@@ -89,7 +89,7 @@ def test_ws_url_params_and_keyterm_limit():
     assert q["sample_rate"] == "16000" and q["encoding"] == "pcm_s16le"
     assert q["domain"] == "medical-v1" and q["speaker_labels"] == "true"
     assert q["min_turn_silence"] == "800" and q["max_turn_silence"] == "3600"
-    assert q["inactivity_timeout"] == "300"
+    assert "inactivity_timeout" not in q  # a pause must not close the session
     assert "token" not in q
     kt = json.loads(q["keyterms_prompt"])
     assert len(kt) == 100 and kt[0] == "warfarin"
@@ -160,7 +160,7 @@ def test_transcribe_file_maps_turns_and_strips_brands():
     res = run(stt.transcribe_file(_audio_file(), ["insulin lispro", "metformin"], sleep=_nosleep))
     body = state["bodies"][0]
     assert body["speech_models"] == ["universal-3-5-pro"]
-    assert body["domain"] == "medical-v1" and body["speaker_labels"] is True and body["language_code"] == "en_us"
+    assert body["domain"] == "medical-v1" and body["speaker_labels"] is True and body["language_code"] == "en"
     assert body["keyterms_prompt"] == ["insulin lispro", "metformin"]
     assert body["audio_url"] == "https://cdn.assemblyai.com/upload/abc"
     assert state["uploaded"] > 4000 and state["deleted"]

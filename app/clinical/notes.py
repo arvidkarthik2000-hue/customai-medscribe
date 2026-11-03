@@ -226,8 +226,9 @@ async def call_structured(*, model: str, system: str, user: str, json_schema: di
         if stop == "refusal":
             raise NoteError("The note model declined to write this note (refusal).")
         if stop == "max_tokens":
-            if params["max_tokens"] < 48000:
-                params["max_tokens"] = min(64000, params["max_tokens"] * 2)
+            if params["max_tokens"] < 24000:
+                # one bigger retry only; non-streaming calls must stay well under the SDK's streaming threshold
+                params["max_tokens"] = 24000
                 warnings.append("The first draft ran out of room, so it was redrafted with more space.")
                 continue
             raise NoteError("The note was too long for the model's output limit.")

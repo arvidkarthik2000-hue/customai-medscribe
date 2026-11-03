@@ -97,8 +97,8 @@ def _err_detail(resp: httpx.Response) -> str:
 # ---------------------------------------------------------------- keyterms
 
 
-def clean_keyterms(terms: list[str], limit: int) -> list[str]:
-    out, seen = [], set()
+def clean_keyterms(terms: list[str], limit: int, word_budget: int | None = None) -> list[str]:
+    out, seen, words = [], set(), 0
     for t in terms:
         t = re.sub(r"\s+", " ", str(t or "")).strip(" ,.;")
         if not t or len(t) > 50 or len(t.split()) > 6:
@@ -106,8 +106,12 @@ def clean_keyterms(terms: list[str], limit: int) -> list[str]:
         k = t.lower()
         if k in seen:
             continue
+        n = len(t.split())
+        if word_budget is not None and words + n > word_budget:
+            break
         seen.add(k)
         out.append(t)
+        words += n
         if len(out) >= limit:
             break
     return out
@@ -116,7 +120,8 @@ def clean_keyterms(terms: list[str], limit: int) -> list[str]:
 def build_keyterms(chart_terms: list[str], specialty: str) -> dict[str, list[str]]:
     """The patient's medicines, allergies and problems first, then the specialty's drugs."""
     pool = list(chart_terms) + drugs_bridge.brand_and_generic_terms(specialty)
-    return {"live": clean_keyterms(pool, LIVE_KEYTERMS), "final": clean_keyterms(pool, FINAL_KEYTERMS)}
+    return {"live": clean_keyterms(pool, LIVE_KEYTERMS),
+            "final": clean_keyterms(pool, FINAL_KEYTERMS, word_budget=FINAL_KEYTERMS)}
 
 
 # ---------------------------------------------------------------- live streaming
@@ -132,7 +137,6 @@ def ws_url(keyterms: list[str]) -> str:
         "speaker_labels": "true",
         "min_turn_silence": 800,
         "max_turn_silence": 3600,
-        "inactivity_timeout": 300,
     }
     terms = clean_keyterms(keyterms, LIVE_KEYTERMS)
     if terms:
@@ -241,10 +245,6 @@ async def create_and_poll(c: httpx.AsyncClient, key: str, body: dict, *, timeout
                 body.pop("keyterms_prompt")
                 warnings.append(f"AssemblyAI rejected the keyterms, so they were not used ({detail}).")
                 continue
-            if ("speech_model" in low or "model" in low) and "speech_models" in body:
-                body.pop("speech_models")
-                warnings.append(f"AssemblyAI rejected the requested model, so its default model was used ({detail}).")
-                continue
             if "domain" in low and "domain" in body:
                 body.pop("domain")
                 warnings.append(f"Medical Mode was not applied: AssemblyAI rejected it ({detail}).")
@@ -253,6 +253,10 @@ async def create_and_poll(c: httpx.AsyncClient, key: str, body: dict, *, timeout
                 body.pop("language_code")
                 body["language_detection"] = True
                 warnings.append(f"Language code rejected; language detection used instead ({detail}).")
+                continue
+            if ("speech_model" in low or "model" in low) and "speech_models" in body:
+                body.pop("speech_models")
+                warnings.append(f"AssemblyAI rejected the requested model, so its default model was used ({detail}).")
                 continue
         raise SttError(f"AssemblyAI would not start the transcription ({detail}).")
     else:
@@ -271,8 +275,10 @@ async def create_and_poll(c: httpx.AsyncClient, key: str, body: dict, *, timeout
             data["_body"] = body
             return data, warnings
         if status == "error":
+            await delete_transcript(c, key, tid)
             raise SttError(f"AssemblyAI could not transcribe the audio: {_short(str(data.get('error') or 'unknown error'))}.")
         if time.monotonic() > deadline:
+            await delete_transcript(c, key, tid)
             raise SttError("AssemblyAI took too long to transcribe the audio (timed out).")
         await sleep(delay)
         delay = min(delay * 1.5, 5.0)
@@ -294,7 +300,7 @@ async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep
     if not path.exists() or path.stat().st_size == 0:
         raise SttError("The visit recording is missing or empty.")
     api = hosts()["api"]
-    terms = clean_keyterms(keyterms, FINAL_KEYTERMS)
+    terms = clean_keyterms(keyterms, FINAL_KEYTERMS, word_budget=FINAL_KEYTERMS)
     async with _client(httpx.Timeout(60.0, read=300.0, write=300.0)) as c:
         try:
             up = await c.post(
@@ -313,7 +319,7 @@ async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep
             "speech_models": [s.final_speech_model],
             "domain": "medical-v1",
             "speaker_labels": True,
-            "language_code": "en_us",
+            "language_code": "en",
         }
         if terms:
             body["keyterms_prompt"] = terms
@@ -336,7 +342,7 @@ async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep
             "transcript_id": tid,
             "speech_model_used": data.get("speech_model_used") or (sent.get("speech_models") or ["default"])[0],
             "audio_duration": data.get("audio_duration"),
-            "medical_mode": sent.get("domain") == "medical-v1",
+            "medical_mode": data.get("domain", sent.get("domain")) == "medical-v1",
             "keyterms_used": len(sent.get("keyterms_prompt") or []),
             "warnings": warnings,
         },
@@ -367,6 +373,12 @@ def normalise_live_turns(turns: list[dict]) -> list[dict]:
             turn["raw_text"] = raw
         out.append(turn)
     return out
+
+
+def renumber_in_order(turns: list[dict]) -> list[dict]:
+    """Stable ids t1..tn keeping the given order (live turns arrive in spoken order,
+    but each reconnect restarts AssemblyAI's word times at 0, so sorting would mix sessions)."""
+    return [{**t, "id": f"t{i}"} for i, t in enumerate(turns, 1)]
 
 
 def renumber(turns: list[dict]) -> list[dict]:

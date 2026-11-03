@@ -143,6 +143,7 @@ export class LiveTranscriber {
     this.reconnects = 0;
     this.terminated = null;
     this.model = "";
+    this.domain = "";
   }
 
   async connect() {
@@ -163,6 +164,7 @@ export class LiveTranscriber {
           clearTimeout(timer);
           this.ready = true;
           this.model = (msg.configuration && (msg.configuration.model || msg.configuration.speech_model)) || "";
+          this.domain = (msg.configuration && msg.configuration.domain) || "";
           this.onStatus && this.onStatus("live", msg);
           resolve();
         } else if (msg.type === "Turn") {
@@ -195,8 +197,10 @@ export class LiveTranscriber {
   async terminate() {
     this.closing = true;
     if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
+    this.ready = false; // stop sending audio before asking the server to finish
     await new Promise((resolve) => {
-      const t = setTimeout(resolve, 4000);
+      // the final speaker revision arrives just before Termination; give it time on long visits
+      const t = setTimeout(resolve, 15000);
       this.terminated = () => { clearTimeout(t); resolve(); };
       try { this.ws.send(JSON.stringify({ type: "Terminate" })); } catch { clearTimeout(t); resolve(); }
     });

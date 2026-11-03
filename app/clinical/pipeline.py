@@ -152,7 +152,7 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
             r.set("final_transcript", "done", detail)
         except stt.SttError as exc:
             if live:
-                transcript = stt.renumber(live)
+                transcript = stt.renumber_in_order(live)
                 r.set("final_transcript", "error", f"Final pass failed: {exc} Using the live transcript instead.")
                 engine_info["warnings"].append(f"Final pass failed ({exc}); the live transcript was used.")
             else:
@@ -161,7 +161,7 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
         live = stt.normalise_live_turns(visit.get("live_turns") or [])
         if not live:
             raise PipelineError("No live transcript was captured for this visit.")
-        transcript = stt.renumber(live)
+        transcript = stt.renumber_in_order(live)
         r.set("final_transcript", "skipped", "Live transcript used (no final pass).")
     elif source == "sample":
         if not sample:

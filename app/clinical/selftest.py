@@ -44,7 +44,7 @@ async def _final_pass() -> dict:
     if not s.assemblyai_api_key:
         return _result("AssemblyAI final pass (Medical Mode)", None, "Skipped: ASSEMBLYAI_API_KEY is not set.", t0)
     body = {"audio_url": SAMPLE_AUDIO, "speech_models": [s.final_speech_model], "domain": "medical-v1",
-            "speaker_labels": True, "language_code": "en_us"}
+            "speaker_labels": True, "language_code": "en"}
     try:
         async with stt._client(httpx.Timeout(30.0, read=60.0)) as c:
             data, warnings = await stt.create_and_poll(c, s.assemblyai_api_key, body, timeout_s=150)
@@ -54,8 +54,9 @@ async def _final_pass() -> dict:
         used = data.get("speech_model_used") or "unknown model"
         words = len((data.get("text") or "").split())
         sent = data.get("_body") or body
-        mm = "Medical Mode on" if sent.get("domain") == "medical-v1" else "Medical Mode NOT applied"
-        ok = sent.get("domain") == "medical-v1"
+        applied = data.get("domain", sent.get("domain"))
+        mm = "Medical Mode on" if applied == "medical-v1" else "Medical Mode NOT applied"
+        ok = applied == "medical-v1"
         detail = f"Completed with {used}, {mm}, {data.get('audio_duration')} s of audio, {words} words."
         if warnings:
             detail += " " + " ".join(warnings)
