@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
 from .. import auth, config
-from . import drugs_bridge, export, fixtures, notemodel, notes, pipeline, selftest, store, stt, verify
+from . import drugs_bridge, evaluate, export, fixtures, notemodel, notes, pipeline, selftest, store, stt, verify
 from .templates import SPECIALTIES
 
 log = logging.getLogger("medscribe.clinical")
@@ -602,3 +602,17 @@ def export_txt(visit_id: str, _s: dict = Depends(auth.require)):
 @router.get("/selftest")
 async def run_selftest(_s: dict = Depends(auth.require)):
     return await selftest.selftest()
+
+
+# Public, rate-limited checks: no session needed, nothing secret or real in them.
+# They let the deployment be verified without anyone typing credentials.
+
+@router.get("/selftest/public")
+async def public_selftest():
+    return await selftest.selftest(force_cached_window=3600)
+
+
+@router.get("/eval/public")
+async def public_eval():
+    """End-to-end accuracy run on the five voiced sample visits (at most every 6 hours)."""
+    return evaluate.status()

@@ -18,6 +18,15 @@
       <button class="btn btn-primary" id="run">Run self-test</button>
     </div>
     <div id="results" class="stack"></div>
+    <div class="page-title" style="margin-top:28px">
+      <div>
+        <div class="eyebrow">End-to-end accuracy</div>
+        <h2>Voiced sample visits</h2>
+        <p class="muted" style="margin:4px 0 0">The five scripted visits, voiced with synthetic US voices, run through the real pipeline: AssemblyAI final pass, Claude note, verifier and medicine checks, then scored against the scripts. Runs at most every 6 hours, takes about five minutes. Synthetic voices score better than real clinic audio.</p>
+      </div>
+      <button class="btn" id="run-eval">Run or refresh</button>
+    </div>
+    <div id="eval" class="stack"></div>
   </main>
   <script type="module" src="/selftest/selftest.js"></script>
 </body>
