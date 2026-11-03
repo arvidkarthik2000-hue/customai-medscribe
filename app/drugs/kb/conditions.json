@@ -435,6 +435,98 @@
    }
   },
   {
+   "id": "cyclobenzaprine-cardiac",
+   "drugs": {
+    "drugs": [
+     "cyclobenzaprine"
+    ]
+   },
+   "icd10": [
+    "I50",
+    "I44",
+    "I45",
+    "I47",
+    "I48",
+    "I49",
+    "I21",
+    "I22",
+    "E05"
+   ],
+   "terms": [
+    "heart failure",
+    "chf",
+    "arrhythmia",
+    "atrial fibrillation",
+    "heart block",
+    "conduction disorder",
+    "myocardial infarction",
+    "hyperthyroidism"
+   ],
+   "severity": "critical",
+   "summary": "Cyclobenzaprine with heart failure, arrhythmia, heart block, recent heart attack or hyperthyroidism",
+   "detail": "Contraindicated in the acute recovery phase of myocardial infarction and in patients with arrhythmias, heart block or conduction disturbances, congestive heart failure or hyperthyroidism (cyclobenzaprine label).",
+   "source": {
+    "label": "FDA label: cyclobenzaprine, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=cyclobenzaprine"
+   }
+  },
+  {
+   "id": "clarithromycin-heart-disease",
+   "drugs": {
+    "drugs": [
+     "clarithromycin"
+    ]
+   },
+   "icd10": [
+    "I20",
+    "I21",
+    "I22",
+    "I24",
+    "I25",
+    "I50"
+   ],
+   "terms": [
+    "coronary artery disease",
+    "cad",
+    "angina",
+    "myocardial infarction",
+    "ischemic heart disease",
+    "heart failure"
+   ],
+   "severity": "warning",
+   "summary": "Clarithromycin in a patient with heart disease",
+   "detail": "FDA (2018) found a possible increase in heart problems and deaths years later in patients with heart disease who took clarithromycin, and advises weighing the risks and considering other antibiotics in these patients, even for short courses.",
+   "source": {
+    "label": "FDA Drug Safety Communication, 22 Feb 2018: clarithromycin in patients with heart disease",
+    "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-drug-safety-communication-fda-review-finds-additional-data-supports-potential-increased-long"
+   }
+  },
+  {
+   "id": "amiloride-diabetic-nephropathy",
+   "drugs": {
+    "drugs": [
+     "amiloride"
+    ]
+   },
+   "icd10": [
+    "E11.2",
+    "E10.2",
+    "E13.2"
+   ],
+   "terms": [
+    "diabetic nephropathy",
+    "diabetic kidney disease",
+    "diabetic chronic kidney disease"
+   ],
+   "severity": "critical",
+   "summary": "Amiloride with diabetic kidney disease",
+   "detail": "The amiloride label lists evidence of diabetic nephropathy as a contraindication because of the risk of hyperkalemia.",
+   "source": {
+    "label": "FDA label: amiloride, Contraindications",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=amiloride"
+   }
+  },
+  {
    "id": "qt-long-qt",
    "drugs": {
     "classes": [

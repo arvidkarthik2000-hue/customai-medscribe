@@ -211,6 +211,74 @@ def _egfr(patient: dict, age: float | None) -> tuple[float | None, str]:
     return None, ""
 
 
+def _lab_latest(patient: dict, include: tuple[str, ...], exclude: tuple[str, ...] = ("urine", "ratio")) -> tuple[float | None, str]:
+    """Latest numeric lab whose name contains one of `include` (by date, else smallest days_ago, else first)."""
+    best = None
+    for i, lab in enumerate(_items(patient.get("labs"), "name")):
+        name = str(lab.get("name", "")).lower()
+        if not any(t in name for t in include) or any(x in name for x in exclude):
+            continue
+        try:
+            value = float(str(lab.get("value")).replace(",", ""))
+        except (TypeError, ValueError):
+            continue
+        if lab.get("date"):
+            key = (0, str(lab["date"]))
+        elif lab.get("days_ago") is not None:
+            key = (0, f"{-float(lab['days_ago']):020.3f}")
+        else:
+            key = (1, f"{-i:06d}")
+        if best is None or key > best[0]:
+            best = (key, value, str(lab.get("unit") or ""))
+    return (best[1], best[2]) if best else (None, "")
+
+
+def _creatinine(patient: dict) -> float | None:
+    value, unit = _lab_latest(patient, ("creatinine",), ("clearance", "urine", "ratio"))
+    if value is None:
+        return None
+    return value / 88.4 if "mol" in unit.lower() else value
+
+
+def _weight(patient: dict) -> float | None:
+    for src in (patient.get("vitals") or {}, patient):
+        for key in ("weight_kg", "weight"):
+            if src.get(key) not in (None, ""):
+                try:
+                    return float(src[key])
+                except (TypeError, ValueError):
+                    pass
+    return None
+
+
+def _crcl(age: float | None, weight: float | None, scr: float | None, sex) -> tuple[float | None, str]:
+    """Cockcroft-Gault creatinine clearance with actual body weight (the basis DOAC and many renal labels use)."""
+    if age is None or weight is None or not scr or scr <= 0:
+        return None, ""
+    value = (140 - age) * weight / (72 * scr)
+    if str(sex or "").upper().startswith("F"):
+        value *= 0.85
+    return value, f"Cockcroft-Gault with actual body weight {weight:g} kg, creatinine {scr:g} mg/dL, age {age:.0f}"
+
+
+def _smoking(patient: dict) -> dict:
+    text = str(((patient.get("social") or {}).get("tobacco")) or patient.get("smoking") or "").lower()
+    out: dict = {}
+    if not text:
+        return out
+    if "never" in text:
+        return {"ever": False, "current": False}
+    out["ever"] = True
+    out["current"] = bool(re.search(r"\b(current|smokes|smoker)\b", text)) and "former" not in text and "quit" not in text
+    m = re.search(r"quit\s*(?:in\s*)?(\d{4})", text)
+    if m:
+        out["quit_years"] = date.today().year - int(m.group(1))
+    m = re.search(r"(\d+(?:\.\d+)?)\s*pack[- ]years?", text)
+    if m:
+        out["pack_years"] = float(m.group(1))
+    return out
+
+
 _ALLERGIC_WORDS = ("hive", "rash", "anaphyla", "swell", "angioedema", "itch", "wheez", "short of breath", "shortness of breath",
                    "stevens", "sjs", "blister", "throat", "lips", "tongue", "urticaria", "bronchospasm", "peeling")
 _INTOLERANCE_WORDS = ("intoleran", "nausea", "vomit", "upset stomach", "gi upset", "stomach upset", "constipat", "drowsy",
@@ -255,6 +323,18 @@ def _source_obj(src: dict | None, reviewed: str) -> dict | None:
     return {"label": src.get("label"), "url": src.get("url"), "date": reviewed, "date_type": "reviewed"}
 
 
+# Sign gate: every critical alert, and every warning this visit creates in these categories,
+# needs an acknowledgement before the note can be signed.
+ACK_WARNING_CATEGORIES = frozenset({"interaction", "qt", "allergy", "condition", "renal", "dose"})
+
+
+def requires_ack(card: dict) -> bool:
+    indicator = card.get("indicator")
+    if indicator == "critical":
+        return True
+    return indicator == "warning" and card.get("context") == "new" and card.get("category") in ACK_WARNING_CATEGORIES
+
+
 def _to_card(f: Finding, reviewed: str, grading: str) -> dict:
     detail = f.detail
     if f.also:
@@ -277,13 +357,15 @@ def _to_card(f: Finding, reviewed: str, grading: str) -> dict:
         "grading": grading if f.graded else None,
     }
     card.update(f.extra)
+    card["requires_ack"] = requires_ack(card)
     return card
 
 
 # ---------------------------------------------------------------- the check
 
 
-def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.0, use_network: bool = True) -> dict:
+def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.0, use_network: bool = True,
+                include_prevention_reminders: bool = True) -> dict:
     k = kb()
     started = time.monotonic()
     deadline = started + max(1.0, float(timeout_s))
@@ -299,6 +381,12 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
     plan_key = insurance.get("plan_key") or patient.get("plan_key")
     pregnant = bool(patient.get("pregnant"))
     egfr, egfr_basis = _egfr(patient, age)
+    weight = _weight(patient)
+    scr = _creatinine(patient)
+    crcl, crcl_basis = _crcl(age, weight, scr, sex)
+    potassium, _k_unit = _lab_latest(patient, ("potassium",))
+    sodium, _na_unit = _lab_latest(patient, ("sodium",))
+    af = _problem_hit(problems, ["I48"], ["atrial fibrillation", "afib", "a-fib", "atrial flutter"])
     problems_text = " ; ".join(p.get("name") or "" for p in problems)
 
     chart_generics = {g for g in (k.lookup(r.get("name")) for r in chart_rows) if g}
@@ -323,7 +411,9 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
         action = str(r.get("action") or "").strip().lower()
         med = Med(key=r["id"], row=r, origin="visit", action=action, generic=generic, drug=k.get(generic), match=m)
         med.active = action in ACTIVE_ACTIONS
-        med.new = action in NEW_ACTIONS
+        # New for this visit: started or changed, or recorded in the visit but not on the chart's list
+        # (for example an over-the-counter NSAID the patient began on their own).
+        med.new = action in NEW_ACTIONS or (med.active and generic is not None and generic not in chart_generics)
         meds.append(med)
 
     visit_by_generic: dict[str, Med] = {}
@@ -413,6 +503,10 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
                          meds=meds_union, sources=list(top.sources), rule_id=top.rule_id, effect=top.effect,
                          management=top.management, context="new" if any(f.context == "new" for f in fs) else "existing",
                          group=group, onc=any(f.onc for f in fs))
+        if group == "hyperkalemia" and potassium is not None and potassium > 5.0:
+            merged.indicator = "critical"
+            merged.detail = f"Latest potassium {potassium:g} mmol/L, above 5.0. {merged.detail}"
+            merged.extra["potassium"] = potassium
         for f in fs[1:]:
             line = f.summary
             if line != top.summary and line not in merged.also:
@@ -477,7 +571,7 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
         for m in visit_active:
             hit = None
             if a_generic and (m.generic == a_generic or a_generic in (m.drug.ingredients if m.drug else [])):
-                hit = ("critical", f"Allergy to {label}: {m.name} is the same drug", "Listed allergy to this medicine.", None)
+                hit = ("critical", f"Allergy to {label}: {m.name} is the same drug", "Listed allergy to this medicine.", None, None, None)
             else:
                 for g in groups:
                     in_group = bool(m.drug.classes.intersection(g.get("member_classes", []))) or m.generic in g.get("member_drugs", [])
@@ -488,24 +582,27 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
                         why = f"{m.name} belongs to the {g['label'].lower()}."
                         if g.get("note"):
                             why += " " + g["note"]
-                        hit = (sev, f"Allergy to {label}: {m.name} is in the same class", why, g["source"])
+                        hit = (sev, f"Allergy to {label}: {m.name} is in the same class", why, g["source"], None, None)
                         break
                     for cross in g.get("cross", []):
                         if k.matches(cross, m.drug):
-                            hit = (cross["severity"], f"Allergy to {label}: possible cross-reactivity with {m.name}", cross["note"], g["source"])
+                            hit = (cross["severity"], f"Allergy to {label}: possible cross-reactivity with {m.name}", cross["note"], g["source"],
+                                   cross.get("management"), cross.get("sources"))
                             break
                     if hit:
                         break
             if hit:
-                sev, summary, why, src = hit
+                sev, summary, why, src, advice, cross_sources = hit
                 if _is_intolerance(reaction):
                     sev = {"critical": "warning", "warning": "info"}.get(sev, sev)
                     summary = summary.replace("Allergy to", "Intolerance to", 1)
                     why += " The recorded reaction sounds like an intolerance rather than an allergy."
+                advice = advice or "Confirm the reaction history before prescribing; choose an alternative if the reaction was allergic."
+                srcs = list(cross_sources or []) + ([src] if src else [])
                 findings.append(Finding(category="allergy", indicator=sev, summary=summary,
-                                        detail=f"{why} What to do: confirm the reaction history before prescribing; choose an alternative if the reaction was allergic.",
-                                        meds=[m.generic], sources=[src] if src else [], rule_id=f"allergy:{norm(substance)}",
-                                        effect=why, management="Confirm the reaction history; choose an alternative if the reaction was allergic.",
+                                        detail=f"{why} What to do: {advice}",
+                                        meds=[m.generic], sources=srcs, rule_id=f"allergy:{norm(substance)}",
+                                        effect=why, management=advice,
                                         context="new" if m.new else "existing", extra={"allergy": {"substance": substance, "reaction": reaction}}))
 
     # 4. conditions (problem list, pregnancy, eGFR-triggered)
@@ -527,6 +624,29 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
                                     rule_id=rule["id"], effect=rule["detail"], management="Review whether an alternative fits better.",
                                     context="new" if m.new else "existing", extra={"condition": hit}))
 
+    # 4b. tramadol: hyponatremia warning (tramadol label), from sex/age and the sodium lab
+    for m in visit_active:
+        if m.generic != "tramadol" and "tramadol" not in (m.drug.ingredients if m.drug else []):
+            continue
+        reasons = []
+        if sodium is not None and sodium < 135:
+            reasons.append(f"sodium {sodium:g} mmol/L")
+        if str(sex or "").upper().startswith("F") and age is not None and age > 65:
+            reasons.append(f"woman aged {age:.0f}")
+        if not reasons:
+            continue
+        detail = ("Tramadol label: hyponatremia (sodium below 135 mmol/L, many cases below 120) has been reported, most often in women over 65 "
+                  "within the first week, sometimes from SIADH. Check sodium and watch for confusion or disorientation, especially when starting; "
+                  "stop tramadol if hyponatremia develops.")
+        srcs = [{"label": "FDA label: tramadol, Warnings and Precautions: hyponatremia", "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tramadol"}]
+        if any(o.drug.classes & {"ssri", "snri"} for o in active if o is not m):
+            detail += " SSRI and SNRI labels also warn of hyponatremia (SIADH), with older adults at greater risk."
+            srcs.append({"label": "FDA label: sertraline, Warnings and Precautions: hyponatremia", "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sertraline"})
+        findings.append(Finding(category="condition", indicator="warning", summary=f"Tramadol and hyponatremia risk ({', '.join(reasons)})",
+                                detail=detail, meds=[m.generic], sources=srcs, rule_id="tramadol-hyponatremia",
+                                effect="Hyponatremia, sometimes severe.", management="Check sodium; watch for confusion.",
+                                context="new" if m.new else "existing", extra={"sodium": sodium}))
+
     # 5. older adults
     if age is not None and age >= k.older["min_age"]:
         for rule in k.older["rules"]:
@@ -539,20 +659,78 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
                                             context="new" if m.new else "existing"))
 
     # 6. renal (label text only)
-    renal_needed: list[tuple[Med, dict]] = []
-    if egfr is not None:
+    def renal_value(entry: dict) -> tuple[float | None, str]:
+        if entry.get("basis") == "crcl" and crcl is not None:
+            return crcl, "crcl"
+        return egfr, "egfr"
+
+    renal_needed: list[tuple[Med, dict, float, str]] = []
+    if egfr is not None or crcl is not None:
         for m in visit_active:
-            entries = k.renal["drugs"].get(m.generic) or []
-            applicable = [e for e in entries if egfr < e["below"]]
+            applicable = []
+            for e in k.renal["drugs"].get(m.generic) or []:
+                value, basis = renal_value(e)
+                if value is not None and value < e["below"]:
+                    applicable.append((e, value, basis))
             if applicable:
-                renal_needed.append((m, min(applicable, key=lambda e: e["below"])))
+                e, value, basis = min(applicable, key=lambda x: x[0]["below"])
+                renal_needed.append((m, e, value, basis))
+
+    # 6b. DOAC label dose criteria in atrial fibrillation (criteria shown next to the patient's values; no dose is chosen)
+    doac_af = k.renal.get("doac_af") or {}
+    for m in visit_active:
+        entry = doac_af.get(m.generic)
+        if not entry or not af:
+            continue
+        recorded_mg = doses.dose_mg(m.row.get("dose"), m.row.get("unit"))
+        recorded = " ".join(str(x) for x in (m.row.get("dose"), m.row.get("unit"), m.row.get("frequency")) if x) or "not stated"
+        src = [{"label": f"FDA label: {m.generic}, Dosage and Administration", "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=" + m.generic}]
+        if "criteria" in entry:
+            c = entry["criteria"]
+            met = []
+            if age is not None and age >= c["age_min"]:
+                met.append(f"age {age:.0f} (80 or older)")
+            if weight is not None and weight <= c["weight_max_kg"]:
+                met.append(f"weight {weight:g} kg (60 kg or less)")
+            if scr is not None and scr >= c["creatinine_min"]:
+                met.append(f"creatinine {scr:g} mg/dL (1.5 or more)")
+            unknown = [n for n, v in (("weight", weight), ("creatinine", scr), ("age", age)) if v is None]
+            met_txt = ", ".join(met) if met else "none"
+            if len(met) >= c["needed"] and (recorded_mg is None or recorded_mg > 2.5 + 1e-9):
+                findings.append(Finding(category="dose", indicator="warning", summary=f"Apixaban: {len(met)} of 3 reduced-dose criteria met",
+                                        detail=f"Criteria met: {met_txt}. Recorded: {recorded}. {entry['text']} The app does not choose a dose.",
+                                        meds=[m.generic], sources=src, rule_id="doac:apixaban", effect=entry["text"],
+                                        management="Compare the recorded dose with the label's criteria.", context="new" if m.new else "existing",
+                                        extra={"criteria_met": met}))
+            elif len(met) < c["needed"] and recorded_mg is not None and recorded_mg <= 2.5 + 1e-9 and not unknown:
+                findings.append(Finding(category="dose", indicator="info", summary=f"Apixaban 2.5 mg with {len(met)} of 3 reduced-dose criteria",
+                                        detail=f"Criteria met: {met_txt}. Recorded: {recorded}. {entry['text']} The app does not choose a dose.",
+                                        meds=[m.generic], sources=src, rule_id="doac:apixaban", effect=entry["text"],
+                                        management="Compare the recorded dose with the label's criteria.", context="new" if m.new else "existing",
+                                        extra={"criteria_met": met}))
+            continue
+        if crcl is None:
+            findings.append(Finding(category="dose", indicator="info", summary=f"{m.name}: creatinine clearance needed for the label dose",
+                                    detail=f"{entry['text']} Weight or creatinine is missing, so creatinine clearance could not be calculated.",
+                                    meds=[m.generic], sources=src, rule_id=f"doac:{m.generic}", graded=False))
+            continue
+        for rule in entry["crcl_rules"]:
+            hit = ("max" in rule and crcl <= rule["max"]) or ("min" in rule and crcl > rule["min"])
+            if hit:
+                findings.append(Finding(category="dose", indicator=rule["severity"], summary=rule["summary"],
+                                        detail=f"Creatinine clearance about {crcl:.0f} mL/min ({crcl_basis}). Recorded: {recorded}. {entry['text']} The app does not choose a dose.",
+                                        meds=[m.generic], sources=src, rule_id=f"doac:{m.generic}", effect=entry["text"],
+                                        management="Compare the recorded dose with the label's creatinine-clearance bands.",
+                                        context="new" if m.new else "existing", extra={"crcl": round(crcl)}))
+                break
 
     # 7. doses
     dose_checks: dict[str, dict] = {}
     for m in meds:
         if m.origin != "visit":
             continue
-        dc, card = doses.check(m.generic, m.row.get("dose"), m.row.get("unit"), m.row.get("frequency"))
+        dc, card = doses.check(m.generic, m.row.get("dose"), m.row.get("unit"), m.row.get("frequency"),
+                               age=age, co_generics={o.generic for o in active if o is not m})
         dose_checks[m.key] = dc
         if card and m.active:
             findings.append(Finding(category="dose", indicator=card["indicator"], summary=card["summary"], detail=card["detail"],
@@ -609,10 +787,10 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
         for rule, _hit in condition_hits:
             if rule["severity"] != "info" and k.matches(rule["drugs"], d):
                 why.append("condition")
-        if egfr is not None:
-            for e in k.renal["drugs"].get(d.generic) or []:
-                if egfr < e["below"] and e["severity"] == "critical":
-                    why.append("kidney function")
+        for e in k.renal["drugs"].get(d.generic) or []:
+            value, _basis = renal_value(e)
+            if value is not None and value < e["below"] and e["severity"] == "critical":
+                why.append("kidney function")
         others = [m for m in active if m.generic != replaced]
         for rule in k.interactions["rules"]:
             if rule["severity"] == "info" or len(rule["all"]) != 2:
@@ -650,7 +828,6 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
                                     rule_id=f"formulary:{plan_key}", graded=False, extra={"alternatives": alts}))
 
     # 10. calculator: CHA2DS2-VASc when atrial fibrillation is on the problem list and an antithrombotic is in play
-    af = _problem_hit(problems, ["I48"], ["atrial fibrillation", "afib", "a-fib", "atrial flutter"])
     antithrombotics = [m for m in active if m.drug.classes & {"anticoagulant", "antiplatelet"}]
     if af and antithrombotics and any(m.origin == "visit" for m in active):
         comp = calculators.cha2ds2_vasc(
@@ -668,8 +845,9 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
                                 sources=[calculators.CITATIONS["cha2ds2_vasc"]], rule_id="calc:cha2ds2vasc", graded=False,
                                 extra={"value": comp["value"], "components": comp["components"]}))
 
-    # 11. prevention gaps passed through from the chart
-    for gap in _items(patient.get("care_gaps"), "name"):
+    # 11. prevention: the chart's care gaps, then reminders from age, sex, smoking, BMI, problems and medicines
+    chart_gaps = _items(patient.get("care_gaps"), "name")
+    for gap in chart_gaps:
         name = gap.get("name")
         if not name:
             continue
@@ -677,6 +855,25 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
         src = {"label": src_text, "url": None} if isinstance(src_text, str) else (src_text if isinstance(src_text, dict) else None)
         findings.append(Finding(category="prevention", indicator="info", summary=name, detail=gap.get("detail") or "",
                                 meds=[], sources=[src] if src else [], rule_id=f"gap:{norm(name)}", graded=False))
+    if include_prevention_reminders and age is not None:
+        gap_text = " ".join(f"{g.get('name', '')} {g.get('detail') or ''}".lower() for g in chart_gaps)
+        vitals = patient.get("vitals") or {}
+        rem = prevention.reminders(age, sex, smoking=_smoking(patient), bmi=vitals.get("bmi"),
+                                   problems=problems, medicines=[m.generic for m in active if m.generic],
+                                   done=patient.get("immunizations") or patient.get("completed_prevention") or [])
+        extra_items = [r for r in rem if not any(key in gap_text for key in r.get("keys", []))]
+        if extra_items:
+            srcs, seen_src = [], set()
+            for r in extra_items:
+                for src in r.get("sources") or [r["source"]]:
+                    if src["url"] not in seen_src:
+                        seen_src.add(src["url"])
+                        srcs.append(src)
+            findings.append(Finding(category="prevention", indicator="info",
+                                    summary=f"Other preventive care to consider ({len(extra_items)})",
+                                    detail="; ".join(f"{r['name']} ({r['detail'].rstrip('.')})" for r in extra_items) + ". " + k.prevention["note"],
+                                    meds=[], sources=srcs, rule_id="prevention:reminders", graded=False,
+                                    extra={"items": [{"id": r["id"], "name": r["name"], "detail": r["detail"]} for r in extra_items]}))
 
     # 12. FDA labels: renal text and label-mention interactions not covered above
     label_pairs = []
@@ -689,7 +886,7 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
             label_pairs.append((a, b))
         label_pairs = label_pairs[:12]
     wanted: list[str] = []
-    for m, _ in renal_needed:
+    for m, _e, _v, _b in renal_needed:
         if m.generic not in wanted:
             wanted.append(m.generic)
     for a, b in label_pairs:
@@ -715,10 +912,15 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
                 else:
                     tracker.ok(openfda.SOURCE)
 
-    for m, entry in renal_needed:
+    for m, entry, value, basis in renal_needed:
         lab = labels.get(m.generic)
         live = openfda.renal_excerpt(lab) if lab else None
-        detail = f"eGFR {egfr:.0f} mL/min/1.73 m²" + (f" ({egfr_basis})" if egfr_basis else "") + f". {entry['text']}"
+        if basis == "crcl":
+            detail = f"Creatinine clearance about {value:.0f} mL/min ({crcl_basis}). {entry['text']}"
+        else:
+            detail = f"eGFR {value:.0f} mL/min/1.73 m²" + (f" ({egfr_basis})" if egfr_basis else "") + f". {entry['text']}"
+            if entry.get("basis") == "crcl":
+                detail += " (The label uses creatinine clearance; weight or creatinine was missing, so eGFR was used.)"
         sources = [entry["source"]]
         if live:
             detail += f" Label text{' (effective ' + lab['effective_date'] + ')' if lab.get('effective_date') else ''}: “{live}”"
@@ -726,7 +928,8 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
         findings.append(Finding(category="renal", indicator=entry["severity"], summary=f"{entry['summary']}: {m.name}",
                                 detail=detail + " The app does not calculate doses.", meds=[m.generic], sources=sources,
                                 rule_id=f"renal:{m.generic}", effect=entry["text"], management="Follow the label's renal dosing section.",
-                                context="new" if m.new else "existing", extra={"egfr": round(egfr)}))
+                                context="new" if m.new else "existing",
+                                extra={"egfr": round(egfr) if egfr is not None else None, "crcl": round(crcl) if crcl is not None else None}))
 
     for a, b in label_pairs:
         for x, y in ((a, b), (b, a)):
@@ -804,7 +1007,8 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
         "sources_checked": sources_checked,
         "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "patient_context": {"age": age, "sex": sex, "egfr": round(egfr) if egfr is not None else None, "egfr_basis": egfr_basis,
-                            "plan_key": plan_key, "pregnant": pregnant},
+                            "crcl": round(crcl) if crcl is not None else None, "crcl_basis": crcl_basis,
+                            "potassium": potassium, "sodium": sodium, "plan_key": plan_key, "pregnant": pregnant},
         "empty_message": None if any(c["category"] in ("interaction", "qt", "allergy", "condition", "renal", "dose", "duplicate", "older_adult") for c in cards)
         else "No interaction found in these sources.",
         "rxnorm_attribution": rxnav.ATTRIBUTION,
@@ -830,7 +1034,9 @@ def check_list(medications: list[dict], patient_ctx: dict | None = None, *, incl
                      "insurance": {"plan_key": ctx.get("plan_key")} if ctx.get("plan_key") else {}}
     if ctx.get("creatinine") not in (None, ""):
         patient["labs"] = [{"name": "Creatinine", "value": ctx["creatinine"], "unit": "mg/dL"}]
-    result = check_visit(rows, patient, timeout_s=timeout_s, use_network=use_network)
+    if ctx.get("weight_kg") not in (None, ""):
+        patient["vitals"] = {"weight_kg": ctx.get("weight_kg")}
+    result = check_visit(rows, patient, timeout_s=timeout_s, use_network=use_network, include_prevention_reminders=False)
     if include_prevention and ctx.get("age") not in (None, ""):
         result["prevention"] = prevention.reminders(ctx.get("age"), ctx.get("sex"), smoking=ctx.get("smoking"), bmi=ctx.get("bmi"))
         result["prevention_note"] = kb().prevention["note"]

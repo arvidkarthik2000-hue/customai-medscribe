@@ -29,8 +29,8 @@
    {
     "below": 30,
     "severity": "info",
-    "summary": "Empagliflozin at low eGFR",
-    "text": "Empagliflozin label: likely ineffective for glucose lowering at eGFR below 30; review the label's renal dosing section for other indications.",
+    "summary": "Empagliflozin at eGFR below 30",
+    "text": "Empagliflozin label: use for glycemic control is not recommended at eGFR below 30. The heart failure and chronic kidney disease indications have no such cut-off; the label notes its trials did not enroll patients with eGFR below 20 or on dialysis. Assess kidney function and volume status before starting.",
     "source": {
      "label": "FDA label: empagliflozin, Dosage and Administration: renal impairment",
      "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=empagliflozin"
@@ -40,9 +40,19 @@
   "dapagliflozin": [
    {
     "below": 25,
-    "severity": "info",
+    "severity": "warning",
     "summary": "Dapagliflozin at eGFR below 25",
-    "text": "Dapagliflozin label: starting is not recommended at eGFR below 25; review the label for patients already taking it.",
+    "text": "Dapagliflozin label: starting dapagliflozin is not recommended at eGFR below 25; not recommended for glycemic control below eGFR 45.",
+    "source": {
+     "label": "FDA label: dapagliflozin, Dosage and Administration: renal impairment",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=dapagliflozin"
+    }
+   },
+   {
+    "below": 45,
+    "severity": "info",
+    "summary": "Dapagliflozin at eGFR below 45",
+    "text": "Dapagliflozin label: not recommended to improve glycemic control at eGFR below 45; it can still be used for heart failure or kidney protection (starting is not recommended below eGFR 25).",
     "source": {
      "label": "FDA label: dapagliflozin, Dosage and Administration: renal impairment",
      "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=dapagliflozin"
@@ -73,57 +83,10 @@
     }
    }
   ],
-  "apixaban": [
-   {
-    "below": 60,
-    "severity": "info",
-    "summary": "Check apixaban dose criteria",
-    "text": "Apixaban label (atrial fibrillation): the reduced dose applies to patients with any 2 of age 80 or over, weight 60 kg or less, or serum creatinine 1.5 mg/dL or more. Review the label.",
-    "source": {
-     "label": "FDA label: apixaban, Dosage and Administration: renal impairment",
-     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=apixaban"
-    }
-   }
-  ],
-  "rivaroxaban": [
-   {
-    "below": 50,
-    "severity": "warning",
-    "summary": "Rivaroxaban dose depends on creatinine clearance",
-    "text": "Rivaroxaban label uses creatinine clearance (Cockcroft-Gault), not eGFR, to set the dose in atrial fibrillation. Review the label.",
-    "source": {
-     "label": "FDA label: rivaroxaban, Dosage and Administration: renal impairment",
-     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=rivaroxaban"
-    }
-   }
-  ],
-  "dabigatran": [
-   {
-    "below": 50,
-    "severity": "warning",
-    "summary": "Dabigatran dose depends on creatinine clearance",
-    "text": "Dabigatran label: dosing depends on creatinine clearance, with reduced dosing at CrCl 15–30 mL/min and use not recommended below 15. Review the label.",
-    "source": {
-     "label": "FDA label: dabigatran, Dosage and Administration: renal impairment",
-     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=dabigatran"
-    }
-   }
-  ],
-  "edoxaban": [
-   {
-    "below": 50,
-    "severity": "warning",
-    "summary": "Edoxaban dose depends on creatinine clearance",
-    "text": "Edoxaban label: dose is reduced at CrCl 15–50 mL/min; review the label.",
-    "source": {
-     "label": "FDA label: edoxaban, Dosage and Administration: renal impairment",
-     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=edoxaban"
-    }
-   }
-  ],
   "gabapentin": [
    {
     "below": 60,
+    "basis": "crcl",
     "severity": "warning",
     "summary": "Gabapentin needs a renal dose adjustment",
     "text": "Gabapentin label: the daily dose range is reduced when creatinine clearance is below 60 mL/min. Review the label dosing table.",
@@ -136,6 +99,7 @@
   "pregabalin": [
    {
     "below": 60,
+    "basis": "crcl",
     "severity": "warning",
     "summary": "Pregabalin needs a renal dose adjustment",
     "text": "Pregabalin label: reduce the dose when creatinine clearance is below 60 mL/min. Review the label dosing table.",
@@ -148,7 +112,8 @@
   "nitrofurantoin": [
    {
     "below": 60,
-    "severity": "warning",
+    "basis": "crcl",
+    "severity": "critical",
     "summary": "Nitrofurantoin with reduced kidney function",
     "text": "Nitrofurantoin label: contraindicated with creatinine clearance under 60 mL/min or clinically significant creatinine elevation.",
     "source": {
@@ -159,19 +124,116 @@
   ],
   "spironolactone": [
    {
-    "below": 45,
+    "below": 50,
     "severity": "warning",
     "summary": "Spironolactone with reduced kidney function",
-    "text": "Spironolactone label: hyperkalemia risk rises with kidney impairment; in heart failure with eGFR 30–50, the label suggests a lower starting dose. Monitor potassium closely.",
+    "text": "Spironolactone label (heart failure): with eGFR 30–50, consider starting at 25 mg every other day; start only if potassium is 5.0 or below. Hyperkalemia risk rises with kidney impairment; monitor potassium closely.",
     "source": {
      "label": "FDA label: spironolactone, Dosage and Administration: renal impairment",
      "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=spironolactone"
     }
    }
   ],
+  "eplerenone": [
+   {
+    "below": 30,
+    "basis": "crcl",
+    "severity": "critical",
+    "summary": "Eplerenone with creatinine clearance 30 or below",
+    "text": "Eplerenone label: contraindicated in all patients with creatinine clearance of 30 mL/min or less.",
+    "source": {
+     "label": "FDA label: eplerenone, Dosage and Administration: renal impairment",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=eplerenone"
+    }
+   },
+   {
+    "below": 50,
+    "basis": "crcl",
+    "severity": "warning",
+    "summary": "Eplerenone with reduced kidney function",
+    "text": "Eplerenone label: for hypertension, contraindicated with creatinine clearance below 50 mL/min or serum creatinine above 2.0 mg/dL (men) or 1.8 mg/dL (women); monitor potassium closely in heart failure.",
+    "source": {
+     "label": "FDA label: eplerenone, Dosage and Administration: renal impairment",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=eplerenone"
+    }
+   }
+  ],
+  "amiloride": [
+   {
+    "below": 60,
+    "severity": "critical",
+    "summary": "Amiloride with reduced kidney function",
+    "text": "Amiloride label: contraindicated in acute or chronic renal insufficiency and diabetic nephropathy; with BUN above 30 mg/dL or creatinine above 1.5 mg/dL, it should not be given without close monitoring of potassium.",
+    "source": {
+     "label": "FDA label: amiloride, Dosage and Administration: renal impairment",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=amiloride"
+    }
+   }
+  ],
+  "sulfamethoxazole-trimethoprim": [
+   {
+    "below": 15,
+    "basis": "crcl",
+    "severity": "critical",
+    "summary": "Sulfamethoxazole-trimethoprim with creatinine clearance below 15",
+    "text": "Sulfamethoxazole-trimethoprim label: use not recommended with creatinine clearance below 15 mL/min.",
+    "source": {
+     "label": "FDA label: sulfamethoxazole-trimethoprim, Dosage and Administration: renal impairment",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sulfamethoxazole-trimethoprim"
+    }
+   },
+   {
+    "below": 30,
+    "basis": "crcl",
+    "severity": "warning",
+    "summary": "Sulfamethoxazole-trimethoprim with creatinine clearance 15–30",
+    "text": "Sulfamethoxazole-trimethoprim label: with creatinine clearance 15–30 mL/min, use half the usual regimen.",
+    "source": {
+     "label": "FDA label: sulfamethoxazole-trimethoprim, Dosage and Administration: renal impairment",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sulfamethoxazole-trimethoprim"
+    }
+   }
+  ],
+  "lithium": [
+   {
+    "below": 30,
+    "basis": "crcl",
+    "severity": "critical",
+    "summary": "Lithium with creatinine clearance below 30",
+    "text": "Lithium label: not recommended in severe renal impairment (creatinine clearance below 30 mL/min by Cockcroft-Gault).",
+    "source": {
+     "label": "FDA label: lithium, Dosage and Administration: renal impairment",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lithium"
+    }
+   },
+   {
+    "below": 60,
+    "basis": "crcl",
+    "severity": "warning",
+    "summary": "Lithium with reduced kidney function",
+    "text": "Lithium label: with creatinine clearance 30–89 mL/min, start at lower doses and titrate slowly with frequent monitoring of levels and kidney function.",
+    "source": {
+     "label": "FDA label: lithium, Dosage and Administration: renal impairment",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lithium"
+    }
+   }
+  ],
+  "nirmatrelvir-ritonavir": [
+   {
+    "below": 60,
+    "severity": "warning",
+    "summary": "Nirmatrelvir-ritonavir needs the renal dosing in its label",
+    "text": "Nirmatrelvir-ritonavir label: eGFR 30 to below 60: 150 mg nirmatrelvir with 100 mg ritonavir twice daily for 5 days; eGFR below 30, including hemodialysis: 300 mg with 100 mg once on day 1, then 150 mg with 100 mg once daily on days 2–5 (after dialysis on dialysis days).",
+    "source": {
+     "label": "FDA label: nirmatrelvir-ritonavir, Dosage and Administration: renal impairment",
+     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=nirmatrelvir-ritonavir"
+    }
+   }
+  ],
   "tramadol": [
    {
     "below": 30,
+    "basis": "crcl",
     "severity": "warning",
     "summary": "Tramadol with creatinine clearance below 30",
     "text": "Tramadol label: with creatinine clearance below 30 mL/min, lengthen the dosing interval to every 12 hours with a maximum of 200 mg/day.",
@@ -184,6 +246,7 @@
   "colchicine": [
    {
     "below": 30,
+    "basis": "crcl",
     "severity": "warning",
     "summary": "Colchicine in severe kidney impairment",
     "text": "Colchicine label: dose limits apply in severe renal impairment; review the label.",
@@ -256,6 +319,7 @@
   "valacyclovir": [
    {
     "below": 50,
+    "basis": "crcl",
     "severity": "info",
     "summary": "Valacyclovir needs a renal dose adjustment",
     "text": "Valacyclovir label: reduce the dose when creatinine clearance is below 50 mL/min. Review the label dosing table.",
@@ -268,6 +332,7 @@
   "levofloxacin": [
    {
     "below": 50,
+    "basis": "crcl",
     "severity": "info",
     "summary": "Levofloxacin needs a renal dose adjustment",
     "text": "Levofloxacin label: adjust the dose when creatinine clearance is below 50 mL/min.",
@@ -280,6 +345,7 @@
   "ciprofloxacin": [
    {
     "below": 50,
+    "basis": "crcl",
     "severity": "info",
     "summary": "Ciprofloxacin needs a renal dose adjustment",
     "text": "Ciprofloxacin label: adjust the dose when creatinine clearance is 50 mL/min or below.",
@@ -289,21 +355,10 @@
     }
    }
   ],
-  "lithium": [
-   {
-    "below": 60,
-    "severity": "warning",
-    "summary": "Lithium with reduced kidney function",
-    "text": "Lithium label: renal impairment raises the risk of lithium toxicity; monitor levels and kidney function closely.",
-    "source": {
-     "label": "FDA label: lithium, Dosage and Administration: renal impairment",
-     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lithium"
-    }
-   }
-  ],
   "digoxin": [
    {
     "below": 50,
+    "basis": "crcl",
     "severity": "warning",
     "summary": "Digoxin with reduced kidney function",
     "text": "Digoxin label: digoxin is cleared by the kidneys; impairment raises levels. Review the label and monitor levels.",
@@ -313,5 +368,67 @@
     }
    }
   ]
+ },
+ "doac_af": {
+  "apixaban": {
+   "text": "Apixaban label (nonvalvular atrial fibrillation): 5 mg twice daily; the reduced dose of 2.5 mg twice daily applies to patients with at least 2 of: age 80 or older, body weight 60 kg or less, serum creatinine 1.5 mg/dL or more.",
+   "criteria": {
+    "age_min": 80,
+    "weight_max_kg": 60,
+    "creatinine_min": 1.5,
+    "needed": 2
+   },
+   "source": {
+    "label": "FDA label: apixaban, Dosage and Administration",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=apixaban"
+   }
+  },
+  "rivaroxaban": {
+   "text": "Rivaroxaban label (nonvalvular atrial fibrillation): creatinine clearance above 50 mL/min: 20 mg once daily with the evening meal; 50 mL/min or below: 15 mg once daily with the evening meal (Cockcroft-Gault, actual body weight).",
+   "crcl_rules": [
+    {
+     "max": 50,
+     "severity": "warning",
+     "summary": "Rivaroxaban: creatinine clearance 50 or below"
+    }
+   ],
+   "source": {
+    "label": "FDA label: rivaroxaban, Dosage and Administration",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=rivaroxaban"
+   }
+  },
+  "dabigatran": {
+   "text": "Dabigatran label (nonvalvular atrial fibrillation): creatinine clearance above 30 mL/min: 150 mg twice daily; 15–30 mL/min: 75 mg twice daily; below 15 or on dialysis: no dosing recommendation. With dronedarone or ketoconazole at creatinine clearance 30–50, the label reduces the dose; below 30 with P-gp inhibitors, avoid.",
+   "crcl_rules": [
+    {
+     "max": 30,
+     "severity": "warning",
+     "summary": "Dabigatran: creatinine clearance 30 or below"
+    }
+   ],
+   "source": {
+    "label": "FDA label: dabigatran, Dosage and Administration",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=dabigatran"
+   }
+  },
+  "edoxaban": {
+   "text": "Edoxaban label (nonvalvular atrial fibrillation): creatinine clearance above 50 to 95 mL/min: 60 mg once daily; 15–50 mL/min: 30 mg once daily; boxed warning: do not use with creatinine clearance above 95 mL/min (reduced effectiveness, more ischemic stroke).",
+   "crcl_rules": [
+    {
+     "min": 95,
+     "severity": "critical",
+     "summary": "Edoxaban: creatinine clearance above 95 (boxed warning)"
+    },
+    {
+     "max": 50,
+     "severity": "warning",
+     "summary": "Edoxaban: creatinine clearance 50 or below"
+    }
+   ],
+   "source": {
+    "label": "FDA label: edoxaban, Dosage and Administration",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=edoxaban"
+   }
+  }
  }
 }

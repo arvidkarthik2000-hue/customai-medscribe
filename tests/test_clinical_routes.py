@@ -108,7 +108,7 @@ def test_sample_pipeline_saved_note_then_sign(client):
     assert v["transcript"][0]["role"] == "clinician"
     assert v["engine_info"]["note_model"] == "saved sample note"
     assert any("Confirm 6 medicines" in b for b in v["blockers"])
-    assert any("high-risk" in b for b in v["blockers"]) and any("critical" in b for b in v["blockers"])
+    assert any("high-risk" in b for b in v["blockers"]) and any("Acknowledge" in b for b in v["blockers"])
     assert client.get("/api/schedule").json()["appointments"][1]["status"] == "ready_to_sign"
 
     r = client.post(f"/api/visits/{vid}/sign")
@@ -118,7 +118,7 @@ def test_sample_pipeline_saved_note_then_sign(client):
         res = client.post(f"/api/visits/{vid}/meds/{row['id']}/confirm", json={"confirmed": True})
         assert res.status_code == 200
     v = client.get(f"/api/visits/{vid}").json()
-    assert v["blockers"] == ["Confirm the dose of 1 high-risk medicine", "Acknowledge 1 critical alert"]
+    assert v["blockers"] == ["Confirm the dose of 1 high-risk medicine", "Acknowledge 1 alert"]
     client.post(f"/api/visits/{vid}/meds/m1/confirm", json={"confirmed": True, "dose_confirmed": True})
     assert client.post(f"/api/visits/{vid}/cards/nope/ack", json={"reason": "Other"}).status_code == 404
     assert client.post(f"/api/visits/{vid}/cards/card-warf-nsaid/ack", json={"reason": "Benefit outweighs risk"}).json() == {"ok": True}

@@ -14,7 +14,7 @@
   "B": "patient"
  },
  "saved_note": {
-  "visit_summary": "Right lower lobe pneumonia in a patient with heart failure: outpatient amoxicillin-clavulanate plus clarithromycin, heart medicines continued; chest x-ray and labs today, recheck in 2 days.",
+  "visit_summary": "Suspected right lower lobe pneumonia in a patient with heart failure, chest x-ray pending: outpatient amoxicillin-clavulanate plus clarithromycin, heart medicines continued; chest x-ray and labs today, recheck in 2 days.",
   "speaker_roles": [
    {
     "speaker": "A",
@@ -144,7 +144,7 @@
     "items": [
      {
       "id": "assessment-1",
-      "text": "Community-acquired pneumonia of the right lower lung, suitable for outpatient treatment with close follow-up.",
+      "text": "Suspected community-acquired pneumonia of the right lower lung, chest x-ray pending; suitable for outpatient treatment with close follow-up.",
       "evidence": [
        "t16",
        "t18"
@@ -399,15 +399,23 @@
   ],
   "diagnoses": [
    {
-    "description": "Pneumonia, unspecified organism",
-    "icd10": "J18.9",
+    "description": "Acute cough",
+    "icd10": "R05.1",
     "evidence": [
-     "t16"
+     "t2"
     ]
    },
    {
-    "description": "Heart failure, unspecified",
-    "icd10": "I50.9",
+    "description": "Fever, unspecified",
+    "icd10": "R50.9",
+    "evidence": [
+     "t2",
+     "t15"
+    ]
+   },
+   {
+    "description": "Chronic systolic (congestive) heart failure",
+    "icd10": "I50.22",
     "evidence": [
      "t7"
     ]
@@ -419,7 +427,7 @@
     "t28"
    ]
   },
-  "patient_instructions": "You likely have pneumonia in your right lung. Get a chest x-ray and blood tests today. Take amoxicillin-clavulanate 875 mg twice a day and clarithromycin 500 mg twice a day, both for 7 days. Keep taking all your heart medicines as before, including simvastatin at night. Drink fluids, but stay within your usual limit of about 2 liters a day. You can take acetaminophen for fever, up to 1,000 mg every 8 hours. Check your oxygen with the finger monitor twice a day. Go to the emergency room if your breathing gets worse, your oxygen drops below 92, you feel confused, or you can't keep fluids down. We will call you with your x-ray result this afternoon. Come back in 2 days. Once you feel better, we will give you the pneumonia vaccine.",
+  "patient_instructions": "You may have pneumonia in your right lung; a chest x-ray today will check. Get the x-ray and blood tests today. Take amoxicillin-clavulanate 875 mg twice a day and clarithromycin 500 mg twice a day, both for 7 days. Keep taking all your heart medicines as before, including simvastatin at night. Drink fluids, but stay within your usual limit of about 2 liters a day. You can take acetaminophen for fever, up to 1,000 mg every 8 hours. Check your oxygen with the finger monitor twice a day. Go to the emergency room if your breathing gets worse, your oxygen drops below 92, you feel confused, or you can't keep fluids down. We will call you with your x-ray result this afternoon. Come back in 2 days. Once you feel better, we will give you the pneumonia vaccine.",
   "not_discussed": [
    "Influenza vaccine",
    "Recent travel"

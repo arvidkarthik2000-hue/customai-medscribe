@@ -5,6 +5,8 @@ from __future__ import annotations
 import copy
 import re
 
+from app.drugs.engine import requires_ack
+
 from . import icd, verify
 from .schema import ITEM_STATUSES, MED_ACTIONS, ORDER_TYPES, ROLES
 from .templates import TEMPLATES, section_title
@@ -217,12 +219,13 @@ def blockers(visit: dict) -> list[str]:
     if bad:
         out.append(f"Resolve {len(bad)} unsupported line{'s' if len(bad) != 1 else ''}")
     acks = visit.get("cards_ack") or {}
-    # Only alerts this visit creates block signing; a long-standing combination
-    # already in the chart is shown, but the clinician isn't forced to re-acknowledge it.
-    critical = [c for c in mc.get("cards") or [] if c.get("indicator") == "critical"
-                and c.get("context") != "existing" and c.get("id") not in acks]
-    if critical:
-        out.append(f"Acknowledge {len(critical)} critical alert{'s' if len(critical) != 1 else ''}")
+    # Every critical alert blocks signing until acknowledged, including one that involves only
+    # medicines the patient already took (it may be dangerous now, e.g. with a new potassium result).
+    # Warnings this visit creates for interactions, QT, allergies, conditions, kidney function and
+    # doses block too; other warnings and all info cards are shown without blocking.
+    pending = [c for c in mc.get("cards") or [] if requires_ack(c) and c.get("id") not in acks]
+    if pending:
+        out.append(f"Acknowledge {len(pending)} alert{'s' if len(pending) != 1 else ''}")
     return out
 
 

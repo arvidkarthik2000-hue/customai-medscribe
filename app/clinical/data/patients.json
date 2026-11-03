@@ -50,7 +50,7 @@
       "last_visit": {"days_ago": 110, "summary": "Atrial fibrillation rate controlled on metoprolol; INR in range on warfarin 5 mg daily; blood pressure at goal on lisinopril."},
       "care_gaps": [
         {"name": "Influenza vaccine", "detail": "Due for the 2026–27 season", "source": "CDC adult immunization schedule"},
-        {"name": "Pneumococcal vaccine", "detail": "No dose on record; recommended at 65 and older", "source": "CDC adult immunization schedule"},
+        {"name": "Pneumococcal vaccine", "detail": "No dose on record; recommended for adults 50 and older", "source": "CDC adult immunization schedule"},
         {"name": "Colorectal cancer screening", "detail": "Last colonoscopy 2014; screening recommended ages 45–75", "source": "USPSTF"}
       ],
       "social": {"tobacco": "Former smoker, quit 2005 (about 20 pack-years)", "alcohol": "About 2 drinks a week", "lives_with": "Wife", "occupation": "Retired electrician"}
@@ -163,7 +163,7 @@
       "egfr": 60,
       "last_visit": {"days_ago": 35, "summary": "Heart failure stable (NYHA II), euvolemic; potassium 5.1 on lisinopril, spironolactone and potassium chloride, to recheck."},
       "care_gaps": [
-        {"name": "Pneumococcal vaccine", "detail": "No dose on record; recommended at 65 and older", "source": "CDC adult immunization schedule"},
+        {"name": "Pneumococcal vaccine", "detail": "No dose on record; recommended for adults 50 and older", "source": "CDC adult immunization schedule"},
         {"name": "Influenza vaccine", "detail": "Due for the 2026–27 season", "source": "CDC adult immunization schedule"},
         {"name": "Shingles vaccine (RZV)", "detail": "Series not completed", "source": "CDC adult immunization schedule"}
       ],
@@ -203,7 +203,7 @@
       "egfr": 64,
       "last_visit": {"days_ago": 90, "summary": "Depression improved on sertraline 100 mg; sodium mildly low at 134; widowed in the spring."},
       "care_gaps": [
-        {"name": "Falls risk screening", "detail": "Not documented this year", "source": "USPSTF / CDC STEADI"},
+        {"name": "Falls prevention", "detail": "Not documented this year; USPSTF recommends exercise interventions for adults 65 and older at increased risk of falls (B, 2024)", "source": "USPSTF"},
         {"name": "Influenza vaccine", "detail": "Due for the 2026–27 season", "source": "CDC adult immunization schedule"}
       ],
       "social": {"tobacco": "Never smoker", "alcohol": "A glass of wine on Sundays", "lives_with": "Lives alone; granddaughter nearby", "occupation": "Retired librarian"}

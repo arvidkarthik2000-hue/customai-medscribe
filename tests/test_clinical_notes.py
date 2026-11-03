@@ -312,6 +312,27 @@ def test_blockers_rules():
         "cards": [{"id": "c1", "indicator": "critical"}, {"id": "c2", "indicator": "critical"}, {"id": "c3", "indicator": "warning"}]}
     visit = {"status": "ready", "note": note, "medication_check": mc, "cards_ack": {"c1": {"reason": "ok"}}}
     assert notemodel.blockers(visit) == ["Confirm 1 medicine", "Confirm the dose of 1 high-risk medicine",
-                                         "Resolve 1 unsupported line", "Acknowledge 1 critical alert"]
+                                         "Resolve 1 unsupported line", "Acknowledge 1 alert"]
     assert notemodel.blockers({**visit, "status": "signed"}) == []
+
+
+def test_sign_gate_blocks_existing_criticals_and_new_safety_warnings():
+    cards = [
+        {"id": "a", "indicator": "critical", "category": "interaction", "context": "existing"},  # blocks: every critical
+        {"id": "b", "indicator": "warning", "category": "interaction", "context": "new"},       # blocks
+        {"id": "c", "indicator": "warning", "category": "qt", "context": "new"},                # blocks
+        {"id": "d", "indicator": "warning", "category": "allergy", "context": "new"},           # blocks
+        {"id": "e", "indicator": "warning", "category": "renal", "context": "new"},             # blocks
+        {"id": "f", "indicator": "warning", "category": "interaction", "context": "existing"},  # shown, not blocking
+        {"id": "g", "indicator": "warning", "category": "older_adult", "context": "new"},       # shown, not blocking
+        {"id": "h", "indicator": "warning", "category": "duplicate", "context": "new"},         # shown, not blocking
+        {"id": "i", "indicator": "info", "category": "dose", "context": "new"},                 # shown, not blocking
+    ]
+    note = {"sections": [], "medications": []}
+    visit = {"status": "ready", "note": note, "medication_check": {"medications": [], "cards": cards}, "cards_ack": {}}
+    assert notemodel.blockers(visit) == ["Acknowledge 5 alerts"]
+    visit["cards_ack"] = {x: {"reason": "ok"} for x in "abcd"}
+    assert notemodel.blockers(visit) == ["Acknowledge 1 alert"]
+    visit["cards_ack"]["e"] = {"reason": "ok"}
+    assert notemodel.blockers(visit) == []
     assert notemodel.blockers({"status": "processing"}) == ["The note is not ready yet."]

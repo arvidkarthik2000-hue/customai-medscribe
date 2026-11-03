@@ -8,7 +8,8 @@
   "Metformin with eGFR 28",
   "Hydralazine and hydroxyzine sound alike",
   "Caregiver voice (daughter)",
-  "Retracted plan: glipizide"
+  "Retracted plan: glipizide",
+  "Empagliflozin started at eGFR 28 for kidney and heart protection"
  ],
  "speaker_roles": {
   "A": "clinician",
@@ -178,6 +179,14 @@
       "status": "documented"
      },
      {
+      "id": "assessment_plan-8",
+      "text": "Start empagliflozin 10 mg once daily in the morning to slow kidney disease and lower the risk of heart failure; at this kidney function it is not expected to lower glucose much.",
+      "evidence": [
+       "t33"
+      ],
+      "status": "documented"
+     },
+     {
       "id": "assessment_plan-5",
       "text": "Hypertension, BP 148/86: continue amlodipine 10 mg and hydralazine 25 mg three times daily for now.",
       "evidence": [
@@ -197,8 +206,8 @@
       "id": "assessment_plan-7",
       "text": "Diabetic eye exam overdue (none in 2 years): referral placed.",
       "evidence": [
-       "t33",
-       "t34"
+       "t35",
+       "t36"
       ],
       "status": "documented"
      }
@@ -300,6 +309,21 @@
      "t9",
      "t30"
     ]
+   },
+   {
+    "id": "m7",
+    "name": "empagliflozin",
+    "as_spoken": "empagliflozin",
+    "dose": "10",
+    "unit": "mg",
+    "route": "oral",
+    "frequency": "once daily in the morning",
+    "duration": "",
+    "action": "start",
+    "indication": "chronic kidney disease and heart protection",
+    "evidence": [
+     "t33"
+    ]
    }
   ],
   "allergies": [],
@@ -329,7 +353,7 @@
     "type": "referral",
     "description": "Diabetic eye exam",
     "evidence": [
-     "t34"
+     "t36"
     ]
    }
   ],
@@ -368,10 +392,10 @@
   "follow_up": {
    "text": "Return in 6 weeks with the glucose log.",
    "evidence": [
-    "t35"
+    "t37"
    ]
   },
-  "patient_instructions": "Your diabetes number (A1c) went up to 7.8%, and your kidneys are working at about a quarter of normal. Take metformin 500 mg twice a day. This is a lower dose than before. Start linagliptin 5 mg once every morning. Check your blood sugar once a day before breakfast and write it down. Call us if it is under 70 or over 300. Keep taking amlodipine 10 mg, and hydralazine 25 mg three times a day. Keep hydralazine and hydroxyzine in separate boxes. Use a thick moisturizer on your legs twice a day, and keep taking hydroxyzine at bedtime. We are sending you to a kidney doctor and for a diabetic eye exam. You will have blood and urine tests in 1 month. Come back in 6 weeks and bring your sugar log.",
+  "patient_instructions": "Your diabetes number (A1c) went up to 7.8%, and your kidneys are working at about a quarter of normal. Take metformin 500 mg twice a day. This is a lower dose than before. Start linagliptin 5 mg once every morning. Also start empagliflozin 10 mg every morning to help protect your kidneys and heart. Check your blood sugar once a day before breakfast and write it down. Call us if it is under 70 or over 300. Keep taking amlodipine 10 mg, and hydralazine 25 mg three times a day. Keep hydralazine and hydroxyzine in separate boxes. Use a thick moisturizer on your legs twice a day, and keep taking hydroxyzine at bedtime. We are sending you to a kidney doctor and for a diabetic eye exam. You will have blood and urine tests in 1 month. Come back in 6 weeks and bring your sugar log.",
   "not_discussed": [
    "Low blood sugar episodes",
    "Foot exam"
@@ -612,39 +636,53 @@
   },
   {
    "id": "t33",
-   "speaker": "C",
-   "text": "And her eyes? She hasn't had the eye exam in two years.",
+   "speaker": "A",
+   "text": "And to protect her kidneys and heart, I'd like to start empagliflozin, 10 mg once a day in the morning. At this level of kidney function it won't lower her sugar much, but it can slow the kidney disease and lower the risk of heart failure.",
    "start_ms": 219973,
-   "end_ms": 224973
+   "end_ms": 232873
   },
   {
    "id": "t34",
-   "speaker": "A",
-   "text": "Good catch. I'll put in a referral for a diabetic eye exam too.",
-   "start_ms": 225623,
-   "end_ms": 231039
+   "speaker": "B",
+   "text": "Okay. So two new pills in the morning.",
+   "start_ms": 233523,
+   "end_ms": 235823
   },
   {
    "id": "t35",
-   "speaker": "A",
-   "text": "Let's see you back in 6 weeks. Bring the sugar log.",
-   "start_ms": 231689,
-   "end_ms": 236272
+   "speaker": "C",
+   "text": "And her eyes? She hasn't had the eye exam in two years.",
+   "start_ms": 236473,
+   "end_ms": 241473
   },
   {
    "id": "t36",
-   "speaker": "B",
-   "text": "Thank you, Doctor.",
-   "start_ms": 236922,
-   "end_ms": 238172
+   "speaker": "A",
+   "text": "Good catch. I'll put in a referral for a diabetic eye exam too.",
+   "start_ms": 242123,
+   "end_ms": 247539
   },
   {
    "id": "t37",
+   "speaker": "A",
+   "text": "Let's see you back in 6 weeks. Bring the sugar log.",
+   "start_ms": 248189,
+   "end_ms": 252772
+  },
+  {
+   "id": "t38",
+   "speaker": "B",
+   "text": "Thank you, Doctor.",
+   "start_ms": 253422,
+   "end_ms": 254672
+  },
+  {
+   "id": "t39",
    "speaker": "C",
    "text": "Thank you.",
-   "start_ms": 238822,
-   "end_ms": 240022
+   "start_ms": 255322,
+   "end_ms": 256522
   }
  ],
- "minutes": 4.0
+ "minutes": 4.3
 }

@@ -53,7 +53,7 @@
      },
      {
       "id": "hpi-2",
-      "text": "Takes diphenhydramine 50 mg (Benadryl, two tablets) most nights, with partial benefit, morning fogginess and dry mouth.",
+      "text": "Takes diphenhydramine 50 mg (two tablets) most nights, with partial benefit, morning fogginess and dry mouth.",
       "evidence": [
        "t6",
        "t8"
@@ -90,7 +90,7 @@
      },
      {
       "id": "hpi-6",
-      "text": "Takes acetaminophen (Tylenol) 500 mg about twice daily, which takes the edge off.",
+      "text": "Takes acetaminophen 500 mg about twice daily, which takes the edge off.",
       "evidence": [
        "t19",
        "t20"
@@ -379,7 +379,7 @@
     "t34"
    ]
   },
-  "patient_instructions": "Your back pain looks like a pulled muscle. Because of your thin bones, we are getting an x-ray of your lower back. For pain, you can take tramadol 50 mg every 6 hours if you need it, but no more than 4 tablets a day. It can make you sleepy, so be careful getting up at night. You can keep taking Tylenol, up to 1,000 mg three times a day. Cut Benadryl down to one 25 mg tablet at bedtime. Go to bed and get up at the same time every day, don't nap after 3 p.m., and get out of bed if you are awake for more than 20 minutes. The nurse will check your sodium today. Use a rug gripper or take the rug out, and we are sending you to physical therapy for your back and balance. Come back in 2 weeks. Call sooner if the pain spreads down your legs or you have weakness or bladder problems.",
+  "patient_instructions": "Your back pain looks like a pulled muscle. Because of your thin bones, we are getting an x-ray of your lower back. For pain, you can take tramadol 50 mg every 6 hours if you need it, but no more than 4 tablets a day. It can make you sleepy, so be careful getting up at night. You can keep taking acetaminophen, up to 1,000 mg three times a day. Cut diphenhydramine down to one 25 mg tablet at bedtime. Go to bed and get up at the same time every day, don't nap after 3 p.m., and get out of bed if you are awake for more than 20 minutes. The nurse will check your sodium today. Use a rug gripper or take the rug out, and we are sending you to physical therapy for your back and balance. Come back in 2 weeks. Call sooner if the pain spreads down your legs or you have weakness or bladder problems.",
   "not_discussed": [
    "Alcohol use",
    "Appetite and weight"

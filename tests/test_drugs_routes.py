@@ -93,4 +93,4 @@ def test_calc_route(client):
 def test_sources_route(client):
     c = signed_in(client)
     s = c.get("/api/drugs/sources").json()
-    assert s["onc_pairs"] == 15 and s["rules"] >= 60
+    assert s["onc_pairs"] == 15 and s["onc_rules"] >= 15 and s["rules"] >= 100

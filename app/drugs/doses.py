@@ -20,10 +20,23 @@ _FREQ = [
     (r"\b(every|q) ?8 ?h(ours?|rs?)?\b", 3),
     (r"\b(every|q) ?12 ?h(ours?|rs?)?\b", 2),
     (r"\b(every|q) ?24 ?h(ours?|rs?)?\b", 1),
-    (r"\b(once (a|per) day|once daily|daily|every day|qd|q\.d|every morning|every evening|in the morning|at bedtime|nightly|qhs|qam|qpm|each day|a day)\b", 1),
+    (r"\b(once (a|per) day|once daily|daily|every day|qd|q\.d|every morning|every evening|in the morning|in the evening|at bedtime|before bed|at night|every night|nightly|qhs|qam|qpm|each day|a day)\b", 1),
 ]
+# "1-2 tablets", "up to 2 tablets", "two capsules": units per dose
+_UNITS = re.compile(r"\b(?:up to\s+)?(?:(\d+)\s*(?:-|to|–)\s*)?(\d+|one|two|three|four)\s*(?:tablets?|tabs?|capsules?|caps?|pills?)\b(?!\s*(?:a|per)\s*day)")
+_WORDS = {"one": 1, "two": 2, "three": 3, "four": 4}
 _TIMES = re.compile(r"\b(\d+)\s*(?:x|times)\s*(?:a|per)\s*day\b")
 _NUM = re.compile(r"(\d+(?:[.,]\d+)?)")
+
+
+def units_per_dose(frequency: str | None) -> float:
+    """Tablets per dose stated in the frequency text (the upper end of a range), default 1."""
+    f = (frequency or "").lower()
+    m = _UNITS.search(f)
+    if not m:
+        return 1.0
+    hi = m.group(2)
+    return float(_WORDS.get(hi, hi))
 
 
 def per_day(frequency: str | None) -> float | None:
@@ -67,8 +80,26 @@ def _fmt(n: float) -> str:
     return f"{n:g}"
 
 
-def check(generic: str | None, dose, unit: str | None, frequency: str | None) -> tuple[dict, dict | None]:
-    """Returns (dose_check, card_or_None). Card: {indicator, summary, detail, source}."""
+def _limit_for(entry: dict, age: float | None, co_generics) -> tuple[float, str] | None:
+    """The lowest patient-specific label maximum that applies (age or co-medication), if any."""
+    best = None
+    co = set(co_generics or [])
+    for lim in entry.get("limits") or []:
+        applies = False
+        if "age_over" in lim and age is not None and age > lim["age_over"]:
+            applies = True
+        if lim.get("with_drugs") and co.intersection(lim["with_drugs"]):
+            applies = True
+        if applies and (best is None or lim["max_mg_per_day"] < best[0]):
+            best = (float(lim["max_mg_per_day"]), lim["why"])
+    return best
+
+
+def check(generic: str | None, dose, unit: str | None, frequency: str | None, *,
+          age: float | None = None, co_generics=None) -> tuple[dict, dict | None]:
+    """Returns (dose_check, card_or_None). Card: {indicator, summary, detail, source}.
+    Compares the recorded dose with the label maximum (and any label limit for the patient's age or
+    co-medication); it never computes a dose."""
     k = kb()
     if not generic:
         return {"status": "unknown", "detail": "Medicine not matched; dose not checked.", "source": None}, None
@@ -90,21 +121,30 @@ def check(generic: str | None, dose, unit: str | None, frequency: str | None) ->
     usual = f"Usual adult dose: {entry['usual']}; label maximum {_fmt(entry['max_mg_per_day'])} mg/day."
     if entry.get("note"):
         usual += f" {entry['note']}"
+    limit = _limit_for(entry, age, co_generics)
+    maximum = float(entry["max_mg_per_day"])
+    what = "the label maximum"
+    if limit is not None and limit[0] < maximum:
+        maximum = limit[0]
+        what = f"the label maximum for this patient ({limit[1]}: {_fmt(maximum)} mg/day)"
+        usual += f" Label limit {limit[1]}: {_fmt(maximum)} mg/day."
     if mg is None:
         return {"status": "unknown", "detail": f"Dose not recorded in mg. {usual}", "source": entry["source"]}, None
-    maximum = float(entry["max_mg_per_day"])
-    if mg > maximum + 1e-9:
-        detail = f"A single dose of {_fmt(mg)} mg exceeds the label maximum of {_fmt(maximum)} mg/day. {usual}"
+    per_dose = mg * units_per_dose(frequency)
+    if per_dose > maximum + 1e-9:
+        detail = f"A single dose of {_fmt(per_dose)} mg exceeds {what}. {usual}"
         return ({"status": "above_max", "detail": detail, "source": entry["source"]},
-                {"indicator": "warning", "summary": f"{generic}: dose above the label maximum", "detail": detail, "source": entry["source"]})
+                {"indicator": "warning", "summary": f"{generic}: dose above {'the label maximum for this patient' if limit and what != 'the label maximum' else 'the label maximum'}",
+                 "detail": detail, "source": entry["source"]})
     if freq is None:
-        return {"status": "unknown", "detail": f"{_fmt(mg)} mg per dose; frequency unclear. {usual}", "source": entry["source"]}, None
-    daily_total = mg * freq
+        return {"status": "unknown", "detail": f"{_fmt(per_dose)} mg per dose; frequency unclear. {usual}", "source": entry["source"]}, None
+    daily_total = per_dose * freq
     if daily_total > maximum + 1e-9:
-        detail = f"{_fmt(mg)} mg × {frequency} ≈ {_fmt(daily_total)} mg/day, above the label maximum of {_fmt(maximum)} mg/day. {usual}"
+        detail = f"{_fmt(per_dose)} mg × {frequency} ≈ {_fmt(daily_total)} mg/day, above {what}. {usual}"
         return ({"status": "above_max", "detail": detail, "source": entry["source"]},
-                {"indicator": "warning", "summary": f"{generic}: daily dose above the label maximum", "detail": detail, "source": entry["source"]})
-    return {"status": "ok", "detail": f"{_fmt(daily_total)} mg/day is within the label maximum. {usual}", "source": entry["source"]}, None
+                {"indicator": "warning", "summary": f"{generic}: daily dose above {'the label maximum for this patient' if what != 'the label maximum' else 'the label maximum'}",
+                 "detail": detail, "source": entry["source"]})
+    return {"status": "ok", "detail": f"{_fmt(daily_total)} mg/day is within {what}. {usual}", "source": entry["source"]}, None
 
 
 def daily_mg(dose, unit, frequency) -> float | None:
@@ -112,4 +152,4 @@ def daily_mg(dose, unit, frequency) -> float | None:
     f = per_day(frequency)
     if mg is None or f is None:
         return None
-    return mg * f
+    return mg * units_per_dose(frequency) * f

@@ -1,6 +1,6 @@
 {
  "version": "2026-11-03",
- "note": "Reminders computed from age and sex only; confirm what has already been done in the record.",
+ "note": "Reminders computed from age, sex, smoking, BMI, problems and medicines; confirm in the record what has already been done.",
  "sources": {
   "uspstf": {
    "label": "USPSTF A and B recommendations",
@@ -9,11 +9,28 @@
   "cdc": {
    "label": "CDC adult immunization schedule",
    "url": "https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-age.html"
+  },
+  "cdc_rsv": {
+   "label": "CDC adult schedule addendum (RSV, June 2025)",
+   "url": "https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-addendum.html"
+  },
+  "covid": {
+   "label": "CDC COVID-19 vaccination guidance (individual-based decision-making)",
+   "url": "https://www.cdc.gov/covid/hcp/vaccine-considerations/routine-guidance.html"
+  },
+  "aafp": {
+   "label": "AAFP 2026–2027 respiratory vaccine recommendations for adults",
+   "url": "https://www.aafp.org/afp/2026/1000/editorials-respiratory-vaccine-recommendations-adults"
   }
  },
  "items": [
   {
    "id": "crc",
+   "keys": [
+    "colorectal",
+    "colonoscopy",
+    "colon cancer"
+   ],
    "name": "Colorectal cancer screening",
    "min_age": 45,
    "max_age": 75,
@@ -23,6 +40,10 @@
   },
   {
    "id": "breast",
+   "keys": [
+    "breast",
+    "mammogra"
+   ],
    "name": "Breast cancer screening",
    "min_age": 40,
    "max_age": 74,
@@ -32,15 +53,24 @@
   },
   {
    "id": "cervical",
+   "keys": [
+    "cervical",
+    "pap"
+   ],
    "name": "Cervical cancer screening",
    "min_age": 21,
    "max_age": 65,
    "sex": "F",
    "source": "uspstf",
-   "detail": "Cytology every 3 years from 21; from 30, hrHPV every 5 years or cotesting (USPSTF A, August 2018)."
+   "detail": "Ages 21–29: cytology every 3 years. Ages 30–65: cytology every 3 years, high-risk HPV testing every 5 years, or cotesting every 5 years (USPSTF A, August 2018)."
   },
   {
    "id": "lung",
+   "keys": [
+    "lung cancer",
+    "low-dose ct",
+    "ldct"
+   ],
    "name": "Lung cancer screening",
    "min_age": 50,
    "max_age": 80,
@@ -51,6 +81,10 @@
   },
   {
    "id": "aaa",
+   "keys": [
+    "aortic aneurysm",
+    "aaa"
+   ],
    "name": "Abdominal aortic aneurysm screening",
    "min_age": 65,
    "max_age": 75,
@@ -61,25 +95,121 @@
   },
   {
    "id": "diabetes",
+   "keys": [
+    "prediabetes",
+    "diabetes screening"
+   ],
    "name": "Prediabetes and type 2 diabetes screening",
    "min_age": 35,
    "max_age": 70,
    "sex": null,
    "source": "uspstf",
-   "requires": "overweight",
+   "requires": "overweight_no_diabetes",
    "detail": "Adults 35–70 with overweight or obesity (USPSTF B, August 2021)."
   },
   {
+   "id": "statin",
+   "keys": [
+    "statin"
+   ],
+   "name": "Statin for primary prevention",
+   "min_age": 40,
+   "max_age": 75,
+   "sex": null,
+   "source": "uspstf",
+   "requires": "cvd_risk_no_statin",
+   "detail": "Adults 40–75 with at least one risk factor (dyslipidemia, diabetes, hypertension or smoking) and an estimated 10-year cardiovascular risk of 10% or more (USPSTF B, August 2022). Estimate the risk before deciding."
+  },
+  {
+   "id": "htn",
+   "keys": [
+    "blood pressure screening",
+    "hypertension screening"
+   ],
+   "name": "Hypertension screening",
+   "min_age": 18,
+   "max_age": null,
+   "sex": null,
+   "source": "uspstf",
+   "requires": "no_hypertension",
+   "detail": "Office blood pressure, confirmed outside the clinic before diagnosis (USPSTF A, April 2021)."
+  },
+  {
+   "id": "depression",
+   "keys": [
+    "depression screening"
+   ],
+   "name": "Depression screening",
+   "min_age": 18,
+   "max_age": null,
+   "sex": null,
+   "source": "uspstf",
+   "requires": "no_depression",
+   "detail": "Adults, including pregnant and postpartum people (USPSTF B, June 2023)."
+  },
+  {
+   "id": "anxiety",
+   "keys": [
+    "anxiety screening"
+   ],
+   "name": "Anxiety screening",
+   "min_age": 19,
+   "max_age": 64,
+   "sex": null,
+   "source": "uspstf",
+   "requires": "no_anxiety",
+   "detail": "Adults 64 and younger, including pregnant and postpartum people (USPSTF B, June 2023)."
+  },
+  {
+   "id": "falls",
+   "keys": [
+    "fall"
+   ],
+   "name": "Falls prevention",
+   "min_age": 65,
+   "max_age": null,
+   "sex": null,
+   "source": "uspstf",
+   "detail": "Exercise interventions for community-dwelling adults 65 and older at increased risk of falls (USPSTF B, June 2024)."
+  },
+  {
    "id": "osteoporosis",
+   "keys": [
+    "osteoporosis",
+    "bone density",
+    "dexa",
+    "dxa"
+   ],
    "name": "Osteoporosis screening",
    "min_age": 65,
    "max_age": null,
    "sex": "F",
    "source": "uspstf",
+   "requires": "no_osteoporosis",
    "detail": "Women 65 and older (USPSTF B, January 2025)."
   },
   {
+   "id": "osteoporosis_younger",
+   "keys": [
+    "osteoporosis",
+    "bone density",
+    "dexa",
+    "dxa"
+   ],
+   "name": "Osteoporosis screening (if postmenopausal and at increased risk)",
+   "min_age": 50,
+   "max_age": 64,
+   "sex": "F",
+   "source": "uspstf",
+   "requires": "no_osteoporosis",
+   "detail": "Postmenopausal women younger than 65 at increased risk, judged with a formal clinical risk assessment tool (USPSTF B, January 2025)."
+  },
+  {
    "id": "hcv",
+   "keys": [
+    "hepatitis c",
+    "hcv"
+   ],
    "name": "Hepatitis C screening (once)",
    "min_age": 18,
    "max_age": 79,
@@ -89,6 +219,9 @@
   },
   {
    "id": "hiv",
+   "keys": [
+    "hiv"
+   ],
    "name": "HIV screening",
    "min_age": 15,
    "max_age": 65,
@@ -98,15 +231,37 @@
   },
   {
    "id": "influenza",
+   "keys": [
+    "influenza",
+    "flu"
+   ],
    "name": "Influenza vaccine",
    "min_age": 19,
    "max_age": null,
    "sex": null,
    "source": "cdc",
-   "detail": "One dose every season for all adults."
+   "detail": "One dose every season for all adults; at 65 and older, a high-dose, adjuvanted or recombinant vaccine is preferred."
+  },
+  {
+   "id": "covid",
+   "keys": [
+    "covid"
+   ],
+   "name": "COVID-19 vaccine (2026–27)",
+   "min_age": 19,
+   "max_age": null,
+   "sex": null,
+   "source": "covid",
+   "also_source": "aafp",
+   "detail": "Guidance differs: CDC advises individual-based decision-making with a clinician; AAFP's 2026–27 recommendations advise the updated vaccine for adults, with two doses six months apart at 65 and older."
   },
   {
    "id": "tdap",
+   "keys": [
+    "tdap",
+    "td booster",
+    "tetanus"
+   ],
    "name": "Tdap/Td booster",
    "min_age": 19,
    "max_age": null,
@@ -116,6 +271,11 @@
   },
   {
    "id": "zoster",
+   "keys": [
+    "zoster",
+    "shingles",
+    "rzv"
+   ],
    "name": "Recombinant zoster vaccine",
    "min_age": 50,
    "max_age": null,
@@ -125,6 +285,11 @@
   },
   {
    "id": "pneumococcal",
+   "keys": [
+    "pneumococcal",
+    "pneumonia vaccine",
+    "pcv"
+   ],
    "name": "Pneumococcal vaccine",
    "min_age": 50,
    "max_age": null,
@@ -134,12 +299,16 @@
   },
   {
    "id": "rsv",
+   "keys": [
+    "rsv"
+   ],
    "name": "RSV vaccine",
    "min_age": 75,
    "max_age": null,
    "sex": null,
-   "source": "cdc",
-   "detail": "Adults 75 and older; also 50–74 at increased risk."
+   "source": "cdc_rsv",
+   "once": true,
+   "detail": "A single dose, not repeated, for adults 75 and older; also 50–74 at increased risk."
   }
  ]
 }

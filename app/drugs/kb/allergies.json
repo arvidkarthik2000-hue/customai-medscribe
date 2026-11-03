@@ -25,11 +25,37 @@
    "severity": "critical",
    "cross": [
     {
+     "drugs": [
+      "cephalexin",
+      "cefadroxil"
+     ],
+     "severity": "warning",
+     "note": "Cephalexin and cefadroxil share a similar side chain with amoxicillin and ampicillin. Avoid them after an immediate-type penicillin reaction (hives, swelling, wheeze or anaphylaxis within about an hour); after a non-severe, delayed reaction such as a mild rash, a cephalosporin is generally acceptable.",
+     "management": "Ask what the reaction was and how soon it started. After an immediate-type reaction, choose a cephalosporin with a dissimilar side chain or a non-beta-lactam.",
+     "sources": [
+      {
+       "label": "Drug allergy: a 2022 practice parameter update (AAAAI/ACAAI)",
+       "url": "https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/Drug-Allergy-PP-9-2022.pdf"
+      },
+      {
+       "label": "CDC clinical guidance: group A strep pharyngitis (penicillin allergy)",
+       "url": "https://www.cdc.gov/group-a-strep/hcp/clinical-guidance/strep-throat.html"
+      }
+     ]
+    },
+    {
      "classes": [
       "cephalosporin"
      ],
-     "severity": "warning",
-     "note": "Cross-sensitivity among beta-lactams is documented (see the cephalosporin label). Risk is highest when side chains are similar, such as amoxicillin or ampicillin with cephalexin or cefadroxil. Review the type of reaction."
+     "severity": "info",
+     "note": "Cephalosporins with side chains unlike penicillin's (for example cefdinir, cefuroxime, cefpodoxime, ceftriaxone) have a low cross-reactivity risk and can generally be given after a non-anaphylactic penicillin reaction.",
+     "management": "Confirm the reaction history.",
+     "sources": [
+      {
+       "label": "Drug allergy: a 2022 practice parameter update (AAAAI/ACAAI)",
+       "url": "https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/Drug-Allergy-PP-9-2022.pdf"
+      }
+     ]
     }
    ],
    "source": {

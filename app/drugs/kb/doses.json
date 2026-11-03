@@ -7,6 +7,7 @@
    "usual": "10–40 mg once daily",
    "max_mg_per_day": 80,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: lisinopril, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lisinopril"
@@ -16,6 +17,7 @@
    "usual": "5–40 mg/day in 1–2 doses",
    "max_mg_per_day": 40,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: enalapril, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=enalapril"
@@ -25,6 +27,7 @@
    "usual": "25–100 mg/day",
    "max_mg_per_day": 100,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: losartan, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=losartan"
@@ -34,6 +37,7 @@
    "usual": "80–320 mg/day",
    "max_mg_per_day": 320,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: valsartan, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=valsartan"
@@ -43,6 +47,7 @@
    "usual": "2.5–10 mg once daily",
    "max_mg_per_day": 10,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: amlodipine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=amlodipine"
@@ -52,6 +57,7 @@
    "usual": "25–200 mg/day",
    "max_mg_per_day": 450,
    "note": "Tartrate maximum 450 mg/day; succinate 400 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: metoprolol, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=metoprolol"
@@ -61,6 +67,7 @@
    "usual": "25–100 mg once daily",
    "max_mg_per_day": 200,
    "note": "Up to 200 mg/day for angina.",
+   "limits": [],
    "source": {
     "label": "FDA label: atenolol, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=atenolol"
@@ -70,6 +77,7 @@
    "usual": "3.125–25 mg twice daily",
    "max_mg_per_day": 100,
    "note": "50 mg twice daily only for heart failure over 85 kg.",
+   "limits": [],
    "source": {
     "label": "FDA label: carvedilol, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=carvedilol"
@@ -79,15 +87,17 @@
    "usual": "40–320 mg/day",
    "max_mg_per_day": 640,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: propranolol, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=propranolol"
    }
   },
   "hydrochlorothiazide": {
-   "usual": "12.5–50 mg once daily",
-   "max_mg_per_day": 50,
-   "note": null,
+   "usual": "12.5–50 mg once daily (hypertension)",
+   "max_mg_per_day": 100,
+   "note": "Edema: up to 100 mg/day; hypertension usually no more than 50 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: hydrochlorothiazide, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=hydrochlorothiazide"
@@ -97,6 +107,7 @@
    "usual": "12.5–25 mg once daily",
    "max_mg_per_day": 100,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: chlorthalidone, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=chlorthalidone"
@@ -106,6 +117,7 @@
    "usual": "20–80 mg/day",
    "max_mg_per_day": 600,
    "note": "Up to 600 mg/day in severe edema.",
+   "limits": [],
    "source": {
     "label": "FDA label: furosemide, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=furosemide"
@@ -115,6 +127,7 @@
    "usual": "25–100 mg/day",
    "max_mg_per_day": 400,
    "note": "Higher doses only for primary hyperaldosteronism or edema.",
+   "limits": [],
    "source": {
     "label": "FDA label: spironolactone, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=spironolactone"
@@ -124,6 +137,7 @@
    "usual": "10–50 mg four times daily",
    "max_mg_per_day": 300,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: hydralazine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=hydralazine"
@@ -133,6 +147,7 @@
    "usual": "0.1–0.3 mg twice daily",
    "max_mg_per_day": 2.4,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: clonidine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=clonidine"
@@ -142,6 +157,7 @@
    "usual": "10–80 mg once daily",
    "max_mg_per_day": 80,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: atorvastatin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=atorvastatin"
@@ -151,6 +167,7 @@
    "usual": "5–40 mg once daily",
    "max_mg_per_day": 40,
    "note": "80 mg is restricted to patients already tolerating it for 12 months.",
+   "limits": [],
    "source": {
     "label": "FDA label: simvastatin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=simvastatin"
@@ -160,6 +177,7 @@
    "usual": "5–40 mg once daily",
    "max_mg_per_day": 40,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: rosuvastatin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=rosuvastatin"
@@ -169,6 +187,7 @@
    "usual": "10–80 mg once daily",
    "max_mg_per_day": 80,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: pravastatin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=pravastatin"
@@ -178,6 +197,7 @@
    "usual": "10–80 mg/day",
    "max_mg_per_day": 80,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: lovastatin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lovastatin"
@@ -187,6 +207,7 @@
    "usual": "500–2,000 mg/day in divided doses",
    "max_mg_per_day": 2550,
    "note": "Extended-release maximum 2,000 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: metformin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=metformin"
@@ -196,6 +217,7 @@
    "usual": "2.5–20 mg/day",
    "max_mg_per_day": 40,
    "note": "Extended-release maximum 20 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: glipizide, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=glipizide"
@@ -205,6 +227,7 @@
    "usual": "1.25–20 mg/day",
    "max_mg_per_day": 20,
    "note": "Micronized maximum 12 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: glyburide, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=glyburide"
@@ -214,6 +237,7 @@
    "usual": "1–8 mg once daily",
    "max_mg_per_day": 8,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: glimepiride, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=glimepiride"
@@ -223,6 +247,7 @@
    "usual": "15–45 mg once daily",
    "max_mg_per_day": 45,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: pioglitazone, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=pioglitazone"
@@ -232,6 +257,7 @@
    "usual": "100 mg once daily",
    "max_mg_per_day": 100,
    "note": "Reduced in kidney impairment.",
+   "limits": [],
    "source": {
     "label": "FDA label: sitagliptin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sitagliptin"
@@ -241,6 +267,7 @@
    "usual": "10–25 mg once daily",
    "max_mg_per_day": 25,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: empagliflozin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=empagliflozin"
@@ -250,6 +277,7 @@
    "usual": "5–10 mg once daily",
    "max_mg_per_day": 10,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: dapagliflozin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=dapagliflozin"
@@ -259,6 +287,7 @@
    "usual": "81 mg/day (antiplatelet); 325–650 mg every 4–6 h for pain",
    "max_mg_per_day": 4000,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: aspirin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=aspirin"
@@ -268,6 +297,7 @@
    "usual": "325–1,000 mg every 4–6 hours",
    "max_mg_per_day": 4000,
    "note": "Many OTC labels advise no more than 3,000 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: acetaminophen, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=acetaminophen"
@@ -277,6 +307,7 @@
    "usual": "200–800 mg three to four times daily",
    "max_mg_per_day": 3200,
    "note": "OTC maximum 1,200 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: ibuprofen, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ibuprofen"
@@ -286,6 +317,7 @@
    "usual": "250–500 mg twice daily",
    "max_mg_per_day": 1500,
    "note": "1,500 mg/day only for limited periods.",
+   "limits": [],
    "source": {
     "label": "FDA label: naproxen, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=naproxen"
@@ -295,6 +327,7 @@
    "usual": "7.5–15 mg once daily",
    "max_mg_per_day": 15,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: meloxicam, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=meloxicam"
@@ -304,6 +337,7 @@
    "usual": "100–200 mg once or twice daily",
    "max_mg_per_day": 400,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: celecoxib, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=celecoxib"
@@ -313,6 +347,7 @@
    "usual": "50 mg two to three times daily",
    "max_mg_per_day": 200,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: diclofenac, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=diclofenac"
@@ -322,6 +357,7 @@
    "usual": "10 mg every 4–6 hours (oral)",
    "max_mg_per_day": 40,
    "note": "Oral maximum 40 mg/day; total course no more than 5 days.",
+   "limits": [],
    "source": {
     "label": "FDA label: ketorolac, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ketorolac"
@@ -331,6 +367,7 @@
    "usual": "300–1,200 mg three times daily",
    "max_mg_per_day": 3600,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: gabapentin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=gabapentin"
@@ -340,6 +377,7 @@
    "usual": "75–300 mg twice daily",
    "max_mg_per_day": 600,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: pregabalin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=pregabalin"
@@ -349,6 +387,13 @@
    "usual": "50–100 mg every 4–6 hours",
    "max_mg_per_day": 400,
    "note": "Over 75 years: maximum 300 mg/day; extended-release maximum 300 mg/day.",
+   "limits": [
+    {
+     "age_over": 75,
+     "max_mg_per_day": 300,
+     "why": "over age 75"
+    }
+   ],
    "source": {
     "label": "FDA label: tramadol, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tramadol"
@@ -358,6 +403,7 @@
    "usual": "50–200 mg once daily",
    "max_mg_per_day": 200,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: sertraline, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sertraline"
@@ -367,6 +413,7 @@
    "usual": "20–80 mg/day",
    "max_mg_per_day": 80,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: fluoxetine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=fluoxetine"
@@ -376,6 +423,7 @@
    "usual": "20–50 mg/day",
    "max_mg_per_day": 60,
    "note": "Up to 60 mg/day for panic disorder.",
+   "limits": [],
    "source": {
     "label": "FDA label: paroxetine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=paroxetine"
@@ -385,6 +433,24 @@
    "usual": "20–40 mg once daily",
    "max_mg_per_day": 40,
    "note": "Maximum 20 mg/day over age 60 (QT prolongation).",
+   "limits": [
+    {
+     "age_over": 60,
+     "max_mg_per_day": 20,
+     "why": "over age 60 (QT prolongation)"
+    },
+    {
+     "with_drugs": [
+      "omeprazole",
+      "esomeprazole",
+      "cimetidine",
+      "fluconazole",
+      "fluvoxamine"
+     ],
+     "max_mg_per_day": 20,
+     "why": "with a CYP2C19 inhibitor"
+    }
+   ],
    "source": {
     "label": "FDA label: citalopram, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=citalopram"
@@ -394,6 +460,7 @@
    "usual": "10–20 mg once daily",
    "max_mg_per_day": 20,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: escitalopram, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=escitalopram"
@@ -403,6 +470,7 @@
    "usual": "40–60 mg/day",
    "max_mg_per_day": 120,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: duloxetine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=duloxetine"
@@ -412,6 +480,7 @@
    "usual": "75–225 mg/day",
    "max_mg_per_day": 375,
    "note": "Extended-release maximum 225 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: venlafaxine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=venlafaxine"
@@ -421,6 +490,7 @@
    "usual": "150–300 mg/day",
    "max_mg_per_day": 450,
    "note": "SR maximum 400 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: bupropion, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=bupropion"
@@ -430,6 +500,7 @@
    "usual": "50–400 mg/day",
    "max_mg_per_day": 400,
    "note": "Up to 600 mg/day in hospitalized patients.",
+   "limits": [],
    "source": {
     "label": "FDA label: trazodone, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=trazodone"
@@ -439,6 +510,7 @@
    "usual": "15–45 mg at bedtime",
    "max_mg_per_day": 45,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: mirtazapine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=mirtazapine"
@@ -448,6 +520,7 @@
    "usual": "50–800 mg/day",
    "max_mg_per_day": 800,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: quetiapine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=quetiapine"
@@ -457,6 +530,7 @@
    "usual": "0.25–0.5 mg three times daily",
    "max_mg_per_day": 10,
    "note": "Panic disorder up to 10 mg/day; anxiety usually no more than 4 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: alprazolam, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=alprazolam"
@@ -466,6 +540,7 @@
    "usual": "2–6 mg/day in divided doses",
    "max_mg_per_day": 10,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: lorazepam, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=lorazepam"
@@ -475,6 +550,13 @@
    "usual": "5–10 mg at bedtime",
    "max_mg_per_day": 10,
    "note": "Women and older adults: 5 mg.",
+   "limits": [
+    {
+     "age_over": 64,
+     "max_mg_per_day": 5,
+     "why": "older adults (label dose 5 mg)"
+    }
+   ],
    "source": {
     "label": "FDA label: zolpidem, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=zolpidem"
@@ -484,6 +566,7 @@
    "usual": "5–10 mg three times daily",
    "max_mg_per_day": 30,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: cyclobenzaprine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=cyclobenzaprine"
@@ -493,6 +576,7 @@
    "usual": "2–8 mg every 6–8 hours",
    "max_mg_per_day": 36,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: tizanidine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tizanidine"
@@ -502,6 +586,7 @@
    "usual": "5–20 mg three times daily",
    "max_mg_per_day": 80,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: baclofen, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=baclofen"
@@ -511,6 +596,7 @@
    "usual": "10 mg once daily",
    "max_mg_per_day": 10,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: montelukast, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=montelukast"
@@ -520,6 +606,7 @@
    "usual": "100–300 mg/day",
    "max_mg_per_day": 800,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: allopurinol, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=allopurinol"
@@ -529,6 +616,7 @@
    "usual": "0.6 mg once or twice daily (prophylaxis)",
    "max_mg_per_day": 1.8,
    "note": "Flare: 1.2 mg then 0.6 mg an hour later (1.8 mg total).",
+   "limits": [],
    "source": {
     "label": "FDA label: colchicine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=colchicine"
@@ -538,15 +626,17 @@
    "usual": "25–100 mg once daily as needed (ED)",
    "max_mg_per_day": 100,
    "note": "Pulmonary hypertension dosing differs (20 mg three times daily).",
+   "limits": [],
    "source": {
     "label": "FDA label: sildenafil, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sildenafil"
    }
   },
   "tadalafil": {
-   "usual": "5–20 mg as needed (ED)",
-   "max_mg_per_day": 20,
-   "note": null,
+   "usual": "5–20 mg as needed (ED); 40 mg once daily (pulmonary arterial hypertension)",
+   "max_mg_per_day": 40,
+   "note": "Erectile dysfunction: no more than 20 mg a day; 40 mg only for pulmonary arterial hypertension.",
+   "limits": [],
    "source": {
     "label": "FDA label: tadalafil, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tadalafil"
@@ -556,6 +646,7 @@
    "usual": "250–500 mg every 6 hours",
    "max_mg_per_day": 4000,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: cephalexin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=cephalexin"
@@ -565,6 +656,7 @@
    "usual": "250–750 mg twice daily",
    "max_mg_per_day": 1500,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: ciprofloxacin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ciprofloxacin"
@@ -574,6 +666,7 @@
    "usual": "250–750 mg once daily",
    "max_mg_per_day": 750,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: levofloxacin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=levofloxacin"
@@ -583,15 +676,17 @@
    "usual": "100 mg twice daily",
    "max_mg_per_day": 200,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: doxycycline, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=doxycycline"
    }
   },
   "nitrofurantoin": {
-   "usual": "100 mg twice daily (Macrobid)",
+   "usual": "100 mg twice daily (monohydrate/macrocrystals)",
    "max_mg_per_day": 400,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: nitrofurantoin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=nitrofurantoin"
@@ -601,6 +696,7 @@
    "usual": "250–500 mg twice daily",
    "max_mg_per_day": 1000,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: clarithromycin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=clarithromycin"
@@ -610,6 +706,7 @@
    "usual": "500 mg two to three times daily",
    "max_mg_per_day": 4000,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: metronidazole, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=metronidazole"
@@ -619,6 +716,7 @@
    "usual": "500 mg–1 g two to three times daily",
    "max_mg_per_day": 4000,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: valacyclovir, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=valacyclovir"
@@ -628,6 +726,7 @@
    "usual": "25 mg three to four times daily",
    "max_mg_per_day": 400,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: hydroxyzine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=hydroxyzine"
@@ -637,6 +736,7 @@
    "usual": "25–50 mg every 4–6 hours",
    "max_mg_per_day": 300,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: diphenhydramine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=diphenhydramine"
@@ -646,6 +746,7 @@
    "usual": "25–100 mg/day",
    "max_mg_per_day": 100,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: meclizine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=meclizine"
@@ -655,6 +756,7 @@
    "usual": "4–8 mg two to three times daily",
    "max_mg_per_day": 24,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: ondansetron, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=ondansetron"
@@ -664,6 +766,7 @@
    "usual": "25–100 mg per dose (oral)",
    "max_mg_per_day": 200,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: sumatriptan, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=sumatriptan"
@@ -673,15 +776,17 @@
    "usual": "5–10 mg at bedtime",
    "max_mg_per_day": 23,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: donepezil, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=donepezil"
    }
   },
   "memantine": {
-   "usual": "5–10 mg twice daily",
+   "usual": "5–10 mg twice daily (immediate release); 7–28 mg once daily (extended release)",
    "max_mg_per_day": 28,
-   "note": "Extended-release maximum 28 mg/day.",
+   "note": "Immediate-release maximum 20 mg/day; extended-release maximum 28 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: memantine, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=memantine"
@@ -691,6 +796,7 @@
    "usual": "0.4–0.8 mg once daily",
    "max_mg_per_day": 0.8,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: tamsulosin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=tamsulosin"
@@ -700,6 +806,7 @@
    "usual": "5 mg once daily (BPH)",
    "max_mg_per_day": 5,
    "note": null,
+   "limits": [],
    "source": {
     "label": "FDA label: finasteride, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=finasteride"
@@ -709,6 +816,7 @@
    "usual": "5 mg two to three times daily",
    "max_mg_per_day": 30,
    "note": "Immediate-release maximum 20 mg/day.",
+   "limits": [],
    "source": {
     "label": "FDA label: oxybutynin, Dosage and Administration",
     "url": "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=oxybutynin"

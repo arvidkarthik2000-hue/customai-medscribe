@@ -2,10 +2,16 @@
 from app.drugs.kb import kb
 
 
-def test_onc_list_has_15_critical_rules():
+def test_onc_list_has_15_pairs_each_with_a_critical_rule():
     rules = [r for r in kb().interactions["rules"] if r.get("onc")]
-    assert len(rules) == 15
-    assert all(r["severity"] == "critical" for r in rules)
+    pairs = {r["onc_pair"] for r in rules}
+    assert len(pairs) == 15
+    heads = [r for r in rules if r["id"] == r["onc_pair"]]
+    assert len(heads) == 15 and all(r["severity"] == "critical" for r in heads)
+    # pair #25 (statins with CYP3A4 inhibitors): label dose limits make the moderate-inhibitor rules warnings
+    extra = [r for r in rules if r["id"] != r["onc_pair"]]
+    assert extra and all(r["onc_pair"] == "onc-simva-lova-cyp3a4" and r["severity"] == "warning" for r in extra)
+    assert {r["id"] for r in extra if r.get("dose_limit")} == {"simva-10mg-limit", "simva-20mg-limit", "lova-20mg-limit", "lova-40mg-limit"}
 
 
 def test_every_rule_has_https_source_and_text():

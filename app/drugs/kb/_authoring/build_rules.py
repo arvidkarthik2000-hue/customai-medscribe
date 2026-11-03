@@ -21,6 +21,18 @@ def lab(generic, section):
 
 ONC = {"label": "ONC high-priority drug-drug interactions (Phansalkar et al., JAMIA 2012;19:735-743)", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"}
 STOPP = {"label": "STOPP/START v3 (O'Mahony et al., Eur Geriatr Med 2023), CC BY 4.0", "url": "https://link.springer.com/article/10.1007/s41999-023-00777-y"}
+ONC_QT = {"label": "ONC high-priority pair: QT-prolonging agents (Phansalkar 2012). ONC defines this class by the torsades.org high-risk list, which needs a licence; this demo uses drugs whose FDA labels warn of QT prolongation or torsades de pointes", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"}
+DSC_CLARITHRO = {"label": "FDA Drug Safety Communication, 22 Feb 2018: clarithromycin in patients with heart disease", "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-drug-safety-communication-fda-review-finds-additional-data-supports-potential-increased-long"}
+AAAAI_2022 = {"label": "Drug allergy: a 2022 practice parameter update (AAAAI/ACAAI)", "url": "https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/Drug-Allergy-PP-9-2022.pdf"}
+CDC_STREP = {"label": "CDC clinical guidance: group A strep pharyngitis (penicillin allergy)", "url": "https://www.cdc.gov/group-a-strep/hcp/clinical-guidance/strep-throat.html"}
+
+# Drugs whose current US labels warn of QT prolongation or torsades de pointes in a
+# boxed warning, contraindications or Warnings and Precautions (checked 2026-11-04).
+# Escitalopram, donepezil and chlorpromazine list QT events only as postmarketing
+# reports or not at all, so they stay in the lower-tier "qt_prolonging" class.
+QT_LABEL = ["azithromycin", "clarithromycin", "erythromycin", "levofloxacin", "moxifloxacin", "ciprofloxacin",
+            "citalopram", "ondansetron", "fluconazole", "haloperidol", "methadone", "amiodarone", "sotalol",
+            "dofetilide", "dronedarone", "thioridazine", "pimozide", "ziprasidone"]
 
 
 def sel(drugs=(), classes=()):
@@ -35,16 +47,23 @@ def sel(drugs=(), classes=()):
 RULES = []
 
 
+# The ONC list (Phansalkar 2012, Table 2) has 15 pairs. Each pair has one critical rule whose id starts
+# with "onc-"; pair #25 (HMG-CoA reductase inhibitors with CYP3A4 inhibitors) also has warning rules for
+# the combinations whose labels allow a limited statin dose, tagged with that pair's id.
+STATIN_PAIR = "onc-simva-lova-cyp3a4"
+
+
 def rule(rid, selectors, severity, title, effect, management, sources, onc=False, group=None, category="interaction", dose_limit=None):
     RULES.append({
         "id": rid, "all": selectors, "severity": severity, "onc": onc, "title": title,
         "effect": effect, "management": management, "sources": sources, "group": group,
         "category": category, "dose_limit": dose_limit,
+        "onc_pair": (rid if rid.startswith("onc-") else STATIN_PAIR) if onc else None,
     })
 
 
 # ------------------------------------------------------------------ ONC high-priority list (15)
-rule("onc-stimulant-maoi", [sel(classes=["amphetamine_like"]), sel(classes=["maoi"])], "critical",
+rule("onc-stimulant-maoi", [sel(classes=["amphetamine_like"]), sel(classes=["maoi"], drugs=["procarbazine"])], "critical",
      "Stimulant with an MAO inhibitor", "Risk of hypertensive crisis.",
      "Do not combine. Stimulant labels contraindicate use during or within 14 days after stopping an MAOI. (The ONC panel notes low-dose selegiline is MAO-B selective.)",
      [ONC, lab("amphetamine-dextroamphetamine", "Contraindications")], onc=True)
@@ -60,15 +79,15 @@ rule("onc-serotonergic-maoi", [sel(classes=["ssri", "snri", "serotonergic"]), se
 rule("onc-irinotecan-cyp3a4", [sel(drugs=["irinotecan"]), sel(classes=["strong_cyp3a4_inhibitor"])], "critical",
      "Irinotecan with a strong CYP3A4 inhibitor", "Raises exposure to irinotecan's active metabolite, with severe diarrhea and neutropenia.",
      "Avoid; the irinotecan label advises stopping strong CYP3A4 inhibitors at least 1 week before therapy.", [ONC, lab("irinotecan", "Drug Interactions")], onc=True)
-rule("onc-opioid-maoi", [sel(classes=["opioid"]), sel(classes=["maoi"])], "critical",
+rule("onc-opioid-maoi", [sel(classes=["opioid"]), sel(classes=["maoi"], drugs=["procarbazine"])], "critical",
      "Opioid with an MAO inhibitor", "Risk of serotonin syndrome or opioid toxicity (respiratory depression, coma).",
-     "Avoid; several opioid labels (for example meperidine, tramadol, methadone) contraindicate use with or within 14 days of an MAOI.", [ONC, lab("tramadol", "Contraindications")], onc=True, group="serotonin")
-rule("onc-tca-maoi", [sel(classes=["tca"]), sel(classes=["maoi"])], "critical",
+     "Avoid. The meperidine and tramadol labels contraindicate use with or within 14 days of an MAOI; the methadone label says use with MAOIs is not recommended.", [ONC, lab("tramadol", "Contraindications"), lab("methadone", "Drug Interactions")], onc=True, group="serotonin")
+rule("onc-tca-maoi", [sel(classes=["tca"]), sel(classes=["maoi"], drugs=["procarbazine"])], "critical",
      "Tricyclic antidepressant with an MAO inhibitor", "Risk of serotonin syndrome and hypertensive reactions.",
      "Do not combine; observe the label washout periods.", [ONC, lab("amitriptyline", "Contraindications")], onc=True, group="serotonin")
-rule("onc-qt-high", [sel(classes=["qt_high"]), sel(classes=["qt_high"])], "critical",
-     "Two high-risk QT-prolonging drugs", "Additive QT prolongation with a risk of torsades de pointes and sudden cardiac death.",
-     "Avoid the combination where possible. If both are needed, get a baseline ECG, correct potassium and magnesium, and monitor the QTc.", [ONC, lab("amiodarone", "Warnings and Precautions")], onc=True, group="qt", category="qt")
+rule("onc-qt-high", [sel(drugs=QT_LABEL), sel(drugs=QT_LABEL)], "critical",
+     "Two drugs whose FDA labels warn of QT prolongation", "Additive QT prolongation with a risk of torsades de pointes and sudden cardiac death.",
+     "Avoid the combination where possible. If both are needed, get a baseline ECG, correct potassium and magnesium, and monitor the QTc.", [ONC_QT, lab("amiodarone", "Warnings and Precautions"), lab("azithromycin", "Warnings and Precautions: QT prolongation")], onc=True, group="qt", category="qt")
 rule("onc-ramelteon-cyp1a2", [sel(drugs=["ramelteon"]), sel(drugs=["fluvoxamine", "amiodarone", "ciprofloxacin"])], "critical",
      "Ramelteon with a strong CYP1A2 inhibitor", "Markedly higher ramelteon levels and excess sedation.",
      "Avoid; the ramelteon label says not to use with fluvoxamine.", [ONC, lab("ramelteon", "Drug Interactions")], onc=True)
@@ -79,12 +98,12 @@ rule("onc-simva-lova-cyp3a4", [sel(drugs=["simvastatin", "lovastatin"]), sel(cla
      "Simvastatin or lovastatin with a strong CYP3A4 inhibitor", "Large rise in statin levels: myopathy and rhabdomyolysis.",
      "Contraindicated per the simvastatin label (clarithromycin, erythromycin, azole antifungals, HIV protease inhibitors, cyclosporine and others). Hold the statin during a short antibiotic course or choose a non-interacting antibiotic.",
      [ONC, lab("simvastatin", "Contraindications")], onc=True)
-rule("onc-ergot-cyp3a4", [sel(classes=["ergot"]), sel(classes=["strong_cyp3a4_inhibitor", "protease_inhibitor"])], "critical",
+rule("onc-ergot-cyp3a4", [sel(classes=["ergot"]), sel(classes=["strong_cyp3a4_inhibitor", "protease_inhibitor"], drugs=["erythromycin"])], "critical",
      "Ergot alkaloid with a strong CYP3A4 inhibitor", "Ergotism: severe vasospasm with limb or cerebral ischemia (boxed warning).",
-     "Contraindicated.", [ONC, lab("ergotamine", "Boxed Warning")], onc=True)
-rule("onc-tizanidine-cyp1a2", [sel(drugs=["tizanidine"]), sel(classes=["cyp1a2_strong_inhibitor"])], "critical",
+     "Contraindicated (ergotamine and dihydroergotamine boxed warnings name protease inhibitors and macrolide antibiotics).", [ONC, lab("ergotamine", "Boxed Warning"), lab("dihydroergotamine", "Boxed Warning")], onc=True)
+rule("onc-tizanidine-cyp1a2", [sel(drugs=["tizanidine"]), sel(classes=["cyp1a2_strong_inhibitor"], drugs=["propafenone"])], "critical",
      "Tizanidine with a CYP1A2 inhibitor", "Tizanidine levels rise many-fold: severe hypotension, bradycardia and sedation.",
-     "Contraindicated with ciprofloxacin and fluvoxamine; avoid other CYP1A2 inhibitors (tizanidine label).", [ONC, lab("tizanidine", "Contraindications")], onc=True)
+     "Contraindicated with ciprofloxacin and fluvoxamine; avoid other CYP1A2 inhibitors such as amiodarone and propafenone (tizanidine label).", [ONC, lab("tizanidine", "Contraindications")], onc=True)
 rule("onc-tranylcypromine-procarbazine", [sel(drugs=["tranylcypromine"]), sel(drugs=["procarbazine"])], "critical",
      "Tranylcypromine with procarbazine", "Additive MAO inhibition: hypertensive crisis.",
      "Do not combine.", [ONC, lab("procarbazine", "Warnings")], onc=True)
@@ -95,7 +114,7 @@ rule("onc-triptan-maoi", [sel(drugs=["sumatriptan", "rizatriptan", "zolmitriptan
 # ------------------------------------------------------------------ bleeding
 rule("anticoag-nsaid", [sel(classes=["anticoagulant"]), sel(classes=["nsaid"])], "warning",
      "Anticoagulant with an NSAID", "Higher risk of serious bleeding, especially gastrointestinal.",
-     "Avoid if possible; acetaminophen is usually preferred for pain. If an NSAID is needed, use the shortest course, consider GI protection, and monitor for bleeding (and INR with warfarin).",
+     "Monitor closely for bleeding (anticoagulant labels: NSAIDs increase bleeding risk). Acetaminophen is usually preferred for pain; if an NSAID is needed, use the lowest dose for the shortest time, consider GI protection, and check the INR with warfarin.",
      [lab("warfarin", "Drug Interactions"), lab("ibuprofen", "Warnings and Precautions: bleeding")], group="bleeding")
 rule("anticoag-antiplatelet", [sel(classes=["anticoagulant"]), sel(classes=["antiplatelet"])], "warning",
      "Anticoagulant with an antiplatelet", "Additive bleeding risk.",
@@ -121,6 +140,9 @@ rule("warfarin-tmpsmx", [sel(drugs=["warfarin"]), sel(drugs=["sulfamethoxazole-t
 rule("warfarin-metronidazole", [sel(drugs=["warfarin"]), sel(drugs=["metronidazole"])], "warning",
      "Warfarin with metronidazole", "Metronidazole inhibits warfarin metabolism: INR rise and bleeding.",
      "Avoid if possible; otherwise monitor INR closely.", [lab("warfarin", "Drug Interactions"), lab("metronidazole", "Drug Interactions")])
+rule("warfarin-macrolide", [sel(drugs=["warfarin"]), sel(drugs=["clarithromycin", "erythromycin"])], "warning",
+     "Warfarin with clarithromycin or erythromycin", "Both inhibit CYP3A4 and can raise the INR; bleeding risk (warfarin label, drug interactions table).",
+     "Prefer another antibiotic if reasonable; otherwise check the INR within a few days of starting and after stopping.", [lab("warfarin", "Drug Interactions"), lab("clarithromycin", "Drug Interactions")])
 rule("warfarin-fluoroquinolone", [sel(drugs=["warfarin"]), sel(classes=["fluoroquinolone"])], "info",
      "Warfarin with a fluoroquinolone", "Fluoroquinolones can raise the INR.", "Check INR during the course.", [lab("ciprofloxacin", "Drug Interactions")])
 rule("anticoag-inducer", [sel(classes=["vka", "doac"]), sel(classes=["strong_cyp3a4_inducer"])], "warning",
@@ -129,6 +151,9 @@ rule("anticoag-inducer", [sel(classes=["vka", "doac"]), sel(classes=["strong_cyp
 rule("doac-strong-inhibitor", [sel(drugs=["apixaban", "rivaroxaban"]), sel(drugs=["ketoconazole", "itraconazole", "ritonavir", "nirmatrelvir-ritonavir"])], "warning",
      "Apixaban or rivaroxaban with a combined strong CYP3A4 and P-gp inhibitor", "Higher anticoagulant levels and bleeding risk.",
      "Follow the DOAC label: rivaroxaban, avoid; apixaban, the label calls for a dose change or avoidance depending on the current dose.", [lab("apixaban", "Dosage and Administration"), lab("rivaroxaban", "Drug Interactions")], group="bleeding")
+rule("clopidogrel-ppi", [sel(drugs=["clopidogrel"]), sel(drugs=["omeprazole", "esomeprazole"])], "warning",
+     "Clopidogrel with omeprazole or esomeprazole", "These PPIs inhibit CYP2C19 and significantly reduce clopidogrel's antiplatelet activity.",
+     "Avoid concomitant use (clopidogrel label). If acid suppression is needed, the label notes dexlansoprazole, lansoprazole and pantoprazole had less effect.", [lab("clopidogrel", "Drug Interactions: CYP2C19 inhibitors")])
 rule("ketorolac-nsaid", [sel(drugs=["ketorolac"]), sel(classes=["nsaid"], drugs=["aspirin"])], "critical",
      "Ketorolac with another NSAID or aspirin", "Cumulative risk of serious NSAID adverse effects (bleeding, kidney injury).",
      "Contraindicated per the ketorolac label.", [lab("ketorolac", "Contraindications")], group="bleeding")
@@ -140,10 +165,19 @@ rule("statin-gemfibrozil", [sel(classes=["statin"]), sel(drugs=["gemfibrozil"])]
      "Statin with gemfibrozil", "Higher risk of myopathy and rhabdomyolysis.", "Avoid; if a fibrate is needed, fenofibrate interacts less.", [lab("rosuvastatin", "Drug Interactions"), lab("atorvastatin", "Drug Interactions")])
 rule("simva-10mg-limit", [sel(drugs=["simvastatin"]), sel(drugs=["verapamil", "diltiazem", "dronedarone"])], "warning",
      "Simvastatin with verapamil, diltiazem or dronedarone", "Higher simvastatin levels; myopathy risk.",
-     "The simvastatin label says not to exceed 10 mg daily with these drugs.", [lab("simvastatin", "Dosage and Administration")], dose_limit={"drug": "simvastatin", "max_mg_per_day": 10})
+     "The simvastatin label says not to exceed 10 mg daily with these drugs.", [ONC, lab("simvastatin", "Dosage and Administration")], onc=True, dose_limit={"drug": "simvastatin", "max_mg_per_day": 10})
 rule("simva-20mg-limit", [sel(drugs=["simvastatin"]), sel(drugs=["amiodarone", "amlodipine", "ranolazine"])], "warning",
      "Simvastatin with amiodarone, amlodipine or ranolazine", "Higher simvastatin levels; myopathy risk.",
-     "The simvastatin label says not to exceed 20 mg daily with these drugs.", [lab("simvastatin", "Dosage and Administration")], dose_limit={"drug": "simvastatin", "max_mg_per_day": 20})
+     "The simvastatin label says not to exceed 20 mg daily with these drugs.", [ONC, lab("simvastatin", "Dosage and Administration")], onc=True, dose_limit={"drug": "simvastatin", "max_mg_per_day": 20})
+rule("lova-20mg-limit", [sel(drugs=["lovastatin"]), sel(drugs=["verapamil", "diltiazem", "dronedarone"])], "warning",
+     "Lovastatin with verapamil, diltiazem or dronedarone", "Higher lovastatin levels; myopathy risk.",
+     "The lovastatin label says not to exceed 20 mg daily with these drugs.", [ONC, lab("lovastatin", "Dosage and Administration")], onc=True, dose_limit={"drug": "lovastatin", "max_mg_per_day": 20})
+rule("lova-40mg-limit", [sel(drugs=["lovastatin"]), sel(drugs=["amiodarone"])], "warning",
+     "Lovastatin with amiodarone", "Higher lovastatin levels; myopathy risk.",
+     "The lovastatin label says not to exceed 40 mg daily with amiodarone.", [ONC, lab("lovastatin", "Dosage and Administration")], onc=True, dose_limit={"drug": "lovastatin", "max_mg_per_day": 40})
+rule("simva-lova-fluconazole", [sel(drugs=["simvastatin", "lovastatin"]), sel(drugs=["fluconazole"])], "warning",
+     "Simvastatin or lovastatin with fluconazole", "Fluconazole inhibits CYP3A4 and raises simvastatin and lovastatin levels; myopathy and rhabdomyolysis risk (an ONC high-priority pair).",
+     "Use the lowest statin dose or hold the statin during a short antifungal course; ask about muscle pain or weakness.", [ONC, lab("simvastatin", "Drug Interactions")], onc=True)
 rule("atorva-clarithro-itra", [sel(drugs=["atorvastatin"]), sel(drugs=["clarithromycin", "itraconazole"])], "warning",
      "Atorvastatin with clarithromycin or itraconazole", "Higher atorvastatin levels; myopathy risk.",
      "The atorvastatin label says not to exceed 20 mg daily with these drugs.", [lab("atorvastatin", "Dosage and Administration")], dose_limit={"drug": "atorvastatin", "max_mg_per_day": 20})
@@ -156,6 +190,18 @@ rule("ticagrelor-strong", [sel(drugs=["ticagrelor"]), sel(classes=["strong_cyp3a
      "Ticagrelor with a strong CYP3A4 inhibitor", "Much higher ticagrelor levels; bleeding.", "Avoid (ticagrelor label).", [lab("ticagrelor", "Drug Interactions")], group="bleeding")
 rule("ticagrelor-inducer", [sel(drugs=["ticagrelor"]), sel(classes=["strong_cyp3a4_inducer"])], "warning",
      "Ticagrelor with a strong CYP3A4 inducer", "Lower ticagrelor levels; loss of effect.", "Avoid (ticagrelor label).", [lab("ticagrelor", "Drug Interactions")])
+rule("paxlovid-contraindicated", [sel(drugs=["nirmatrelvir-ritonavir"]), sel(drugs=["amiodarone", "dronedarone", "flecainide", "propafenone", "ranolazine", "finerenone", "eletriptan", "pimozide", "lovastatin", "simvastatin", "ergotamine", "dihydroergotamine", "carbamazepine", "phenytoin", "rifampin", "st johns wort"])], "critical",
+     "Nirmatrelvir-ritonavir with a contraindicated drug", "Ritonavir strongly inhibits CYP3A4: serious or life-threatening reactions with drugs highly dependent on CYP3A4, or loss of antiviral effect with strong inducers.",
+     "Contraindicated (nirmatrelvir-ritonavir label, section 4). Hold or switch the interacting drug if possible, or choose another COVID-19 treatment.", [lab("nirmatrelvir-ritonavir", "Contraindications")])
+rule("paxlovid-salmeterol", [sel(drugs=["nirmatrelvir-ritonavir"]), sel(drugs=["fluticasone-salmeterol"])], "warning",
+     "Nirmatrelvir-ritonavir with salmeterol", "Higher salmeterol levels: QT prolongation, palpitations and sinus tachycardia.",
+     "Avoid concomitant use (label); consider a short switch of the inhaler.", [lab("nirmatrelvir-ritonavir", "Drug Interactions")])
+rule("paxlovid-quetiapine", [sel(drugs=["nirmatrelvir-ritonavir"]), sel(drugs=["quetiapine"])], "warning",
+     "Nirmatrelvir-ritonavir with quetiapine", "Much higher quetiapine levels: sedation, hypotension, QT effects.",
+     "If co-administration is necessary, the label says to reduce the quetiapine dose and monitor.", [lab("nirmatrelvir-ritonavir", "Drug Interactions")])
+rule("paxlovid-opioid", [sel(drugs=["nirmatrelvir-ritonavir"]), sel(drugs=["fentanyl", "oxycodone", "oxycodone-acetaminophen", "hydrocodone-acetaminophen", "meperidine", "methadone"])], "warning",
+     "Nirmatrelvir-ritonavir with an opioid", "Higher opioid levels, including potentially fatal respiratory depression (methadone levels may instead fall).",
+     "Monitor closely and consider reducing the opioid dose (label); for methadone, watch for withdrawal and adjust.", [lab("nirmatrelvir-ritonavir", "Drug Interactions")], group="cns")
 rule("calcineurin-strong", [sel(drugs=["tacrolimus", "cyclosporine"]), sel(classes=["strong_cyp3a4_inhibitor"])], "warning",
      "Tacrolimus or cyclosporine with a strong CYP3A4 inhibitor", "Large rise in immunosuppressant levels: nephrotoxicity and neurotoxicity.", "Avoid or monitor levels closely with the transplant team.", [lab("tacrolimus", "Drug Interactions")])
 rule("calcineurin-inducer", [sel(drugs=["tacrolimus", "cyclosporine"]), sel(classes=["strong_cyp3a4_inducer"])], "warning",
@@ -181,7 +227,7 @@ rule("mtx-tmp", [sel(drugs=["methotrexate"]), sel(drugs=["sulfamethoxazole-trime
 rule("mtx-nsaid", [sel(drugs=["methotrexate"]), sel(classes=["nsaid"])], "info",
      "Methotrexate with an NSAID", "NSAIDs can reduce methotrexate clearance; most serious with high-dose methotrexate.",
      "With low-dose weekly methotrexate, monitor blood counts and kidney function.", [lab("methotrexate", "Drug Interactions")])
-rule("allopurinol-thiopurine", [sel(drugs=["allopurinol"]), sel(classes=["thiopurine"])], "critical",
+rule("allopurinol-thiopurine", [sel(drugs=["allopurinol"]), sel(classes=["thiopurine"])], "warning",
      "Allopurinol with azathioprine or mercaptopurine", "Allopurinol blocks thiopurine breakdown: severe bone-marrow suppression.",
      "The allopurinol label calls for reducing the azathioprine or mercaptopurine dose to one-third to one-quarter of usual, with close blood-count monitoring; consider an alternative.", [lab("allopurinol", "Drug Interactions"), lab("azathioprine", "Drug Interactions")])
 
@@ -203,13 +249,15 @@ rule("dofetilide-contra", [sel(drugs=["dofetilide"]), sel(drugs=["verapamil", "h
 
 # ------------------------------------------------------------------ RAAS and potassium
 rule("arni-acei", [sel(classes=["arni"]), sel(classes=["acei"])], "critical",
-     "Sacubitril/valsartan with an ACE inhibitor", "High risk of angioedema.", "Contraindicated. Stop the ACE inhibitor at least 36 hours before starting sacubitril/valsartan.", [lab("sacubitril-valsartan", "Contraindications")])
-rule("arni-arb", [sel(classes=["arni"]), sel(classes=["arb"])], "warning",
-     "Sacubitril/valsartan with an ARB", "Sacubitril/valsartan already contains valsartan: duplicate angiotensin blockade.", "Do not combine (label).", [lab("sacubitril-valsartan", "Drug Interactions")])
+     "Sacubitril/valsartan with an ACE inhibitor", "High risk of angioedema.", "Contraindicated. Stop the ACE inhibitor at least 36 hours before starting sacubitril/valsartan.", [lab("sacubitril-valsartan", "Contraindications")], group="raas")
+rule("arni-arb", [sel(classes=["arni"]), sel(classes=["arb"])], "critical",
+     "Sacubitril/valsartan with an ARB", "Sacubitril/valsartan already contains valsartan: duplicate angiotensin blockade.", "Do not combine (label).", [lab("sacubitril-valsartan", "Drug Interactions")], group="raas")
 rule("acei-arb", [sel(classes=["acei"]), sel(classes=["arb"])], "warning",
      "ACE inhibitor with an ARB (dual RAAS blockade)", "More hyperkalemia, hypotension and acute kidney injury without outcome benefit in most patients.", "Generally avoid; monitor potassium and creatinine if used.", [lab("lisinopril", "Warnings and Precautions: dual blockade"), lab("losartan", "Drug Interactions")], group="raas")
 rule("aliskiren-raas", [sel(classes=["renin_inhibitor"]), sel(classes=["acei", "arb", "arni"])], "critical",
      "Aliskiren with an ACE inhibitor or ARB", "Hyperkalemia, hypotension and kidney injury.", "Contraindicated in patients with diabetes; avoid when eGFR is below 60 (aliskiren label).", [lab("aliskiren", "Contraindications")], group="raas")
+rule("amiloride-triamterene-potassium", [sel(drugs=["amiloride", "triamterene-hydrochlorothiazide"]), sel(classes=["potassium_supplement"])], "critical",
+     "Amiloride or triamterene with a potassium supplement", "Risk of severe, potentially fatal hyperkalemia.", "Contraindicated (potassium chloride and amiloride labels).", [lab("potassium chloride", "Contraindications"), lab("amiloride", "Contraindications")], group="hyperkalemia")
 rule("ksparing-potassium", [sel(classes=["k_sparing"]), sel(classes=["potassium_supplement"])], "warning",
      "Potassium-sparing diuretic with a potassium supplement", "Risk of severe hyperkalemia.", "Avoid potassium supplements unless hypokalemia is documented; check potassium and creatinine.", [lab("spironolactone", "Drug Interactions")], group="hyperkalemia")
 rule("raas-ksparing", [sel(classes=["acei", "arb", "arni", "renin_inhibitor"]), sel(classes=["k_sparing"])], "warning",
@@ -220,8 +268,8 @@ rule("raas-ksparing-potassium", [sel(classes=["acei", "arb", "arni"]), sel(class
      "ACE inhibitor or ARB, potassium-sparing diuretic and potassium supplement together", "Three potassium-raising drugs: high risk of life-threatening hyperkalemia.", "Avoid the potassium supplement unless hypokalemia is documented; check potassium and creatinine promptly.", [lab("spironolactone", "Drug Interactions"), lab("lisinopril", "Drug Interactions")], group="hyperkalemia")
 rule("eplerenone-potassium", [sel(drugs=["eplerenone"]), sel(classes=["potassium_supplement"], drugs=["spironolactone", "amiloride", "triamterene-hydrochlorothiazide"])], "critical",
      "Eplerenone with a potassium supplement or another potassium-sparing diuretic", "Hyperkalemia.", "Contraindicated in hypertension (eplerenone label).", [lab("eplerenone", "Contraindications")], group="hyperkalemia")
-rule("trimethoprim-potassium", [sel(drugs=["trimethoprim", "sulfamethoxazole-trimethoprim"]), sel(classes=["acei", "arb", "arni", "k_sparing"])], "info",
-     "Trimethoprim with a potassium-raising drug", "Trimethoprim reduces potassium excretion; hyperkalemia in older or kidney-impaired patients.", "Consider checking potassium.", [lab("sulfamethoxazole-trimethoprim", "Warnings and Precautions: hyperkalemia")], group="hyperkalemia")
+rule("trimethoprim-potassium", [sel(drugs=["trimethoprim", "sulfamethoxazole-trimethoprim"]), sel(classes=["acei", "arb", "arni", "k_sparing", "potassium_supplement"])], "warning",
+     "Trimethoprim with a potassium-raising drug", "Trimethoprim reduces potassium excretion; hyperkalemia, especially in older or kidney-impaired patients.", "The label says close monitoring of serum potassium is warranted; check potassium during the course.", [lab("sulfamethoxazole-trimethoprim", "Warnings and Precautions: hyperkalemia")], group="hyperkalemia")
 rule("triple-whammy", [sel(classes=["acei", "arb", "arni"]), sel(classes=["thiazide", "loop", "k_sparing"]), sel(classes=["nsaid"])], "warning",
      "ACE inhibitor or ARB, diuretic and NSAID together", "The 'triple whammy': acute kidney injury.", "Avoid the NSAID if possible; otherwise check creatinine and keep the patient hydrated.", [lab("ibuprofen", "Drug Interactions")])
 
@@ -235,6 +283,12 @@ rule("opioid-zdrug", [sel(classes=["opioid"]), sel(classes=["z_drug"])], "warnin
      "Opioid with a sleep medicine", "Additive sedation and respiratory depression.", "Avoid if possible; use the lowest doses.", [lab("zolpidem", "Drug Interactions")], group="cns")
 rule("opioid-muscle-relaxant", [sel(classes=["opioid"]), sel(classes=["muscle_relaxant"])], "warning",
      "Opioid with a muscle relaxant", "Additive CNS and respiratory depression.", "Avoid if possible; warn about sedation and driving.", [lab("oxycodone", "Drug Interactions")], group="cns")
+rule("opioid-sedating-antihistamine", [sel(classes=["opioid"]), sel(classes=["first_gen_antihistamine"])], "warning",
+     "Opioid with a sedating antihistamine", "Profound sedation, respiratory depression, coma and death (opioid boxed warning: benzodiazepines or other CNS depressants).",
+     "Avoid if possible, especially in older adults; if used together, use the lowest doses and warn about sedation and falls.", [lab("tramadol", "Boxed Warning"), lab("oxycodone", "Boxed Warning")], group="cns")
+rule("opioid-cyp3a4-inhibitor", [sel(drugs=["fentanyl", "oxycodone", "oxycodone-acetaminophen", "hydrocodone-acetaminophen", "methadone", "tramadol"]), sel(classes=["strong_cyp3a4_inhibitor", "moderate_cyp3a4_inhibitor"])], "warning",
+     "Opioid with a CYP3A4 inhibitor", "CYP3A4 inhibitors raise levels of these opioids: potentially fatal respiratory depression (boxed warning).",
+     "Avoid if possible; otherwise monitor closely for sedation and breathing, and consider reducing the opioid dose.", [lab("oxycodone", "Boxed Warning"), lab("fentanyl", "Boxed Warning")], group="cns")
 rule("benzo-zdrug", [sel(classes=["benzodiazepine"]), sel(classes=["z_drug"])], "warning",
      "Benzodiazepine with a Z-drug", "Duplicate sedative effect: falls, confusion, respiratory depression.", "Avoid combining sedative-hypnotics.", [lab("zolpidem", "Drug Interactions")], group="cns")
 rule("naltrexone-opioid", [sel(drugs=["naltrexone"]), sel(classes=["opioid"])], "critical",
@@ -246,8 +300,17 @@ rule("ssri-tramadol", [sel(classes=["ssri", "snri"]), sel(drugs=["tramadol"])], 
      "Prefer a non-serotonergic analgesic; if used, start low and teach the warning signs of serotonin syndrome.", [lab("tramadol", "Warnings and Precautions: serotonin syndrome"), lab("sertraline", "Drug Interactions")], group="serotonin")
 rule("ssri-triptan", [sel(classes=["ssri", "snri"]), sel(classes=["triptan"])], "info",
      "SSRI or SNRI with a triptan", "Serotonin syndrome has been reported, though rarely.", "Usually acceptable; counsel on warning signs.", [lab("sumatriptan", "Warnings and Precautions")], group="serotonin")
-rule("ssri-other-serotonergic", [sel(classes=["ssri", "snri"]), sel(drugs=["trazodone", "mirtazapine", "buspirone", "lithium", "dextromethorphan", "st johns wort", "fentanyl", "methadone", "meperidine", "tapentadol"])], "info",
+rule("ssri-other-serotonergic", [sel(classes=["ssri", "snri"]), sel(drugs=["trazodone", "mirtazapine", "buspirone", "lithium", "dextromethorphan", "st johns wort", "fentanyl", "methadone", "meperidine", "tapentadol"])], "warning",
      "SSRI or SNRI with another serotonergic drug", "Additive serotonergic effects.", "Monitor for serotonin syndrome, especially after dose increases.", [lab("sertraline", "Warnings and Precautions: serotonin syndrome")], group="serotonin")
+rule("ssri-pimozide", [sel(classes=["ssri"]), sel(drugs=["pimozide"])], "critical",
+     "SSRI with pimozide", "Higher pimozide levels and QT prolongation.", "Contraindicated (SSRI labels: sertraline, citalopram, escitalopram, fluoxetine, paroxetine, fluvoxamine).", [lab("sertraline", "Contraindications"), lab("citalopram", "Contraindications")], group="qt", category="qt")
+rule("ssri-thioridazine", [sel(drugs=["fluoxetine", "paroxetine", "fluvoxamine"]), sel(drugs=["thioridazine"])], "critical",
+     "Fluoxetine, paroxetine or fluvoxamine with thioridazine", "CYP2D6 inhibition raises thioridazine levels: QT prolongation and serious arrhythmias.", "Contraindicated (labels).", [lab("fluoxetine", "Contraindications"), lab("thioridazine", "Contraindications")], group="qt", category="qt")
+rule("cyclobenzaprine-maoi", [sel(drugs=["cyclobenzaprine"]), sel(classes=["maoi"], drugs=["procarbazine"])], "critical",
+     "Cyclobenzaprine with an MAO inhibitor", "Hyperpyretic crises, seizures and deaths have occurred.", "Contraindicated, including within 14 days after stopping an MAOI (cyclobenzaprine label).", [lab("cyclobenzaprine", "Contraindications")], group="serotonin")
+rule("cyclobenzaprine-serotonergic", [sel(drugs=["cyclobenzaprine"]), sel(classes=["ssri", "snri", "tca"], drugs=["tramadol", "bupropion", "meperidine", "verapamil"])], "warning",
+     "Cyclobenzaprine with a serotonergic drug", "Serotonin syndrome has been reported (cyclobenzaprine label).",
+     "Watch for agitation, tremor, clonus or fever after starting or raising either drug; consider another muscle relaxant or non-drug measures.", [lab("cyclobenzaprine", "Warnings: serotonin syndrome")], group="serotonin")
 rule("bupropion-maoi", [sel(drugs=["bupropion"]), sel(classes=["maoi", "maoi_like"])], "critical",
      "Bupropion with an MAO inhibitor", "Hypertensive reactions.", "Contraindicated; allow 14 days after stopping an MAOI (bupropion label).", [lab("bupropion", "Contraindications")])
 rule("maoi-sympathomimetic", [sel(classes=["maoi"]), sel(classes=["sympathomimetic"])], "critical",
@@ -262,6 +325,9 @@ rule("qt-qt", [sel(classes=["qt_prolonging"]), sel(classes=["qt_prolonging"])], 
      "Two drugs that prolong the QT interval", "Additive QT prolongation; torsades risk rises with low potassium or magnesium, bradycardia, heart disease and older age.",
      "Consider an alternative to one drug; otherwise check an ECG and electrolytes.", [lab("ondansetron", "Warnings and Precautions: QT prolongation"), lab("azithromycin", "Warnings and Precautions: QT prolongation")], group="qt", category="qt")
 
+rule("fluconazole-qt-substrate", [sel(drugs=["fluconazole"]), sel(drugs=["erythromycin", "pimozide"])], "critical",
+     "Fluconazole with erythromycin or pimozide", "Fluconazole raises levels of these QT-prolonging CYP3A4 substrates: torsades de pointes.", "Contraindicated (fluconazole label, section 4).", [lab("fluconazole", "Contraindications")], group="qt", category="qt")
+
 # ------------------------------------------------------------------ absorption, misc
 rule("fq-steroid", [sel(classes=["fluoroquinolone"]), sel(classes=["corticosteroid"])], "warning",
      "Fluoroquinolone with a systemic corticosteroid", "Higher risk of tendinitis and tendon rupture, especially over age 60 (boxed warning).",
@@ -274,15 +340,21 @@ rule("theophylline-cyp1a2", [sel(drugs=["theophylline"]), sel(classes=["cyp1a2_s
      "Theophylline with ciprofloxacin or fluvoxamine", "Theophylline toxicity: seizures, arrhythmias.", "Avoid or monitor theophylline levels.", [lab("theophylline", "Drug Interactions")])
 rule("lamotrigine-valproate", [sel(drugs=["lamotrigine"]), sel(drugs=["valproate"])], "warning",
      "Lamotrigine with valproate", "Valproate more than doubles lamotrigine levels; higher risk of serious rash.", "The lamotrigine label has a separate, slower titration for patients on valproate.", [lab("lamotrigine", "Dosage and Administration")])
-rule("sulfonylurea-fq", [sel(classes=["sulfonylurea"]), sel(classes=["fluoroquinolone"])], "info",
-     "Sulfonylurea with a fluoroquinolone", "Fluoroquinolones can cause serious hypoglycemia (or hyperglycemia).", "Counsel on hypoglycemia; check glucose more often.", [lab("ciprofloxacin", "Warnings and Precautions: blood glucose")])
+rule("sulfonylurea-fq", [sel(classes=["sulfonylurea", "insulin"]), sel(classes=["fluoroquinolone"])], "warning",
+     "Sulfonylurea or insulin with a fluoroquinolone", "Fluoroquinolone labels warn of serious hypoglycemia, including coma, mostly in patients taking oral antidiabetic drugs or insulin.", "Counsel on hypoglycemia, check glucose more often, and stop the fluoroquinolone if hypoglycemia occurs.", [lab("ciprofloxacin", "Warnings and Precautions: blood glucose disturbances")])
 
 # ------------------------------------------------------------------ allergy groups
 ALLERGY = [
     {"id": "penicillin", "label": "Penicillins", "terms": ["penicillin", "penicillins", "pcn", "pen", "beta-lactam", "amoxicillin", "amoxil", "augmentin", "ampicillin", "dicloxacillin", "nafcillin", "piperacillin"],
      "member_classes": ["penicillin"], "severity": "critical",
-     "cross": [{"classes": ["cephalosporin"], "severity": "warning",
-                "note": "Cross-sensitivity among beta-lactams is documented (see the cephalosporin label). Risk is highest when side chains are similar, such as amoxicillin or ampicillin with cephalexin or cefadroxil. Review the type of reaction."}],
+     "cross": [{"drugs": ["cephalexin", "cefadroxil"], "severity": "warning",
+                "note": "Cephalexin and cefadroxil share a similar side chain with amoxicillin and ampicillin. Avoid them after an immediate-type penicillin reaction (hives, swelling, wheeze or anaphylaxis within about an hour); after a non-severe, delayed reaction such as a mild rash, a cephalosporin is generally acceptable.",
+                "management": "Ask what the reaction was and how soon it started. After an immediate-type reaction, choose a cephalosporin with a dissimilar side chain or a non-beta-lactam.",
+                "sources": [AAAAI_2022, CDC_STREP]},
+               {"classes": ["cephalosporin"], "severity": "info",
+                "note": "Cephalosporins with side chains unlike penicillin's (for example cefdinir, cefuroxime, cefpodoxime, ceftriaxone) have a low cross-reactivity risk and can generally be given after a non-anaphylactic penicillin reaction.",
+                "management": "Confirm the reaction history.",
+                "sources": [AAAAI_2022]}],
      "source": lab("cephalexin", "Warnings and Precautions: hypersensitivity")},
     {"id": "cephalosporin", "label": "Cephalosporins", "terms": ["cephalosporin", "cephalosporins", "cephalexin", "keflex", "cefuroxime", "ceftriaxone", "cefdinir", "cefazolin", "cefadroxil", "cefpodoxime"],
      "member_classes": ["cephalosporin"], "severity": "critical",
@@ -351,6 +423,20 @@ CONDITIONS = [
      "severity": "critical", "summary": "Estrogen-containing product with a history of venous thromboembolism", "detail": "Contraindicated with active or past VTE (estrogen and combined hormonal contraceptive labels).", "source": lab("estradiol", "Contraindications")},
     {"id": "ksparing-hyperkalemia", "drugs": sel(classes=["k_sparing", "potassium_supplement"]), "icd10": ["E87.5"], "terms": ["hyperkalemia", "high potassium"],
      "severity": "critical", "summary": "Potassium-raising drug in a patient with hyperkalemia", "detail": "Spironolactone and potassium supplements are contraindicated in hyperkalemia (labels).", "source": lab("spironolactone", "Contraindications")},
+    {"id": "cyclobenzaprine-cardiac", "drugs": sel(drugs=["cyclobenzaprine"]), "icd10": ["I50", "I44", "I45", "I47", "I48", "I49", "I21", "I22", "E05"],
+     "terms": ["heart failure", "chf", "arrhythmia", "atrial fibrillation", "heart block", "conduction disorder", "myocardial infarction", "hyperthyroidism"],
+     "severity": "critical", "summary": "Cyclobenzaprine with heart failure, arrhythmia, heart block, recent heart attack or hyperthyroidism",
+     "detail": "Contraindicated in the acute recovery phase of myocardial infarction and in patients with arrhythmias, heart block or conduction disturbances, congestive heart failure or hyperthyroidism (cyclobenzaprine label).",
+     "source": lab("cyclobenzaprine", "Contraindications")},
+    {"id": "clarithromycin-heart-disease", "drugs": sel(drugs=["clarithromycin"]), "icd10": ["I20", "I21", "I22", "I24", "I25", "I50"],
+     "terms": ["coronary artery disease", "cad", "angina", "myocardial infarction", "ischemic heart disease", "heart failure"],
+     "severity": "warning", "summary": "Clarithromycin in a patient with heart disease",
+     "detail": "FDA (2018) found a possible increase in heart problems and deaths years later in patients with heart disease who took clarithromycin, and advises weighing the risks and considering other antibiotics in these patients, even for short courses.",
+     "source": DSC_CLARITHRO},
+    {"id": "amiloride-diabetic-nephropathy", "drugs": sel(drugs=["amiloride"]), "icd10": ["E11.2", "E10.2", "E13.2"], "terms": ["diabetic nephropathy", "diabetic kidney disease", "diabetic chronic kidney disease"],
+     "severity": "critical", "summary": "Amiloride with diabetic kidney disease",
+     "detail": "The amiloride label lists evidence of diabetic nephropathy as a contraindication because of the risk of hyperkalemia.",
+     "source": lab("amiloride", "Contraindications")},
     {"id": "qt-long-qt", "drugs": sel(classes=["qt_prolonging"]), "icd10": ["I45.81"], "terms": ["long qt", "long qt syndrome", "qt prolongation", "prolonged qt"],
      "severity": "critical", "summary": "QT-prolonging drug in a patient with long QT", "detail": "Avoid drugs that prolong the QT interval in congenital long QT or known QT prolongation.", "source": lab("citalopram", "Warnings and Precautions: QT prolongation")},
     {"id": "pregnancy-fetal", "drugs": sel(classes=["acei", "arb", "arni", "renin_inhibitor"], drugs=["methotrexate", "warfarin", "valproate"]), "icd10": ["Z33.1", "O09"], "terms": ["pregnant", "currently pregnant"], "pregnancy": True,
@@ -369,7 +455,7 @@ DOSES = {
     "atenolol": ("25–100 mg once daily", 200, "Up to 200 mg/day for angina."),
     "carvedilol": ("3.125–25 mg twice daily", 100, "50 mg twice daily only for heart failure over 85 kg."),
     "propranolol": ("40–320 mg/day", 640, None),
-    "hydrochlorothiazide": ("12.5–50 mg once daily", 50, None),
+    "hydrochlorothiazide": ("12.5–50 mg once daily (hypertension)", 100, "Edema: up to 100 mg/day; hypertension usually no more than 50 mg/day."),
     "chlorthalidone": ("12.5–25 mg once daily", 100, None),
     "furosemide": ("20–80 mg/day", 600, "Up to 600 mg/day in severe edema."),
     "spironolactone": ("25–100 mg/day", 400, "Higher doses only for primary hyperaldosteronism or edema."),
@@ -420,12 +506,12 @@ DOSES = {
     "allopurinol": ("100–300 mg/day", 800, None),
     "colchicine": ("0.6 mg once or twice daily (prophylaxis)", 1.8, "Flare: 1.2 mg then 0.6 mg an hour later (1.8 mg total)."),
     "sildenafil": ("25–100 mg once daily as needed (ED)", 100, "Pulmonary hypertension dosing differs (20 mg three times daily)."),
-    "tadalafil": ("5–20 mg as needed (ED)", 20, None),
+    "tadalafil": ("5–20 mg as needed (ED); 40 mg once daily (pulmonary arterial hypertension)", 40, "Erectile dysfunction: no more than 20 mg a day; 40 mg only for pulmonary arterial hypertension."),
     "cephalexin": ("250–500 mg every 6 hours", 4000, None),
     "ciprofloxacin": ("250–750 mg twice daily", 1500, None),
     "levofloxacin": ("250–750 mg once daily", 750, None),
     "doxycycline": ("100 mg twice daily", 200, None),
-    "nitrofurantoin": ("100 mg twice daily (Macrobid)", 400, None),
+    "nitrofurantoin": ("100 mg twice daily (monohydrate/macrocrystals)", 400, None),
     "clarithromycin": ("250–500 mg twice daily", 1000, None),
     "metronidazole": ("500 mg two to three times daily", 4000, None),
     "valacyclovir": ("500 mg–1 g two to three times daily", 4000, None),
@@ -435,10 +521,19 @@ DOSES = {
     "ondansetron": ("4–8 mg two to three times daily", 24, None),
     "sumatriptan": ("25–100 mg per dose (oral)", 200, None),
     "donepezil": ("5–10 mg at bedtime", 23, None),
-    "memantine": ("5–10 mg twice daily", 28, "Extended-release maximum 28 mg/day."),
+    "memantine": ("5–10 mg twice daily (immediate release); 7–28 mg once daily (extended release)", 28, "Immediate-release maximum 20 mg/day; extended-release maximum 28 mg/day."),
     "tamsulosin": ("0.4–0.8 mg once daily", 0.8, None),
     "finasteride": ("5 mg once daily (BPH)", 5, None),
     "oxybutynin": ("5 mg two to three times daily", 30, "Immediate-release maximum 20 mg/day."),
+}
+# Patient-specific label limits: a lower maximum that applies by age or with a named drug.
+DOSE_LIMITS = {
+    "citalopram": [
+        {"age_over": 60, "max_mg_per_day": 20, "why": "over age 60 (QT prolongation)"},
+        {"with_drugs": ["omeprazole", "esomeprazole", "cimetidine", "fluconazole", "fluvoxamine"], "max_mg_per_day": 20, "why": "with a CYP2C19 inhibitor"},
+    ],
+    "zolpidem": [{"age_over": 64, "max_mg_per_day": 5, "why": "older adults (label dose 5 mg)"}],
+    "tramadol": [{"age_over": 75, "max_mg_per_day": 300, "why": "over age 75"}],
 }
 DOSE_SPECIAL = {
     "methotrexate": {"weekly_only": True, "usual": "7.5–25 mg once WEEKLY (rheumatoid arthritis, psoriasis)",
@@ -447,34 +542,59 @@ DOSE_SPECIAL = {
 
 # ------------------------------------------------------------------ renal label thresholds (show label text; never compute a dose)
 RENAL = {
+    # basis "crcl": the label uses Cockcroft-Gault creatinine clearance; the engine uses it when weight and creatinine are known.
     "metformin": [
         {"below": 30, "severity": "critical", "summary": "Metformin is contraindicated at eGFR below 30", "text": "Metformin label: contraindicated in patients with an eGFR below 30 mL/min/1.73 m²; discontinue if eGFR falls below 30."},
         {"below": 45, "severity": "warning", "summary": "Metformin at eGFR 30–44", "text": "Metformin label: starting metformin is not recommended at eGFR 30–45; for patients already taking it whose eGFR falls below 45, assess the benefit and risk of continuing."},
     ],
-    "empagliflozin": [{"below": 30, "severity": "info", "summary": "Empagliflozin at low eGFR", "text": "Empagliflozin label: likely ineffective for glucose lowering at eGFR below 30; review the label's renal dosing section for other indications."}],
-    "dapagliflozin": [{"below": 25, "severity": "info", "summary": "Dapagliflozin at eGFR below 25", "text": "Dapagliflozin label: starting is not recommended at eGFR below 25; review the label for patients already taking it."}],
+    "empagliflozin": [{"below": 30, "severity": "info", "summary": "Empagliflozin at eGFR below 30", "text": "Empagliflozin label: use for glycemic control is not recommended at eGFR below 30. The heart failure and chronic kidney disease indications have no such cut-off; the label notes its trials did not enroll patients with eGFR below 20 or on dialysis. Assess kidney function and volume status before starting."}],
+    "dapagliflozin": [
+        {"below": 25, "severity": "warning", "summary": "Dapagliflozin at eGFR below 25", "text": "Dapagliflozin label: starting dapagliflozin is not recommended at eGFR below 25; not recommended for glycemic control below eGFR 45."},
+        {"below": 45, "severity": "info", "summary": "Dapagliflozin at eGFR below 45", "text": "Dapagliflozin label: not recommended to improve glycemic control at eGFR below 45; it can still be used for heart failure or kidney protection (starting is not recommended below eGFR 25)."},
+    ],
     "canagliflozin": [{"below": 30, "severity": "warning", "summary": "Canagliflozin at eGFR below 30", "text": "Canagliflozin label: starting is not recommended at eGFR below 30."}],
     "sitagliptin": [{"below": 45, "severity": "warning", "summary": "Sitagliptin needs a renal dose adjustment", "text": "Sitagliptin label: the dose is reduced at eGFR 30–45 and further below 30. Review the label dosing table."}],
-    "apixaban": [{"below": 60, "severity": "info", "summary": "Check apixaban dose criteria", "text": "Apixaban label (atrial fibrillation): the reduced dose applies to patients with any 2 of age 80 or over, weight 60 kg or less, or serum creatinine 1.5 mg/dL or more. Review the label."}],
-    "rivaroxaban": [{"below": 50, "severity": "warning", "summary": "Rivaroxaban dose depends on creatinine clearance", "text": "Rivaroxaban label uses creatinine clearance (Cockcroft-Gault), not eGFR, to set the dose in atrial fibrillation. Review the label."}],
-    "dabigatran": [{"below": 50, "severity": "warning", "summary": "Dabigatran dose depends on creatinine clearance", "text": "Dabigatran label: dosing depends on creatinine clearance, with reduced dosing at CrCl 15–30 mL/min and use not recommended below 15. Review the label."}],
-    "edoxaban": [{"below": 50, "severity": "warning", "summary": "Edoxaban dose depends on creatinine clearance", "text": "Edoxaban label: dose is reduced at CrCl 15–50 mL/min; review the label."}],
-    "gabapentin": [{"below": 60, "severity": "warning", "summary": "Gabapentin needs a renal dose adjustment", "text": "Gabapentin label: the daily dose range is reduced when creatinine clearance is below 60 mL/min. Review the label dosing table."}],
-    "pregabalin": [{"below": 60, "severity": "warning", "summary": "Pregabalin needs a renal dose adjustment", "text": "Pregabalin label: reduce the dose when creatinine clearance is below 60 mL/min. Review the label dosing table."}],
-    "nitrofurantoin": [{"below": 60, "severity": "warning", "summary": "Nitrofurantoin with reduced kidney function", "text": "Nitrofurantoin label: contraindicated with creatinine clearance under 60 mL/min or clinically significant creatinine elevation."}],
-    "spironolactone": [{"below": 45, "severity": "warning", "summary": "Spironolactone with reduced kidney function", "text": "Spironolactone label: hyperkalemia risk rises with kidney impairment; in heart failure with eGFR 30–50, the label suggests a lower starting dose. Monitor potassium closely."}],
-    "tramadol": [{"below": 30, "severity": "warning", "summary": "Tramadol with creatinine clearance below 30", "text": "Tramadol label: with creatinine clearance below 30 mL/min, lengthen the dosing interval to every 12 hours with a maximum of 200 mg/day."}],
-    "colchicine": [{"below": 30, "severity": "warning", "summary": "Colchicine in severe kidney impairment", "text": "Colchicine label: dose limits apply in severe renal impairment; review the label."}],
+    "gabapentin": [{"below": 60, "basis": "crcl", "severity": "warning", "summary": "Gabapentin needs a renal dose adjustment", "text": "Gabapentin label: the daily dose range is reduced when creatinine clearance is below 60 mL/min. Review the label dosing table."}],
+    "pregabalin": [{"below": 60, "basis": "crcl", "severity": "warning", "summary": "Pregabalin needs a renal dose adjustment", "text": "Pregabalin label: reduce the dose when creatinine clearance is below 60 mL/min. Review the label dosing table."}],
+    "nitrofurantoin": [{"below": 60, "basis": "crcl", "severity": "critical", "summary": "Nitrofurantoin with reduced kidney function", "text": "Nitrofurantoin label: contraindicated with creatinine clearance under 60 mL/min or clinically significant creatinine elevation."}],
+    "spironolactone": [{"below": 50, "severity": "warning", "summary": "Spironolactone with reduced kidney function", "text": "Spironolactone label (heart failure): with eGFR 30–50, consider starting at 25 mg every other day; start only if potassium is 5.0 or below. Hyperkalemia risk rises with kidney impairment; monitor potassium closely."}],
+    "eplerenone": [
+        {"below": 30, "basis": "crcl", "severity": "critical", "summary": "Eplerenone with creatinine clearance 30 or below", "text": "Eplerenone label: contraindicated in all patients with creatinine clearance of 30 mL/min or less."},
+        {"below": 50, "basis": "crcl", "severity": "warning", "summary": "Eplerenone with reduced kidney function", "text": "Eplerenone label: for hypertension, contraindicated with creatinine clearance below 50 mL/min or serum creatinine above 2.0 mg/dL (men) or 1.8 mg/dL (women); monitor potassium closely in heart failure."},
+    ],
+    "amiloride": [{"below": 60, "severity": "critical", "summary": "Amiloride with reduced kidney function", "text": "Amiloride label: contraindicated in acute or chronic renal insufficiency and diabetic nephropathy; with BUN above 30 mg/dL or creatinine above 1.5 mg/dL, it should not be given without close monitoring of potassium."}],
+    "sulfamethoxazole-trimethoprim": [
+        {"below": 15, "basis": "crcl", "severity": "critical", "summary": "Sulfamethoxazole-trimethoprim with creatinine clearance below 15", "text": "Sulfamethoxazole-trimethoprim label: use not recommended with creatinine clearance below 15 mL/min."},
+        {"below": 30, "basis": "crcl", "severity": "warning", "summary": "Sulfamethoxazole-trimethoprim with creatinine clearance 15–30", "text": "Sulfamethoxazole-trimethoprim label: with creatinine clearance 15–30 mL/min, use half the usual regimen."},
+    ],
+    "lithium": [
+        {"below": 30, "basis": "crcl", "severity": "critical", "summary": "Lithium with creatinine clearance below 30", "text": "Lithium label: not recommended in severe renal impairment (creatinine clearance below 30 mL/min by Cockcroft-Gault)."},
+        {"below": 60, "basis": "crcl", "severity": "warning", "summary": "Lithium with reduced kidney function", "text": "Lithium label: with creatinine clearance 30–89 mL/min, start at lower doses and titrate slowly with frequent monitoring of levels and kidney function."},
+    ],
+    "nirmatrelvir-ritonavir": [{"below": 60, "severity": "warning", "summary": "Nirmatrelvir-ritonavir needs the renal dosing in its label", "text": "Nirmatrelvir-ritonavir label: eGFR 30 to below 60: 150 mg nirmatrelvir with 100 mg ritonavir twice daily for 5 days; eGFR below 30, including hemodialysis: 300 mg with 100 mg once on day 1, then 150 mg with 100 mg once daily on days 2–5 (after dialysis on dialysis days)."}],
+    "tramadol": [{"below": 30, "basis": "crcl", "severity": "warning", "summary": "Tramadol with creatinine clearance below 30", "text": "Tramadol label: with creatinine clearance below 30 mL/min, lengthen the dosing interval to every 12 hours with a maximum of 200 mg/day."}],
+    "colchicine": [{"below": 30, "basis": "crcl", "severity": "warning", "summary": "Colchicine in severe kidney impairment", "text": "Colchicine label: dose limits apply in severe renal impairment; review the label."}],
     "ibuprofen": [{"below": 30, "severity": "warning", "summary": "NSAID in advanced kidney disease", "text": "NSAID labels: not recommended in advanced renal disease unless the benefits outweigh the risks."}],
     "naproxen": [{"below": 30, "severity": "warning", "summary": "NSAID in advanced kidney disease", "text": "NSAID labels: not recommended in advanced renal disease unless the benefits outweigh the risks."}],
     "meloxicam": [{"below": 30, "severity": "warning", "summary": "NSAID in advanced kidney disease", "text": "NSAID labels: not recommended in advanced renal disease unless the benefits outweigh the risks."}],
     "celecoxib": [{"below": 30, "severity": "warning", "summary": "NSAID in advanced kidney disease", "text": "NSAID labels: not recommended in advanced renal disease unless the benefits outweigh the risks."}],
     "diclofenac": [{"below": 30, "severity": "warning", "summary": "NSAID in advanced kidney disease", "text": "NSAID labels: not recommended in advanced renal disease unless the benefits outweigh the risks."}],
-    "valacyclovir": [{"below": 50, "severity": "info", "summary": "Valacyclovir needs a renal dose adjustment", "text": "Valacyclovir label: reduce the dose when creatinine clearance is below 50 mL/min. Review the label dosing table."}],
-    "levofloxacin": [{"below": 50, "severity": "info", "summary": "Levofloxacin needs a renal dose adjustment", "text": "Levofloxacin label: adjust the dose when creatinine clearance is below 50 mL/min."}],
-    "ciprofloxacin": [{"below": 50, "severity": "info", "summary": "Ciprofloxacin needs a renal dose adjustment", "text": "Ciprofloxacin label: adjust the dose when creatinine clearance is 50 mL/min or below."}],
-    "lithium": [{"below": 60, "severity": "warning", "summary": "Lithium with reduced kidney function", "text": "Lithium label: renal impairment raises the risk of lithium toxicity; monitor levels and kidney function closely."}],
-    "digoxin": [{"below": 50, "severity": "warning", "summary": "Digoxin with reduced kidney function", "text": "Digoxin label: digoxin is cleared by the kidneys; impairment raises levels. Review the label and monitor levels."}],
+    "valacyclovir": [{"below": 50, "basis": "crcl", "severity": "info", "summary": "Valacyclovir needs a renal dose adjustment", "text": "Valacyclovir label: reduce the dose when creatinine clearance is below 50 mL/min. Review the label dosing table."}],
+    "levofloxacin": [{"below": 50, "basis": "crcl", "severity": "info", "summary": "Levofloxacin needs a renal dose adjustment", "text": "Levofloxacin label: adjust the dose when creatinine clearance is below 50 mL/min."}],
+    "ciprofloxacin": [{"below": 50, "basis": "crcl", "severity": "info", "summary": "Ciprofloxacin needs a renal dose adjustment", "text": "Ciprofloxacin label: adjust the dose when creatinine clearance is 50 mL/min or below."}],
+    "digoxin": [{"below": 50, "basis": "crcl", "severity": "warning", "summary": "Digoxin with reduced kidney function", "text": "Digoxin label: digoxin is cleared by the kidneys; impairment raises levels. Review the label and monitor levels."}],
+}
+
+DOAC_AF = {
+    "apixaban": {"text": "Apixaban label (nonvalvular atrial fibrillation): 5 mg twice daily; the reduced dose of 2.5 mg twice daily applies to patients with at least 2 of: age 80 or older, body weight 60 kg or less, serum creatinine 1.5 mg/dL or more.",
+                 "criteria": {"age_min": 80, "weight_max_kg": 60, "creatinine_min": 1.5, "needed": 2}},
+    "rivaroxaban": {"text": "Rivaroxaban label (nonvalvular atrial fibrillation): creatinine clearance above 50 mL/min: 20 mg once daily with the evening meal; 50 mL/min or below: 15 mg once daily with the evening meal (Cockcroft-Gault, actual body weight).",
+                    "crcl_rules": [{"max": 50, "severity": "warning", "summary": "Rivaroxaban: creatinine clearance 50 or below"}]},
+    "dabigatran": {"text": "Dabigatran label (nonvalvular atrial fibrillation): creatinine clearance above 30 mL/min: 150 mg twice daily; 15–30 mL/min: 75 mg twice daily; below 15 or on dialysis: no dosing recommendation. With dronedarone or ketoconazole at creatinine clearance 30–50, the label reduces the dose; below 30 with P-gp inhibitors, avoid.",
+                   "crcl_rules": [{"max": 30, "severity": "warning", "summary": "Dabigatran: creatinine clearance 30 or below"}]},
+    "edoxaban": {"text": "Edoxaban label (nonvalvular atrial fibrillation): creatinine clearance above 50 to 95 mL/min: 60 mg once daily; 15–50 mL/min: 30 mg once daily; boxed warning: do not use with creatinine clearance above 95 mL/min (reduced effectiveness, more ischemic stroke).",
+                 "crcl_rules": [{"min": 95, "severity": "critical", "summary": "Edoxaban: creatinine clearance above 95 (boxed warning)"},
+                                {"max": 50, "severity": "warning", "summary": "Edoxaban: creatinine clearance 50 or below"}]},
 }
 
 # ------------------------------------------------------------------ older adults (STOPP/START v3); age >= 65
@@ -494,26 +614,36 @@ OLDER = [
 ]
 
 PREVENTION = {
-    "note": "Reminders computed from age and sex only; confirm what has already been done in the record.",
+    "note": "Reminders computed from age, sex, smoking, BMI, problems and medicines; confirm in the record what has already been done.",
     "sources": {
         "uspstf": {"label": "USPSTF A and B recommendations", "url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics/uspstf-a-and-b-recommendations"},
         "cdc": {"label": "CDC adult immunization schedule", "url": "https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-age.html"},
+        "cdc_rsv": {"label": "CDC adult schedule addendum (RSV, June 2025)", "url": "https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-addendum.html"},
+        "covid": {"label": "CDC COVID-19 vaccination guidance (individual-based decision-making)", "url": "https://www.cdc.gov/covid/hcp/vaccine-considerations/routine-guidance.html"},
+        "aafp": {"label": "AAFP 2026–2027 respiratory vaccine recommendations for adults", "url": "https://www.aafp.org/afp/2026/1000/editorials-respiratory-vaccine-recommendations-adults"},
     },
     "items": [
-        {"id": "crc", "name": "Colorectal cancer screening", "min_age": 45, "max_age": 75, "sex": None, "source": "uspstf", "detail": "Adults 45–75 (USPSTF A for 50–75, B for 45–49, May 2021)."},
-        {"id": "breast", "name": "Breast cancer screening", "min_age": 40, "max_age": 74, "sex": "F", "source": "uspstf", "detail": "Biennial mammography for women 40–74 (USPSTF B, April 2024)."},
-        {"id": "cervical", "name": "Cervical cancer screening", "min_age": 21, "max_age": 65, "sex": "F", "source": "uspstf", "detail": "Cytology every 3 years from 21; from 30, hrHPV every 5 years or cotesting (USPSTF A, August 2018)."},
-        {"id": "lung", "name": "Lung cancer screening", "min_age": 50, "max_age": 80, "sex": None, "source": "uspstf", "requires": "smoking", "detail": "Annual low-dose CT for adults 50–80 with a 20 pack-year history who smoke or quit within 15 years (USPSTF B, March 2021)."},
-        {"id": "aaa", "name": "Abdominal aortic aneurysm screening", "min_age": 65, "max_age": 75, "sex": "M", "source": "uspstf", "requires": "ever_smoked", "detail": "One-time ultrasound for men 65–75 who have ever smoked (USPSTF B, December 2019)."},
-        {"id": "diabetes", "name": "Prediabetes and type 2 diabetes screening", "min_age": 35, "max_age": 70, "sex": None, "source": "uspstf", "requires": "overweight", "detail": "Adults 35–70 with overweight or obesity (USPSTF B, August 2021)."},
-        {"id": "osteoporosis", "name": "Osteoporosis screening", "min_age": 65, "max_age": None, "sex": "F", "source": "uspstf", "detail": "Women 65 and older (USPSTF B, January 2025)."},
-        {"id": "hcv", "name": "Hepatitis C screening (once)", "min_age": 18, "max_age": 79, "sex": None, "source": "uspstf", "detail": "Adults 18–79 (USPSTF B, March 2020)."},
-        {"id": "hiv", "name": "HIV screening", "min_age": 15, "max_age": 65, "sex": None, "source": "uspstf", "detail": "Adolescents and adults 15–65 (USPSTF A, June 2019)."},
-        {"id": "influenza", "name": "Influenza vaccine", "min_age": 19, "max_age": None, "sex": None, "source": "cdc", "detail": "One dose every season for all adults."},
-        {"id": "tdap", "name": "Tdap/Td booster", "min_age": 19, "max_age": None, "sex": None, "source": "cdc", "detail": "Tdap once, then Td or Tdap every 10 years."},
-        {"id": "zoster", "name": "Recombinant zoster vaccine", "min_age": 50, "max_age": None, "sex": None, "source": "cdc", "detail": "Two doses for adults 50 and older."},
-        {"id": "pneumococcal", "name": "Pneumococcal vaccine", "min_age": 50, "max_age": None, "sex": None, "source": "cdc", "detail": "Adults 50 and older (PCV20 or PCV21 alone, or PCV15 followed by PPSV23)."},
-        {"id": "rsv", "name": "RSV vaccine", "min_age": 75, "max_age": None, "sex": None, "source": "cdc", "detail": "Adults 75 and older; also 50–74 at increased risk."},
+        {"id": "crc", "keys": ["colorectal", "colonoscopy", "colon cancer"], "name": "Colorectal cancer screening", "min_age": 45, "max_age": 75, "sex": None, "source": "uspstf", "detail": "Adults 45–75 (USPSTF A for 50–75, B for 45–49, May 2021)."},
+        {"id": "breast", "keys": ["breast", "mammogra"], "name": "Breast cancer screening", "min_age": 40, "max_age": 74, "sex": "F", "source": "uspstf", "detail": "Biennial mammography for women 40–74 (USPSTF B, April 2024)."},
+        {"id": "cervical", "keys": ["cervical", "pap"], "name": "Cervical cancer screening", "min_age": 21, "max_age": 65, "sex": "F", "source": "uspstf", "detail": "Ages 21–29: cytology every 3 years. Ages 30–65: cytology every 3 years, high-risk HPV testing every 5 years, or cotesting every 5 years (USPSTF A, August 2018)."},
+        {"id": "lung", "keys": ["lung cancer", "low-dose ct", "ldct"], "name": "Lung cancer screening", "min_age": 50, "max_age": 80, "sex": None, "source": "uspstf", "requires": "smoking", "detail": "Annual low-dose CT for adults 50–80 with a 20 pack-year history who smoke or quit within 15 years (USPSTF B, March 2021)."},
+        {"id": "aaa", "keys": ["aortic aneurysm", "aaa"], "name": "Abdominal aortic aneurysm screening", "min_age": 65, "max_age": 75, "sex": "M", "source": "uspstf", "requires": "ever_smoked", "detail": "One-time ultrasound for men 65–75 who have ever smoked (USPSTF B, December 2019)."},
+        {"id": "diabetes", "keys": ["prediabetes", "diabetes screening"], "name": "Prediabetes and type 2 diabetes screening", "min_age": 35, "max_age": 70, "sex": None, "source": "uspstf", "requires": "overweight_no_diabetes", "detail": "Adults 35–70 with overweight or obesity (USPSTF B, August 2021)."},
+        {"id": "statin", "keys": ["statin"], "name": "Statin for primary prevention", "min_age": 40, "max_age": 75, "sex": None, "source": "uspstf", "requires": "cvd_risk_no_statin", "detail": "Adults 40–75 with at least one risk factor (dyslipidemia, diabetes, hypertension or smoking) and an estimated 10-year cardiovascular risk of 10% or more (USPSTF B, August 2022). Estimate the risk before deciding."},
+        {"id": "htn", "keys": ["blood pressure screening", "hypertension screening"], "name": "Hypertension screening", "min_age": 18, "max_age": None, "sex": None, "source": "uspstf", "requires": "no_hypertension", "detail": "Office blood pressure, confirmed outside the clinic before diagnosis (USPSTF A, April 2021)."},
+        {"id": "depression", "keys": ["depression screening"], "name": "Depression screening", "min_age": 18, "max_age": None, "sex": None, "source": "uspstf", "requires": "no_depression", "detail": "Adults, including pregnant and postpartum people (USPSTF B, June 2023)."},
+        {"id": "anxiety", "keys": ["anxiety screening"], "name": "Anxiety screening", "min_age": 19, "max_age": 64, "sex": None, "source": "uspstf", "requires": "no_anxiety", "detail": "Adults 64 and younger, including pregnant and postpartum people (USPSTF B, June 2023)."},
+        {"id": "falls", "keys": ["fall"], "name": "Falls prevention", "min_age": 65, "max_age": None, "sex": None, "source": "uspstf", "detail": "Exercise interventions for community-dwelling adults 65 and older at increased risk of falls (USPSTF B, June 2024)."},
+        {"id": "osteoporosis", "keys": ["osteoporosis", "bone density", "dexa", "dxa"], "name": "Osteoporosis screening", "min_age": 65, "max_age": None, "sex": "F", "source": "uspstf", "requires": "no_osteoporosis", "detail": "Women 65 and older (USPSTF B, January 2025)."},
+        {"id": "osteoporosis_younger", "keys": ["osteoporosis", "bone density", "dexa", "dxa"], "name": "Osteoporosis screening (if postmenopausal and at increased risk)", "min_age": 50, "max_age": 64, "sex": "F", "source": "uspstf", "requires": "no_osteoporosis", "detail": "Postmenopausal women younger than 65 at increased risk, judged with a formal clinical risk assessment tool (USPSTF B, January 2025)."},
+        {"id": "hcv", "keys": ["hepatitis c", "hcv"], "name": "Hepatitis C screening (once)", "min_age": 18, "max_age": 79, "sex": None, "source": "uspstf", "detail": "Adults 18–79 (USPSTF B, March 2020)."},
+        {"id": "hiv", "keys": ["hiv"], "name": "HIV screening", "min_age": 15, "max_age": 65, "sex": None, "source": "uspstf", "detail": "Adolescents and adults 15–65 (USPSTF A, June 2019)."},
+        {"id": "influenza", "keys": ["influenza", "flu"], "name": "Influenza vaccine", "min_age": 19, "max_age": None, "sex": None, "source": "cdc", "detail": "One dose every season for all adults; at 65 and older, a high-dose, adjuvanted or recombinant vaccine is preferred."},
+        {"id": "covid", "keys": ["covid"], "name": "COVID-19 vaccine (2026–27)", "min_age": 19, "max_age": None, "sex": None, "source": "covid", "also_source": "aafp", "detail": "Guidance differs: CDC advises individual-based decision-making with a clinician; AAFP's 2026–27 recommendations advise the updated vaccine for adults, with two doses six months apart at 65 and older."},
+        {"id": "tdap", "keys": ["tdap", "td booster", "tetanus"], "name": "Tdap/Td booster", "min_age": 19, "max_age": None, "sex": None, "source": "cdc", "detail": "Tdap once, then Td or Tdap every 10 years."},
+        {"id": "zoster", "keys": ["zoster", "shingles", "rzv"], "name": "Recombinant zoster vaccine", "min_age": 50, "max_age": None, "sex": None, "source": "cdc", "detail": "Two doses for adults 50 and older."},
+        {"id": "pneumococcal", "keys": ["pneumococcal", "pneumonia vaccine", "pcv"], "name": "Pneumococcal vaccine", "min_age": 50, "max_age": None, "sex": None, "source": "cdc", "detail": "Adults 50 and older (PCV20 or PCV21 alone, or PCV15 followed by PPSV23)."},
+        {"id": "rsv", "keys": ["rsv"], "name": "RSV vaccine", "min_age": 75, "max_age": None, "sex": None, "source": "cdc_rsv", "once": True, "detail": "A single dose, not repeated, for adults 75 and older; also 50–74 at increased risk."},
     ],
 }
 
@@ -526,6 +656,9 @@ def check_sel(s, where):
     assert s, f"{where}: empty selector"
 
 
+onc_pairs = {r["onc_pair"] for r in RULES if r["onc"]}
+assert len(onc_pairs) == 15, sorted(onc_pairs)
+assert all(r["severity"] == "critical" for r in RULES if r["onc"] and r["id"] == r["onc_pair"])
 ids = set()
 for r in RULES:
     assert r["id"] not in ids, r["id"]
@@ -545,7 +678,7 @@ for a in ALLERGY:
         check_sel({k: v for k, v in x.items() if k in ("drugs", "classes")}, a["id"] + " cross")
 for c in CONDITIONS:
     check_sel(c["drugs"], c["id"])
-for g in list(DOSES) + list(DOSE_SPECIAL) + list(RENAL):
+for g in list(DOSES) + list(DOSE_SPECIAL) + list(RENAL) + list(DOAC_AF) + list(DOSE_LIMITS):
     assert g in DRUGS, f"dose/renal: unknown drug {g}"
 for o in OLDER:
     check_sel(o["drugs"], o["id"])
@@ -555,10 +688,11 @@ meta = {"version": REVIEWED, "grading": GRADE_NOTE}
 (OUT / "allergies.json").write_text(json.dumps({**meta, "groups": ALLERGY}, indent=1, ensure_ascii=False) + "\n")
 (OUT / "conditions.json").write_text(json.dumps({**meta, "rules": CONDITIONS}, indent=1, ensure_ascii=False) + "\n")
 (OUT / "doses.json").write_text(json.dumps({**meta, "note": "Usual adult ranges and label maximum daily doses (mg/day). Checks flag doses above the label maximum; they never compute or recommend a dose.",
-                                            "doses": {g: {"usual": u, "max_mg_per_day": m, "note": n, "source": lab(g, "Dosage and Administration")} for g, (u, m, n) in DOSES.items()},
+                                            "doses": {g: {"usual": u, "max_mg_per_day": m, "note": n, "limits": DOSE_LIMITS.get(g, []), "source": lab(g, "Dosage and Administration")} for g, (u, m, n) in DOSES.items()},
                                             "special": {g: {**v, "source": lab(g, "Dosage and Administration; Boxed Warning")} for g, v in DOSE_SPECIAL.items()}}, indent=1, ensure_ascii=False) + "\n")
 (OUT / "renal.json").write_text(json.dumps({**meta, "note": "eGFR thresholds at which the label's renal text is shown. The app never computes a renal dose.",
-                                            "drugs": {g: [{**t, "source": lab(g, "Dosage and Administration: renal impairment")} for t in v] for g, v in RENAL.items()}}, indent=1, ensure_ascii=False) + "\n")
+                                            "drugs": {g: [{**t, "source": lab(g, "Dosage and Administration: renal impairment")} for t in v] for g, v in RENAL.items()},
+                                            "doac_af": {g: {**v, "source": lab(g, "Dosage and Administration")} for g, v in DOAC_AF.items()}}, indent=1, ensure_ascii=False) + "\n")
 (OUT / "older_adult.json").write_text(json.dumps({**meta, "min_age": 65, "source": STOPP, "rules": OLDER}, indent=1, ensure_ascii=False) + "\n")
 (OUT / "prevention.json").write_text(json.dumps({"version": REVIEWED, **PREVENTION}, indent=1, ensure_ascii=False) + "\n")
 print(len(RULES), "interaction rules;", len(ALLERGY), "allergy groups;", len(CONDITIONS), "condition rules;", len(DOSES), "dose ranges;", len(RENAL), "renal drugs;", len(OLDER), "older-adult rules")
