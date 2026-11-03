@@ -1,6 +1,6 @@
 # Render Blueprint: one web service with a small persistent disk.
-# New > Blueprint > pick this repo. Render will ask for the three values marked
-# sync: false (your keys and the demo access code). They never live in the repo.
+# New > Blueprint > pick this repo. Render will ask for the two values marked
+# sync: false (the API keys). They never live in the repo.
 services:
   - type: web
     name: customai-medscribe
