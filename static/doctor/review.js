@@ -356,7 +356,7 @@ export async function render(root, { visitId }, ctx) {
         ack ? el("span", { class: "badge badge-ok", title: ack.reason }, "Acknowledged") : null),
       el("div", { class: "cds-summary", style: { marginTop: "4px" } }, c.summary),
       c.detail ? el("div", { class: "small ink-2", style: { marginTop: "4px" } }, c.detail) : null,
-      c.context === "existing" ? el("div", { class: "muted small", style: { marginTop: "4px" } }, "Already in the chart before this visit.") : null,
+      c.context === "existing" ? el("div", { class: "muted small", style: { marginTop: "4px" } }, "Involves only medicines the patient was already taking before this visit.") : null,
       c.source ? el("div", { class: "cds-source" }, "Source: ", c.source.url ? el("a", { href: c.source.url, target: "_blank", rel: "noopener noreferrer" }, c.source.label) : c.source.label,
         c.source.date ? ` · ${c.source.date_type === "label_effective" ? "label effective" : c.source.date_type === "reviewed" ? "reviewed" : ""} ${c.source.date}` : "",
         c.grading ? el("span", { class: "muted" }, ` · ${c.grading}`) : null) : null,

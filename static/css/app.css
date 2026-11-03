@@ -85,6 +85,7 @@ small, .small { font-size: 12px; }
   width: 28px; height: 28px; border-radius: 8px; background: var(--brand);
   display: grid; place-items: center; color: #fff; font-size: 14px; font-weight: 700;
 }
+.wordmark > span { white-space: nowrap; }
 .wordmark .sub { font-weight: 500; color: var(--ink-3); font-size: 13px; }
 .header-spacer { flex: 1; }
 .role-switch { display: flex; gap: 2px; background: var(--surface-2); padding: 3px; border-radius: 9px; }
@@ -112,6 +113,9 @@ small, .small { font-size: 12px; }
 .between { justify-content: space-between; }
 .grow { flex: 1; min-width: 0; }
 
+@media (max-width: 1180px) {
+  .wordmark .sub { display: none; }
+}
 @media (max-width: 980px) {
   .split, .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0, 1fr); }
   .role-switch a { padding: 6px 8px; }

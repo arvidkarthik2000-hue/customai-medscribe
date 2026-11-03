@@ -54,6 +54,15 @@ the service's **Environment** tab.
 `MAX_VISIT_MINUTES` (20), `DAILY_AUDIO_MINUTES` (240), `DAILY_NOTE_RUNS` (150) and
 `MAX_UPLOAD_MB` (60) can be changed in the Environment tab.
 
+Optional: add a free `OPENFDA_API_KEY` (from open.fda.gov) in the Environment tab.
+Without one, openFDA allows 1,000 requests a day per IP address, and Render's
+outbound addresses may be shared.
+
+### Between testers
+
+*Reset today* on the doctor's schedule archives the day's visits, and *Reset test
+caps* on the console's Overview clears the demo account's frequency caps.
+
 ## Run locally
 
 ```bash
@@ -73,6 +82,15 @@ Without keys, the scripted sample visits still run end to end with saved notes.
 pytest                         # offline unit and API tests
 python3 tests/e2e/run_e2e.py   # browser walkthrough with a fake mic and a fake AssemblyAI
 ```
+
+## Live checks still to run
+
+This workspace could not reach AssemblyAI, RxNav, openFDA or CMS, so those
+clients were built from their documentation and tested with fakes. After the
+Render deploy, `/selftest/` exercises each one. `docs/HANDOVER.md` describes a
+fuller live check for a Claude Code session with internet access: voiced test
+visits, saved real responses as test fixtures, and an optional switch from the
+sample formulary to real Medicare Part D plan data.
 
 ## Production gaps (not in this demo)
 
