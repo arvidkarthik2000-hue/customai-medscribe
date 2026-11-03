@@ -36,10 +36,12 @@ Demo build: synthetic patients, prescribers, brands and ad delivery only.
 
 1. Render dashboard → **New → Blueprint** → connect GitHub if asked → choose
    `arvidkarthik2000-hue/customai-medscribe`. Render reads `render.yaml`.
-2. Render asks for three values; paste them there, never in chat or the repo:
-   - `DEMO_ACCESS_CODE`: the code testers type to get in.
+2. Render asks for two values; paste them there, never in chat or the repo:
    - `ASSEMBLYAI_API_KEY`: from an AssemblyAI account with a card added.
    - `ANTHROPIC_API_KEY`: from a Console workspace with a monthly spend limit.
+
+   The demo access code is set in `render.yaml` (`DEMO_ACCESS_CODE`); change it
+   there and push.
 3. **Apply.** The first build takes a few minutes. The service gets a 1 GB disk
    for its SQLite files, so data survives restarts.
 4. Open the service URL, enter the access code, then go to `/selftest/` and

@@ -21,8 +21,10 @@ services:
         value: "1"
       - key: APP_SECRET
         generateValue: true
+      # The code testers type to get in. To change it, edit this value and push
+      # (a value set here wins over one set in the dashboard on the next sync).
       - key: DEMO_ACCESS_CODE
-        sync: false
+        value: cm-scribe-7419
       - key: ASSEMBLYAI_API_KEY
         sync: false
       - key: ANTHROPIC_API_KEY
