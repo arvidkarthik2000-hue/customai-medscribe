@@ -4,8 +4,10 @@ from __future__ import annotations
 import asyncio
 import importlib
 import inspect
+import json
 import time
 from pathlib import Path
+from urllib.parse import quote
 
 import httpx
 
@@ -15,6 +17,11 @@ from . import fixtures, notes, store, stt
 # The voiced version of sample visit 1 (synthetic voices), sent the way a real recording is.
 SAMPLE_ID = "s1-knee-warfarin"
 SAMPLE_FILE = Path(__file__).parent / "data" / "eval_audio" / f"{SAMPLE_ID}.mp3"
+# Its first 24 seconds as 16 kHz mono 16-bit PCM, the format the browser streams.
+LIVE_FILE = Path(__file__).parent / "data" / "eval_audio" / "s1-opening-16k.pcm"
+LIVE_EXPECT = ("knee", "fall", "weeks", "stairs")  # words said in that opening
+CHUNK = 3200  # 100 ms of audio
+PACE_S = 0.1  # send at real-time pace, as a microphone does (tests set 0)
 MIN_INTERVAL_S = 600
 TINY_TURNS = [
     {"id": "t1", "speaker": "A", "text": "How's the blood pressure been at home?"},
@@ -70,6 +77,106 @@ async def _final_pass() -> dict:
     if meta.get("warnings"):
         detail += " " + " ".join(meta["warnings"])
     return _result(name, bool(meta.get("medical_mode")), detail, t0)
+
+
+def _close_reason(exc: Exception) -> str:
+    rcvd = getattr(exc, "rcvd", None)
+    if rcvd is not None:
+        return f"closed with code {rcvd.code}{': ' + rcvd.reason if rcvd.reason else ''}"
+    response = getattr(exc, "response", None)
+    if response is not None and getattr(response, "status_code", None):
+        return f"refused the connection with HTTP {response.status_code}"
+    return exc.__class__.__name__
+
+
+async def _live_stream() -> dict:
+    """The live path exactly as the browser uses it: a token, the same WebSocket URL and parameters,
+    100 ms chunks at real-time pace, then Terminate. Checks the model and Medical Mode AssemblyAI
+    reports in Begin, and that the captions contain words said in the audio."""
+    t0 = time.monotonic()
+    name = "AssemblyAI live stream (captions)"
+    s = config.settings
+    if not s.assemblyai_api_key:
+        return _result(name, None, "Skipped: ASSEMBLYAI_API_KEY is not set.", t0)
+    if not LIVE_FILE.exists():
+        return _result(name, None, "Skipped: the live test audio is missing from this build.", t0)
+    try:
+        import websockets
+    except ImportError:
+        return _result(name, None, "Skipped: the websockets library is not installed.", t0)
+    try:
+        tok = await stt.mint_token(120)
+    except stt.SttError as exc:
+        return _result(name, False, f"No token, so no stream: {exc}", t0)
+    sample = next((x for x in fixtures.samples() if x.get("id") == SAMPLE_ID), None) or {}
+    chart = fixtures.patient(sample.get("patient_id")) if sample.get("patient_id") else None
+    terms = stt.build_keyterms(fixtures.keyterm_seed(chart or {}), "family_medicine")["live"]
+    url = f"{stt.ws_url(terms, tok.ws)}&token={quote(tok.token)}"
+    pcm = LIVE_FILE.read_bytes()
+    seconds = len(pcm) / 32000
+    begin: dict = {}
+    latest: dict[int, dict] = {}
+    finals = 0
+    termination: dict = {}
+    try:
+        async with websockets.connect(url, open_timeout=10, close_timeout=5, max_size=2 ** 20, proxy=None) as ws:
+            first = json.loads(await asyncio.wait_for(ws.recv(), 10))
+            if first.get("type") != "Begin":
+                return _result(name, False, f"AssemblyAI did not start the session: {str(first)[:200]}", t0)
+            begin = first
+
+            async def send() -> None:
+                for i in range(0, len(pcm), CHUNK):
+                    await ws.send(pcm[i:i + CHUNK])
+                    await asyncio.sleep(PACE_S)
+                for _ in range(15):  # 1.5 s of silence lets the last turn end
+                    await ws.send(b"\x00" * CHUNK)
+                    await asyncio.sleep(PACE_S)
+                await ws.send(json.dumps({"type": "Terminate"}))
+
+            async def receive() -> None:
+                nonlocal finals, termination
+                async for raw in ws:
+                    if isinstance(raw, bytes):
+                        continue
+                    msg = json.loads(raw)
+                    kind = msg.get("type")
+                    if kind == "Turn":
+                        latest[int(msg.get("turn_order") or 0)] = msg
+                        finals += bool(msg.get("end_of_turn"))
+                    elif kind == "Termination":
+                        termination = msg
+                        return
+                    elif kind == "Error" or msg.get("error"):
+                        raise stt.SttError(f"AssemblyAI reported an error: {str(msg.get('error') or msg)[:200]}")
+
+            sender = asyncio.create_task(send())
+            try:
+                await asyncio.wait_for(receive(), timeout=seconds + 25)
+            finally:
+                sender.cancel()
+    except stt.SttError as exc:
+        return _result(name, False, str(exc), t0)
+    except asyncio.TimeoutError:
+        return _result(name, False, "The live session did not finish in time (no Termination message).", t0)
+    except (websockets.exceptions.WebSocketException, OSError) as exc:
+        return _result(name, False, f"AssemblyAI {_close_reason(exc)}.", t0)
+    cfg = begin.get("configuration") or {}
+    model, domain = cfg.get("model") or "unknown model", cfg.get("domain") or ""
+    text = " ".join((latest[k].get("transcript") or "") for k in sorted(latest)).strip()
+    low = text.lower()
+    heard = [w for w in LIVE_EXPECT if w in low]
+    speakers = sorted({t.get("speaker_label") for t in latest.values()
+                       if t.get("speaker_label") and t.get("speaker_label") != "UNKNOWN"})
+    ok = model == s.live_speech_model and domain == "medical-v1" and len(heard) >= 2 and bool(termination)
+    host = tok.ws.split("/")[2]
+    detail = (f"Streamed {seconds:.0f} s of the voiced sample visit to {host}: {model}, "
+              f"{'Medical Mode on' if domain == 'medical-v1' else 'Medical Mode NOT applied (' + (domain or 'none') + ')'}, "
+              f"{len(latest)} turns ({finals} final), {len(text.split())} words, speakers {', '.join(speakers) or 'none'}; "
+              f"heard {len(heard)} of {len(LIVE_EXPECT)} check words. Start: \u201c{text[:90]}\u201d")
+    if model != s.live_speech_model:
+        detail += f" AssemblyAI ran {model}, not the requested {s.live_speech_model}."
+    return _result(name, ok, detail, t0)
 
 
 def _formulary() -> dict:
@@ -146,6 +253,7 @@ async def run_checks() -> list[dict]:
         fda_params["api_key"] = s.openfda_api_key
     results = await asyncio.gather(
         _token(),
+        _live_stream(),
         _final_pass(),
         _claude(),
         _drug_client("RxNorm (RxNav)", "app.drugs.rxnav", f"{s.rxnav_base}/version.json"),

@@ -7,3 +7,4 @@ python-multipart==0.0.33
 pydantic==2.14.2
 simple-icd-10-cm==1.5.0
 tzdata==2026.6
+websockets==17.4

@@ -495,3 +495,66 @@ def test_one_time_audio_link_serves_only_while_open(client, tmp_path, monkeypatc
         assert anon.get("/api/stt/audio/not-a-real-link").status_code == 404
         stt.close_link(link_id)
         assert anon.get(f"/api/stt/audio/{link_id}").status_code == 404
+
+
+def _run_fake_assemblyai():
+    import socket
+    import threading
+
+    import uvicorn
+
+    from tests.e2e import fake_assemblyai
+
+    sock = socket.socket()
+    sock.bind(("127.0.0.1", 0))
+    port = sock.getsockname()[1]
+    sock.close()
+    server = uvicorn.Server(uvicorn.Config(fake_assemblyai.app, host="127.0.0.1", port=port, log_level="warning"))
+    thread = threading.Thread(target=server.run, daemon=True)
+    thread.start()
+    import time as _t
+    for _ in range(100):
+        if server.started:
+            break
+        _t.sleep(0.05)
+    return server, thread, port
+
+
+def test_selftest_live_stream_reads_captions_back(monkeypatch, tmp_path):
+    import asyncio
+
+    server, thread, port = _run_fake_assemblyai()
+    try:
+        monkeypatch.setattr(config, "settings", dataclasses.replace(
+            config.settings, assemblyai_api_key=KEY, assemblyai_test_base=f"http://127.0.0.1:{port}"))
+        short = tmp_path / "opening.pcm"
+        short.write_bytes(selftest.LIVE_FILE.read_bytes()[: 32000 * 5])  # 5 s is enough for the fake
+        monkeypatch.setattr(selftest, "LIVE_FILE", short)
+        monkeypatch.setattr(selftest, "PACE_S", 0)
+        stt.transport = None
+        res = asyncio.run(selftest._live_stream())
+    finally:
+        server.should_exit = True
+        thread.join(5)
+    assert res["ok"] is True, res
+    assert "universal-3-6-pro" in res["detail"] and "Medical Mode on" in res["detail"]
+    assert "speakers A, B" in res["detail"] and "heard 3 of 4 check words" in res["detail"]
+
+
+def test_selftest_live_stream_reports_an_unreachable_service(monkeypatch):
+    import asyncio
+    import socket
+
+    sock = socket.socket()
+    sock.bind(("127.0.0.1", 0))
+    port = sock.getsockname()[1]
+    sock.close()  # nothing listens here
+    monkeypatch.setattr(config, "settings", dataclasses.replace(
+        config.settings, assemblyai_api_key=KEY, assemblyai_test_base=f"http://127.0.0.1:{port}"))
+
+    async def fake_mint(_s):
+        return stt.StreamToken("t", 600, f"ws://127.0.0.1:{port}/v3/ws", "test")
+
+    monkeypatch.setattr(stt, "mint_token", fake_mint)
+    res = asyncio.run(selftest._live_stream())
+    assert res["ok"] is False and res["detail"].startswith("AssemblyAI ")
