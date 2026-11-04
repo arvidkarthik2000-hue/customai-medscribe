@@ -31,7 +31,8 @@ from . import drugs_bridge
 log = logging.getLogger("medscribe.stt")
 
 LIVE_KEYTERMS = 100
-FINAL_KEYTERMS = 1000
+FINAL_KEYTERMS = 1000       # AssemblyAI's cap on keyterm phrases for a pre-recorded file
+FINAL_KEYTERM_WORDS = 600   # keeps the prompt well under the model's limit (about 2,700 text tokens)
 TOKEN_TTL = 600
 
 # Tests inject an httpx.MockTransport here.
@@ -155,7 +156,7 @@ def build_keyterms(chart_terms: list[str], specialty: str) -> dict[str, list[str
     """The patient's medicines, allergies and problems first, then the specialty's drugs."""
     pool = list(chart_terms) + drugs_bridge.brand_and_generic_terms(specialty)
     return {"live": clean_keyterms(pool, LIVE_KEYTERMS),
-            "final": clean_keyterms(pool, FINAL_KEYTERMS, word_budget=FINAL_KEYTERMS)}
+            "final": clean_keyterms(pool, FINAL_KEYTERMS, word_budget=FINAL_KEYTERM_WORDS)}
 
 
 # ---------------------------------------------------------------- live streaming
@@ -188,6 +189,31 @@ class StreamToken:
     refused: list[str] = field(default_factory=list)  # routes tried first, with AssemblyAI's answer
 
 
+def key_shape(key: str) -> str:
+    """The format of a credential, never its value: enough to tell an API key from a token."""
+    key = key or ""
+    if re.fullmatch(r"[0-9a-fA-F]{32}", key):
+        return "32 hexadecimal characters (the format of an AssemblyAI API key)"
+    parts = key.split(".")
+    if len(parts) == 3 and all(parts):
+        exp = None
+        try:
+            import base64
+
+            pad = parts[1] + "=" * (-len(parts[1]) % 4)
+            claims = json.loads(base64.urlsafe_b64decode(pad.encode()))
+            exp = claims.get("exp") if isinstance(claims, dict) else None
+        except (ValueError, TypeError):
+            exp = None
+        when = ""
+        if isinstance(exp, (int, float)):
+            import datetime as _dt
+
+            when = ", expiring " + _dt.datetime.fromtimestamp(exp, _dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        return f"a {len(key)}-character signed token in three parts (the format of a temporary token{when})"
+    return f"{len(key)} characters, not the 32-character format of an AssemblyAI API key"
+
+
 def _where(url: str) -> str:
     u = urlparse(url)
     return f"{u.netloc}{u.path}"
@@ -217,6 +243,10 @@ async def mint_token(max_session_seconds: int) -> StreamToken:
             except (httpx.HTTPError, ValueError) as exc:
                 tried.append(f"{_where(route['url'])}: {exc.__class__.__name__}")
     if tried and all(re.search(r"HTTP 40[13]\b", t) for t in tried):
+        if any("temp token" in t.lower() for t in tried):
+            raise SttRefused("AssemblyAI says ASSEMBLYAI_API_KEY holds a temporary token, not the account's API key, "
+                             f"and a token cannot mint another token. The value is {key_shape(key)}. Put the API key "
+                             "from the AssemblyAI dashboard (API Keys) in ASSEMBLYAI_API_KEY. (" + "; ".join(tried) + ")")
         raise SttRefused("AssemblyAI did not accept this API key for live streaming ("
                          + "; ".join(tried) + "). Check that the key is current and that the account can use streaming.")
     raise SttError("AssemblyAI would not issue a streaming token (" + "; ".join(tried) + ").")
@@ -305,67 +335,95 @@ def utterances_to_turns(data: dict) -> tuple[list[dict], list[str]]:
     return turns, removed_all
 
 
+_TOO_LONG = re.compile(r"prompt[^.]*\b(too long|exceed|limit)", re.I)
+
+
+def _shrink_keyterms(body: dict, message: str, warnings: list[str]) -> bool:
+    """AssemblyAI said the prompt is too long: keep the first (most specific) keyterms that fit."""
+    terms = body.get("keyterms_prompt") or []
+    if not terms or not _TOO_LONG.search(message or ""):
+        return False
+    nums = [int(n.replace(",", "")) for n in re.findall(r"\d[\d,]{2,}", message)]
+    n = len(terms)
+    if len(nums) >= 2 and max(nums) > 0:
+        keep = int(n * min(nums) / max(nums) * 0.8)
+    else:
+        keep = int(n * 0.5)
+    keep = min(keep, n - 1)
+    if keep < 5:
+        body.pop("keyterms_prompt", None)
+        warnings.append(f"AssemblyAI's prompt limit was exceeded, so keyterms were not used ({_short(message, 160)}).")
+    else:
+        body["keyterms_prompt"] = terms[:keep]
+        warnings.append(f"Keyterms trimmed from {n} to {keep} to fit AssemblyAI's prompt limit.")
+    return True
+
+
 async def create_and_poll(c: httpx.AsyncClient, key: str, body: dict, *, timeout_s: float = 900.0,
                           sleep=asyncio.sleep) -> tuple[dict, list[str]]:
-    """POST /v2/transcript (retrying without a rejected option, with a warning), then poll."""
+    """POST /v2/transcript, then poll. A rejected option is dropped (or keyterms trimmed) and the
+    request retried, with a warning saying so."""
     api = hosts()["api"]
     headers = {"Authorization": key, "Content-Type": "application/json"}
     warnings: list[str] = []
     body = dict(body)
-    for _ in range(4):
+    for _ in range(6):
         r = await c.post(f"{api}/v2/transcript", headers=headers, json=body)
-        if r.status_code in (200, 201):
-            break
-        detail = _err_detail(r)
-        low = detail.lower()
-        if r.status_code in (401, 403):
-            if "keyterms_prompt" in body:
-                body.pop("keyterms_prompt")
-                warnings.append(f"AssemblyAI refused the request with keyterms ({detail}), so it ran without them.")
-                continue
-            raise SttRefused(f"AssemblyAI refused the transcription request ({detail}).")
-        if r.status_code in (400, 422):
-            if "keyterm" in low and "keyterms_prompt" in body:
-                body.pop("keyterms_prompt")
-                warnings.append(f"AssemblyAI rejected the keyterms, so they were not used ({detail}).")
-                continue
-            if "domain" in low and "domain" in body:
-                body.pop("domain")
-                warnings.append(f"Medical Mode was not applied: AssemblyAI rejected it ({detail}).")
-                continue
-            if "language" in low and "language_code" in body:
-                body.pop("language_code")
-                body["language_detection"] = True
-                warnings.append(f"Language code rejected; language detection used instead ({detail}).")
-                continue
-            if ("speech_model" in low or "model" in low) and "speech_models" in body:
-                body.pop("speech_models")
-                warnings.append(f"AssemblyAI rejected the requested model, so its default model was used ({detail}).")
-                continue
-        raise SttError(f"AssemblyAI would not start the transcription ({detail}).")
-    else:
-        raise SttError("AssemblyAI would not start the transcription after several attempts.")
-    tid = (r.json() or {}).get("id")
-    if not tid:
-        raise SttError("AssemblyAI did not return a transcript id.")
-    delay, deadline = 1.0, time.monotonic() + timeout_s
-    while True:
-        p = await c.get(f"{api}/v2/transcript/{tid}", headers={"Authorization": key})
-        if p.status_code != 200:
-            raise SttError(f"AssemblyAI status check failed ({_err_detail(p)}).")
-        data = p.json() or {}
-        status = data.get("status")
-        if status == "completed":
-            data["_body"] = body
-            return data, warnings
-        if status == "error":
-            await delete_transcript(c, key, tid)
-            raise SttError(f"AssemblyAI could not transcribe the audio: {_short(str(data.get('error') or 'unknown error'))}.")
-        if time.monotonic() > deadline:
-            await delete_transcript(c, key, tid)
-            raise SttError("AssemblyAI took too long to transcribe the audio (timed out).")
-        await sleep(delay)
-        delay = min(delay * 1.5, 5.0)
+        if r.status_code not in (200, 201):
+            detail = _err_detail(r)
+            low = detail.lower()
+            if r.status_code in (401, 403):
+                if "keyterms_prompt" in body:
+                    body.pop("keyterms_prompt")
+                    warnings.append(f"AssemblyAI refused the request with keyterms ({detail}), so it ran without them.")
+                    continue
+                raise SttRefused(f"AssemblyAI refused the transcription request ({detail}).")
+            if r.status_code in (400, 422):
+                if _shrink_keyterms(body, detail, warnings):
+                    continue
+                if "keyterm" in low and "keyterms_prompt" in body:
+                    body.pop("keyterms_prompt")
+                    warnings.append(f"AssemblyAI rejected the keyterms, so they were not used ({detail}).")
+                    continue
+                if "domain" in low and "domain" in body:
+                    body.pop("domain")
+                    warnings.append(f"Medical Mode was not applied: AssemblyAI rejected it ({detail}).")
+                    continue
+                if "language" in low and "language_code" in body:
+                    body.pop("language_code")
+                    body["language_detection"] = True
+                    warnings.append(f"Language code rejected; language detection used instead ({detail}).")
+                    continue
+                if ("speech_model" in low or "model" in low) and "speech_models" in body:
+                    body.pop("speech_models")
+                    warnings.append(f"AssemblyAI rejected the requested model, so its default model was used ({detail}).")
+                    continue
+            raise SttError(f"AssemblyAI would not start the transcription ({detail}).")
+        tid = (r.json() or {}).get("id")
+        if not tid:
+            raise SttError("AssemblyAI did not return a transcript id.")
+        delay, deadline = 1.0, time.monotonic() + timeout_s
+        while True:
+            p = await c.get(f"{api}/v2/transcript/{tid}", headers={"Authorization": key})
+            if p.status_code != 200:
+                raise SttError(f"AssemblyAI status check failed ({_err_detail(p)}).")
+            data = p.json() or {}
+            status = data.get("status")
+            if status == "completed":
+                data["_body"] = body
+                return data, warnings
+            if status == "error":
+                await delete_transcript(c, key, tid)
+                message = str(data.get("error") or "unknown error")
+                if _shrink_keyterms(body, message, warnings):
+                    break  # start again with fewer keyterms
+                raise SttError(f"AssemblyAI could not transcribe the audio: {_short(message)}.")
+            if time.monotonic() > deadline:
+                await delete_transcript(c, key, tid)
+                raise SttError("AssemblyAI took too long to transcribe the audio (timed out).")
+            await sleep(delay)
+            delay = min(delay * 1.5, 5.0)
+    raise SttError("AssemblyAI would not start the transcription after several attempts.")
 
 
 async def delete_transcript(c: httpx.AsyncClient, key: str, transcript_id: str) -> bool:
@@ -405,7 +463,7 @@ async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep
     if not path.exists() or path.stat().st_size == 0:
         raise SttError("The visit recording is missing or empty.")
     api = hosts()["api"]
-    terms = clean_keyterms(keyterms, FINAL_KEYTERMS, word_budget=FINAL_KEYTERMS)
+    terms = clean_keyterms(keyterms, FINAL_KEYTERMS, word_budget=FINAL_KEYTERM_WORDS)
     warnings: list[str] = []
     link_id: str | None = None
     try:

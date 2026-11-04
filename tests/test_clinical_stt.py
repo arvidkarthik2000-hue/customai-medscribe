@@ -330,3 +330,55 @@ def test_transcript_refused_everywhere_is_plain(monkeypatch):
         run(stt.transcribe_file(_audio_file(), ["warfarin"], sleep=_nosleep))
     assert "HTTP 401: Unauthorized" in str(e.value)
     assert stt._links == {}
+
+
+def test_temp_token_answer_names_the_value_format_not_the_value():
+    stt.transport = httpx.MockTransport(lambda req: httpx.Response(401, json={"error": "Temp token cannot create temp token"}))
+    with pytest.raises(stt.SttRefused) as e:
+        run(stt.mint_token(600))
+    msg = str(e.value)
+    assert "temporary token" in msg and "API Keys" in msg and KEY not in msg
+    assert f"{len(KEY)} characters" in msg
+
+
+def test_prompt_too_long_trims_keyterms_and_retries():
+    state = {"bodies": [], "n": 0}
+
+    def handler(req):
+        path = req.url.path
+        if path == "/v2/upload":
+            return httpx.Response(200, json={"upload_url": "https://cdn.assemblyai.com/upload/abc"})
+        if path == "/v2/transcript" and req.method == "POST":
+            body = json.loads(req.content)
+            state["bodies"].append(body)
+            state["n"] += 1
+            return httpx.Response(200, json={"id": f"tr_{state['n']}", "status": "queued"})
+        if path.startswith("/v2/transcript/tr_") and req.method == "GET":
+            n = int(path.rsplit("_", 1)[-1])
+            terms = state["bodies"][n - 1].get("keyterms_prompt") or []
+            if len(terms) >= 300:
+                return httpx.Response(200, json={"id": f"tr_{n}", "status": "error",
+                                                 "error": "The prompt is too long for the model. 2,971 text tokens, limit 2,672."})
+            return httpx.Response(200, json={"id": f"tr_{n}", "status": "completed", "audio_duration": 30,
+                                             "utterances": [{"speaker": "A", "text": "Take warfarin 5 mg.", "start": 0, "end": 900}]})
+        if req.method == "DELETE":
+            state.setdefault("deleted", []).append(path)
+            return httpx.Response(200, json={})
+        return httpx.Response(404)
+
+    stt.transport = httpx.MockTransport(handler)
+    terms = [f"term {i}" for i in range(500)]
+    res = run(stt.transcribe_file(_audio_file(), terms, sleep=_nosleep))
+    sizes = [len(b.get("keyterms_prompt") or []) for b in state["bodies"]]
+    assert sizes[0] == 300  # 600-word budget: 300 two-word phrases
+    assert len(sizes) == 2 and 0 < sizes[1] < 300
+    assert state["bodies"][1]["keyterms_prompt"] == terms[:sizes[1]]  # the first (chart) terms are kept
+    assert "/v2/transcript/tr_1" in state["deleted"]  # the failed attempt is deleted too
+    assert res["meta"]["keyterms_used"] == sizes[1]
+    assert any("Keyterms trimmed from 300" in w for w in res["meta"]["warnings"])
+
+
+def test_final_keyterms_fit_the_word_budget():
+    terms = stt.build_keyterms(["warfarin", "osteoarthritis of knee"], "family_medicine")["final"]
+    assert terms[:2] == ["warfarin", "osteoarthritis of knee"]
+    assert sum(len(t.split()) for t in terms) <= stt.FINAL_KEYTERM_WORDS

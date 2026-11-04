@@ -37,7 +37,10 @@ Demo build: synthetic patients, prescribers, brands and ad delivery only.
 1. Render dashboard → **New → Blueprint** → connect GitHub if asked → choose
    `arvidkarthik2000-hue/customai-medscribe`. Render reads `render.yaml`.
 2. Render asks for two values; paste them there, never in chat or the repo:
-   - `ASSEMBLYAI_API_KEY`: from an AssemblyAI account with a card added.
+   - `ASSEMBLYAI_API_KEY`: the API key from the AssemblyAI dashboard's API Keys
+     page (32 characters), from an account with a card added. Not a temporary
+     token: a token cannot mint the live-stream tokens the browser needs, and it
+     expires.
    - `ANTHROPIC_API_KEY`: from a Console workspace with a monthly spend limit.
 
    The demo access code is set in `render.yaml` (`DEMO_ACCESS_CODE`); change it
@@ -55,6 +58,15 @@ the service's **Environment** tab.
 
 `MAX_VISIT_MINUTES` (20), `DAILY_AUDIO_MINUTES` (240), `DAILY_NOTE_RUNS` (150) and
 `MAX_UPLOAD_MB` (60) can be changed in the Environment tab.
+
+### Speech routing
+
+`ASSEMBLYAI_REGION=us` mints live tokens in AssemblyAI's US data zone. If the
+account can't use the zone, the app falls back to edge routing (nearest region,
+US or EU) and the self-test says so; set `ASSEMBLYAI_STRICT_ZONE=1` to forbid
+that. If AssemblyAI ever refuses an upload, it fetches the recording from a
+one-time link on this server (`RENDER_EXTERNAL_URL`, or `PUBLIC_BASE_URL`),
+which closes when the final pass ends.
 
 Optional: add a free `OPENFDA_API_KEY` (from open.fda.gov) in the Environment tab.
 Without one, openFDA allows 1,000 requests a day per IP address, and Render's

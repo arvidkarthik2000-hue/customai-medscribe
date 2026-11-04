@@ -60,7 +60,7 @@ All JSON. Times are ISO 8601 UTC strings. Transcript turn:
 | `GET /api/samples` | – | `{samples: [{id, title, patient_id, minutes, highlights: [str]}]}` |
 | `POST /api/visits` | `{patient_id, template: "soap|progress|hp|consult", style: "concise|detailed", engine: "sonnet|haiku", specialty?}` | `{visit_id}` |
 | `POST /api/visits/{id}/consent` | `{consented: true, attestation: "roleplay_no_real_patient"}` | `{ok, consent_at}` (logged in the audit table; never written into the note) |
-| `GET /api/visits/{id}/keyterms` | – | `{live: [≤100 str], final: [≤1000 str]}` |
+| `GET /api/visits/{id}/keyterms` | – | `{live: [≤100 str], final: [≤1000 str, ≤600 words in all]}` |
 | `POST /api/stt/token` | `{visit_id}` | `{token, ws_url, expires_in}` where `ws_url` already holds every query param except `token` (browser appends `&token=`). 409 if daily audio cap reached; 503 if speech not configured |
 | `POST /api/visits/{id}/live-turns` | `{turns: [turn...], audio_seconds}` | `{ok}` (persist live transcript; called every ~10 s and at stop) |
 | `POST /api/visits/{id}/audio` | multipart `file` (webm/ogg/mp4/wav/mp3) | `{ok, bytes}` then the pipeline starts with a final pass |
