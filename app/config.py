@@ -25,6 +25,11 @@ def _int(name: str, default: int) -> int:
         return default
 
 
+def build_id() -> str:
+    """This deploy's id (Render sets RENDER_GIT_COMMIT), so cached checks rerun after a deploy."""
+    return (_env("RENDER_GIT_COMMIT") or _env("BUILD_ID") or "local")[:12]
+
+
 @dataclass(frozen=True)
 class Settings:
     # secrets
@@ -43,6 +48,12 @@ class Settings:
     # Tests only: point every AssemblyAI call (REST, token, WebSocket) at a local
     # fake server, e.g. http://127.0.0.1:9900. Never set in production.
     assemblyai_test_base: str = field(default_factory=lambda: _env("ASSEMBLYAI_TEST_BASE"))
+    # With ASSEMBLYAI_REGION=us or eu, live tokens are minted in that data zone first. If the
+    # account cannot use the zone, edge routing (nearest region) is used, unless this is "1".
+    assemblyai_strict_zone: bool = field(default_factory=lambda: _env("ASSEMBLYAI_STRICT_ZONE") == "1")
+    # This server's public https address. AssemblyAI fetches a recording from a one-time link
+    # here only if it refuses the upload. Render sets RENDER_EXTERNAL_URL.
+    public_base_url: str = field(default_factory=lambda: (_env("PUBLIC_BASE_URL") or _env("RENDER_EXTERNAL_URL")).rstrip("/"))
 
     # notes
     note_model: str = field(default_factory=lambda: _env("NOTE_MODEL", "claude-sonnet-5-5"))

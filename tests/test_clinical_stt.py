@@ -43,8 +43,9 @@ def test_mint_token_new_endpoint():
         return httpx.Response(200, json={"token": "tmp-tok", "expires_in_seconds": 600})
 
     stt.transport = httpx.MockTransport(handler)
-    token, exp = run(stt.mint_token(1200))
-    assert token == "tmp-tok" and exp == 600
+    tok = run(stt.mint_token(1200))
+    assert tok.token == "tmp-tok" and tok.expires_in == 600
+    assert tok.ws == "wss://streaming.assemblyai.com/v3/ws" and tok.zone == "edge" and tok.refused == []
     assert seen["url"] == "https://token.assemblyai.com/v1/token"
     assert seen["auth"] == KEY  # raw key, no "Bearer"
     assert seen["body"] == {"product": "streaming", "expires_in_seconds": 600, "max_session_duration_seconds": 1200}
@@ -60,17 +61,62 @@ def test_mint_token_falls_back_to_legacy():
         return httpx.Response(200, json={"token": "legacy-tok"})
 
     stt.transport = httpx.MockTransport(handler)
-    token, _ = run(stt.mint_token(600))
-    assert token == "legacy-tok"
+    tok = run(stt.mint_token(600))
+    assert tok.token == "legacy-tok" and tok.ws == "wss://streaming.assemblyai.com/v3/ws"
+    assert tok.refused == ["token.assemblyai.com/v1/token: HTTP 404: not found"]
     assert calls[1][:3] == ("GET", "streaming.assemblyai.com", "/v3/token")
     assert calls[1][3]["expires_in_seconds"] == "600"
 
 
 def test_mint_token_bad_key_is_plain_and_secret_free():
     stt.transport = httpx.MockTransport(lambda req: httpx.Response(401, json={"error": "Invalid API key"}))
-    with pytest.raises(stt.SttError) as e:
+    with pytest.raises(stt.SttRefused) as e:
         run(stt.mint_token(600))
-    assert "401" in str(e.value) and KEY not in str(e.value)
+    msg = str(e.value)
+    assert "HTTP 401: Invalid API key" in msg and KEY not in msg
+    assert "token.assemblyai.com/v1/token" in msg and "streaming.assemblyai.com/v3/token" in msg
+
+
+def test_us_zone_refused_falls_back_to_edge(monkeypatch):
+    monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, assemblyai_region="us"))
+    calls = []
+
+    def handler(req: httpx.Request):
+        calls.append(f"{req.method} {req.url.host}{req.url.path}")
+        if ".us." in req.url.host:
+            return httpx.Response(401, json={"error": "Unauthorized"})
+        return httpx.Response(200, json={"token": "edge-tok", "expires_in_seconds": 600})
+
+    stt.transport = httpx.MockTransport(handler)
+    tok = run(stt.mint_token(600))
+    assert calls == ["POST token.us.assemblyai.com/v1/token", "GET streaming.us.assemblyai.com/v3/token",
+                     "POST token.assemblyai.com/v1/token"]
+    assert tok.token == "edge-tok" and tok.zone == "edge" and tok.ws == "wss://streaming.assemblyai.com/v3/ws"
+    assert len(tok.refused) == 2 and all("HTTP 401" in r for r in tok.refused)
+    url = stt.ws_url(["warfarin"], tok.ws)
+    assert url.startswith("wss://streaming.assemblyai.com/v3/ws?")
+
+
+def test_us_zone_used_when_it_works(monkeypatch):
+    monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, assemblyai_region="us"))
+    stt.transport = httpx.MockTransport(lambda req: httpx.Response(200, json={"token": "us-tok"}))
+    tok = run(stt.mint_token(600))
+    assert tok.zone == "us" and tok.ws == "wss://streaming.us.assemblyai.com/v3/ws"
+
+
+def test_strict_zone_does_not_leave_the_zone(monkeypatch):
+    monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, assemblyai_region="us",
+                                                                 assemblyai_strict_zone=True))
+    calls = []
+
+    def handler(req):
+        calls.append(req.url.host)
+        return httpx.Response(403, json={"error": "Forbidden"})
+
+    stt.transport = httpx.MockTransport(handler)
+    with pytest.raises(stt.SttRefused):
+        run(stt.mint_token(600))
+    assert calls == ["token.us.assemblyai.com", "streaming.us.assemblyai.com"]
 
 
 def test_mint_token_not_configured(monkeypatch):
@@ -121,10 +167,16 @@ def _transcribe_handler(state, *, first_transcript_status=200, first_error=None,
         path = req.url.path
         if req.method == "POST" and path == "/v2/upload":
             state["uploaded"] = len(req.read())
+            state["upload_headers"] = dict(req.headers)
+            if state.get("upload_status"):
+                return httpx.Response(state["upload_status"], json={"error": "Authentication error"})
             return httpx.Response(200, json={"upload_url": "https://cdn.assemblyai.com/upload/abc"})
         if req.method == "POST" and path == "/v2/transcript":
             body = json.loads(req.content)
             state.setdefault("bodies", []).append(body)
+            refuse = state.get("refuse_transcript")
+            if refuse and refuse(body):
+                return httpx.Response(401, json={"error": "Unauthorized"})
             if len(state["bodies"]) == 1 and first_transcript_status != 200:
                 return httpx.Response(first_transcript_status, json={"error": first_error})
             return httpx.Response(200, json={"id": "tr_1", "status": "queued"})
@@ -164,6 +216,10 @@ def test_transcribe_file_maps_turns_and_strips_brands():
     assert body["keyterms_prompt"] == ["insulin lispro", "metformin"]
     assert body["audio_url"] == "https://cdn.assemblyai.com/upload/abc"
     assert state["uploaded"] > 4000 and state["deleted"]
+    # sent with its length, not chunked
+    assert state["upload_headers"]["content-length"] == str(state["uploaded"])
+    assert "transfer-encoding" not in state["upload_headers"]
+    assert res["meta"]["audio_via"] == "upload"
     turns = res["turns"]
     assert [t["id"] for t in turns] == ["t1", "t2"]
     assert "Humalog" not in turns[0]["text"] and turns[0]["text"].startswith("Let's switch you to Lispro")
@@ -213,3 +269,64 @@ def test_live_turn_normalisation_and_renumber():
     assert len(turns) == 2 and turns[1]["speaker"] == "U"
     ordered = stt.renumber(turns)
     assert [t["id"] for t in ordered] == ["t1", "t2"] and ordered[0]["text"] == "Any bleeding?"
+
+
+def test_upload_refused_uses_a_one_time_link(monkeypatch):
+    monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, public_base_url="https://demo.example"))
+    state = {"upload_status": 401}
+    seen_links = []
+
+    def handler(req):
+        if req.url.path == "/v2/transcript" and req.method == "POST":
+            url = json.loads(req.content)["audio_url"]
+            link_id = url.rsplit("/", 1)[-1]
+            seen_links.append((url, stt.linked_file(link_id)))
+        return inner(req)
+
+    inner = _transcribe_handler(state)
+    stt.transport = httpx.MockTransport(handler)
+    path = _audio_file()
+    res = run(stt.transcribe_file(path, ["warfarin"], sleep=_nosleep))
+    url, found = seen_links[0]
+    assert url.startswith("https://demo.example/api/stt/audio/")
+    assert found and str(found[0]) == path  # the link serves this recording while the pass runs
+    assert stt.linked_file(url.rsplit("/", 1)[-1]) is None  # and is closed afterwards
+    assert res["meta"]["audio_via"] == "link"
+    assert any("upload was refused (HTTP 401: Authentication error)" in w for w in res["meta"]["warnings"])
+
+
+def test_upload_refused_without_public_url_is_plain(monkeypatch):
+    monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, public_base_url=""))
+    stt.transport = httpx.MockTransport(_transcribe_handler({"upload_status": 401}))
+    with pytest.raises(stt.SttError) as e:
+        run(stt.transcribe_file(_audio_file(), [], sleep=_nosleep))
+    assert "upload was refused (HTTP 401: Authentication error)" in str(e.value) and KEY not in str(e.value)
+
+
+def test_transcript_refused_with_keyterms_retries_without_them():
+    state = {"refuse_transcript": lambda body: "keyterms_prompt" in body}
+    stt.transport = httpx.MockTransport(_transcribe_handler(state))
+    res = run(stt.transcribe_file(_audio_file(), ["warfarin"], sleep=_nosleep))
+    assert "keyterms_prompt" in state["bodies"][0] and "keyterms_prompt" not in state["bodies"][1]
+    assert res["meta"]["keyterms_used"] == 0
+    assert any("ran without them" in w for w in res["meta"]["warnings"])
+
+
+def test_transcript_refused_for_upload_url_retries_with_link(monkeypatch):
+    monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, public_base_url="https://demo.example"))
+    state = {"refuse_transcript": lambda body: body["audio_url"].startswith("https://cdn.")}
+    stt.transport = httpx.MockTransport(_transcribe_handler(state))
+    res = run(stt.transcribe_file(_audio_file(), [], sleep=_nosleep))
+    assert state["bodies"][-1]["audio_url"].startswith("https://demo.example/api/stt/audio/")
+    assert res["meta"]["audio_via"] == "link"
+    assert any("one-time link" in w for w in res["meta"]["warnings"])
+
+
+def test_transcript_refused_everywhere_is_plain(monkeypatch):
+    monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, public_base_url="https://demo.example"))
+    state = {"refuse_transcript": lambda body: True}
+    stt.transport = httpx.MockTransport(_transcribe_handler(state))
+    with pytest.raises(stt.SttRefused) as e:
+        run(stt.transcribe_file(_audio_file(), ["warfarin"], sleep=_nosleep))
+    assert "HTTP 401: Unauthorized" in str(e.value)
+    assert stt._links == {}

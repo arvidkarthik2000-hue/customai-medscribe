@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Literal
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
 from .. import auth, config
@@ -285,12 +285,23 @@ async def stt_token(body: TokenIn, _s: dict = Depends(auth.require)):
     chart = fixtures.patient(v["patient_id"]) or {}
     terms = stt.build_keyterms(fixtures.keyterm_seed(chart), v.get("specialty") or "family_medicine")
     try:
-        token, expires = await stt.mint_token(config.settings.max_visit_minutes * 60)
+        tok = await stt.mint_token(config.settings.max_visit_minutes * 60)
     except stt.SttError as exc:
         raise HTTPException(502, str(exc))
-    store.audit(v["id"], "stt_token_issued", {"keyterms": len(terms["live"])}, actor="system")
-    return {"token": token, "ws_url": stt.ws_url(terms["live"]), "expires_in": expires,
-            "max_session_seconds": config.settings.max_visit_minutes * 60}
+    store.audit(v["id"], "stt_token_issued", {"keyterms": len(terms["live"]), "zone": tok.zone}, actor="system")
+    return {"token": tok.token, "ws_url": stt.ws_url(terms["live"], tok.ws), "expires_in": tok.expires_in,
+            "zone": tok.zone, "max_session_seconds": config.settings.max_visit_minutes * 60}
+
+
+@router.get("/stt/audio/{link_id}")
+def stt_audio(link_id: str):
+    """A one-time link AssemblyAI fetches a recording from, only if it refused the upload.
+    No session: the unguessable id is the credential, it expires, and it closes when the pass ends."""
+    found = stt.linked_file(link_id)
+    if not found:
+        raise HTTPException(404, "Not found.")
+    path, media_type = found
+    return FileResponse(path, media_type=media_type, headers={"Cache-Control": "no-store"})
 
 
 @router.post("/visits/{visit_id}/live-turns")

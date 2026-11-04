@@ -183,6 +183,7 @@ def test_token_needs_consent_key_and_cap(client, monkeypatch):
     r = client.post("/api/stt/token", json={"visit_id": vid}).json()
     assert r["token"] == "tmp" and r["ws_url"].startswith("wss://streaming.assemblyai.com/v3/ws?")
     assert "keyterms_prompt" in r["ws_url"] and "token=" not in r["ws_url"]
+    assert r["zone"] == "edge"
     store.usage_set("audio_seconds", config.settings.daily_audio_minutes * 60)
     assert client.post("/api/stt/token", json={"visit_id": vid}).status_code == 409
     assert client.post(f"/api/visits/{vid}/consent", json={"consented": False}).status_code == 400
@@ -426,3 +427,17 @@ def test_retry_after_note_failure_reuses_final_transcript(client, monkeypatch):
     v = client.get(f"/api/visits/{vid}").json()
     assert v["status"] == "ready", v["error"]
     assert "Reusing the final transcript" in next(s for s in v["stages"] if s["id"] == "final_transcript")["detail"]
+
+
+def test_one_time_audio_link_serves_only_while_open(client, tmp_path, monkeypatch):
+    f = tmp_path / "visit.webm"
+    f.write_bytes(b"\x1a\x45\xdf\xa3" + b"0" * 100)
+    monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, public_base_url="https://demo.example"))
+    link_id, url = stt.open_link(f)
+    assert url == f"https://demo.example/api/stt/audio/{link_id}"
+    with TestClient(app) as anon:  # no session: the unguessable id is the credential
+        r = anon.get(f"/api/stt/audio/{link_id}")
+        assert r.status_code == 200 and r.content == f.read_bytes() and r.headers["cache-control"] == "no-store"
+        assert anon.get("/api/stt/audio/not-a-real-link").status_code == 404
+        stt.close_link(link_id)
+        assert anon.get(f"/api/stt/audio/{link_id}").status_code == 404

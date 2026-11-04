@@ -15,10 +15,13 @@ import asyncio
 import json
 import logging
 import os
+import mimetypes
 import re
+import secrets
 import time
+from dataclasses import dataclass, field
 from pathlib import Path
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 
 import httpx
 
@@ -43,8 +46,22 @@ class SttNotConfigured(SttError):
     pass
 
 
+class SttRefused(SttError):
+    """AssemblyAI answered 401 or 403."""
+
+
 def _settings():
     return config.settings
+
+
+_ZONES = {  # token service, older /v3/token service, WebSocket
+    "us": ("https://token.us.assemblyai.com/v1/token", "https://streaming.us.assemblyai.com/v3/token",
+           "wss://streaming.us.assemblyai.com/v3/ws"),
+    "eu": ("https://token.eu.assemblyai.com/v1/token", "https://streaming.eu.assemblyai.com/v3/token",
+           "wss://streaming.eu.assemblyai.com/v3/ws"),
+    "edge": ("https://token.assemblyai.com/v1/token", "https://streaming.assemblyai.com/v3/token",
+             "wss://streaming.assemblyai.com/v3/ws"),
+}
 
 
 def hosts() -> dict[str, str]:
@@ -54,17 +71,34 @@ def hosts() -> dict[str, str]:
         ws_base = re.sub(r"^http", "ws", base)
         return {"token": f"{base}/v1/token", "legacy": f"{base}/v3/token", "ws": f"{ws_base}/v3/ws", "api": base}
     region = (s.assemblyai_region or "global").lower()
-    if region == "us":
-        return {"token": "https://token.us.assemblyai.com/v1/token",
-                "legacy": "https://streaming.us.assemblyai.com/v3/token",
-                "ws": "wss://streaming.us.assemblyai.com/v3/ws", "api": "https://api.assemblyai.com"}
-    if region == "eu":
-        return {"token": "https://token.eu.assemblyai.com/v1/token",
-                "legacy": "https://streaming.eu.assemblyai.com/v3/token",
-                "ws": "wss://streaming.eu.assemblyai.com/v3/ws", "api": "https://api.eu.assemblyai.com"}
-    return {"token": "https://token.assemblyai.com/v1/token",
-            "legacy": "https://streaming.assemblyai.com/v3/token",
-            "ws": "wss://streaming.assemblyai.com/v3/ws", "api": "https://api.assemblyai.com"}
+    zone = region if region in ("us", "eu") else "edge"
+    token, legacy, ws = _ZONES[zone]
+    return {"token": token, "legacy": legacy, "ws": ws,
+            "api": "https://api.eu.assemblyai.com" if zone == "eu" else "https://api.assemblyai.com"}
+
+
+def token_routes() -> list[dict[str, str]]:
+    """Where to mint a live-streaming token, in order. Each route names the WebSocket its tokens open.
+
+    The configured data zone comes first (the token service, then the older /v3/token service).
+    If the account cannot use that zone, edge routing (nearest region) follows, unless
+    ASSEMBLYAI_STRICT_ZONE=1.
+    """
+    s = _settings()
+    if (getattr(s, "assemblyai_test_base", "") or "").strip():
+        h = hosts()
+        return [{"zone": "test", "method": "POST", "url": h["token"], "ws": h["ws"]},
+                {"zone": "test", "method": "GET", "url": h["legacy"], "ws": h["ws"]}]
+    region = (s.assemblyai_region or "global").lower()
+    zones = [region] if region in ("us", "eu") else []
+    if not zones or not getattr(s, "assemblyai_strict_zone", False):
+        zones.append("edge")
+    routes = []
+    for z in zones:
+        token, legacy, ws = _ZONES[z]
+        routes.append({"zone": z, "method": "POST", "url": token, "ws": ws})
+        routes.append({"zone": z, "method": "GET", "url": legacy, "ws": ws})
+    return routes
 
 
 def _client(timeout: float | httpx.Timeout = 30.0) -> httpx.AsyncClient:
@@ -127,7 +161,8 @@ def build_keyterms(chart_terms: list[str], specialty: str) -> dict[str, list[str
 # ---------------------------------------------------------------- live streaming
 
 
-def ws_url(keyterms: list[str]) -> str:
+def ws_url(keyterms: list[str], base: str | None = None) -> str:
+    """The browser's WebSocket URL (without the token). `base` is the WebSocket the token opens."""
     s = _settings()
     params = {
         "speech_model": s.live_speech_model,
@@ -141,42 +176,87 @@ def ws_url(keyterms: list[str]) -> str:
     terms = clean_keyterms(keyterms, LIVE_KEYTERMS)
     if terms:
         params["keyterms_prompt"] = json.dumps(terms)
-    return f"{hosts()['ws']}?{urlencode(params)}"
+    return f"{base or hosts()['ws']}?{urlencode(params)}"
 
 
-async def mint_token(max_session_seconds: int) -> tuple[str, int]:
+@dataclass
+class StreamToken:
+    token: str
+    expires_in: int
+    ws: str        # the WebSocket this token opens
+    zone: str      # us, eu, edge or test
+    refused: list[str] = field(default_factory=list)  # routes tried first, with AssemblyAI's answer
+
+
+def _where(url: str) -> str:
+    u = urlparse(url)
+    return f"{u.netloc}{u.path}"
+
+
+async def mint_token(max_session_seconds: int) -> StreamToken:
+    """A short-lived token the browser uses to open the live WebSocket (the API key stays here)."""
     key = _key()
-    h = hosts()
     max_session_seconds = max(60, int(max_session_seconds))
-    first = ""
-    async with _client(15.0) as c:
-        try:
-            r = await c.post(
-                h["token"],
-                headers={"Authorization": key, "Content-Type": "application/json"},
-                json={"product": "streaming", "expires_in_seconds": TOKEN_TTL,
-                      "max_session_duration_seconds": max_session_seconds},
-            )
-            if r.status_code == 200 and (r.json() or {}).get("token"):
-                data = r.json()
-                return data["token"], int(data.get("expires_in_seconds") or TOKEN_TTL)
-            first = _err_detail(r)
-        except (httpx.HTTPError, ValueError) as exc:
-            first = exc.__class__.__name__
-        try:
-            r = await c.get(
-                h["legacy"], headers={"Authorization": key},
-                params={"expires_in_seconds": TOKEN_TTL, "max_session_duration_seconds": max_session_seconds},
-            )
-            if r.status_code == 200 and (r.json() or {}).get("token"):
-                data = r.json()
-                return data["token"], int(data.get("expires_in_seconds") or TOKEN_TTL)
-            second = _err_detail(r)
-        except (httpx.HTTPError, ValueError) as exc:
-            second = exc.__class__.__name__
-    if "401" in first or "401" in second:
-        raise SttError("AssemblyAI rejected the API key (401). Check ASSEMBLYAI_API_KEY on the server.")
-    raise SttError(f"AssemblyAI would not issue a streaming token ({first}; fallback {second}).")
+    tried: list[str] = []
+    async with _client(10.0) as c:
+        for route in token_routes():
+            try:
+                if route["method"] == "POST":
+                    r = await c.post(route["url"], headers={"Authorization": key, "Content-Type": "application/json"},
+                                     json={"product": "streaming", "expires_in_seconds": TOKEN_TTL,
+                                           "max_session_duration_seconds": max_session_seconds})
+                else:
+                    r = await c.get(route["url"], headers={"Authorization": key},
+                                    params={"expires_in_seconds": TOKEN_TTL,
+                                            "max_session_duration_seconds": max_session_seconds})
+                data = r.json() if r.status_code == 200 else None
+                if isinstance(data, dict) and data.get("token"):
+                    return StreamToken(str(data["token"]), int(data.get("expires_in_seconds") or TOKEN_TTL),
+                                       route["ws"], route["zone"], tried)
+                tried.append(f"{_where(route['url'])}: {_err_detail(r)}")
+            except (httpx.HTTPError, ValueError) as exc:
+                tried.append(f"{_where(route['url'])}: {exc.__class__.__name__}")
+    if tried and all(re.search(r"HTTP 40[13]\b", t) for t in tried):
+        raise SttRefused("AssemblyAI did not accept this API key for live streaming ("
+                         + "; ".join(tried) + "). Check that the key is current and that the account can use streaming.")
+    raise SttError("AssemblyAI would not issue a streaming token (" + "; ".join(tried) + ").")
+
+
+# ---------------------------------------------------------------- one-time links
+# If AssemblyAI refuses the upload, it can fetch the recording from this server instead,
+# through an unguessable link that works for LINK_TTL_S and is closed when the pass ends.
+
+LINK_TTL_S = 1800
+_links: dict[str, tuple[Path, float]] = {}
+
+
+def open_link(path: Path) -> tuple[str, str] | None:
+    base = (getattr(_settings(), "public_base_url", "") or "").rstrip("/")
+    if not base:
+        return None
+    now = time.time()
+    for k, (_p, exp) in list(_links.items()):
+        if exp < now:
+            _links.pop(k, None)
+    link_id = secrets.token_urlsafe(24)
+    _links[link_id] = (Path(path), now + LINK_TTL_S)
+    return link_id, f"{base}/api/stt/audio/{link_id}"
+
+
+def linked_file(link_id: str) -> tuple[Path, str] | None:
+    item = _links.get(link_id or "")
+    if not item:
+        return None
+    path, exp = item
+    if exp < time.time() or not path.exists():
+        _links.pop(link_id, None)
+        return None
+    return path, (mimetypes.guess_type(path.name)[0] or "application/octet-stream")
+
+
+def close_link(link_id: str | None) -> None:
+    if link_id:
+        _links.pop(link_id, None)
 
 
 # ---------------------------------------------------------------- final pass
@@ -236,10 +316,14 @@ async def create_and_poll(c: httpx.AsyncClient, key: str, body: dict, *, timeout
         r = await c.post(f"{api}/v2/transcript", headers=headers, json=body)
         if r.status_code in (200, 201):
             break
-        if r.status_code == 401:
-            raise SttError("AssemblyAI rejected the API key (401). Check ASSEMBLYAI_API_KEY on the server.")
         detail = _err_detail(r)
         low = detail.lower()
+        if r.status_code in (401, 403):
+            if "keyterms_prompt" in body:
+                body.pop("keyterms_prompt")
+                warnings.append(f"AssemblyAI refused the request with keyterms ({detail}), so it ran without them.")
+                continue
+            raise SttRefused(f"AssemblyAI refused the transcription request ({detail}).")
         if r.status_code in (400, 422):
             if "keyterm" in low and "keyterms_prompt" in body:
                 body.pop("keyterms_prompt")
@@ -292,6 +376,27 @@ async def delete_transcript(c: httpx.AsyncClient, key: str, transcript_id: str) 
         return False
 
 
+async def _upload(c: httpx.AsyncClient, key: str, api: str, path: Path) -> tuple[str | None, str]:
+    """POST the file to /v2/upload with its length set (no chunked encoding). Returns (upload_url, problem)."""
+    try:
+        up = await c.post(
+            f"{api}/v2/upload",
+            headers={"Authorization": key, "Content-Type": "application/octet-stream",
+                     "Content-Length": str(path.stat().st_size)},
+            content=_file_chunks(path),
+        )
+    except httpx.HTTPError as exc:
+        return None, f"upload failed ({exc.__class__.__name__})"
+    if up.status_code in (200, 201):
+        try:
+            url = (up.json() or {}).get("upload_url")
+        except ValueError:
+            url = None
+        if url:
+            return url, ""
+    return None, f"upload was refused ({_err_detail(up)})"
+
+
 async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep=asyncio.sleep) -> dict:
     """Upload, transcribe with Medical Mode, map to turns, delete at AssemblyAI."""
     key = _key()
@@ -301,36 +406,45 @@ async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep
         raise SttError("The visit recording is missing or empty.")
     api = hosts()["api"]
     terms = clean_keyterms(keyterms, FINAL_KEYTERMS, word_budget=FINAL_KEYTERMS)
-    async with _client(httpx.Timeout(60.0, read=300.0, write=300.0)) as c:
-        try:
-            up = await c.post(
-                f"{api}/v2/upload",
-                headers={"Authorization": key, "Content-Type": "application/octet-stream"},
-                content=_file_chunks(path),
-            )
-        except httpx.HTTPError as exc:
-            raise SttError(f"Could not upload the recording to AssemblyAI ({exc.__class__.__name__}).") from exc
-        if up.status_code == 401:
-            raise SttError("AssemblyAI rejected the API key (401). Check ASSEMBLYAI_API_KEY on the server.")
-        if up.status_code not in (200, 201) or not (up.json() or {}).get("upload_url"):
-            raise SttError(f"Could not upload the recording to AssemblyAI ({_err_detail(up)}).")
-        body = {
-            "audio_url": up.json()["upload_url"],
-            "speech_models": [s.final_speech_model],
-            "domain": "medical-v1",
-            "speaker_labels": True,
-            "language_code": "en",
-        }
-        if terms:
-            body["keyterms_prompt"] = terms
-        try:
-            data, warnings = await create_and_poll(c, key, body, sleep=sleep)
-        except httpx.HTTPError as exc:
-            raise SttError(f"Lost the connection to AssemblyAI ({exc.__class__.__name__}).") from exc
-        sent = data.pop("_body", body)
-        turns, removed = utterances_to_turns(data)
-        tid = data.get("id")
-        deleted = await delete_transcript(c, key, tid) if tid else False
+    warnings: list[str] = []
+    link_id: str | None = None
+    try:
+        async with _client(httpx.Timeout(60.0, read=300.0, write=300.0)) as c:
+            audio_url, problem = await _upload(c, key, api, path)
+            if not audio_url:
+                link = open_link(path)
+                if not link:
+                    raise SttError(f"Could not send the recording to AssemblyAI: the {problem}.")
+                link_id, audio_url = link
+                warnings.append(f"AssemblyAI's {problem}, so it fetched the recording from a one-time link instead.")
+            body = {
+                "audio_url": audio_url,
+                "speech_models": [s.final_speech_model],
+                "domain": "medical-v1",
+                "speaker_labels": True,
+                "language_code": "en",
+            }
+            if terms:
+                body["keyterms_prompt"] = terms
+            try:
+                try:
+                    data, more = await create_and_poll(c, key, body, sleep=sleep)
+                except SttRefused as exc:
+                    link = None if link_id else open_link(path)
+                    if not link:
+                        raise
+                    link_id, body["audio_url"] = link
+                    data, more = await create_and_poll(c, key, body, sleep=sleep)
+                    more.insert(0, f"{exc} It worked when AssemblyAI fetched the recording from a one-time link.")
+            except httpx.HTTPError as exc:
+                raise SttError(f"Lost the connection to AssemblyAI ({exc.__class__.__name__}).") from exc
+            warnings += more
+            sent = data.pop("_body", body)
+            turns, removed = utterances_to_turns(data)
+            tid = data.get("id")
+            deleted = await delete_transcript(c, key, tid) if tid else False
+    finally:
+        close_link(link_id)
     if not deleted:
         warnings.append("Could not delete the transcript at AssemblyAI; it will expire on their retention schedule.")
     if not turns:
@@ -344,6 +458,7 @@ async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep
             "audio_duration": data.get("audio_duration"),
             "medical_mode": data.get("domain", sent.get("domain")) == "medical-v1",
             "keyterms_used": len(sent.get("keyterms_prompt") or []),
+            "audio_via": "link" if link_id else "upload",
             "warnings": warnings,
         },
     }

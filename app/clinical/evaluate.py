@@ -11,7 +11,8 @@ and each result is scored against its script and its hand-checked saved note.
 Synthetic voices are cleaner than clinic audio, so these numbers are an upper
 bound; they catch integration and parameter problems, not real-world accuracy.
 
-A run is started at most once per EVAL_MIN_INTERVAL_S and runs in the background;
+A run is started at most once per EVAL_MIN_INTERVAL_S (and once after each deploy)
+and runs in the background;
 GET /api/eval/public returns the last results (no secrets, synthetic data only).
 """
 from __future__ import annotations
@@ -204,7 +205,7 @@ async def _one(sample: dict) -> dict:
         timings["final_transcript_s"] = round(time.monotonic() - t0, 1)
         turns = tr["turns"]
         meta = tr["meta"]
-        out["speech"] = {"model": meta.get("speech_model_used"), "medical_mode": meta.get("medical_mode"),
+        out["speech"] = {"model": meta.get("speech_model_used"), "medical_mode": meta.get("medical_mode"), "audio_via": meta.get("audio_via"),
                          "keyterms": meta.get("keyterms_used"), "audio_s": meta.get("audio_duration"),
                          "warnings": meta.get("warnings", []), "turns": len(turns)}
 
@@ -274,7 +275,7 @@ async def run_all() -> dict:
     rows = []
     for sample in fixtures.samples():
         rows.append(await _one(sample))
-    result = {"status": "done", "started_at": started,
+    result = {"status": "done", "build": config.build_id(), "started_at": started,
               "finished_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
               "summary": _summary(rows), "results": rows}
     _results_path().write_text(json.dumps(result, ensure_ascii=False, indent=1))
@@ -297,7 +298,8 @@ def status() -> dict:
             age = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(last["finished_at"])).total_seconds()
         except ValueError:
             age = None
-    if age is not None and age < EVAL_MIN_INTERVAL_S:
+    same_build = bool(last) and last.get("build") == config.build_id()
+    if age is not None and age < EVAL_MIN_INTERVAL_S and same_build:
         return {**last, "next_run_after_s": int(EVAL_MIN_INTERVAL_S - age)}
     _task = asyncio.get_running_loop().create_task(run_all())
     return {"status": "started", "detail": "Running the five voiced sample visits; check back in about five minutes.",
