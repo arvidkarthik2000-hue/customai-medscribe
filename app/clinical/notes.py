@@ -37,10 +37,10 @@ Rules:
 1. Document only what was said in this visit's transcript. Never add findings, history, results, diagnoses, plans, doses or numbers that nobody said.
 2. The chart context is not part of the visit. Use it only to spell names correctly and to recognise what people refer to (for example "my blood pressure pill"). Never present a chart fact as something said today. If the clinician reviewed a chart item aloud, document it and cite those turns.
 3. Every item cites the transcript turn ids (such as "t12") that support it: all the turns needed, and no others.
-4. Item status: "documented" for history, findings and plans stated in the visit; "negative" for pertinent negatives the patient denied or a normal finding the clinician stated; "not_discussed" only for a section nobody addressed (one item with the text "Not discussed" and no evidence).
-5. Medicines: write generic names in "name". Never add a brand name. If someone said a brand, put exactly what they said in "as_spoken". Copy dose, unit, frequency and duration exactly as said and leave a field empty ("") when it was not said; never take a dose from the chart. Route may be "oral" for tablets and capsules when obvious. action is one of start, stop, change, continue, hold or discussed; use discussed for anything mentioned or considered but not started, including anything the clinician retracted.
+4. Item status: "documented" for history, findings and plans stated in the visit; "negative" for pertinent negatives the patient denied or a normal finding the clinician stated; "not_discussed" only for a section nobody addressed (one item with the text "Not discussed" and no evidence). When the clinician asks about several symptoms and the patient denies only some of them, record only the ones denied.
+5. Medicines: write generic names in "name". Never add a brand name. If someone said a brand, put exactly what they said in "as_spoken". If someone describes a medicine instead of naming it ("my birth control pill", "my water pill") and the chart lists exactly one medicine that fits, write that medicine's generic name in "name" and what was said in "as_spoken". Copy dose, unit, frequency and duration as said and leave a field empty ("") when it was not said; never take a dose from the chart. "dose" is the amount per dose as a number only ("1000", "0.5"); "unit" is its unit (mg, mcg, g, mL, units, puffs); words such as "up to", a number of tablets and when to take it go in "frequency" (for "500 mg, up to 2 tablets three times a day as needed": dose "500", unit "mg", frequency "up to 2 tablets three times a day as needed"). Route may be "oral" for tablets and capsules when obvious. action is one of start, stop, change, continue, hold or discussed; use discussed for anything mentioned or considered but not started, including anything the clinician retracted.
 6. Retractions win. If the clinician proposes something and then takes it back ("actually, let's hold off on that"), it is not part of the plan; record it only as considered and not started.
-7. Never invent, convert or round numbers. Copy vital signs, doses and results exactly as spoken.
+7. Never invent, convert or round numbers. Copy vital signs, doses and results exactly as spoken. Writing "1,000" as "1000" or "milligrams" as "mg" is fine; changing a value or a unit is not.
 8. Put anything you are unsure of (unclear wording, conflicting statements, a medicine name that may be misheard) in "uncertain" with its turn ids.
 9. speaker_roles: give every speaker label one role: clinician, patient, caregiver, other or unknown.
 10. Diagnoses: ICD-10-CM codes only, the most specific code that what was said supports. No CPT, E/M levels or billing advice.
@@ -250,6 +250,7 @@ async def generate_note(turns: list[dict], chart: dict | None, *, template: str,
     data, meta = await call_structured(model=model, system=SYSTEM, user=user,
                                        json_schema=schema.note_schema(template), max_tokens=16000, effort=effort)
     note = notemodel.normalise(data, template, turns)
+    notemodel.reconcile_with_chart(note, chart)
     return note, meta
 
 

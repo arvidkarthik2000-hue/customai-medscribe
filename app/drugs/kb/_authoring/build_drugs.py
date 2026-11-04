@@ -407,7 +407,7 @@ drug("alendronate", ["Fosamax"], ["bisphosphonate"], rxcui="46041", spec=FM + EN
 drug("risedronate", ["Actonel"], ["bisphosphonate"], spec=ENDO)
 drug("testosterone", ["AndroGel", "Testim", "Depo-Testosterone"], ["androgen"], sched="CIII", boxed=True, rxcui="10379", spec=ENDO)
 drug("estradiol", ["Estrace", "Vivelle-Dot", "Climara"], ["estrogen"], boxed=True, rxcui="4083", spec=FM + ENDO)
-drug("ethinyl estradiol-norethindrone", ["Loestrin", "Junel"], ["estrogen"], boxed=True, spec=FM, ingredients=["ethinyl estradiol", "norethindrone"], aliases=["birth control pill", "combined oral contraceptive"])
+drug("ethinyl estradiol-norethindrone", ["Loestrin", "Junel"], ["estrogen"], boxed=True, spec=FM, ingredients=["ethinyl estradiol", "norethindrone"])  # no lay aliases: "birth control pill" is matched to the chart instead
 drug("medroxyprogesterone", ["Provera", "Depo-Provera"], ["hormone_other"], boxed=True, spec=FM)
 drug("norgestimate-ethinyl estradiol", ["Sprintec", "Tri-Sprintec", "Ortho Tri-Cyclen"], ["estrogen"], boxed=True, spec=FM, ingredients=["norgestimate", "ethinyl estradiol"], aliases=["norgestimate/ethinyl estradiol", "norgestimate and ethinyl estradiol"])
 drug("levonorgestrel-ethinyl estradiol", ["Aviane", "Seasonique", "Levora"], ["estrogen"], boxed=True, spec=FM, ingredients=["levonorgestrel", "ethinyl estradiol"], aliases=["levonorgestrel/ethinyl estradiol"])

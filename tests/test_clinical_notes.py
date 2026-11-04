@@ -336,3 +336,65 @@ def test_sign_gate_blocks_existing_criticals_and_new_safety_warnings():
     visit["cards_ack"]["e"] = {"reason": "ok"}
     assert notemodel.blockers(visit) == []
     assert notemodel.blockers({"status": "processing"}) == ["The note is not ready yet."]
+
+
+@pytest.mark.parametrize("dose,unit,freq,expected", [
+    ("up to 1,000 milligrams", "", "every 8 hours as needed for fever", ("1000", "mg", "up to every 8 hours as needed for fever")),
+    ("Up to 1,000 milligrams", "", "three times a day", ("1000", "mg", "up to three times a day")),
+    ("500 mg, up to 2 tablets", "mg", "three times a day as needed", ("500", "mg", "up to 2 tablets three times a day as needed")),
+    ("500", "mg", "up to 2 tablets three times daily as needed", ("500", "mg", "up to 2 tablets three times daily as needed")),
+    ("10 mg", "", "", ("10", "mg", "")),
+    ("100 micrograms", "", "daily", ("100", "mcg", "daily")),
+    # left alone: ranges, fractions, combination strengths, counts, disagreeing fields
+    ("1-2", "tablets", "every 6 hours", ("1-2", "tablets", "every 6 hours")),
+    ("1/2", "tablet", "daily", ("1/2", "tablet", "daily")),
+    ("0.25/0.035", "mg", "once daily", ("0.25/0.035", "mg", "once daily")),
+    ("2 tablets", "", "twice daily", ("2 tablets", "", "twice daily")),
+    ("5 mg", "mcg", "daily", ("5 mg", "mcg", "daily")),
+])
+def test_split_dose(dose, unit, freq, expected):
+    assert notemodel.split_dose(dose, unit, freq) == expected
+
+
+def test_normalise_splits_medicine_doses():
+    note = notemodel.normalise({"medications": [
+        {"name": "acetaminophen", "dose": "Up to 1,000 milligrams", "unit": "", "frequency": "three times a day",
+         "action": "continue", "evidence": ["t24"]}]}, "soap")
+    m = note["medications"][0]
+    assert (m["dose"], m["unit"], m["frequency"]) == ("1000", "mg", "up to three times a day")
+
+
+def test_described_medicine_takes_the_one_chart_match():
+    chart = fixtures.patient("p3")  # norgestimate and ethinyl estradiol for contraception, cetirizine
+    note = {"medications": [{"id": "m1", "name": "oral contraceptive", "as_spoken": "birth control pill",
+                             "action": "continue", "evidence": ["t8"]},
+                            {"id": "m2", "name": "cephalexin", "as_spoken": "cephalexin", "action": "start", "evidence": ["t18"]}]}
+    notemodel.reconcile_with_chart(note, chart)
+    m1, m2 = note["medications"]
+    assert m1["name"] == "norgestimate and ethinyl estradiol" and m1["as_spoken"] == "birth control pill"
+    assert m1["matched_from_chart"] is True
+    assert m2["name"] == "cephalexin" and "matched_from_chart" not in m2
+
+
+def test_described_medicine_stays_as_said_when_ambiguous_or_absent():
+    two = {"medications": [{"name": "warfarin", "indication": "atrial fibrillation"},
+                           {"name": "clopidogrel", "indication": "stent"}]}
+    note = {"medications": [{"name": "blood thinner", "as_spoken": "my blood thinner"}]}
+    notemodel.reconcile_with_chart(note, two)
+    assert note["medications"][0]["name"] == "blood thinner"
+    none = {"medications": [{"name": "lisinopril"}]}
+    note = {"medications": [{"name": "birth control pill", "as_spoken": "birth control pill"}]}
+    notemodel.reconcile_with_chart(note, none)
+    assert note["medications"][0]["name"] == "birth control pill"
+
+
+def test_birth_control_is_not_an_alias_of_one_product():
+    from app.drugs.kb import kb
+    assert kb().lookup("birth control pill") is None
+    assert kb().lookup("combined oral contraceptive") is None
+
+
+def test_prompt_rules_for_doses_descriptions_and_partial_denials():
+    assert '"dose" is the amount per dose as a number only' in notes.SYSTEM
+    assert "my birth control pill" in notes.SYSTEM and "chart lists exactly one medicine" in notes.SYSTEM
+    assert "denies only some of them, record only the ones denied" in notes.SYSTEM

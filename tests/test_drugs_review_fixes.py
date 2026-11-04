@@ -359,3 +359,10 @@ def test_pharmacy_check_takes_weight_potassium_and_sodium():
     r2 = check_list([row("potassium chloride", "20", unit="mEq", frequency="daily")],
                     {"age": 70, "potassium": 5.4, "problems": []})
     assert r2["patient_context"]["potassium"] == 5.4
+
+
+def test_dose_mg_reads_spelled_out_units():
+    from app.drugs import doses
+    assert doses.dose_mg("up to 1,000 milligrams", None) == 1000.0
+    assert doses.dose_mg("250 micrograms", "") == 0.25
+    assert doses.dose_mg("2 grams", None) == 2000.0

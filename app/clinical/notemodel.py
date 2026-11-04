@@ -35,6 +35,49 @@ def _lower_enum(v, allowed: list[str], default: str) -> str:
     return s if s in allowed else default
 
 
+# ---------------------------------------------------------------- medicine fields
+
+_UNIT_WORDS = {
+    "mg": "mg", "milligram": "mg", "milligrams": "mg",
+    "mcg": "mcg", "µg": "mcg", "ug": "mcg", "microgram": "mcg", "micrograms": "mcg",
+    "g": "g", "gram": "g", "grams": "g",
+    "ml": "mL", "milliliter": "mL", "milliliters": "mL", "millilitre": "mL", "millilitres": "mL",
+    "unit": "units", "units": "units", "iu": "IU", "meq": "mEq",
+}
+_QUALIFIER = re.compile(r"^(up to|no more than|not more than|at most|maximum of|max of|maximum|max)\s+", re.I)
+_AMOUNT = re.compile(r"^(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)(?!\s*[-–/])\s*([a-zA-Zµ]+)?(?![\w/.\-–])\s*(.*)$")
+
+
+def split_dose(dose: str, unit: str, frequency: str) -> tuple[str, str, str]:
+    """'up to 1,000 milligrams' -> ('1000', 'mg', 'up to <frequency>'); '500 mg, up to 2 tablets' ->
+    ('500', 'mg', 'up to 2 tablets <frequency>'). Anything it does not recognise is left as it was."""
+    d, u, f = _str(dose), _str(unit), _str(frequency)
+    if not d:
+        return d, u, f
+    qualifier = ""
+    m = _QUALIFIER.match(d)
+    if m:
+        qualifier, d = m.group(1).lower(), d[m.end():]
+    m = _AMOUNT.match(d)
+    if not m:
+        return _str(dose), u, f
+    number, word, rest = m.group(1).replace(",", ""), (m.group(2) or ""), m.group(3).strip(" ,;")
+    if word:
+        said = _UNIT_WORDS.get(word.lower())
+        if said is None:
+            return _str(dose), u, f  # "2 tablets", "1 puff": not an amount with a unit
+        known = _UNIT_WORDS.get(u.lower(), u) if u else ""
+        if known and known != said:
+            return _str(dose), u, f  # the fields disagree: leave them for the clinician
+        u = said
+    elif u:
+        u = _UNIT_WORDS.get(u.lower(), u)
+    extra = " ".join(x for x in (qualifier if not rest.lower().startswith(qualifier or "\0") else "", rest) if x).strip()
+    if extra and extra.lower() not in f.lower():
+        f = f"{extra} {f}".strip()
+    return number, u, f
+
+
 def normalise(raw: dict, template: str, turns: list[dict] | None = None) -> dict:
     """raw: the structured output (sections keyed by id) or a saved note."""
     raw = copy.deepcopy(raw or {})
@@ -83,10 +126,11 @@ def normalise(raw: dict, template: str, turns: list[dict] | None = None) -> dict
                 n += 1
                 mid = f"m{n}"
         med_ids.add(mid)
+        dose, unit, frequency = split_dose(m.get("dose"), m.get("unit"), m.get("frequency"))
         meds.append({
             "id": mid, "name": name, "as_spoken": _str(m.get("as_spoken")) or name,
-            "dose": _str(m.get("dose")), "unit": _str(m.get("unit")), "route": _str(m.get("route")),
-            "frequency": _str(m.get("frequency")), "duration": _str(m.get("duration")),
+            "dose": dose, "unit": unit, "route": _str(m.get("route")),
+            "frequency": frequency, "duration": _str(m.get("duration")),
             "action": _lower_enum(m.get("action"), MED_ACTIONS, "discussed"),
             "indication": _str(m.get("indication")), "evidence": _ev(m.get("evidence")),
             "verdict": "unchecked", "verdict_reason": "",
@@ -231,3 +275,53 @@ def blockers(visit: dict) -> list[str]:
 
 def section_title_for(template: str, section_id: str) -> str:
     return section_title(template, section_id)
+
+
+# ---------------------------------------------------------------- chart reconciliation
+
+# Lay descriptions of a medicine and the drug classes they can mean. A description is matched
+# to the chart only when exactly one chart medicine fits, so "my blood thinner" with warfarin
+# and aspirin on the chart stays as said.
+_DESCRIPTIONS = [
+    (re.compile(r"\b(birth control|contracepti|the pill)", re.I), {"estrogen", "progestin"}, re.compile(r"contracept", re.I)),
+    (re.compile(r"\bwater pills?\b|\bdiuretic", re.I), {"thiazide", "loop", "k_sparing"}, None),
+    (re.compile(r"\bblood thinners?\b", re.I), {"anticoagulant", "doac", "antiplatelet", "p2y12", "heparin_class"}, None),
+    (re.compile(r"\bcholesterol (pills?|medicines?|medications?|tablets?)\b", re.I), {"statin"}, None),
+    (re.compile(r"\bstatin\b", re.I), {"statin"}, None),
+]
+
+
+def reconcile_with_chart(note: dict, chart: dict | None) -> None:
+    """Name a medicine the visit only described ("my birth control pill") after the one chart
+    medicine it can mean. Leaves everything else alone; the clinician confirms every medicine."""
+    chart_meds = [m for m in (chart or {}).get("medications") or [] if _str(m.get("name"))]
+    if not chart_meds or not note.get("medications"):
+        return
+    try:
+        from app.drugs.kb import kb
+
+        k = kb()
+    except Exception:  # noqa: BLE001 - the drug layer is optional here
+        return
+
+    def classes(name: str) -> set[str]:
+        g = k.lookup(name)
+        d = k.drugs.get(g) if g else None
+        return set(getattr(d, "classes", None) or set()) | set(getattr(d, "own_classes", None) or [])
+
+    for med in note["medications"]:
+        name = _str(med.get("name"))
+        if k.lookup(name):
+            continue  # a medicine the drug checks know: keep it
+        said = f"{name} {_str(med.get('as_spoken'))}"
+        for pattern, wanted, indication in _DESCRIPTIONS:
+            if not pattern.search(said):
+                continue
+            fits = [c for c in chart_meds
+                    if classes(c["name"]) & wanted or (indication and indication.search(_str(c.get("indication"))))]
+            if len(fits) == 1:
+                if _str(med.get("as_spoken")) in ("", name):
+                    med["as_spoken"] = name
+                med["name"] = _str(fits[0]["name"])
+                med["matched_from_chart"] = True
+            break

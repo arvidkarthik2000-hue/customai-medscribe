@@ -63,7 +63,7 @@ def dose_mg(dose, unit: str | None) -> float | None:
     value = float(m.group(1))
     u = (unit or "").lower().strip()
     if not u:
-        um = re.search(r"\d\s*(mg|mcg|µg|ug|g)\b", text)
+        um = re.search(r"\d\s*(mg|mcg|µg|ug|g|milligrams?|micrograms?|grams?)\b", text)
         u = um.group(1) if um else ""
     if u in ("mg", "milligram", "milligrams"):
         return value

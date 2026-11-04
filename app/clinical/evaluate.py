@@ -77,7 +77,8 @@ def _generic(name: str | None) -> str:
 
 
 def _numbers(text: str | None) -> list[str]:
-    return re.findall(r"\d+(?:\.\d+)?", str(text or ""))
+    """Numbers in a dose field; "1,000" and "1000" are the same number."""
+    return re.findall(r"\d+(?:\.\d+)?", re.sub(r"(?<=\d),(?=\d{3}\b)", "", str(text or "")))
 
 
 def _speaker_mapping(script_turns: list[dict], asr_turns: list[dict]) -> tuple[dict[str, str], float]:

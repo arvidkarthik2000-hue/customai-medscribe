@@ -70,6 +70,13 @@ LANDING_URL = ("https://data.cms.gov/provider-summary-by-type-of-service/medicar
 LAYOUT_URL = "https://data.cms.gov/sites/default/files/2025-10/0564eb37-402d-4110-bd98-2d5399dc30e7/PUFRecordLayout-2026.pdf"
 SPUF_RE = re.compile(r"SPUF[_.](20\d\d)[_.](\d{8})", re.I)
 MAX_AGE_DAYS = 120
+NEWER_CHECK_DAYS = 7  # how often a saved subset looks for a newer quarterly release
+# data.gov's copy of the dataset can lag (its listing stopped at January 2026), so the
+# catalog search and data.cms.gov's own catalog (DCAT data.json) are read too.
+CATALOG_SEARCH = ("https://catalog.data.gov/api/3/action/package_search"
+                  "?q=%22Quarterly%20Prescription%20Drug%20Plan%20Formulary%22&rows=20")
+DCAT_URL = "https://data.cms.gov/data.json"
+DCAT_MAX_CHARS = 150_000_000
 STATE_NAME = os.environ.get("PARTD_STATE_NAME", "New Jersey")
 STATE_CODE = os.environ.get("PARTD_STATE_CODE", "NJ")
 SSA_STATE_PREFIX = os.environ.get("PARTD_SSA_STATE", "31")  # SSA state code for New Jersey (fallback only)
@@ -143,6 +150,7 @@ def reset() -> None:
         _status.clear()
         _status.update(_INITIAL)
     _cache.update({"key": None, "data": None})
+    _discovered.update({"at": 0.0, "value": None})
 
 
 def data_dir() -> Path:
@@ -230,6 +238,9 @@ def _start(force: bool) -> None:
         _set("ready", _ready_detail(existing, age), release=existing.get("release_label"),
              source_url=existing.get("source_url"), finished_at=existing.get("built_at"))
         if age is not None and age < MAX_AGE_DAYS and not force:
+            if _autoload_off(False) is None and _check_due() and not (_thread is not None and _thread.is_alive()):
+                _thread = threading.Thread(target=_check_newer, name="partd-check", daemon=True)
+                _thread.start()
             return
     off = _autoload_off(force)
     if off:
@@ -278,42 +289,134 @@ def _client() -> httpx.Client:
 LINK_RE = re.compile(r"""(?:https?://[^"'\s<>]+)?/sites/default/files/[^"'\s<>]*?SPUF[_.]20\d\d[_.]\d{8}[^"'\s<>/]*\.zip""", re.I)
 
 
+SPUF_URL_RE = re.compile(r"""https?://[^"'\s<>]+?SPUF[_.]20\d\d[_.]\d{8}[^"'\s<>/]*\.zip""", re.I)
+_discovered: dict = {"at": 0.0, "value": None}
+
+
+def _ckan_candidates(client: httpx.Client) -> list[str]:
+    """SPUF zip URLs from data.gov: the dataset record, and every record a title search finds."""
+    urls: list[str] = []
+    for api in (CATALOG_API, CATALOG_SEARCH):
+        try:
+            r = client.get(api, timeout=30.0)
+            r.raise_for_status()
+            result = (r.json() or {}).get("result") or {}
+            packages = result.get("results") if isinstance(result.get("results"), list) else [result]
+            for pkg in packages:
+                for res in (pkg or {}).get("resources") or []:
+                    url = (res or {}).get("url") or ""
+                    if url and SPUF_RE.search(url) and url.lower().split("?")[0].endswith(".zip"):
+                        urls.append(url)
+        except (httpx.HTTPError, ValueError, AttributeError) as exc:
+            log.info("catalog lookup failed (%s): %s", api.split("?")[0], exc)
+    return urls
+
+
+def _dcat_candidates(client: httpx.Client) -> list[str]:
+    """SPUF zip URLs listed in data.cms.gov's own catalog, read as a stream."""
+    urls: list[str] = []
+    tail, seen = "", 0
+    try:
+        with client.stream("GET", DCAT_URL, timeout=httpx.Timeout(30.0, read=120.0)) as r:
+            if r.status_code != 200:
+                log.info("data.cms.gov catalog answered HTTP %s", r.status_code)
+                return []
+            for chunk in r.iter_text():
+                seen += len(chunk)
+                text = (tail + chunk).replace("\\/", "/")
+                urls += SPUF_URL_RE.findall(text)
+                tail = text[-500:]
+                if seen > DCAT_MAX_CHARS:
+                    break
+    except httpx.HTTPError as exc:
+        log.info("data.cms.gov catalog lookup failed: %s", exc)
+    return urls
+
+
+def _release_key(url: str) -> tuple[int, str]:
+    m = SPUF_RE.search(url)
+    return (int(m.group(1)), m.group(2)) if m else (0, "")
+
+
+def pick_newest(urls: list[str], today: date | None = None) -> str | None:
+    """The newest release for a contract year already in effect (a file for next year can appear
+    in December; it describes plans that have not started yet)."""
+    today = today or date.today()
+    uniq = list(dict.fromkeys(u for u in urls if SPUF_RE.search(u)))
+    if not uniq:
+        return None
+    current = [u for u in uniq if _release_key(u)[0] <= today.year]
+    return max(current or uniq, key=_release_key)
+
+
 def discover(client: httpx.Client) -> tuple[str, str]:
-    """(zip URL, how it was found): PARTD_ZIP_URL, else the data.gov catalog (CKAN), else links
-    on the CMS landing page, else a known release."""
+    """(zip URL, how it was found): PARTD_ZIP_URL, else the newest release listed by data.gov or
+    data.cms.gov, else links on the CMS landing page, else a known release."""
     override = os.environ.get("PARTD_ZIP_URL", "").strip()
     if override:
         return override, "PARTD_ZIP_URL"
-    try:
-        r = client.get(CATALOG_API, timeout=30.0)
-        r.raise_for_status()
-        resources = ((r.json() or {}).get("result") or {}).get("resources") or []
-        found = []
-        for res in resources:
-            url = (res or {}).get("url") or ""
-            m = SPUF_RE.search(url) or SPUF_RE.search((res or {}).get("name") or "")
-            if url and m and url.lower().split("?")[0].endswith(".zip"):
-                found.append((m.group(2), url))
-        if found:
-            found.sort(reverse=True)
-            return found[0][1], "data.gov catalog (newest quarterly release)"
-    except (httpx.HTTPError, ValueError, AttributeError) as exc:
-        log.info("catalog lookup failed: %s", exc)
+    if _discovered["value"] and time.monotonic() - _discovered["at"] < 600:
+        return _discovered["value"]
+    ckan = _ckan_candidates(client)
+    dcat = _dcat_candidates(client)
+    best = pick_newest(ckan + dcat)
+    if best:
+        n = len(set(ckan + dcat))
+        where = "data.cms.gov catalog" if best in dcat and best not in ckan else "data.gov catalog"
+        value = (best, f"{where} (newest of {n} quarterly releases listed)")
+        _discovered.update({"at": time.monotonic(), "value": value})
+        return value
     try:
         r = client.get(LANDING_URL, timeout=30.0)
         if r.status_code == 200:
             found = []
             for link in LINK_RE.findall(r.text.replace("\\/", "/")):
                 url = link if link.lower().startswith("http") else "https://data.cms.gov" + link
-                m = SPUF_RE.search(url)
-                if m:
-                    found.append((m.group(2), url))
-            if found:
-                found.sort(reverse=True)
-                return found[0][1], "CMS landing page (newest quarterly release)"
+                if SPUF_RE.search(url):
+                    found.append(url)
+            best = pick_newest(found)
+            if best:
+                return best, "CMS landing page (newest quarterly release)"
     except httpx.HTTPError as exc:
         log.info("landing page lookup failed: %s", exc)
     return FALLBACK_URL, "known release (catalog unavailable)"
+
+
+# ---------------------------------------------------------------- newer-release check
+
+def _check_marker() -> Path:
+    return data_dir() / "newest_check.json"
+
+
+def _check_due() -> bool:
+    try:
+        data = json.loads(_check_marker().read_text(encoding="utf-8"))
+        checked = datetime.fromisoformat(data["checked_at"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return True
+    return (datetime.now(timezone.utc) - checked).total_seconds() > NEWER_CHECK_DAYS * 86400
+
+
+def _mark_checked(url: str, how: str) -> None:
+    try:
+        _check_marker().write_text(json.dumps({"checked_at": _now(), "newest": url, "found_via": how}), encoding="utf-8")
+    except OSError as exc:
+        log.info("could not save the newer-release check: %s", exc)
+
+
+def _check_newer() -> None:
+    """Background: if CMS lists a newer release than the saved subset, rebuild from it."""
+    try:
+        with _client() as client:
+            url, how = discover(client)
+        _mark_checked(url, how)
+        newest, _ = release_from_url(url)
+        current = (ready() or {}).get("release_date")
+        if newest and current and newest > current:
+            log.info("Part D: newer release %s found (saved subset is %s); rebuilding", newest, current)
+            _loop()
+    except Exception as exc:  # noqa: BLE001 - a failed check keeps the saved subset
+        log.info("Part D newer-release check failed: %s", exc)
 
 
 def release_from_url(url: str) -> tuple[str | None, int | None]:
@@ -971,6 +1074,7 @@ def _build(generics: list[str] | None, client: httpx.Client | None) -> dict:
     workdir.mkdir(parents=True, exist_ok=True)
     try:
         url, how = discover(client)
+        _mark_checked(url, how)
         rel, year = release_from_url(url)
         label, text = release_label(rel, year), release_text(rel, year)
         _progress(f"Reading the CMS file ({label}) with range requests…", release=label, source_url=url)

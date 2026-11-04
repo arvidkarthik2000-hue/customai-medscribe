@@ -208,7 +208,7 @@ export async function render(root, { visitId }, ctx) {
       match.reason && match.status !== "matched" ? el("div", { class: "muted small" }, match.reason) : null,
       match.status === "ambiguous" ? ambiguousPicker(m) : null,
       match.status === "unmatched" ? el("div", { class: "small", style: { color: "var(--critical)" } }, "Not found in RxNorm: check the name") : null,
-      m.as_spoken && m.as_spoken.toLowerCase() !== (m.name || "").toLowerCase() ? el("div", { class: "muted small" }, `Heard as “${m.as_spoken}”`) : null,
+      m.as_spoken && m.as_spoken.toLowerCase() !== (m.name || "").toLowerCase() ? el("div", { class: "muted small" }, m.matched_from_chart ? `Heard as “${m.as_spoken}”; named from the chart's medication list` : `Heard as “${m.as_spoken}”`) : null,
       evidenceChips(m.evidence));
     const doseText = [m.dose && `${m.dose}${m.unit ? " " + m.unit : ""}`, m.route, m.frequency, m.duration].filter(Boolean).join(" · ") || "Not stated";
     const dc = m.dose_check || {};

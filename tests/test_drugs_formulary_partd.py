@@ -380,7 +380,8 @@ def test_catalog_down_and_no_range_support_uses_known_release_and_whole_download
 
 def test_discovery_order(web, monkeypatch):
     client = partd._client()
-    assert partd.discover(client) == (ZIP_URL, "data.gov catalog (newest quarterly release)")
+    assert partd.discover(client) == (ZIP_URL, "data.gov catalog (newest of 2 quarterly releases listed)")
+    partd.reset()  # forget the cached answer
     web.catalog = False
     landing = ('<a href="/sites/default/files/2025-10/aa/SPUF_2025_20251015.zip">Q4 2025</a>'
                '{"downloadURL":"https:\\/\\/data.cms.gov\\/sites\\/default\\/files\\/2026-07\\/bb\\/SPUF_2026_20260709.zip"}')
@@ -466,3 +467,69 @@ def test_no_network_fails_fast_and_keeps_the_sample(web, monkeypatch):
     st = partd.status()
     assert st["state"] == "failed" and "Could not reach the CMS file server" in st["detail"] and "sample formulary" in st["detail"]
     assert formulary.loader_status()["source"] == "sample" and formulary.plans()[0]["data"] == "sample"
+
+
+
+def test_pick_newest_prefers_the_year_in_effect():
+    urls = ["https://x/SPUF_2024_20250430_2024Q3.zip", "https://x/SPUF_2025_20250410.zip",
+            "https://x/SPUF_2026_20261008.zip", "https://x/SPUF_2026_20260709.zip", "https://x/SPUF_2027_20261204.zip"]
+    from datetime import date as _date
+    assert partd.pick_newest(urls, today=_date(2026, 12, 20)) == "https://x/SPUF_2026_20261008.zip"
+    assert partd.pick_newest(urls, today=_date(2027, 1, 2)) == "https://x/SPUF_2027_20261204.zip"
+    # a back-filled older quarter released later does not beat a newer contract year
+    assert partd.pick_newest(urls[:2], today=_date(2026, 1, 1)) == "https://x/SPUF_2025_20250410.zip"
+    assert partd.pick_newest(["https://x/readme.pdf"]) is None
+
+
+def test_data_cms_catalog_lists_a_newer_release_than_data_gov(web, monkeypatch):
+    dcat = ('{"dataset":[{"title":"Quarterly Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information",'
+            '"distribution":[{"downloadURL":"https:\\/\\/data.cms.gov\\/sites\\/default\\/files\\/2026-10\\/cc\\/SPUF_2026_20261008.zip"},'
+            '{"downloadURL":"https://data.cms.gov/sites/default/files/2026-07/bb/SPUF_2026_20260709.zip"}]}]}')
+    real_handle = web.handle
+
+    def handle(request):
+        if str(request.url) == partd.DCAT_URL:
+            return httpx.Response(200, text=dcat)
+        return real_handle(request)
+
+    monkeypatch.setattr(partd, "transport", httpx.MockTransport(handle))
+    url, how = partd.discover(partd._client())
+    assert url == "https://data.cms.gov/sites/default/files/2026-10/cc/SPUF_2026_20261008.zip"
+    assert how == "data.cms.gov catalog (newest of 4 quarterly releases listed)"
+
+
+def test_saved_subset_checks_weekly_for_a_newer_release(web, monkeypatch):
+    partd.run(generics=GENERICS)  # built from the January 2026 file; the check is marked as done
+    started = []
+
+    class FakeThread:
+        def __init__(self, *a, target=None, name=None, **k):
+            started.append(name)
+            self.target = target
+
+        def start(self):
+            pass
+
+        def is_alive(self):
+            return False
+
+    monkeypatch.setattr(partd.threading, "Thread", FakeThread)
+    monkeypatch.setattr(partd, "_thread", None)
+    monkeypatch.setattr(partd, "_autoload_off", lambda force: None)
+    partd.reset()
+    partd.start_background()
+    assert started == []  # checked just now
+    partd._check_marker().write_text('{"checked_at": "2026-01-01T00:00:00+00:00"}')
+    partd.reset()
+    partd.start_background()
+    assert started == ["partd-check"]
+
+    rebuilt = []
+    monkeypatch.setattr(partd, "_loop", lambda: rebuilt.append(True))
+    monkeypatch.setattr(partd, "discover", lambda client: ("https://x/SPUF_2026_20261008.zip", "data.cms.gov catalog"))
+    partd._check_newer()
+    assert rebuilt == [True]  # newer than the saved January subset: rebuild
+    monkeypatch.setattr(partd, "discover", lambda client: (ZIP_URL, "data.gov catalog"))
+    partd._check_newer()
+    assert rebuilt == [True]  # same release: nothing to do
+    assert not partd._check_due()

@@ -53,3 +53,9 @@ def test_status_disabled_without_keys(monkeypatch):
 
     monkeypatch.setattr(evaluate.config, "settings", S())
     assert evaluate.status()["status"] == "disabled"
+
+
+def test_dose_numbers_ignore_thousands_separators():
+    from app.clinical import evaluate
+    assert evaluate._numbers("up to 1,000 milligrams") == ["1000"]
+    assert evaluate._numbers("0.25/0.035") == ["0.25", "0.035"]
