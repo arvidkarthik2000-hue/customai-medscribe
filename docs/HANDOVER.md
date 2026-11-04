@@ -78,20 +78,16 @@ Synthetic data only. Stop and report if a step's pass check fails.
 
    Then add tests that parse each one through the real client code.
    *Pass:* `pytest` passes with them.
-5. **Optional: real Medicare Part D formulary.**
-   1. Read the CMS Part D public use file's terms of use first, and stop if they
-      bar this use.
-   2. Download the latest quarterly "Prescription Drug Plan Formulary, Pharmacy
-      Network, and Pricing Information" file from data.cms.gov.
-   3. Extract two real plans covering New Jersey (one standalone PDP, one MA-PD),
-      keeping only the drugs in `app/drugs/kb/drugs.json` (match by RXCUI).
-   4. Write `app/drugs/kb/formulary_partd.json` in the same structure as the
-      sample formulary, with the quarter and the source URL.
-   5. Change the plan names, the formulary label and the README to the real
-      source. Keep the sample as a fallback.
+5. **Real Medicare Part D formulary: done.** The server builds it itself
+   (`app/drugs/partd.py`): it finds the newest quarterly public use file for the
+   current contract year through data.gov and data.cms.gov's catalog, reads only
+   the four files it needs with range requests, picks two New Jersey plans (one
+   PDP, one MA-PD) and matches the knowledge-base drugs through RxNorm. It
+   checks weekly for a newer release. `PARTD_ZIP_URL` pins a file; the sample
+   formulary is the fallback while it loads.
 
-   *Pass:* `/api/formulary/lookup` returns real tiers for both plans, and the UI
-   says which quarter.
+   *Check:* the "Medicare Part D formulary (CMS)" line on `/selftest/` names the
+   release and both plans.
 
 ## Already known
 

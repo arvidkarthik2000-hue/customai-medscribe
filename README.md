@@ -97,14 +97,25 @@ pytest                         # offline unit and API tests
 python3 tests/e2e/run_e2e.py   # browser walkthrough with a fake mic and a fake AssemblyAI
 ```
 
-## Live checks still to run
+## Live checks
 
-This workspace could not reach AssemblyAI, RxNav, openFDA or CMS, so those
-clients were built from their documentation and tested with fakes. After the
-Render deploy, `/selftest/` exercises each one. `docs/HANDOVER.md` describes a
-fuller live check for a Claude Code session with internet access: voiced test
-visits, saved real responses as test fixtures, and an optional switch from the
-sample formulary to real Medicare Part D plan data.
+`/selftest/` checks every live service on the deployed server: the AssemblyAI
+live token and final pass (sent the way a real recording is), the Claude note
+and verifier, RxNav, openFDA and the Medicare Part D data. Results are cached
+for an hour, and each deploy gets a fresh run. Anyone can read them at
+`/api/selftest/public`, which shows no secrets.
+
+`/api/eval/public` runs the five sample visits as voiced audio (synthetic
+text-to-speech voices) through the whole pipeline and scores each against its
+script and hand-checked note: transcript word error rate, drug names heard,
+medicines and doses in the note, speakers, flagged lines, and processing time.
+It runs at most every 6 hours, and once after each deploy. Synthetic voices are
+cleaner than clinic audio, so treat its numbers as an upper bound.
+
+The formulary comes from CMS's quarterly Part D public use file (the newest
+release for the current contract year, found through data.cms.gov's catalog
+and checked weekly). Two New Jersey plans are loaded: a standalone PDP and an
+MA-PD. Until that file has loaded, the screens say they show sample data.
 
 ## Production gaps (not in this demo)
 

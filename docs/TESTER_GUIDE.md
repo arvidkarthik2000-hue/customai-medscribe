@@ -45,6 +45,8 @@ Use Chrome, Edge or Safari on a laptop, and allow the microphone when asked.
   500 offices, apart from your own test impressions.
 - Each visit is limited to 20 minutes, and the link has a daily limit on live
   audio so it can stay open for testing.
-- The formulary shown is sample data in the layout of the Medicare Part D plan
-  files unless the screen says otherwise.
+- Formulary answers come from CMS's Medicare Part D public use file for two New
+  Jersey plans (one standalone drug plan, one Medicare Advantage plan). The
+  screen names the release. Coverage changes during the year, so check a real
+  prescription against the plan itself.
 - This is not a medical device. The clinician reviews and signs every note.
