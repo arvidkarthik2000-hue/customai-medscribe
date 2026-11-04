@@ -158,7 +158,17 @@ async def run_checks() -> list[dict]:
     return flat
 
 
+_lock = asyncio.Lock()
+
+
 async def selftest(force_cached_window: int = MIN_INTERVAL_S) -> dict:
+    """Run the checks, or return the last run if it is recent and from this deploy. Callers that
+    arrive during a run wait for it instead of starting another (each run costs a little)."""
+    async with _lock:
+        return await _selftest(force_cached_window)
+
+
+async def _selftest(force_cached_window: int) -> dict:
     cached, at = store.kv_get("selftest")
     if cached and cached.get("build") != config.build_id():
         cached = None  # a new deploy always gets a fresh run
