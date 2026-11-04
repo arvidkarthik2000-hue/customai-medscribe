@@ -287,7 +287,9 @@ async def stt_token(body: TokenIn, _s: dict = Depends(auth.require)):
     try:
         tok = await stt.mint_token(config.settings.max_visit_minutes * 60)
     except stt.SttError as exc:
-        raise HTTPException(502, str(exc))
+        # The full reason is for operators (logs and /selftest/), not for the doctor's screen.
+        log.warning("live token not issued: %s", exc)
+        raise HTTPException(502, "The live transcript service is unavailable right now.")
     store.audit(v["id"], "stt_token_issued", {"keyterms": len(terms["live"]), "zone": tok.zone}, actor="system")
     return {"token": tok.token, "ws_url": stt.ws_url(terms["live"], tok.ws), "expires_in": tok.expires_in,
             "zone": tok.zone, "max_session_seconds": config.settings.max_visit_minutes * 60}

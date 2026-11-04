@@ -184,6 +184,10 @@ def test_token_needs_consent_key_and_cap(client, monkeypatch):
     assert r["token"] == "tmp" and r["ws_url"].startswith("wss://streaming.assemblyai.com/v3/ws?")
     assert "keyterms_prompt" in r["ws_url"] and "token=" not in r["ws_url"]
     assert r["zone"] == "edge"
+    stt.transport = httpx.MockTransport(lambda req: httpx.Response(401, json={"error": "Temp token cannot create temp token"}))
+    bad = client.post("/api/stt/token", json={"visit_id": vid})
+    assert bad.status_code == 502 and bad.json()["detail"] == "The live transcript service is unavailable right now."
+    stt.transport = httpx.MockTransport(lambda req: httpx.Response(200, json={"token": "tmp", "expires_in_seconds": 600}))
     store.usage_set("audio_seconds", config.settings.daily_audio_minutes * 60)
     assert client.post("/api/stt/token", json={"visit_id": vid}).status_code == 409
     assert client.post(f"/api/visits/{vid}/consent", json={"consented": False}).status_code == 400
