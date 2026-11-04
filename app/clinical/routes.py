@@ -625,6 +625,14 @@ async def public_selftest():
     return await selftest.selftest(force_cached_window=3600)
 
 
+@router.get("/bench/primock57/public")
+async def public_bench_primock57():
+    """Speech benchmark on PriMock57 (public mock consultations); runs once per deploy."""
+    from ..bench import primock
+
+    return primock.status()
+
+
 @router.get("/eval/public")
 async def public_eval():
     """End-to-end accuracy run on the five voiced sample visits (at most every 6 hours)."""
