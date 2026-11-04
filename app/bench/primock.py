@@ -134,20 +134,24 @@ def score_file(ref: str, hyp: str, lookup) -> dict:
                 (swaps if other else misses).append(f"{ref_w} -> {hyp_w or '(dropped)'}")
         i += 1
     neg_total = neg_kept = 0
+    neg_examples = []
     j = 0
     ops = align(rw, hw)
-    for op, ref_w, _ in ops:
+    for k, (op, ref_w, _) in enumerate(ops):
         if op == "insertion":
             continue
         if ref_w in NEG and any(mw._is_medical(x, terms) for x in rw[j + 1:j + 5]):
             neg_total += 1
             neg_kept += op == "correct"
+            if op != "correct" and len(neg_examples) < 3:
+                window = ops[max(0, k - 3):k + 5]
+                neg_examples.append(" ".join(x[1] for x in window if x[1]) + "  =>  " + " ".join(x[2] for x in window if x[2]))
         j += 1
     errors = sum(1 for op, _, _ in ops if op != "correct")
     return {"ref_words": len(rw), "errors": errors,
             "med_ref": m["total_medical_ref_words"], "med_err": m["medical_substitutions"] + m["medical_deletions"],
             "drug_occ": occ, "drug_swaps": swaps, "drug_misses": misses,
-            "neg_total": neg_total, "neg_kept": neg_kept}
+            "neg_total": neg_total, "neg_kept": neg_kept, "neg_examples": neg_examples}
 
 
 def _edits(a: list[str], b: list[str]) -> int:
@@ -194,10 +198,11 @@ def mcnemar(base: dict, other: dict) -> dict:
 
 def summarise(per_file: dict[str, dict], cp: list[float] | None = None) -> dict:
     agg = {"ref_words": 0, "errors": 0, "med_ref": 0, "med_err": 0, "neg_total": 0, "neg_kept": 0}
-    occ, swaps, misses = {}, [], []
+    occ, swaps, misses, negs = {}, [], [], []
     for name, s in per_file.items():
         for k in agg:
             agg[k] += s[k]
+        negs += s.get("neg_examples", [])
         occ.update({f"{name}:{i}": ok for i, ok in s["drug_occ"].items()})
         swaps += s["drug_swaps"]
         misses += s["drug_misses"]
@@ -211,6 +216,7 @@ def summarise(per_file: dict[str, dict], cp: list[float] | None = None) -> dict:
         "drug_for_drug_swaps": swaps, "other_drug_errors": misses[:40],
         "negations_before_medical_terms": agg["neg_total"],
         "negations_lost": agg["neg_total"] - agg["neg_kept"],
+        "negation_loss_examples": negs[:12],
         "_occ": occ,
     }
     if cp:
@@ -252,12 +258,11 @@ async def _upload_one(c: httpx.AsyncClient, key: str, name: str, tmp: Path) -> s
 
 
 async def _transcribe(c: httpx.AsyncClient, key: str, upload_url: str, body: dict) -> dict:
+    """Deleting a transcript also deletes its uploaded audio, so the caller deletes them only
+    after every set-up has used the upload."""
     b = {**body, "audio_url": upload_url}
     data, warnings = await stt.create_and_poll(c, key, b, timeout_s=900)
-    tid = data.get("id")
-    if tid:
-        await stt.delete_transcript(c, key, tid)
-    return {"text": data.get("text") or "",
+    return {"id": data.get("id"), "text": data.get("text") or "",
             "utterances": [{"speaker": u.get("speaker"), "text": u.get("text"), "start": u.get("start")}
                            for u in data.get("utterances") or []],
             "model": data.get("speech_model_used"), "domain": data.get("domain", b.get("domain")),
@@ -276,12 +281,22 @@ async def run_all() -> dict:
     async with stt._client(httpx.Timeout(60.0, read=300.0, write=300.0)) as c:
         async def one(name: str) -> None:
             async with sem:
+                done: list[str] = []
                 try:
                     url = await _upload_one(c, key, name, tmp)
                     for cname, body in configs.items():
-                        ours[cname][name] = await _transcribe(c, key, url, body)
-                except Exception as exc:  # noqa: BLE001 - recorded per file
+                        try:
+                            row = await _transcribe(c, key, url, body)
+                            ours[cname][name] = row
+                            if row.get("id"):
+                                done.append(row["id"])
+                        except Exception as exc:  # noqa: BLE001 - recorded per file and set-up
+                            errors.append(f"{name} [{cname}]: {exc.__class__.__name__}: {exc}"[:300])
+                except Exception as exc:  # noqa: BLE001
                     errors.append(f"{name}: {exc.__class__.__name__}: {exc}"[:300])
+                finally:
+                    for tid in done:
+                        await stt.delete_transcript(c, key, tid)
 
         await asyncio.gather(*(one(n) for n in FILES))
         transcribe_s = round(time.monotonic() - t0, 1)
