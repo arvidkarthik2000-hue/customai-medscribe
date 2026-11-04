@@ -399,6 +399,9 @@ def test_selftest_skips_and_caches(client, monkeypatch):
     monkeypatch.setattr(config, "build_id", lambda: "next-deploy")
     third = client.get("/api/selftest").json()
     assert third["cached"] is False and third["build"] == "next-deploy"  # a new deploy gets a fresh run
+    assert client.get("/api/selftest").json()["cached"] is True
+    monkeypatch.setattr(selftest, "_PROCESS", "restarted")
+    assert client.get("/api/selftest").json()["cached"] is False  # so does a restart (a changed key)
 
 
 def test_selftest_final_pass_and_token_details(monkeypatch):

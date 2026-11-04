@@ -159,6 +159,8 @@ async def run_checks() -> list[dict]:
 
 
 _lock = asyncio.Lock()
+# A restart (a deploy, or a changed key in the host's settings) gets a fresh run.
+_PROCESS = f"{int(time.time())}-{id(_lock)}"
 
 
 async def selftest(force_cached_window: int = MIN_INTERVAL_S) -> dict:
@@ -170,8 +172,8 @@ async def selftest(force_cached_window: int = MIN_INTERVAL_S) -> dict:
 
 async def _selftest(force_cached_window: int) -> dict:
     cached, at = store.kv_get("selftest")
-    if cached and cached.get("build") != config.build_id():
-        cached = None  # a new deploy always gets a fresh run
+    if cached and (cached.get("build") != config.build_id() or cached.get("process") != _PROCESS):
+        cached = None  # a new deploy or restart always gets a fresh run
     if cached and at:
         from datetime import datetime, timezone
 
@@ -192,6 +194,7 @@ async def _selftest(force_cached_window: int) -> dict:
         "checks": checks,
         "ran_at": store.now_iso(),
         "build": config.build_id(),
+        "process": _PROCESS,
         "cached": False,
     }
     store.kv_set("selftest", out)
