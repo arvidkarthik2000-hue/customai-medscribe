@@ -387,9 +387,56 @@ def test_selftest_skips_and_caches(client, monkeypatch):
     names = {c["name"]: c["ok"] for c in first["checks"]}
     assert names["AssemblyAI streaming token"] is None and names["Claude note (structured output)"] is None
     assert names["RxNorm (RxNav)"] is True and first["cached"] is False and first["ok"] is False
+    assert names["AssemblyAI final pass (upload + Medical Mode)"] is None
+    assert names["Medicare Part D formulary (CMS)"] is None  # the loader is off in tests: sample formulary
     second = client.get("/api/selftest").json()
     assert second["cached"] is True and second["next_run_in_s"] > 0
     assert "sk-" not in json.dumps(first) and KEY not in json.dumps(first)
+    monkeypatch.setattr(config, "build_id", lambda: "next-deploy")
+    third = client.get("/api/selftest").json()
+    assert third["cached"] is False and third["build"] == "next-deploy"  # a new deploy gets a fresh run
+
+
+def test_selftest_final_pass_and_token_details(monkeypatch):
+    import asyncio
+
+    monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, assemblyai_api_key=KEY,
+                                                                 assemblyai_region="us", assemblyai_test_base=""))
+    seen = {}
+
+    def handler(req):
+        p = req.url.path
+        if ".us." in req.url.host:
+            return httpx.Response(401, json={"error": "Unauthorized"})
+        if p.endswith("/v1/token"):
+            return httpx.Response(200, json={"token": "t", "expires_in_seconds": 600})
+        if p == "/v2/upload":
+            seen["upload_bytes"] = len(req.read())
+            return httpx.Response(200, json={"upload_url": "https://cdn/x"})
+        if p == "/v2/transcript" and req.method == "POST":
+            seen["body"] = json.loads(req.content)
+            return httpx.Response(200, json={"id": "tr9", "status": "queued"})
+        if p == "/v2/transcript/tr9" and req.method == "GET":
+            return httpx.Response(200, json={"id": "tr9", "status": "completed", "speech_model_used": "universal-3-5-pro",
+                                             "audio_duration": 181, "utterances": [
+                {"speaker": "A", "text": "Your INR was 2.6 last week.", "start": 0, "end": 3000},
+                {"speaker": "B", "text": "I took naproxen for my knee.", "start": 3500, "end": 6000}]})
+        if req.method == "DELETE":
+            return httpx.Response(200, json={})
+        return httpx.Response(404)
+
+    stt.transport = httpx.MockTransport(handler)
+    try:
+        tok = asyncio.run(selftest._token())
+        fp = asyncio.run(selftest._final_pass())
+    finally:
+        stt.transport = None
+    assert tok["ok"] is True and "edge routing" in tok["detail"] and "Refused first" in tok["detail"]
+    assert "token.us.assemblyai.com/v1/token: HTTP 401: Unauthorized" in tok["detail"]
+    assert fp["ok"] is True, fp
+    assert seen["upload_bytes"] == selftest.SAMPLE_FILE.stat().st_size  # the voiced sample, uploaded
+    assert seen["body"]["domain"] == "medical-v1" and "warfarin" in [t.lower() for t in seen["body"]["keyterms_prompt"]]
+    assert "uploaded" in fp["detail"] and "Medical Mode on" in fp["detail"] and "2 speakers" in fp["detail"]
 
 
 def test_reset_schedule(client):

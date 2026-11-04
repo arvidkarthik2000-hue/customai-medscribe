@@ -72,6 +72,22 @@ async def _final_pass() -> dict:
     return _result(name, bool(meta.get("medical_mode")), detail, t0)
 
 
+def _formulary() -> dict:
+    """Which formulary answers coverage questions (no network call: the loader runs in the background)."""
+    t0 = time.monotonic()
+    from ..drugs import formulary
+
+    st = formulary.loader_status()
+    state = st.get("state")
+    if st.get("source") == "cms_puf":
+        ok = True
+    elif state == "failed":
+        ok = False
+    else:  # loading, or switched off: the sample formulary answers meanwhile
+        ok = None
+    return _result("Medicare Part D formulary (CMS)", ok, f"{st.get('label')}. {st.get('detail') or state}", t0)
+
+
 async def _claude() -> list[dict]:
     t0 = time.monotonic()
     s = config.settings
@@ -138,6 +154,7 @@ async def run_checks() -> list[dict]:
     flat: list[dict] = []
     for r in results:
         flat.extend(r if isinstance(r, list) else [r])
+    flat.append(_formulary())
     return flat
 
 
