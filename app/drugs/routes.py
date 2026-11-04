@@ -88,7 +88,7 @@ def drugs_search(q: str = Query(min_length=1, max_length=80), _s: dict = Depends
 
 @router.get("/formulary/plans")
 def formulary_plans(_s: dict = Depends(auth.require)):
-    return {"plans": formulary.plans(), "label": formulary.LABEL}
+    return {"plans": formulary.plans(), "label": formulary.label(), "status": formulary.loader_status()}
 
 
 @router.get("/formulary/lookup")
@@ -123,7 +123,8 @@ def drugs_sources(_s: dict = Depends(auth.require)):
         "onc_pairs": len({r.get("onc_pair") or r["id"] for r in k.interactions["rules"] if r.get("onc")}),
         "onc_rules": sum(1 for r in k.interactions["rules"] if r.get("onc")),
         "drugs": len(k.drugs),
-        "formulary": formulary.LABEL,
+        "formulary": formulary.label(),
+        "formulary_status": formulary.loader_status(),
         "rxnorm_attribution": rxnav.ATTRIBUTION,
         "sources": [
             {"name": "ONC high-priority drug-drug interactions (Phansalkar 2012)", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3422823/"},
@@ -132,5 +133,5 @@ def drugs_sources(_s: dict = Depends(auth.require)):
             {"name": "STOPP/START v3 (CC BY 4.0)", "url": "https://link.springer.com/article/10.1007/s41999-023-00777-y"},
             {"name": "USPSTF A and B recommendations", "url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics/uspstf-a-and-b-recommendations"},
             {"name": "CDC adult immunization schedule", "url": "https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-age.html"},
-        ],
+        ] + ([{"name": formulary.label(), "url": formulary.source_url()}] if formulary.source() == "cms_puf" else []),
     }

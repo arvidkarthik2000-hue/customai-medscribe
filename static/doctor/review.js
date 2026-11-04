@@ -243,7 +243,7 @@ export async function render(root, { visitId }, ctx) {
       return f.note ? el("span", { class: "muted small" }, f.note) : null;
     }
     if (f.on_formulary === false) return el("span", { class: "badge badge-warning" }, "Not on formulary");
-    const bits = [f.tier_label || (f.tier ? `Tier ${f.tier}` : "On formulary")];
+    const bits = [f.tier_text || f.tier_label || (f.tier ? `Tier ${f.tier}` : "On formulary")];
     if (f.prior_auth) bits.push("PA");
     if (f.step_therapy) bits.push("ST");
     if (f.quantity_limit) bits.push("QL");

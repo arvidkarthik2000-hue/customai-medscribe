@@ -824,7 +824,7 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
             alt_txt = ", ".join(f"{disp(x['drug'])} (tier {x['tier']}{', PA' if x['prior_auth'] else ''}{', ST' if x['step_therapy'] else ''})" for x in alts)
             detail = (st.get("note") or "") + (f" Covered options in the same class on this plan, screened against this patient's allergies, conditions, kidney function, age and other medicines: {alt_txt}." if alt_txt else "")
             findings.append(Finding(category="formulary", indicator="info", summary=summary, detail=detail.strip() + " " + formulary.RANKING,
-                                    meds=[m.generic], sources=[{"label": formulary.LABEL, "url": k.formulary["layout_url"]}],
+                                    meds=[m.generic], sources=[{"label": formulary.label(plan_key), "url": formulary.source_url()}],
                                     rule_id=f"formulary:{plan_key}", graded=False, extra={"alternatives": alts}))
 
     # 10. calculator: CHA2DS2-VASc when atrial fibrillation is on the problem list and an antithrombotic is in play
@@ -996,10 +996,11 @@ def check_visit(medications: list[dict], patient: dict, *, timeout_s: float = 8.
     ]
     if age is not None and age >= k.older["min_age"]:
         sources_checked.append({"name": "STOPP/START v3 (older adults)", "status": "ok", "detail": "Selected criteria, CC BY 4.0."})
-    if plan_key:
-        sources_checked.append({"name": formulary.LABEL if plan_key != "COMMERCIAL" else "Commercial formulary",
-                                "status": "ok" if plan_key != "COMMERCIAL" else "unavailable",
-                                "detail": "" if plan_key != "COMMERCIAL" else k.formulary["commercial_note"]})
+    if plan_key == "COMMERCIAL":
+        sources_checked.append({"name": "Commercial formulary", "status": "unavailable", "detail": k.formulary["commercial_note"]})
+    elif plan_key:
+        # name says which formulary answered (CMS public use file or the sample); state is the CMS loader's
+        sources_checked.append(formulary.source_checked(plan_key))
 
     return {
         "medications": out_rows,

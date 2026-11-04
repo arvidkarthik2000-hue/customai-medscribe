@@ -254,7 +254,7 @@ function formularyCell(f) {
   if (f.on_formulary === false) return el("span", {}, el("span", { class: "badge badge-warning" }, "Not covered"), el("span", { class: "sub" }, f.note || ""));
   if (f.on_formulary === null || f.on_formulary === undefined) return el("span", { class: "muted small" }, f.note || "Not checked");
   const flags = [f.prior_auth ? "PA" : null, f.step_therapy ? "ST" : null, f.quantity_limit ? "QL" : null].filter(Boolean);
-  return el("span", {}, `Tier ${f.tier} · ${f.tier_label}`, flags.length ? el("span", { class: "sub" }, flags.join(" · ") + (f.ql_detail ? ` (${f.ql_detail})` : "")) : null);
+  return el("span", {}, tierText(f), flags.length ? el("span", { class: "sub" }, flags.join(" · ") + (f.ql_detail ? ` (${f.ql_detail})` : "")) : null);
 }
 
 function renderMedsTable(rows) {
@@ -328,6 +328,21 @@ function renderResults() {
 }
 
 // ------------------------------------------------------------------ formulary
+function formularyBanner() {
+  const f = state.formulary || {};
+  const st = (f.status && f.status.state) || "sample";
+  const real = st === "ready";
+  const text = real ? (f.label || "Medicare Part D formulary: CMS public use file.")
+    : st === "loading" ? `${f.label || "Sample formulary (structure of the CMS Part D files; demo data)."} The real Medicare Part D plan file is loading on the server; refresh in a few minutes.`
+    : `${f.label || "Sample formulary (structure of the CMS Part D files; demo data)."}${f.status && f.status.detail ? ` (${f.status.detail})` : ""}`;
+  return el("div", { class: `banner ${real ? "banner-ok" : "banner-info"}`, style: { margin: "10px 0 14px" } }, text);
+}
+
+function tierText(x) {
+  if (!x) return "";
+  return x.tier_text || (x.tier != null ? `Tier ${x.tier}${x.tier_label && !/^tier/i.test(x.tier_label) ? ` · ${x.tier_label}` : ""}` : "");
+}
+
 function buildFormulary() {
   const panel = $("#panel-formulary");
   const planSel = select("f-plan", state.plans.map((p) => [p.plan_key, p.name]), "PDP-A");
@@ -352,7 +367,7 @@ function buildFormulary() {
   mount(panel, el("div", { class: "card card-pad" },
     el("h2", { style: { marginBottom: "4px" } }, "Formulary lookup"),
     el("p", { class: "muted" }, "Tier, prior authorization, step therapy and quantity limits for the patient's Medicare drug plan, with lower-tier alternatives in the same class."),
-    el("div", { class: "banner banner-info", style: { margin: "10px 0 14px" } }, "Sample formulary (structure of the CMS Part D files; demo data). Plan names, IDs and tiers are illustrative."),
+    formularyBanner(),
     form, out));
 }
 
@@ -363,7 +378,7 @@ function renderLookup(out, r) {
   const name = show(r.drug.generic) || r.drug.query;
   const head = el("div", { class: "row between", style: { alignItems: "flex-start" } },
     el("div", {}, el("h3", {}, name), el("p", { class: "muted small", style: { margin: 0 } }, [r.drug.group, r.drug.brands && r.drug.brands.length ? `Brands: ${r.drug.brands.join(", ")}` : null].filter(Boolean).join(" · "))),
-    s.on_formulary ? el("div", { style: { textAlign: "right" } }, el("div", { class: "ph-tier" }, `Tier ${s.tier}`), el("div", { class: "muted small" }, s.tier_label)) : el("span", { class: "badge badge-warning" }, "Not covered"));
+    s.on_formulary ? el("div", { style: { textAlign: "right" } }, el("div", { class: "ph-tier" }, tierText(s)), r.plan ? el("div", { class: "muted small" }, r.plan.name || "") : null) : el("span", { class: "badge badge-warning" }, "Not covered"));
   const flags = s.on_formulary ? el("dl", { class: "ph-status" },
     el("dt", {}, "Prior authorization"), el("dd", {}, s.prior_auth ? el("span", { class: "badge badge-warning" }, "Required") : "No"),
     el("dt", {}, "Step therapy"), el("dd", {}, s.step_therapy ? el("span", { class: "badge badge-warning" }, "Applies") : "No"),
@@ -374,7 +389,7 @@ function renderLookup(out, r) {
     el("div", { class: "table-wrap" }, el("table", { class: "table" },
       el("thead", {}, el("tr", {}, ["Medicine", "Tier", "Restrictions", "Generic"].map((h) => el("th", {}, h)))),
       el("tbody", {}, r.alternatives.map((a) => el("tr", {},
-        el("td", {}, show(a.drug)), el("td", {}, `${a.tier} · ${a.tier_label}`),
+        el("td", {}, show(a.drug)), el("td", {}, tierText(a)),
         el("td", {}, [a.prior_auth ? "PA" : null, a.step_therapy ? "ST" : null, a.quantity_limit ? `QL${a.ql_detail ? ` (${a.ql_detail})` : ""}` : null].filter(Boolean).join(", ") || "None"),
         el("td", {}, a.generic_available ? "Yes" : "Brand only")))))),
     el("p", { class: "muted small", style: { marginTop: "8px" } }, r.ranking || "")) : null;
@@ -450,6 +465,7 @@ async function init() {
   try {
     const [plans, sources] = await Promise.all([api("/api/formulary/plans"), api("/api/drugs/sources")]);
     state.plans = plans.plans || [];
+    state.formulary = { label: plans.label || "", status: plans.status || {} };
     state.attribution = sources.rxnorm_attribution || "";
   } catch { /* shown per panel */ }
   buildChecker();

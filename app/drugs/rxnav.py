@@ -4,7 +4,7 @@ Documented endpoints used (JSON):
   /approximateTerm.json?term=&maxEntries=&option=1
   /rxcui.json?name=&search=1
   /rxcui/{rxcui}/properties.json
-  /rxcui/{rxcui}/related.json?tty=IN+MIN
+  /rxcui/{rxcui}/related.json?tty=IN+MIN   (and tty=SCD+SBD+GPCK+BPCK; tty values are space-separated)
   /drugs.json?name=
   /spellingsuggestions.json?name=
 Terms of service: https://lhncbc.nlm.nih.gov/RxNav/TermsofService.html (20 requests/second per IP).
@@ -71,12 +71,28 @@ def properties(rxcui: str, timeout: float = 6.0) -> dict | None:
 
 def ingredients(rxcui: str, timeout: float = 6.0) -> list[dict]:
     """Ingredient concepts (IN or MIN) related to any RxNorm concept."""
-    data = net.get_json(f"{_base()}/rxcui/{rxcui}/related.json", {"tty": "IN+MIN"},
-                        cache_key=f"rxnav:related:{rxcui}:IN+MIN", timeout=timeout, not_found_ok=True)
+    # tty is a space-separated list (it travels as "IN+MIN"); passing "IN+MIN" here would send a literal %2B.
+    data = net.get_json(f"{_base()}/rxcui/{rxcui}/related.json", {"tty": "IN MIN"},
+                        cache_key=f"rxnav:related:{rxcui}:IN_MIN", timeout=timeout, not_found_ok=True)
     out = []
     for group in ((data or {}).get("relatedGroup") or {}).get("conceptGroup") or []:
         for p in group.get("conceptProperties") or []:
             out.append({"rxcui": str(p.get("rxcui")), "name": p.get("name"), "tty": p.get("tty") or group.get("tty")})
+    return out
+
+
+def related_products(rxcui: str, ttys: str = "SCD SBD GPCK BPCK", timeout: float = 8.0) -> list[dict]:
+    """Drug products (SCD/SBD/GPCK/BPCK by default) related to an ingredient concept:
+    [{rxcui, name, tty}]. Includes combination products; callers filter those.
+    ttys is space-separated, as RxNav documents (it travels as SCD+SBD+...)."""
+    ttys = " ".join(ttys.replace("+", " ").split())
+    data = net.get_json(f"{_base()}/rxcui/{rxcui}/related.json", {"tty": ttys},
+                        cache_key=f"rxnav:related:{rxcui}:{ttys.replace(' ', '_')}", timeout=timeout, not_found_ok=True)
+    out = []
+    for group in ((data or {}).get("relatedGroup") or {}).get("conceptGroup") or []:
+        for p in group.get("conceptProperties") or []:
+            if p.get("rxcui"):
+                out.append({"rxcui": str(p.get("rxcui")), "name": p.get("name") or "", "tty": p.get("tty") or group.get("tty")})
     return out
 
 
