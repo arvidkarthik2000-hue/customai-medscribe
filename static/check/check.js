@@ -88,7 +88,11 @@
 
     // 1. browser and script support
     row("browser", "Browser");
-    set("browser", "info", browserName() + " · " + window.innerWidth + "×" + window.innerHeight + " px" +
+    var w = window.innerWidth || document.documentElement.clientWidth || 0;
+    var h = window.innerHeight || document.documentElement.clientHeight || 0;
+    set("browser", "info", browserName() +
+      (w && h ? " · " + w + "×" + h + " px page" : "") +
+      (window.screen && screen.width ? " · " + screen.width + "×" + screen.height + " screen" : "") +
       (window.devicePixelRatio ? " at " + window.devicePixelRatio + "x" : "") +
       ((navigator.maxTouchPoints || "ontouchstart" in window) ? " · touch screen" : ""));
     row("scripts", "Up-to-date browser");

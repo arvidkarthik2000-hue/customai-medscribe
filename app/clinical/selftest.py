@@ -207,7 +207,15 @@ def _formulary() -> dict:
         ok = False
     else:  # loading, or switched off: the sample formulary answers meanwhile
         ok = None
-    return _result("Medicare Part D formulary (CMS)", ok, f"{st.get('label')}. {st.get('detail') or state}", t0)
+    detail = st.get("detail") or ""
+    label = st.get("label") or ""
+    if not detail:
+        text = f"{label}. {state}" if label else str(state)
+    elif label and detail.startswith(label.split(":", 1)[-1].strip()):
+        text = detail  # the detail already names the release
+    else:
+        text = f"{label}. {detail}" if label else detail
+    return _result("Medicare Part D formulary (CMS)", ok, text, t0)
 
 
 async def _claude() -> list[dict]:
