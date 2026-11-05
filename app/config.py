@@ -38,7 +38,12 @@ class Settings:
     # putting a key in its own ANTHROPIC_API_KEY variable.
     anthropic_api_key: str = field(default_factory=lambda: _env("ANTHROPIC_API_KEY") or _env("MEDSCRIBE_ANTHROPIC_KEY"))
     app_secret: str = field(default_factory=lambda: _env("APP_SECRET") or secrets.token_urlsafe(32))
-    demo_access_code: str = field(default_factory=lambda: _env("DEMO_ACCESS_CODE", "medscribe-demo"))
+    demo_access_code: str = field(default_factory=lambda: _env("DEMO_ACCESS_CODE"))
+    allow_demo_role_switch: bool = field(default_factory=lambda: _env("MEDSCRIBE_ALLOW_ROLE_SWITCH") == "1")
+
+    def __post_init__(self):
+        if _env("MEDSCRIBE_MODE", "demo") != "demo" or _env("MEDSCRIBE_DATA_CLASSIFICATION", "synthetic") != "synthetic":
+            raise ValueError("This build supports synthetic demos only; clinical identity and practice isolation require implementation before patient data")
     openfda_api_key: str = field(default_factory=lambda: _env("OPENFDA_API_KEY"))
 
     # speech

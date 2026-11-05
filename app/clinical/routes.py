@@ -167,7 +167,7 @@ def _schedule_status(v: dict | None) -> str:
 
 
 @router.get("/schedule")
-def schedule(_s: dict = Depends(auth.require)):
+def schedule(_s: dict = Depends(auth.require_role("doctor"))):
     today = fixtures.today_local()
     latest: dict[str, dict] = {}
     for v in store.visits_for_day(today.isoformat()):
@@ -192,14 +192,14 @@ def schedule(_s: dict = Depends(auth.require)):
 
 
 @router.post("/schedule/reset")
-def reset_schedule(_s: dict = Depends(auth.require)):
+def reset_schedule(_s: dict = Depends(auth.require_role("doctor"))):
     n = store.archive_day(fixtures.today_local().isoformat())
     store.audit(None, "schedule_reset", {"archived": n})
     return {"ok": True, "archived": n}
 
 
 @router.get("/patients/{patient_id}")
-def get_patient(patient_id: str, _s: dict = Depends(auth.require)):
+def get_patient(patient_id: str, _s: dict = Depends(auth.require_role("doctor"))):
     p = fixtures.patient(patient_id)
     if not p:
         raise HTTPException(404, "Patient not found.")
@@ -213,12 +213,12 @@ def _sample_summary(s: dict) -> dict:
 
 
 @router.get("/samples")
-def list_samples(_s: dict = Depends(auth.require)):
+def list_samples(_s: dict = Depends(auth.require_role("doctor"))):
     return {"samples": [_sample_summary(s) for s in fixtures.samples()]}
 
 
 @router.get("/samples/{sample_id}")
-def get_sample(sample_id: str, _s: dict = Depends(auth.require)):
+def get_sample(sample_id: str, _s: dict = Depends(auth.require_role("doctor"))):
     s = fixtures.sample(sample_id)
     if not s:
         raise HTTPException(404, "Sample not found.")
@@ -233,7 +233,7 @@ def get_sample(sample_id: str, _s: dict = Depends(auth.require)):
 
 
 @router.post("/visits")
-def create_visit(body: VisitIn, session: dict = Depends(auth.require)):
+def create_visit(body: VisitIn, session: dict = Depends(auth.require_role("doctor"))):
     if not fixtures.patient(body.patient_id):
         raise HTTPException(404, "Patient not found.")
     v = store.create_visit(patient_id=body.patient_id, template=body.template, style=body.style,
@@ -244,12 +244,12 @@ def create_visit(body: VisitIn, session: dict = Depends(auth.require)):
 
 
 @router.get("/visits/{visit_id}")
-def get_visit(visit_id: str, _s: dict = Depends(auth.require)):
+def get_visit(visit_id: str, _s: dict = Depends(auth.require_role("doctor"))):
     return visit_view(_visit_or_404(visit_id))
 
 
 @router.post("/visits/{visit_id}/consent")
-def consent(visit_id: str, body: ConsentIn, _s: dict = Depends(auth.require)):
+def consent(visit_id: str, body: ConsentIn, _s: dict = Depends(auth.require_role("doctor"))):
     v = _visit_or_404(visit_id)
     _not_signed(v)
     if not body.consented:
@@ -262,7 +262,7 @@ def consent(visit_id: str, body: ConsentIn, _s: dict = Depends(auth.require)):
 
 
 @router.get("/visits/{visit_id}/keyterms")
-def keyterms(visit_id: str, _s: dict = Depends(auth.require)):
+def keyterms(visit_id: str, _s: dict = Depends(auth.require_role("doctor"))):
     v = _visit_or_404(visit_id)
     chart = fixtures.patient(v["patient_id"]) or {}
     return stt.build_keyterms(fixtures.keyterm_seed(chart), v.get("specialty") or "family_medicine")
@@ -273,7 +273,7 @@ def _audio_cap_reached() -> bool:
 
 
 @router.post("/stt/token")
-async def stt_token(body: TokenIn, _s: dict = Depends(auth.require)):
+async def stt_token(body: TokenIn, _s: dict = Depends(auth.require_role("doctor"))):
     v = _visit_or_404(body.visit_id)
     _not_signed(v)
     if not v.get("consent_at"):
@@ -307,7 +307,7 @@ def stt_audio(link_id: str):
 
 
 @router.post("/visits/{visit_id}/live-turns")
-def live_turns(visit_id: str, body: LiveTurnsIn, _s: dict = Depends(auth.require)):
+def live_turns(visit_id: str, body: LiveTurnsIn, _s: dict = Depends(auth.require_role("doctor"))):
     with store.visit_lock(visit_id):
         v = _visit_or_404(visit_id)
         _not_signed(v)
@@ -331,7 +331,7 @@ def live_turns(visit_id: str, body: LiveTurnsIn, _s: dict = Depends(auth.require
 
 
 @router.post("/visits/{visit_id}/audio")
-async def upload_audio(visit_id: str, file: UploadFile = File(...), _s: dict = Depends(auth.require)):
+async def upload_audio(visit_id: str, file: UploadFile = File(...), _s: dict = Depends(auth.require_role("doctor"))):
     v = _visit_or_404(visit_id)
     _not_signed(v)
     if not v.get("consent_at"):
@@ -376,7 +376,7 @@ async def upload_audio(visit_id: str, file: UploadFile = File(...), _s: dict = D
 
 
 @router.post("/visits/{visit_id}/process")
-async def process(visit_id: str, body: ProcessIn, _s: dict = Depends(auth.require)):
+async def process(visit_id: str, body: ProcessIn, _s: dict = Depends(auth.require_role("doctor"))):
     v = _visit_or_404(visit_id)
     _not_signed(v)
     if pipeline.is_running(visit_id):
@@ -406,7 +406,7 @@ async def process(visit_id: str, body: ProcessIn, _s: dict = Depends(auth.requir
 
 
 @router.get("/visits/{visit_id}/status")
-def status(visit_id: str, _s: dict = Depends(auth.require)):
+def status(visit_id: str, _s: dict = Depends(auth.require_role("doctor"))):
     v = _visit_or_404(visit_id)
     stage = v.get("stage") or ("done" if v["status"] in ("ready", "signed") else "queued")
     return {"stage": stage, "stages": v.get("stages") or pipeline.initial_stages(), "error": v.get("error"),
@@ -417,7 +417,7 @@ def status(visit_id: str, _s: dict = Depends(auth.require)):
 
 
 @router.patch("/visits/{visit_id}/note")
-def patch_note(visit_id: str, body: NotePatch, _s: dict = Depends(auth.require)):
+def patch_note(visit_id: str, body: NotePatch, _s: dict = Depends(auth.require_role("doctor"))):
     with store.visit_lock(visit_id):
         v = _visit_or_404(visit_id)
         _not_signed(v)
@@ -475,7 +475,7 @@ def patch_note(visit_id: str, body: NotePatch, _s: dict = Depends(auth.require))
 
 
 @router.post("/visits/{visit_id}/ask")
-async def ask(visit_id: str, body: AskIn, _s: dict = Depends(auth.require)):
+async def ask(visit_id: str, body: AskIn, _s: dict = Depends(auth.require_role("doctor"))):
     v = _visit_or_404(visit_id)
     _not_signed(v)
     note = v.get("note")
@@ -519,7 +519,7 @@ async def ask(visit_id: str, body: AskIn, _s: dict = Depends(auth.require)):
 
 
 @router.post("/visits/{visit_id}/meds/{med_id}/confirm")
-async def confirm_med(visit_id: str, med_id: str, body: ConfirmIn, _s: dict = Depends(auth.require)):
+async def confirm_med(visit_id: str, med_id: str, body: ConfirmIn, _s: dict = Depends(auth.require_role("doctor"))):
     v = _visit_or_404(visit_id)
     _not_signed(v)
     if v.get("status") != "ready" or not v.get("note"):
@@ -562,7 +562,7 @@ async def confirm_med(visit_id: str, med_id: str, body: ConfirmIn, _s: dict = De
 
 
 @router.post("/visits/{visit_id}/cards/{card_id}/ack")
-def ack_card(visit_id: str, card_id: str, body: AckIn, _s: dict = Depends(auth.require)):
+def ack_card(visit_id: str, card_id: str, body: AckIn, _s: dict = Depends(auth.require_role("doctor"))):
     with store.visit_lock(visit_id):
         v = _visit_or_404(visit_id)
         _not_signed(v)
@@ -579,7 +579,7 @@ def ack_card(visit_id: str, card_id: str, body: AckIn, _s: dict = Depends(auth.r
 
 
 @router.post("/visits/{visit_id}/sign")
-def sign(visit_id: str, _s: dict = Depends(auth.require)):
+def sign(visit_id: str, _s: dict = Depends(auth.require_role("doctor"))):
     with store.visit_lock(visit_id):
         v = _visit_or_404(visit_id)
         if v.get("status") == "signed":
@@ -600,7 +600,7 @@ def sign(visit_id: str, _s: dict = Depends(auth.require)):
 
 
 @router.get("/visits/{visit_id}/export.txt")
-def export_txt(visit_id: str, _s: dict = Depends(auth.require)):
+def export_txt(visit_id: str, _s: dict = Depends(auth.require_role("doctor"))):
     v = _visit_or_404(visit_id)
     if not v.get("note"):
         raise HTTPException(409, "There is no note to export yet.")
@@ -613,7 +613,7 @@ def export_txt(visit_id: str, _s: dict = Depends(auth.require)):
 
 
 @router.get("/selftest")
-async def run_selftest(_s: dict = Depends(auth.require)):
+async def run_selftest(_s: dict = Depends(auth.require_role("doctor"))):
     return await selftest.selftest()
 
 

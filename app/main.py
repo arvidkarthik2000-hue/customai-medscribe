@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import Depends, FastAPI, Request, Response
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -72,7 +72,7 @@ class RoleIn(BaseModel):
 
 @app.post("/api/session")
 def start_session(body: SessionIn, response: Response):
-    if not auth.check_code(body.code):
+    if not auth.check_code(body.code, body.role):
         return JSONResponse({"detail": "That access code is not right."}, status_code=401)
     data = auth.issue(response, body.role)
     return {"ok": True, "role": data["role"]}
@@ -80,6 +80,8 @@ def start_session(body: SessionIn, response: Response):
 
 @app.post("/api/session/role")
 def switch_role(body: RoleIn, response: Response, session: dict = Depends(auth.require)):
+    if body.role != session.get("role") and not settings.allow_demo_role_switch:
+        raise HTTPException(403, "Sign in with the credential for the requested role")
     data = auth.issue(
         response,
         body.role,

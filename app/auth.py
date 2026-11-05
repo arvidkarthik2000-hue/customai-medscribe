@@ -6,6 +6,7 @@ It carries no patient data. Both zones verify it with the same secret.
 from __future__ import annotations
 
 import hmac
+import os
 import time
 from typing import Literal
 
@@ -34,10 +35,16 @@ DEMO_PRESCRIBER = {
 _serializer = URLSafeTimedSerializer(settings.app_secret, salt="ms-session-v1")
 
 
-def check_code(code: str) -> bool:
-    expected = settings.demo_access_code
+def check_code(code: str, role: str = "doctor") -> bool:
+    if role not in ROLES:
+        return False
+    # Separate demo credentials bind the chosen role. Shared-code role switching
+    # must be explicitly enabled for synthetic walkthroughs.
+    expected = os.environ.get(f"DEMO_{role.upper()}_CODE", "")
+    if role == "doctor" or getattr(settings, "allow_demo_role_switch", False):
+        expected = expected or settings.demo_access_code
     if not expected:
-        return True
+        return False
     return hmac.compare_digest(code.strip().encode(), expected.encode())
 
 
@@ -86,9 +93,7 @@ def require_role(*roles: str):
     def dep(request: Request) -> dict:
         data = require(request)
         if roles and data.get("role") not in roles:
-            # Roles are a demo convenience, not security: one tester walks all views.
-            # We still keep endpoints honest about which view they belong to.
-            pass
+            raise HTTPException(status_code=403, detail="This role cannot access this resource.")
         return data
 
     return dep
