@@ -6,11 +6,11 @@ import re
 from pathlib import Path
 from typing import Literal
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, WebSocket
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
-from .. import auth, config
+from .. import auth, branding, config
 from . import drugs_bridge, evaluate, export, fixtures, notemodel, notes, pipeline, selftest, store, stt, verify
 from .templates import SPECIALTIES
 
@@ -56,7 +56,7 @@ class VisitIn(BaseModel):
     patient_id: str
     template: Template = "soap"
     style: Literal["concise", "detailed"] = "concise"
-    engine: Literal["sonnet", "haiku"] = "sonnet"
+    engine: str = Field("thorough", max_length=20)  # thorough | fast (pages cached before the rename send other names)
     specialty: str | None = None
 
 
@@ -123,6 +123,9 @@ def _specialty(session: dict, requested: str | None) -> str:
     return "family_medicine"
 
 
+STAGE_LABELS = dict(pipeline.STAGES)
+
+
 def visit_view(v: dict) -> dict:
     transcript = v.get("transcript")
     if transcript is None:
@@ -134,7 +137,7 @@ def visit_view(v: dict) -> dict:
         "status": v["status"],
         "template": v.get("template"),
         "style": v.get("style"),
-        "engine": v.get("engine"),
+        "engine": branding.engine(v.get("engine")),
         "specialty": v.get("specialty"),
         "created_at": v.get("created_at"),
         "consent_at": v.get("consent_at"),
@@ -149,10 +152,10 @@ def visit_view(v: dict) -> dict:
         "cards_ack": v.get("cards_ack") or {},
         "blockers": notemodel.blockers(v),
         "timings": v.get("timings") or {},
-        "engine_info": v.get("engine_info") or {},
+        "engine_info": branding.engine_info(v.get("engine_info"), v.get("engine")),
         "stage": v.get("stage"),
-        "stages": v.get("stages") or pipeline.initial_stages(),
-        "error": v.get("error"),
+        "stages": branding.stages(v.get("stages") or pipeline.initial_stages(), STAGE_LABELS),
+        "error": branding.scrub(v.get("error")),
     }
     return out
 
@@ -236,10 +239,11 @@ def get_sample(sample_id: str, _s: dict = Depends(auth.require)):
 def create_visit(body: VisitIn, session: dict = Depends(auth.require)):
     if not fixtures.patient(body.patient_id):
         raise HTTPException(404, "Patient not found.")
+    engine = "fast" if body.engine in ("fast", "haiku") else "thorough"
     v = store.create_visit(patient_id=body.patient_id, template=body.template, style=body.style,
-                           engine=body.engine, specialty=_specialty(session, body.specialty))
+                           engine=engine, specialty=_specialty(session, body.specialty))
     store.audit(v["id"], "visit_created", {"patient_id": body.patient_id, "template": body.template,
-                                           "engine": body.engine})
+                                           "engine": engine})
     return {"visit_id": v["id"]}
 
 
@@ -279,7 +283,7 @@ async def stt_token(body: TokenIn, _s: dict = Depends(auth.require)):
     if not v.get("consent_at"):
         raise HTTPException(409, "Log consent before recording.")
     if not config.settings.speech_ready:
-        raise HTTPException(503, "Speech is not configured on this server (no AssemblyAI API key). Try a sample visit instead.")
+        raise HTTPException(503, "Live speech is not configured on this server. Try a sample visit instead.")
     if _audio_cap_reached():
         raise HTTPException(409, "The demo's daily recording limit has been reached. It resets at midnight UTC; sample visits still work.")
     chart = fixtures.patient(v["patient_id"]) or {}
@@ -291,13 +295,25 @@ async def stt_token(body: TokenIn, _s: dict = Depends(auth.require)):
         log.warning("live token not issued: %s", exc)
         raise HTTPException(502, "The live transcript service is unavailable right now.")
     store.audit(v["id"], "stt_token_issued", {"keyterms": len(terms["live"]), "zone": tok.zone}, actor="system")
-    return {"token": tok.token, "ws_url": stt.ws_url(terms["live"], tok.ws), "expires_in": tok.expires_in,
-            "zone": tok.zone, "max_session_seconds": config.settings.max_visit_minutes * 60}
+    ticket = stt.issue_ticket(tok, stt.ws_url(terms["live"], tok.ws))
+    return {"token": None, "ws_url": f"/api/stt/stream?ticket={ticket}", "expires_in": stt.TICKET_TTL_S,
+            "max_session_seconds": config.settings.max_visit_minutes * 60}
+
+
+@router.websocket("/stt/stream")
+async def stt_stream(ws: WebSocket, ticket: str = ""):
+    """The live transcript relay. The one-time ticket from /stt/token is the credential."""
+    upstream = stt.take_ticket(ticket)
+    await ws.accept()
+    if not upstream:
+        await ws.close(code=1008, reason="This live session link has expired. Start the recording again.")
+        return
+    await stt.relay(ws, upstream)
 
 
 @router.get("/stt/audio/{link_id}")
 def stt_audio(link_id: str):
-    """A one-time link AssemblyAI fetches a recording from, only if it refused the upload.
+    """A one-time link the speech service fetches a recording from, only if it refused the upload.
     No session: the unguessable id is the credential, it expires, and it closes when the pass ends."""
     found = stt.linked_file(link_id)
     if not found:
@@ -337,7 +353,7 @@ async def upload_audio(visit_id: str, file: UploadFile = File(...), _s: dict = D
     if not v.get("consent_at"):
         raise HTTPException(409, "Log consent before uploading a recording.")
     if not config.settings.speech_ready:
-        raise HTTPException(503, "Speech is not configured on this server (no AssemblyAI API key).")
+        raise HTTPException(503, "Speech is not configured on this server.")
     if _audio_cap_reached():
         raise HTTPException(409, "The demo's daily recording limit has been reached. It resets at midnight UTC.")
     if pipeline.is_running(visit_id):
@@ -409,8 +425,8 @@ async def process(visit_id: str, body: ProcessIn, _s: dict = Depends(auth.requir
 def status(visit_id: str, _s: dict = Depends(auth.require)):
     v = _visit_or_404(visit_id)
     stage = v.get("stage") or ("done" if v["status"] in ("ready", "signed") else "queued")
-    return {"stage": stage, "stages": v.get("stages") or pipeline.initial_stages(), "error": v.get("error"),
-            "status": v["status"]}
+    return {"stage": stage, "stages": branding.stages(v.get("stages") or pipeline.initial_stages(), STAGE_LABELS),
+            "error": branding.scrub(v.get("error")), "status": v["status"]}
 
 
 # ---------------------------------------------------------------- review and edits
@@ -482,7 +498,7 @@ async def ask(visit_id: str, body: AskIn, _s: dict = Depends(auth.require)):
     if not note or v.get("status") != "ready":
         raise HTTPException(409, "The note is still being prepared; rewrite it once it is ready.")
     if not config.settings.notes_ready:
-        raise HTTPException(503, "Rewriting needs the Claude API key on the server. You can still edit lines by hand.")
+        raise HTTPException(503, "Rewriting is not configured on this server. You can still edit lines by hand.")
     section = notemodel.section_by_id(note, body.section_id)
     if not section:
         raise HTTPException(404, "That section is not in the note.")
@@ -491,7 +507,7 @@ async def ask(visit_id: str, body: AskIn, _s: dict = Depends(auth.require)):
     turns = v.get("transcript") or []
     store.usage_add("note_runs", 0.25)
     try:
-        raw_items, _meta = await notes.rewrite_section(turns, section, body.instruction, v.get("engine") or "sonnet")
+        raw_items, _meta = await notes.rewrite_section(turns, section, body.instruction, v.get("engine") or "thorough")
     except notes.NoteError as exc:
         raise HTTPException(502, str(exc))
     template = v.get("template") or "soap"
@@ -614,7 +630,7 @@ def export_txt(visit_id: str, _s: dict = Depends(auth.require)):
 
 @router.get("/selftest")
 async def run_selftest(_s: dict = Depends(auth.require)):
-    return await selftest.selftest()
+    return branding.scrub_obj(await selftest.selftest())
 
 
 # Public, rate-limited checks: no session needed, nothing secret or real in them.
@@ -622,7 +638,7 @@ async def run_selftest(_s: dict = Depends(auth.require)):
 
 @router.get("/selftest/public")
 async def public_selftest():
-    return await selftest.selftest(force_cached_window=3600)
+    return branding.scrub_obj(await selftest.selftest(force_cached_window=3600))
 
 
 @router.get("/bench/primock57/public")
@@ -630,10 +646,10 @@ async def public_bench_primock57():
     """Speech benchmark on PriMock57 (public mock consultations); runs once per deploy."""
     from ..bench import primock
 
-    return primock.status()
+    return branding.scrub_obj(primock.status())
 
 
 @router.get("/eval/public")
 async def public_eval():
     """End-to-end accuracy run on the five voiced sample visits (at most every 6 hours)."""
-    return evaluate.status()
+    return branding.scrub_obj(evaluate.status())

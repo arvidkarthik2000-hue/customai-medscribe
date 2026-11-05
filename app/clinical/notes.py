@@ -62,7 +62,7 @@ def _client():
         return client_factory()
     s = _settings()
     if not s.anthropic_api_key:
-        raise NotesNotConfigured("The note engine is not configured on this server (no Claude API key).")
+        raise NotesNotConfigured("The note engine is not configured on this server.")
     if _cached["client"] is None or _cached["key"] != s.anthropic_api_key:
         import anthropic
 
@@ -73,7 +73,7 @@ def _client():
 
 def model_for(engine: str) -> str:
     s = _settings()
-    return s.fast_model if engine == "haiku" else s.note_model
+    return s.fast_model if engine in ("fast", "haiku") else s.note_model
 
 
 def thinking_for(model: str) -> dict:
@@ -201,7 +201,7 @@ async def call_structured(*, model: str, system: str, user: str, json_schema: di
             msg = str(getattr(exc, "message", "") or exc)[:240]
             low = msg.lower()
             if status == 401:
-                raise NoteError("Claude rejected the API key (401). Check ANTHROPIC_API_KEY on the server.") from exc
+                raise NoteError("The note engine rejected the server's key (401). Check the note-engine key in the server settings.") from exc
             if status == 400 and "thinking" in low and "thinking" in params:
                 params.pop("thinking")
                 warnings.append(f"The thinking setting was rejected, so the model default was used ({msg}).")
@@ -218,9 +218,9 @@ async def call_structured(*, model: str, system: str, user: str, json_schema: di
                 warnings.append(f"Structured output was rejected, so the schema was given in the prompt instead ({msg}).")
                 continue
             if status == 429:
-                raise NoteError("Claude is rate-limiting this account right now (429). Try again in a minute.") from exc
+                raise NoteError("The note engine is busy right now (429). Try again in a minute.") from exc
             if status in (500, 502, 503, 529):
-                raise NoteError(f"Claude is temporarily unavailable ({status}). Try again shortly.") from exc
+                raise NoteError(f"The note engine is temporarily unavailable ({status}). Try again shortly.") from exc
             raise NoteError(f"The note model call failed ({exc.__class__.__name__}: {msg}).") from exc
         stop = getattr(resp, "stop_reason", None)
         if stop == "refusal":

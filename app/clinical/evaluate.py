@@ -206,7 +206,7 @@ async def _one(sample: dict) -> dict:
         timings["final_transcript_s"] = round(time.monotonic() - t0, 1)
         turns = tr["turns"]
         meta = tr["meta"]
-        out["speech"] = {"model": meta.get("speech_model_used"), "medical_mode": meta.get("medical_mode"), "audio_via": meta.get("audio_via"),
+        out["speech"] = {"model": "salient-medical-speech", "medical_mode": meta.get("medical_mode"), "audio_via": meta.get("audio_via"),
                          "keyterms": meta.get("keyterms_used"), "audio_s": meta.get("audio_duration"),
                          "warnings": meta.get("warnings", []), "turns": len(turns)}
 
@@ -215,7 +215,7 @@ async def _one(sample: dict) -> dict:
                                                 specialty=specialty, style="concise", engine="sonnet",
                                                 visit_date=fixtures.today_local().isoformat())
         timings["note_s"] = round(time.monotonic() - t1, 1)
-        out["note_model"] = nmeta.get("model")
+        out["note_model"] = "salient-thorough"
         speaker_roles = note.pop("speaker_roles", {}) or {}
 
         t2 = time.monotonic()
@@ -223,7 +223,7 @@ async def _one(sample: dict) -> dict:
         model_verdicts, vmeta = await notes.verify_note(note, turns)
         notemodel.apply_verdicts(note, model_verdicts, deterministic, model_note="")
         timings["verify_s"] = round(time.monotonic() - t2, 1)
-        out["verifier_model"] = vmeta.get("model")
+        out["verifier_model"] = "salient-verifier"
 
         t3 = time.monotonic()
         mc, detail = await drugs_bridge.check_visit(note.get("medications") or [], copy.deepcopy(chart))
@@ -292,7 +292,7 @@ def status() -> dict:
     if running:
         return {"status": "running", "previous": last}
     if not (s.speech_ready and s.notes_ready):
-        return {"status": "disabled", "detail": "AssemblyAI and Claude keys are both needed.", "previous": last}
+        return {"status": "disabled", "detail": "The speech and note-engine keys are both needed.", "previous": last}
     age = None
     if last and last.get("finished_at"):
         try:

@@ -11,7 +11,9 @@ Needs the system Playwright (python3 -m playwright) and the repo venv for uvicor
 from __future__ import annotations
 
 import argparse
+import json
 import math
+import re
 import os
 import random
 import shutil
@@ -30,6 +32,69 @@ ROOT = Path(__file__).resolve().parents[2]
 VENV_PY = ROOT / ".venv" / "bin" / "python"
 APP = "http://127.0.0.1:8099"
 CODE = "e2e-code"
+# Testers must never see a third-party AI vendor or model name: scan every response and frame.
+BANNED = re.compile(r"assembly\s?ai|anthropic|claude|sonnet|haiku|universal-3|medical-v1|medical mode|gemini|openai|"
+                    r"whisper|deepgram|elevenlabs|parakeet|qwen|vibevoice|pyannote", re.I)
+TEXT_TYPES = ("json", "javascript", "html", "css", "text/")
+SEEN_BANNED: list[str] = []
+
+
+def watch_branding(page) -> None:
+    def on_response(resp):
+        if not resp.url.startswith(APP):
+            return
+        ctype = resp.headers.get("content-type", "")
+        if not any(k in ctype for k in TEXT_TYPES):
+            return
+        try:
+            body = resp.text()
+        except Exception:  # redirects and aborted loads have no body
+            return
+        m = BANNED.search(body)
+        if m:
+            SEEN_BANNED.append(f"{resp.url}: ...{body[max(0, m.start() - 60):m.end() + 60]}...")
+    page.on("response", on_response)
+
+    def on_ws(ws):
+        def frame(payload):
+            s = payload if isinstance(payload, str) else ""
+            m = BANNED.search(s)
+            if m:
+                SEEN_BANNED.append(f"websocket {ws.url}: {s[:160]}")
+        ws.on("framereceived", frame)
+    page.on("websocket", on_ws)
+
+
+def no_cookie_route(route):
+    """Fetch the request outside the browser and hand back the answer without Set-Cookie:
+    a browser that never keeps cookies (some wallboard and kiosk players)."""
+    import urllib.error
+    import urllib.request as ur
+
+    class NoRedirect(ur.HTTPRedirectHandler):
+        def redirect_request(self, *a, **k):
+            return None
+
+    req = route.request
+    headers = {k: v for k, v in req.headers.items() if k.lower() not in ("cookie", "accept-encoding", "host")}
+    headers["Accept-Encoding"] = "identity"
+    r = ur.Request(req.url, data=req.post_data_buffer, headers=headers, method=req.method)
+    opener = ur.build_opener(NoRedirect)
+    try:
+        resp = opener.open(r, timeout=60)
+        status, hdrs, body = resp.status, resp.headers, resp.read()
+    except urllib.error.HTTPError as e:
+        status, hdrs, body = e.code, e.headers, e.read()
+    out = {k: v for k, v in hdrs.items() if k.lower() not in ("set-cookie", "content-length", "transfer-encoding", "connection")}
+    route.fulfill(status=status, headers=out, body=body)
+
+
+STORAGE_BLOCKED = """
+(() => {
+  const deny = { configurable: true, get() { throw new DOMException("storage blocked", "SecurityError"); } };
+  try { Object.defineProperty(window, "sessionStorage", deny); Object.defineProperty(window, "localStorage", deny); } catch (e) {}
+})();
+"""
 
 
 def wait_http(url: str, timeout: float = 20.0) -> None:
@@ -93,6 +158,7 @@ def main() -> int:
                 f"--use-file-for-fake-audio-capture={wav}", "--autoplay-policy=no-user-gesture-required"])
             ctx = browser.new_context(viewport={"width": 1440, "height": 900}, permissions=["microphone"])
             page = ctx.new_page()
+            watch_branding(page)
             console_errors = []
             page.on("console", lambda m: console_errors.append(f"{m.type}: {m.text}") if m.type in ("error",) else None)
             page.on("pageerror", lambda e: console_errors.append(f"pageerror: {e}"))
@@ -115,7 +181,8 @@ def main() -> int:
                 expect(page.locator("#views")).to_be_visible()
                 step.shot(page, "views")
                 page.click("a[data-role=doctor]")
-                expect(page.locator("text=Today's schedule")).to_be_visible(timeout=10000)
+                page.wait_for_url("**/doctor/**", timeout=10000)  # the tile itself says "Today's schedule"
+                expect(page.locator("table.schedule")).to_be_visible(timeout=10000)
                 page.wait_for_timeout(1200)
                 step.shot(page, "home")
             check("sign in and schedule", sign_in)
@@ -215,6 +282,111 @@ def main() -> int:
                 page.wait_for_timeout(2000)
                 step.shot(page, "report")
             check("console and report load", console)
+
+            # 6. screen check page (what a wallboard team runs first)
+            def screen_check():
+                page.goto(APP + "/check/")
+                page.wait_for_timeout(2500)
+                badges = page.locator("#results .badge").all_inner_texts()
+                assert "Testing" not in badges, badges
+                detail = page.locator("#results").inner_text()
+                assert "Problem" not in badges, detail
+                assert "This browser keeps the sign-in cookie" in detail, detail
+                page.click("#mic-test")
+                page.wait_for_timeout(6500)
+                assert "Works: heard sound" in page.locator("#results").inner_text(), page.locator("#results").inner_text()
+                page.click("#rerun")
+                page.wait_for_url("**/check/?hop=*", timeout=10000)
+                page.wait_for_timeout(2500)
+                hop = page.locator("tr", has_text="Opening another page").inner_text()
+                assert "OK" in hop, hop
+                step.shot(page, "screen-check")
+                assert page.locator("#boot-fail").count() == 0
+            check("screen check", screen_check)
+
+            # 7. a wallboard browser that keeps no cookies and no page storage, used by touch
+            def wallboard_without_cookies():
+                c2 = browser.new_context(viewport={"width": 1080, "height": 1920}, has_touch=True, permissions=["microphone"])
+                c2.add_init_script(STORAGE_BLOCKED)
+                c2.route(re.compile(r"^http://127\.0\.0\.1:8099/.*"), no_cookie_route)
+                p2 = c2.new_page()
+                watch_branding(p2)
+                ad_calls = []
+                p2.on("response", lambda r: ad_calls.append(r.status) if "/adzone/api/serve" in r.url else None)
+                p2.goto(APP + "/")
+                p2.fill("#code", CODE)
+                p2.tap("button[type=submit]")
+                expect(p2.locator("#views")).to_be_visible()
+                p2.tap("a[data-role=doctor]")
+                p2.wait_for_url("**/doctor/**", timeout=10000)
+                expect(p2.locator("table.schedule")).to_be_visible(timeout=10000)
+                p2.wait_for_timeout(300)
+                assert "st=" not in p2.url and p2.url.endswith("/doctor/"), p2.url
+                step.shot(p2, "wallboard-doctor")
+                p2.locator(".sample").first.tap()
+                expect(p2.locator("text=Visit setup")).to_be_visible(timeout=10000)
+                p2.locator("button:has-text('▶')").first.tap()
+                expect(p2.locator("text=Sample visit")).to_be_visible(timeout=10000)
+                p2.tap("button:has-text('Skip to end')")
+                p2.wait_for_url("**/review", timeout=90000)
+                expect(p2.locator(".note-section").first).to_be_visible(timeout=15000)
+                step.shot(p2, "wallboard-review")
+                # header switch to another view
+                p2.locator("nav.role-switch a", has_text="Pharmacy tools").tap()
+                p2.wait_for_url("**/pharmacy/**", timeout=10000)
+                p2.wait_for_timeout(1500)
+                assert p2.locator("text=Interaction").count() >= 1, "pharmacy did not load"
+                p2.locator("nav.role-switch a", has_text="Network console").tap()
+                p2.wait_for_url("**/console/**", timeout=10000)
+                p2.wait_for_timeout(2000)
+                assert p2.locator(".app-header").count() == 1
+                step.shot(p2, "wallboard-console")
+                p2.goto(APP + "/check/")
+                p2.wait_for_timeout(2500)
+                txt = p2.locator("#results").inner_text()
+                assert "keeps neither cookies nor page storage" in txt, txt
+                assert c2.cookies() == [], c2.cookies()
+                assert all(s == 200 for s in ad_calls), ad_calls
+                c2.close()
+            check("wallboard without cookies or storage", wallboard_without_cookies)
+
+            # 8. nothing covers the four tiles at wallboard, TV, tablet and phone sizes
+            def tiles_clickable_everywhere():
+                for w, h in ((1920, 1080), (1080, 1920), (3840, 2160), (1280, 800), (800, 1280), (390, 844)):
+                    c3 = browser.new_context(viewport={"width": w, "height": h}, has_touch=True)
+                    p3 = c3.new_page()
+                    p3.goto(APP + "/")
+                    p3.fill("#code", CODE)
+                    p3.click("button[type=submit]")
+                    expect(p3.locator("#views")).to_be_visible()
+                    blocked = p3.evaluate("""() => [...document.querySelectorAll('.view-tile')].map((t) => {
+                        t.scrollIntoView({block: 'center'});
+                        const r = t.getBoundingClientRect();
+                        const at = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+                        return at && t.contains(at) ? null : (t.dataset.role + ' covered by ' + (at ? at.outerHTML.slice(0, 80) : 'nothing'));
+                    }).filter(Boolean)""")
+                    assert not blocked, f"{w}x{h}: {blocked}"
+                    p3.locator("a[data-role=pharmacy]").tap()
+                    p3.wait_for_url("**/pharmacy/**", timeout=10000)
+                    c3.close()
+            check("tiles reachable at every screen size", tiles_clickable_everywhere)
+
+            # 9. a browser that cannot run the page's scripts gets a message, not a dead page
+            def watchdog():
+                c4 = browser.new_context()
+                c4.route("**/js/common.js", lambda route: route.fulfill(status=200, content_type="text/javascript", body="export const broken = ;"))
+                p4 = c4.new_page()
+                p4.goto(APP + "/")
+                expect(p4.locator("#boot-fail")).to_be_visible(timeout=12000)
+                assert "screen check" in p4.locator("#boot-fail").inner_text().lower()
+                step.shot(p4, "watchdog")
+                c4.close()
+            check("start-up watchdog", watchdog)
+
+            # 10. no vendor or model name reached the browser
+            def branding_scan():
+                assert not SEEN_BANNED, "\n".join(SEEN_BANNED[:10])
+            check("no vendor names in anything the browser received", branding_scan)
 
             if console_errors:
                 print("BROWSER ERRORS:\n  " + "\n  ".join(console_errors[:30]))

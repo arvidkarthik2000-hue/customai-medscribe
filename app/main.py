@@ -24,27 +24,30 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name
 
 app = FastAPI(title="CustomAi MedScribe", version=__version__, docs_url=None, redoc_url=None)
 
-CSP = "; ".join(
-    [
-        "default-src 'self'",
-        "script-src 'self'",
-        "style-src 'self' 'unsafe-inline'",
-        "img-src 'self' data: blob:",
-        "media-src 'self' blob:",
-        "font-src 'self'",
-        "connect-src 'self' wss://streaming.assemblyai.com wss://streaming.us.assemblyai.com wss://streaming.eu.assemblyai.com"
-        + (" " + settings.assemblyai_test_base.replace("http", "ws", 1) if settings.assemblyai_test_base else ""),
-        "frame-ancestors 'none'",
-        "base-uri 'self'",
-        "form-action 'self'",
-    ]
-)
+def csp_for(request: Request) -> str:
+    """The browser talks only to this server: live audio goes through our own WebSocket relay."""
+    host = request.headers.get("host", "")
+    ws = ("wss://" if request.url.scheme == "https" or settings.secure_cookies else "ws://") + host
+    return "; ".join(
+        [
+            "default-src 'self'",
+            "script-src 'self'",
+            "style-src 'self' 'unsafe-inline'",
+            "img-src 'self' data: blob:",
+            "media-src 'self' blob:",
+            "font-src 'self'",
+            f"connect-src 'self' {ws}" if host else "connect-src 'self'",
+            "frame-ancestors 'none'",
+            "base-uri 'self'",
+            "form-action 'self'",
+        ]
+    )
 
 
 @app.middleware("http")
 async def security_headers(request: Request, call_next):
     response = await call_next(request)
-    response.headers.setdefault("Content-Security-Policy", CSP)
+    response.headers.setdefault("Content-Security-Policy", csp_for(request))
     response.headers.setdefault("Referrer-Policy", "no-referrer")
     response.headers.setdefault("X-Content-Type-Options", "nosniff")
     response.headers.setdefault("Permissions-Policy", "microphone=(self), camera=(), geolocation=()")
@@ -75,7 +78,7 @@ def start_session(body: SessionIn, response: Response):
     if not auth.check_code(body.code):
         return JSONResponse({"detail": "That access code is not right."}, status_code=401)
     data = auth.issue(response, body.role)
-    return {"ok": True, "role": data["role"]}
+    return {"ok": True, "role": data["role"], "token": data["token"]}
 
 
 @app.post("/api/session/role")
@@ -86,7 +89,8 @@ def switch_role(body: RoleIn, response: Response, session: dict = Depends(auth.r
         specialty=body.specialty or session.get("specialty"),
         state=body.state or session.get("state"),
     )
-    return {"ok": True, "role": data["role"], "specialty": data["specialty"], "state": data["state"]}
+    return {"ok": True, "role": data["role"], "specialty": data["specialty"], "state": data["state"],
+            "token": data["token"]}
 
 
 @app.post("/api/logout")
@@ -130,10 +134,12 @@ def health():
 # ---------------------------------------------------------------- zones
 
 from .clinical.routes import router as clinical_router  # noqa: E402
+from .device import router as device_router  # noqa: E402
 from .drugs.routes import router as drugs_router  # noqa: E402
 from .ads.app import app as ads_app  # noqa: E402
 
 app.include_router(clinical_router, prefix="/api")
+app.include_router(device_router, prefix="/api")
 
 
 @app.on_event("startup")

@@ -22,6 +22,7 @@ import itertools
 import json
 import logging
 import math
+import os
 import re
 import tempfile
 import time
@@ -369,8 +370,11 @@ def last_results() -> dict | None:
 
 
 def status() -> dict:
-    """The last results; starts a run in the background once per deploy."""
+    """The last results; starts a run in the background once per deploy. Internal: it names
+    third-party engines, so it answers only when BENCH_ENABLED=1 is set on the server."""
     global _task
+    if os.environ.get("BENCH_ENABLED", "") != "1":
+        return {"status": "disabled", "detail": "Not available."}
     last = last_results()
     if _task is not None and not _task.done():
         return {"status": "running", "detail": "Transcribing 55 consultations twice; about 10 minutes."}

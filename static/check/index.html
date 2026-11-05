@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Screen check · CustomAi MedScribe</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/check/check.css">
+</head>
+<body class="check">
+  <main class="page page-narrow">
+    <div class="wordmark"><span class="mark" aria-hidden="true">M</span><span>CustomAi MedScribe</span></div>
+    <div class="page-title">
+      <div>
+        <div class="eyebrow">Screen check</div>
+        <h1>Can this screen run the demo?</h1>
+        <p class="muted">Runs a few quick tests in this browser. No sign-in needed and nothing is recorded. If something is red, send a photo of this page to your CustomAi contact.</p>
+      </div>
+    </div>
+    <noscript><div class="banner banner-critical"><strong>JavaScript is turned off in this browser.</strong>&nbsp;The demo needs JavaScript. Turn it on in the browser or player settings, then reload.</div></noscript>
+    <div class="card">
+      <table class="table check-table" id="results">
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="check-actions">
+      <button class="btn btn-primary" id="mic-test" type="button">Test the microphone</button>
+      <button class="btn" id="rerun" type="button">Run again</button>
+      <a class="btn" href="/">Back to the demo</a>
+    </div>
+    <p class="muted small" id="summary-line"></p>
+    <pre class="check-raw" id="raw"></pre>
+  </main>
+  <script src="/check/check.js"></script>
+  <script type="module" src="/check/modern.js"></script>
+</body>
+</html>

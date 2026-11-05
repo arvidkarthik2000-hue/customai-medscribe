@@ -8,7 +8,8 @@ export async function render(root, { patientId }, ctx) {
     api("/api/samples").catch(() => ({ samples: [] })),
   ]);
   const mySamples = (samples.samples || []).filter((s) => s.patient_id === patientId);
-  const defaults = { template: "soap", style: "concise", engine: "sonnet", ...visitDefaults() };
+  const defaults = { template: "soap", style: "concise", engine: "thorough", ...visitDefaults() };
+  if (!["thorough", "fast"].includes(defaults.engine)) defaults.engine = "thorough"; // older saved choices
   const state = { ...defaults };
 
   const seg = (key, options) => {
@@ -125,7 +126,7 @@ export async function render(root, { patientId }, ctx) {
             el("div", { class: "field" }, el("label", {}, "Note format"), seg("template", TEMPLATES)),
             el("div", { class: "row-wrap" },
               el("div", { class: "field" }, el("label", {}, "Style"), seg("style", { concise: "Concise", detailed: "Detailed" })),
-              el("div", { class: "field" }, el("label", {}, "Note engine"), seg("engine", { sonnet: "Claude Sonnet", haiku: "Claude Haiku" }))),
+              el("div", { class: "field" }, el("label", {}, "Note engine"), seg("engine", { thorough: "Salient · thorough", fast: "Salient · fast" }))),
             el("p", { class: "muted small", style: { margin: 0 } }, `Specialty template: ${SPECIALTIES[ctx.me.prescriber.specialty] || ctx.me.prescriber.specialty}`),
             startBtn,
             speechReady ? null : el("p", { class: "muted small", style: { margin: 0 } }, "Live recording needs the speech service, which isn't configured on this server yet."),

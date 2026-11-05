@@ -1,6 +1,6 @@
 // AudioWorklet: microphone float samples at the device rate -> 16 kHz mono PCM16,
 // posted in 100 ms chunks (1,600 samples), with an RMS level for the meter.
-// AssemblyAI accepts binary frames of 50-1000 ms.
+// The live service accepts binary frames of 50-1000 ms.
 class PcmWorklet extends AudioWorkletProcessor {
   constructor() {
     super();

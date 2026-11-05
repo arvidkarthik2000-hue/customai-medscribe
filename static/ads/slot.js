@@ -12,6 +12,8 @@
 // least 50% of it is on screen for 1 continuous second with the tab visible.
 
 const BASE = (window.MEDSCRIBE_ADZONE_BASE || "/adzone").replace(/\/$/, "");
+// The page's session header, for browsers that don't keep cookies (set by /js/common.js).
+const sessionHeaders = () => { try { return (window.MEDSCRIBE_AUTH && window.MEDSCRIBE_AUTH()) || {}; } catch (e) { return {}; } };
 const SENT_KEY = "ms_ads_sent_v1";
 const CACHE_KEY = "ms_ads_schedule_v1";
 const CACHE_MS = 10 * 60 * 1000; // the schedule card refreshes at most every 10 minutes
@@ -61,7 +63,7 @@ async function send(imp, type, extra = {}) {
   try {
     await fetch(`${BASE}/events`, {
       method: "POST", credentials: "same-origin", keepalive: true,
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...sessionHeaders() },
       body: JSON.stringify({ impression_id: imp, type, visible: document.visibilityState === "visible", webdriver: !!navigator.webdriver, ...extra }),
     });
   } catch { /* the ad zone being down must never affect the doctor */ }
@@ -87,7 +89,7 @@ export async function mountSlot(container, { slot, prescriberId, specialty, stat
     let res;
     try {
       res = await fetch(`${BASE}/serve`, {
-        method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" },
+        method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json", ...sessionHeaders() },
         body: JSON.stringify({ slot, prescriber_id: prescriberId, specialty, state, hour: new Date().getHours() }),
       });
     } catch { handle.empty = true; return handle; }
@@ -219,7 +221,7 @@ export async function openResourcesTray({ prescriberId, specialty, state }) {
   let data = { items: [] };
   try {
     const res = await fetch(`${BASE}/tray`, {
-      method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" },
+      method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json", ...sessionHeaders() },
       body: JSON.stringify({ prescriber_id: prescriberId, specialty, state, hour: new Date().getHours() }),
     });
     if (res.ok) data = await res.json();

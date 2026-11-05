@@ -181,9 +181,10 @@ def test_token_needs_consent_key_and_cap(client, monkeypatch):
     monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, assemblyai_api_key=KEY))
     stt.transport = httpx.MockTransport(lambda req: httpx.Response(200, json={"token": "tmp", "expires_in_seconds": 600}))
     r = client.post("/api/stt/token", json={"visit_id": vid}).json()
-    assert r["token"] == "tmp" and r["ws_url"].startswith("wss://streaming.assemblyai.com/v3/ws?")
-    assert "keyterms_prompt" in r["ws_url"] and "token=" not in r["ws_url"]
-    assert r["zone"] == "edge"
+    assert r["token"] is None and r["ws_url"].startswith("/api/stt/stream?ticket=")  # our relay, not the provider
+    upstream = stt.take_ticket(r["ws_url"].split("ticket=")[1])
+    assert upstream.startswith("wss://streaming.assemblyai.com/v3/ws?") and "keyterms_prompt" in upstream
+    assert "token=tmp" in upstream
     stt.transport = httpx.MockTransport(lambda req: httpx.Response(401, json={"error": "Temp token cannot create temp token"}))
     bad = client.post("/api/stt/token", json={"visit_id": vid})
     assert bad.status_code == 502 and bad.json()["detail"] == "The live transcript service is unavailable right now."
@@ -263,8 +264,9 @@ def test_upload_final_pass_and_claude_note(client, monkeypatch):
     assert v["status"] == "ready", v["error"]
     assert state["body"]["domain"] == "medical-v1" and state["deleted"]
     assert "amlodipine" in state["body"]["keyterms_prompt"]
-    assert v["engine_info"]["final_model"] == "universal-3-5-pro" and v["engine_info"]["medical_mode"] is True
-    assert v["engine_info"]["note_model"] == "claude-sonnet-5-5"
+    assert v["engine_info"]["final_model"] == "salient-medical-speech" and v["engine_info"]["medical_mode"] is True
+    assert v["engine_info"]["note_model"] == "salient-thorough"
+    assert "claude" not in json.dumps(v).lower() and "universal-3" not in json.dumps(v).lower()
     assert v["audio_seconds"] == 61 and store.usage_get("audio_seconds") == 61
     assert not list((config.settings.data_dir / "audio").glob(f"{vid}*"))  # recording deleted after the final pass
     plan = next(s for s in v["note"]["sections"] if s["id"] == "plan")
@@ -389,9 +391,9 @@ def test_selftest_skips_and_caches(client, monkeypatch):
     store.kv_set("selftest", None)
     first = client.get("/api/selftest").json()
     names = {c["name"]: c["ok"] for c in first["checks"]}
-    assert names["AssemblyAI streaming token"] is None and names["Claude note (structured output)"] is None
+    assert names["Salient speech: live session token"] is None and names["Salient notes: draft (structured output)"] is None
     assert names["RxNorm (RxNav)"] is True and first["cached"] is False and first["ok"] is False
-    assert names["AssemblyAI final pass (upload + Medical Mode)"] is None
+    assert names["Salient speech: final pass (upload + medical vocabulary)"] is None
     assert names["Medicare Part D formulary (CMS)"] is None  # the loader is off in tests: sample formulary
     second = client.get("/api/selftest").json()
     assert second["cached"] is True and second["next_run_in_s"] > 0
@@ -438,12 +440,13 @@ def test_selftest_final_pass_and_token_details(monkeypatch):
         fp = asyncio.run(selftest._final_pass())
     finally:
         stt.transport = None
-    assert tok["ok"] is True and "edge routing" in tok["detail"] and "Refused first" in tok["detail"]
-    assert "token.us.assemblyai.com/v1/token: HTTP 401: Unauthorized" in tok["detail"]
+    assert tok["ok"] is True and "nearest region" in tok["detail"] and "refused it first" in tok["detail"]
+    assert "assemblyai" not in tok["detail"].lower()  # the host and provider stay in the server log
     assert fp["ok"] is True, fp
     assert seen["upload_bytes"] == selftest.SAMPLE_FILE.stat().st_size  # the voiced sample, uploaded
     assert seen["body"]["domain"] == "medical-v1" and "warfarin" in [t.lower() for t in seen["body"]["keyterms_prompt"]]
-    assert "uploaded" in fp["detail"] and "Medical Mode on" in fp["detail"] and "2 speakers" in fp["detail"]
+    assert "uploaded" in fp["detail"] and "medical vocabulary on" in fp["detail"] and "2 speakers" in fp["detail"]
+    assert "universal" not in fp["detail"].lower()
 
 
 def test_reset_schedule(client):
@@ -537,7 +540,7 @@ def test_selftest_live_stream_reads_captions_back(monkeypatch, tmp_path):
         server.should_exit = True
         thread.join(5)
     assert res["ok"] is True, res
-    assert "universal-3-6-pro" in res["detail"] and "Medical Mode on" in res["detail"]
+    assert "medical vocabulary on" in res["detail"] and "universal" not in res["detail"].lower()
     assert "speakers A, B" in res["detail"] and "heard 3 of 4 check words" in res["detail"]
 
 
@@ -557,4 +560,4 @@ def test_selftest_live_stream_reports_an_unreachable_service(monkeypatch):
 
     monkeypatch.setattr(stt, "mint_token", fake_mint)
     res = asyncio.run(selftest._live_stream())
-    assert res["ok"] is False and res["detail"].startswith("AssemblyAI ")
+    assert res["ok"] is False and res["detail"].startswith("The live service ")

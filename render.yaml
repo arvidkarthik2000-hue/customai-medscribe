@@ -7,7 +7,7 @@ services:
     runtime: python
     region: virginia
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips="*"
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips="*" --no-server-header
     healthCheckPath: /api/health
     autoDeployTrigger: commit
     disk:

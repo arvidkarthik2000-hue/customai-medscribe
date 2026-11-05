@@ -84,7 +84,7 @@ STYLES = {
     "detailed": "Detailed: complete sentences with the relevant context the clinician gave.",
 }
 
-ENGINES = ("sonnet", "haiku")
+ENGINES = ("thorough", "fast")
 
 
 def section_ids(template: str) -> list[str]:

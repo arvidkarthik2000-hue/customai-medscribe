@@ -1,6 +1,6 @@
 // Note review: evidence-linked note, verifier flags, medicine confirmation,
 // decision-support cards and sign-off. A clinical screen: no sponsored units.
-import { api, el, mount, toast, modal, fmt, $ , $$ } from "/js/common.js";
+import { api, el, mount, toast, modal, fmt, $ , $$, downloadHref } from "/js/common.js";
 import { TEMPLATES } from "/doctor/shared.js";
 
 const VERDICT = {
@@ -58,7 +58,7 @@ export async function render(root, { visitId }, ctx) {
           meds.length ? el("span", { class: `badge ${toConfirm ? "badge-warning" : "badge-ok"}` }, toConfirm ? `${toConfirm} medicine${toConfirm > 1 ? "s" : ""} to confirm` : "Medicines confirmed") : null)),
       el("div", { class: "row-wrap no-print" },
         el("button", { class: "btn", onclick: copyNote }, "Copy note"),
-        el("a", { class: "btn", href: `/api/visits/${visitId}/export.txt`, download: `note-${visitId}.txt` }, "Export .txt"),
+        el("a", { class: "btn", href: downloadHref(`/api/visits/${visitId}/export.txt`), download: `note-${visitId}.txt` }, "Export .txt"),
         el("button", { class: "btn", onclick: () => window.print() }, "Print / PDF"),
         signed()
           ? el("span", { class: "badge badge-ok", style: { height: "36px", padding: "0 14px" } }, `Signed ${fmt.time(visit.signed_at)}`)
@@ -410,9 +410,9 @@ export async function render(root, { visitId }, ctx) {
     const t = visit.timings || {};
     const e = visit.engine_info || {};
     const bits = [];
-    if (e.final_model && visit.source === "final") bits.push(`Final pass: ${e.final_model} (Medical Mode)`);
-    if (e.live_model && visit.source === "live") bits.push(`Live: ${e.live_model}`);
-    if (e.note_model) bits.push(`Note: ${e.note_model}`);
+    if (e.final_model && visit.source === "final") bits.push("Final pass: Salient medical speech");
+    if (e.live_model && visit.source === "live") bits.push("Live: Salient medical speech");
+    if (e.note_model) bits.push(e.note_model === "saved sample note" ? "Note: saved sample note" : "Note: Salient");
     if (e.saved_note) bits.push("Saved sample note (AI engine not configured)");
     const secs = ["final_transcript_s", "note_s", "verify_s", "meds_s"].map((k) => t[k]).filter((x) => typeof x === "number");
     if (secs.length) bits.push(`Processing ${secs.reduce((a, b) => a + b, 0).toFixed(1)} s`);

@@ -14,7 +14,7 @@ export async function render(root, { visitId }, ctx) {
 
   // ---------- state
   const turns = new Map(); // key "session:order" -> {key, session, order, text, final, speaker, start_ms, end_ms}
-  // Each reconnect starts a new AssemblyAI stream whose word times restart at 0,
+  // Each reconnect starts a new live stream whose word times restart at 0,
   // so every session's times are shifted by when that session began.
   const sessionOffsetMs = new Map();
   const unassigned = (spk) => !spk || spk === "PENDING" || spk === "UNKNOWN";
@@ -146,9 +146,7 @@ export async function render(root, { visitId }, ctx) {
         if (destroyed) return;
         if (kind === "live") {
           sessionOffsetMs.set(live.session, Math.round(elapsed * 1000));
-          const model = live && live.model ? ` · ${live.model}` : "";
-          const mm = live && live.domain === "medical-v1" ? " · Medical Mode" : live && live.domain ? "" : " · Medical Mode requested";
-          setStatus("live", `Live transcript${model}${mm}`);
+          setStatus("live", live && live.medical ? "Live transcript · Salient medical speech" : "Live transcript · Salient");
           banner.textContent = "";
         } else if (kind === "dropped" && phase !== "stopping") {
           if (info && info.code === 1008) {
@@ -161,7 +159,7 @@ export async function render(root, { visitId }, ctx) {
           reconnect(info);
         } else if (kind === "error") {
           setStatus("error", "Live transcript error");
-          console.warn("AssemblyAI error", info);
+          console.warn("Live transcript error", info);
         }
       },
     });
@@ -232,7 +230,7 @@ export async function render(root, { visitId }, ctx) {
     } else if (phase === "paused") {
       phase = "live"; mic && mic.resume(); lastTick = performance.now(); pauseBtn.textContent = "Pause";
       if (pendingReconnect) { const info = pendingReconnect; pendingReconnect = null; reconnect(info); }
-      setStatus(live && live.ready ? "live" : "local", live && live.ready ? "Live transcript · Medical Mode" : "Recording locally");
+      setStatus(live && live.ready ? "live" : "local", live && live.ready ? "Live transcript · Salient medical speech" : "Recording locally");
       document.getElementById("rec-dot")?.classList.add("dot-live");
     }
   }

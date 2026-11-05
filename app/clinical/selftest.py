@@ -5,6 +5,7 @@ import asyncio
 import importlib
 import inspect
 import json
+import logging
 import time
 from pathlib import Path
 from urllib.parse import quote
@@ -13,6 +14,8 @@ import httpx
 
 from .. import config
 from . import fixtures, notes, store, stt
+
+log = logging.getLogger("medscribe.selftest")
 
 # The voiced version of sample visit 1 (synthetic voices), sent the way a real recording is.
 SAMPLE_ID = "s1-knee-warfarin"
@@ -40,24 +43,25 @@ def _result(name: str, ok: bool | None, detail: str, t0: float) -> dict:
 async def _token() -> dict:
     t0 = time.monotonic()
     if not config.settings.assemblyai_api_key:
-        return _result("AssemblyAI streaming token", None, "Skipped: ASSEMBLYAI_API_KEY is not set.", t0)
+        return _result("Salient speech: live session token", None, "Skipped: the speech key is not set.", t0)
     try:
         tok = await stt.mint_token(120)
     except stt.SttError as exc:
-        return _result("AssemblyAI streaming token", False, str(exc), t0)
-    where = {"us": "US data zone", "eu": "EU data zone", "edge": "edge routing (nearest region)"}.get(tok.zone, tok.zone)
-    detail = f"Token issued for the live stream ({where}, {tok.ws.split('/')[2]})."
+        return _result("Salient speech: live session token", False, str(exc), t0)
+    where = {"us": "US data zone", "eu": "EU data zone", "edge": "nearest region"}.get(tok.zone, tok.zone)
+    detail = f"Live session token issued ({where})."
     if tok.refused:
-        detail += " Refused first: " + "; ".join(tok.refused) + "."
-    return _result("AssemblyAI streaming token", True, detail, t0)
+        detail += f" The {len(tok.refused)} preferred route(s) refused it first; details are in the server log."
+        log.info("self-test token: refused first: %s", "; ".join(tok.refused))
+    return _result("Salient speech: live session token", True, detail, t0)
 
 
 async def _final_pass() -> dict:
     """The recorded-visit path exactly as a visit uses it: upload, Medical Mode, keyterms, delete."""
     t0 = time.monotonic()
-    name = "AssemblyAI final pass (upload + Medical Mode)"
+    name = "Salient speech: final pass (upload + medical vocabulary)"
     if not config.settings.assemblyai_api_key:
-        return _result(name, None, "Skipped: ASSEMBLYAI_API_KEY is not set.", t0)
+        return _result(name, None, "Skipped: the speech key is not set.", t0)
     if not SAMPLE_FILE.exists():
         return _result(name, None, "Skipped: the voiced sample visit is missing from this build.", t0)
     sample = next((x for x in fixtures.samples() if x.get("id") == SAMPLE_ID), None) or {}
@@ -70,10 +74,11 @@ async def _final_pass() -> dict:
     meta = tr["meta"]
     words = sum(len(t["text"].split()) for t in tr["turns"])
     speakers = len({t["speaker"] for t in tr["turns"]})
-    mm = "Medical Mode on" if meta.get("medical_mode") else "Medical Mode NOT applied"
+    mm = "medical vocabulary on" if meta.get("medical_mode") else "medical vocabulary NOT applied"
     via = "uploaded" if meta.get("audio_via") == "upload" else "fetched from a one-time link"
-    detail = (f"{meta.get('audio_duration')} s visit {via}, transcribed with {meta.get('speech_model_used')}, {mm}, "
-              f"{meta.get('keyterms_used')} keyterms, {words} words, {speakers} speakers.")
+    detail = (f"{meta.get('audio_duration')} s visit {via}, transcribed by Salient medical speech, {mm}, "
+              f"{meta.get('keyterms_used')} drug terms, {words} words, {speakers} speakers.")
+    log.info("self-test final pass ran on %s", meta.get("speech_model_used"))
     if meta.get("warnings"):
         detail += " " + " ".join(meta["warnings"])
     return _result(name, bool(meta.get("medical_mode")), detail, t0)
@@ -94,10 +99,10 @@ async def _live_stream() -> dict:
     100 ms chunks at real-time pace, then Terminate. Checks the model and Medical Mode AssemblyAI
     reports in Begin, and that the captions contain words said in the audio."""
     t0 = time.monotonic()
-    name = "AssemblyAI live stream (captions)"
+    name = "Salient speech: live stream (captions)"
     s = config.settings
     if not s.assemblyai_api_key:
-        return _result(name, None, "Skipped: ASSEMBLYAI_API_KEY is not set.", t0)
+        return _result(name, None, "Skipped: the speech key is not set.", t0)
     if not LIVE_FILE.exists():
         return _result(name, None, "Skipped: the live test audio is missing from this build.", t0)
     try:
@@ -111,7 +116,14 @@ async def _live_stream() -> dict:
     sample = next((x for x in fixtures.samples() if x.get("id") == SAMPLE_ID), None) or {}
     chart = fixtures.patient(sample.get("patient_id")) if sample.get("patient_id") else None
     terms = stt.build_keyterms(fixtures.keyterm_seed(chart or {}), "family_medicine")["live"]
-    url = f"{stt.ws_url(terms, tok.ws)}&token={quote(tok.token)}"
+    upstream = f"{stt.ws_url(terms, tok.ws)}&token={quote(tok.token)}"
+    base = (s.public_base_url or "").rstrip("/")
+    if base:  # through our own relay, exactly the browser's path
+        ticket = stt.issue_ticket(tok, stt.ws_url(terms, tok.ws))
+        url = base.replace("https://", "wss://", 1).replace("http://", "ws://", 1) + f"/api/stt/stream?ticket={ticket}"
+        via = "through this server's relay"
+    else:
+        url, via = upstream, "directly"
     pcm = LIVE_FILE.read_bytes()
     seconds = len(pcm) / 32000
     begin: dict = {}
@@ -122,7 +134,7 @@ async def _live_stream() -> dict:
         async with websockets.connect(url, open_timeout=10, close_timeout=5, max_size=2 ** 20, proxy=None) as ws:
             first = json.loads(await asyncio.wait_for(ws.recv(), 10))
             if first.get("type") != "Begin":
-                return _result(name, False, f"AssemblyAI did not start the session: {str(first)[:200]}", t0)
+                return _result(name, False, f"The live session did not start: {str(first)[:200]}", t0)
             begin = first
 
             async def send() -> None:
@@ -148,7 +160,7 @@ async def _live_stream() -> dict:
                         termination = msg
                         return
                     elif kind == "Error" or msg.get("error"):
-                        raise stt.SttError(f"AssemblyAI reported an error: {str(msg.get('error') or msg)[:200]}")
+                        raise stt.SttError(f"The live service reported an error: {str(msg.get('error') or msg)[:200]}")
 
             sender = asyncio.create_task(send())
             try:
@@ -160,22 +172,25 @@ async def _live_stream() -> dict:
     except asyncio.TimeoutError:
         return _result(name, False, "The live session did not finish in time (no Termination message).", t0)
     except (websockets.exceptions.WebSocketException, OSError) as exc:
-        return _result(name, False, f"AssemblyAI {_close_reason(exc)}.", t0)
+        return _result(name, False, f"The live service {_close_reason(exc)}.", t0)
     cfg = begin.get("configuration") or {}
-    model, domain = cfg.get("model") or "unknown model", cfg.get("domain") or ""
+    # Through the relay, Begin says {"model": "salient-live", "medical": bool}; directly, it names the
+    # provider's model and domain.
+    medical = bool(cfg.get("medical")) or cfg.get("domain") == "medical-v1"
+    model_ok = cfg.get("model") in ("salient-live", s.live_speech_model)
     text = " ".join((latest[k].get("transcript") or "") for k in sorted(latest)).strip()
     low = text.lower()
     heard = [w for w in LIVE_EXPECT if w in low]
     speakers = sorted({t.get("speaker_label") for t in latest.values()
                        if t.get("speaker_label") and t.get("speaker_label") != "UNKNOWN"})
-    ok = model == s.live_speech_model and domain == "medical-v1" and len(heard) >= 2 and bool(termination)
-    host = tok.ws.split("/")[2]
-    detail = (f"Streamed {seconds:.0f} s of the voiced sample visit to {host}: {model}, "
-              f"{'Medical Mode on' if domain == 'medical-v1' else 'Medical Mode NOT applied (' + (domain or 'none') + ')'}, "
+    ok = model_ok and medical and len(heard) >= 2 and bool(termination)
+    detail = (f"Streamed {seconds:.0f} s of the voiced sample visit {via}: "
+              f"{'medical vocabulary on' if medical else 'medical vocabulary NOT applied'}, "
               f"{len(latest)} turns ({finals} final), {len(text.split())} words, speakers {', '.join(speakers) or 'none'}; "
               f"heard {len(heard)} of {len(LIVE_EXPECT)} check words. Start: \u201c{text[:90]}\u201d")
-    if model != s.live_speech_model:
-        detail += f" AssemblyAI ran {model}, not the requested {s.live_speech_model}."
+    if not model_ok:
+        detail += " The live service did not run the requested model."
+        log.warning("self-test live stream ran %s", cfg.get("model"))
     return _result(name, ok, detail, t0)
 
 
@@ -199,26 +214,26 @@ async def _claude() -> list[dict]:
     t0 = time.monotonic()
     s = config.settings
     if not s.notes_ready:
-        return [_result("Claude note (structured output)", None, "Skipped: no Claude API key is set.", t0),
-                _result("Claude verifier", None, "Skipped: no Claude API key is set.", t0)]
+        return [_result("Salient notes: draft (structured output)", None, "Skipped: the note-engine key is not set.", t0),
+                _result("Salient notes: verifier", None, "Skipped: the note-engine key is not set.", t0)]
     try:
         note, meta = await notes.generate_note(TINY_TURNS, None, template="soap", specialty="family_medicine",
                                                style="concise", engine="sonnet", visit_date="2026-01-01", effort="low")
         meds = [m["name"].lower() for m in note.get("medications", [])]
         ok = any("lisinopril" in m for m in meds)
-        first = _result("Claude note (structured output)", ok,
-                        f"{meta['model']} returned a valid note in {meta['seconds']} s"
+        first = _result("Salient notes: draft (structured output)", ok,
+                        f"Returned a valid note in {meta['seconds']} s"
                         + ("" if ok else " but missed the medicine (lisinopril)") + ".", t0)
     except notes.NoteError as exc:
-        return [_result("Claude note (structured output)", False, str(exc), t0),
-                _result("Claude verifier", None, "Skipped because the note call failed.", t0)]
+        return [_result("Salient notes: draft (structured output)", False, str(exc), t0),
+                _result("Salient notes: verifier", None, "Skipped because the note call failed.", t0)]
     t1 = time.monotonic()
     try:
         verdicts, vmeta = await notes.verify_note(note, TINY_TURNS)
-        second = _result("Claude verifier", bool(verdicts),
-                         f"{vmeta.get('model')} graded {vmeta.get('graded', 0)} of {vmeta.get('lines', 0)} lines.", t1)
+        second = _result("Salient notes: verifier", bool(verdicts),
+                         f"Graded {vmeta.get('graded', 0)} of {vmeta.get('lines', 0)} lines.", t1)
     except notes.NoteError as exc:
-        second = _result("Claude verifier", False, str(exc), t1)
+        second = _result("Salient notes: verifier", False, str(exc), t1)
     return [first, second]
 
 

@@ -235,7 +235,7 @@ def test_transcribe_retries_without_domain_and_says_so():
     res = run(stt.transcribe_file(_audio_file(), [], sleep=_nosleep))
     assert "domain" in state["bodies"][0] and "domain" not in state["bodies"][1]
     assert res["meta"]["medical_mode"] is False
-    assert any("Medical Mode was not applied" in w for w in res["meta"]["warnings"])
+    assert any("Medical vocabulary was not applied" in w for w in res["meta"]["warnings"])
 
 
 def test_transcribe_error_status_is_plain():
@@ -337,7 +337,7 @@ def test_temp_token_answer_names_the_value_format_not_the_value():
     with pytest.raises(stt.SttRefused) as e:
         run(stt.mint_token(600))
     msg = str(e.value)
-    assert "temporary token" in msg and "API Keys" in msg and KEY not in msg
+    assert "temporary token" in msg and "dashboard" in msg and KEY not in msg
     assert f"{len(KEY)} characters" in msg
 
 
@@ -375,7 +375,7 @@ def test_prompt_too_long_trims_keyterms_and_retries():
     assert state["bodies"][1]["keyterms_prompt"] == terms[:sizes[1]]  # the first (chart) terms are kept
     assert "/v2/transcript/tr_1" in state["deleted"]  # the failed attempt is deleted too
     assert res["meta"]["keyterms_used"] == sizes[1]
-    assert any("Keyterms trimmed from 300" in w for w in res["meta"]["warnings"])
+    assert any("Drug terms trimmed from 300" in w for w in res["meta"]["warnings"])
 
 
 def test_final_keyterms_fit_the_word_budget():

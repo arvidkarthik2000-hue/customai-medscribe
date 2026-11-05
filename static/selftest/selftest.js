@@ -63,7 +63,7 @@ function renderEval(res) {
     (data.results || []).map((r) => el("div", { class: "card card-pad stack" },
       el("div", { class: "row between" }, el("strong", {}, r.title || r.sample), r.error ? el("span", { class: "badge badge-critical" }, "error") : el("span", { class: "muted small mono" }, `${r.after_audio_s} s`)),
       r.error ? el("p", { class: "small", style: { color: "var(--critical)", margin: 0 } }, r.error) : el("div", { class: "small stack" },
-        el("div", {}, `Speech: ${r.speech?.model} · Medical Mode ${r.speech?.medical_mode ? "on" : "off"} · ${r.speech?.keyterms} key terms · WER ${pct(r.scores.transcript_wer)}`),
+        el("div", {}, `Speech: Salient medical speech · medical vocabulary ${r.speech?.medical_mode ? "on" : "off"} · ${r.speech?.keyterms} drug terms · WER ${pct(r.scores.transcript_wer)}`),
         el("div", {}, `Medicines heard ${r.scores.drug_names_heard} · recall ${pct(r.scores.note_medicine_recall)} · dose and action ${pct(r.scores.dose_and_action_accuracy)} · speakers ${pct(r.scores.speaker_agreement)} · roles ${r.scores.speaker_roles_correct}`),
         r.scores.note_medicines_missing.length ? el("div", { style: { color: "var(--critical)" } }, `Missing: ${r.scores.note_medicines_missing.join(", ")}`) : null,
         r.scores.note_medicines_extra.length ? el("div", { style: { color: "var(--warning)" } }, `Unexpected: ${r.scores.note_medicines_extra.join(", ")}`) : null,

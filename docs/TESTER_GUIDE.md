@@ -15,6 +15,15 @@ agreeing to be recorded.
 
 Use Chrome, Edge or Safari on a laptop, and allow the microphone when asked.
 
+**On a wallboard, kiosk or other shared screen,** open `/check/` on the demo
+link first (for example `https://customai-medscribe.onrender.com/check/`). It
+needs no access code and tests, in that screen's browser, everything the demo
+relies on: an up-to-date browser, the connection, sign-in, live captions and
+the microphone. If a row is red, send a photo of the page to your CustomAi
+contact. Screens without a microphone can still run every view; use *Replay a
+scripted visit* instead of recording. If the screen's player only allows one
+address, allow every page on the demo's address.
+
 ## A 10-minute walkthrough
 
 1. **Doctor → Today's schedule.** Note the one sponsored card beside the

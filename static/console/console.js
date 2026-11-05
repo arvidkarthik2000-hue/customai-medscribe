@@ -1,4 +1,4 @@
-import { api, el, mount, fmt, toast, renderHeader, requireSession, debounce } from "/js/common.js";
+import { api, el, mount, fmt, toast, renderHeader, requireSession, debounce, downloadHref } from "/js/common.js";
 import { columnChart, barList, pacingBullets, chartCard, compact } from "/console/charts.js";
 
 const A = (window.MEDSCRIBE_ADZONE_BASE || "/adzone").replace(/\/$/, "");
@@ -242,7 +242,7 @@ async function toggleDetail(c, detailRow) {
   mount(inner,
     el("div", { class: "toolbar" },
       el("a", { class: "btn btn-sm", href: shareUrl, target: "_blank", rel: "noopener" }, "Open sponsor report"),
-      el("a", { class: "btn btn-sm", href: `${A}/api/export.csv?campaign_id=${encodeURIComponent(c.id)}` }, "Day-level CSV"),
+      el("a", { class: "btn btn-sm", href: downloadHref(`${A}/api/export.csv?campaign_id=${encodeURIComponent(c.id)}`) }, "Day-level CSV"),
       c.effective_status === "active" ? el("button", { class: "btn btn-sm", onclick: async () => { await api(`${A}/api/campaigns/${c.id}`, { method: "PATCH", body: { status: "paused" } }); toast("Campaign paused.", "ok"); campaigns(); } }, "Pause") : null,
       c.effective_status === "paused" ? el("button", { class: "btn btn-sm", onclick: async () => { await api(`${A}/api/campaigns/${c.id}`, { method: "PATCH", body: { status: "active" } }); toast("Campaign resumed.", "ok"); campaigns(); } }, "Resume") : null,
       el("span", { class: "note" }, `Targeting: ${(c.specialty_labels || []).join(", ")} · ${c.states.length === 12 ? "all 12 states" : c.states.join(", ")} · ${c.slot_labels.join(", ")} · cap ${c.freq_cap_week} a week`)),
@@ -519,7 +519,7 @@ async function sharing() {
   const m = await meta();
   mount(view,
     section("Sharing", "Read-only report links for each sponsor, day-level CSV and print-to-PDF.",
-      el("a", { class: "btn", href: `${A}/api/export.csv?days=${state.days}` }, "Network CSV (day level)")),
+      el("a", { class: "btn", href: downloadHref(`${A}/api/export.csv?days=${state.days}`) }, "Network CSV (day level)")),
     el("section", { class: "card" }, el("div", { class: "table-wrap" }, el("table", { class: "table" },
       el("thead", {}, el("tr", {}, ["Campaign", "Read-only link", "", "Exports"].map((h) => el("th", {}, h)))),
       el("tbody", {}, m.campaigns.filter((c) => c.effective_status !== "scheduled").map((c) => {
@@ -532,7 +532,7 @@ async function sharing() {
             el("a", { class: "btn btn-sm btn-ghost", href: url, target: "_blank", rel: "noopener" }, "Open"),
             el("button", { class: "btn btn-sm btn-ghost", onclick: async () => { await api(`${A}/api/campaigns/${c.id}/share/rotate`, { method: "POST" }); toast("New link issued; the old one stops working.", "ok"); sharing(); } }, "Revoke and reissue")),
           el("td", { class: "nowrap" },
-            el("a", { class: "btn btn-sm", href: `${A}/api/export.csv?campaign_id=${encodeURIComponent(c.id)}` }, "CSV"),
+            el("a", { class: "btn btn-sm", href: downloadHref(`${A}/api/export.csv?campaign_id=${encodeURIComponent(c.id)}`) }, "CSV"),
             el("a", { class: "btn btn-sm btn-ghost", href: `${url}&print=1`, target: "_blank", rel: "noopener" }, "PDF")));
       }))))),
     el("section", { class: "card card-pad stack", style: { marginTop: "16px" } },

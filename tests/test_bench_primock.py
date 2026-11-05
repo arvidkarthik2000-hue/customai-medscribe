@@ -40,6 +40,7 @@ def test_parse_textgrid_and_mcnemar():
 
 def test_status_runs_once_per_deploy(monkeypatch, tmp_path):
     monkeypatch.setattr(config, "settings", dataclasses.replace(config.settings, assemblyai_api_key="k", data_dir=tmp_path))
+    monkeypatch.setenv("BENCH_ENABLED", "1")
     calls = []
 
     async def fake_run():
@@ -65,3 +66,8 @@ def test_generic_drug_list_is_within_budget():
     body = pb._configs()["assemblyai-u35-medical + drug list (ours)"]
     words = sum(len(t.split()) for t in body["keyterms_prompt"])
     assert 0 < words <= 600 and body["domain"] == "medical-v1" and body["speaker_labels"] is True
+
+
+def test_benchmark_is_internal_unless_enabled(monkeypatch):
+    monkeypatch.delenv("BENCH_ENABLED", raising=False)
+    assert pb.status() == {"status": "disabled", "detail": "Not available."}

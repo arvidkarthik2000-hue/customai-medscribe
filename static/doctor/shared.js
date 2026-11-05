@@ -32,8 +32,8 @@ export function sexAge(p) {
 
 export function readinessBanner(me) {
   const missing = [];
-  if (!me.speech_ready) missing.push("live speech (AssemblyAI)");
-  if (!me.notes_ready) missing.push("the AI note engine (Claude)");
+  if (!me.speech_ready) missing.push("live speech");
+  if (!me.notes_ready) missing.push("the note engine");
   if (!missing.length) return null;
   return el("div", { class: "banner banner-info" },
     el("div", {},

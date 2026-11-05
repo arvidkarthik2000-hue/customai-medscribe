@@ -21,7 +21,7 @@ import secrets
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from urllib.parse import urlencode, urlparse
+from urllib.parse import quote, urlencode, urlparse
 
 import httpx
 
@@ -193,7 +193,7 @@ def key_shape(key: str) -> str:
     """The format of a credential, never its value: enough to tell an API key from a token."""
     key = key or ""
     if re.fullmatch(r"[0-9a-fA-F]{32}", key):
-        return "32 hexadecimal characters (the format of an AssemblyAI API key)"
+        return "32 hexadecimal characters (the format of an account API key)"
     parts = key.split(".")
     if len(parts) == 3 and all(parts):
         exp = None
@@ -211,7 +211,7 @@ def key_shape(key: str) -> str:
 
             when = ", expiring " + _dt.datetime.fromtimestamp(exp, _dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
         return f"a {len(key)}-character signed token in three parts (the format of a temporary token{when})"
-    return f"{len(key)} characters, not the 32-character format of an AssemblyAI API key"
+    return f"{len(key)} characters, not the 32-character format of an account API key"
 
 
 def _where(url: str) -> str:
@@ -244,12 +244,116 @@ async def mint_token(max_session_seconds: int) -> StreamToken:
                 tried.append(f"{_where(route['url'])}: {exc.__class__.__name__}")
     if tried and all(re.search(r"HTTP 40[13]\b", t) for t in tried):
         if any("temp token" in t.lower() for t in tried):
-            raise SttRefused("AssemblyAI says ASSEMBLYAI_API_KEY holds a temporary token, not the account's API key, "
+            raise SttRefused("The speech service says the server's speech key is a temporary token, not the account's API key, "
                              f"and a token cannot mint another token. The value is {key_shape(key)}. Put the API key "
-                             "from the AssemblyAI dashboard (API Keys) in ASSEMBLYAI_API_KEY. (" + "; ".join(tried) + ")")
-        raise SttRefused("AssemblyAI did not accept this API key for live streaming ("
+                             "from the speech provider's dashboard in the server settings. (" + "; ".join(tried) + ")")
+        raise SttRefused("The speech service did not accept the server's key for live streaming ("
                          + "; ".join(tried) + "). Check that the key is current and that the account can use streaming.")
-    raise SttError("AssemblyAI would not issue a streaming token (" + "; ".join(tried) + ").")
+    raise SttError("The speech service would not issue a live-session token (" + "; ".join(tried) + ").")
+
+
+# ---------------------------------------------------------------- live relay
+# The browser streams to our own WebSocket (/api/stt/stream); the server opens the upstream
+# session with the short-lived token, so the browser never sees the provider's host or token,
+# and networks that block unfamiliar WebSocket hosts still work.
+
+TICKET_TTL_S = 60
+_tickets: dict[str, tuple[str, float]] = {}
+
+
+def issue_ticket(tok: "StreamToken", upstream_ws_url: str) -> str:
+    now = time.time()
+    for k, (_u, exp) in list(_tickets.items()):
+        if exp < now:
+            _tickets.pop(k, None)
+    ticket = secrets.token_urlsafe(24)
+    sep = "&" if "?" in upstream_ws_url else "?"
+    _tickets[ticket] = (f"{upstream_ws_url}{sep}token={quote(tok.token)}", now + TICKET_TTL_S)
+    return ticket
+
+
+def take_ticket(ticket: str) -> str | None:
+    """One use only."""
+    item = _tickets.pop(ticket or "", None)
+    if not item or item[1] < time.time():
+        return None
+    return item[0]
+
+
+def neutral_message(raw: str) -> str:
+    """Pass live messages through, with the session description in our own terms."""
+    try:
+        msg = json.loads(raw)
+    except ValueError:
+        return raw
+    if not isinstance(msg, dict):
+        return raw
+    kind = msg.get("type")
+    if kind == "Begin":
+        cfg = msg.get("configuration") or {}
+        return json.dumps({"type": "Begin", "id": msg.get("id"), "expires_at": msg.get("expires_at"),
+                           "configuration": {"model": "salient-live", "medical": cfg.get("domain") == "medical-v1"}})
+    if kind == "Error" or msg.get("error"):
+        log.warning("live session error from upstream: %s", str(msg)[:300])
+        return json.dumps({"type": "Error", "error": "The live transcript service reported a problem."})
+    return raw
+
+
+def _close_code(code: int | None) -> int:
+    if code is None or code in (1005, 1006, 1015) or not (1000 <= code <= 4999):
+        return 1011
+    return code
+
+
+async def relay(client, upstream_url: str) -> None:
+    """Pipe one live session: browser audio up, transcript messages down, closes both ways."""
+    import websockets
+
+    code, reason = 1000, ""
+    try:
+        async with websockets.connect(upstream_url, open_timeout=10, close_timeout=5, max_size=2 ** 20,
+                                      proxy=None) as up:
+            async def browser_to_upstream() -> None:
+                while True:
+                    msg = await client.receive()
+                    if msg.get("type") == "websocket.disconnect":
+                        return
+                    if msg.get("bytes") is not None:
+                        await up.send(msg["bytes"])
+                    elif msg.get("text") is not None:
+                        await up.send(msg["text"])
+
+            async def upstream_to_browser() -> None:
+                async for m in up:
+                    if isinstance(m, str):
+                        await client.send_text(neutral_message(m))
+
+            tasks = {asyncio.create_task(browser_to_upstream()), asyncio.create_task(upstream_to_browser())}
+            done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+            for t in pending:
+                t.cancel()
+            for t in done:
+                exc = t.exception()
+                if exc and not isinstance(exc, websockets.exceptions.ConnectionClosed):
+                    log.info("live relay ended: %s", exc.__class__.__name__)
+            if up.close_code is not None:
+                code = _close_code(up.close_code)
+                if code == 1008:
+                    reason = "The live transcript service refused the session."
+                elif code != 1000:
+                    reason = "The live transcript service closed the session."
+                if up.close_reason:
+                    log.info("upstream closed %s: %s", up.close_code, up.close_reason[:200])
+    except websockets.exceptions.InvalidStatus as exc:
+        log.warning("live upstream refused the connection: %s", exc)
+        code, reason = 1008, "The live transcript service refused the session."
+    except (websockets.exceptions.WebSocketException, OSError, asyncio.TimeoutError) as exc:
+        log.warning("live upstream unavailable: %s", exc.__class__.__name__)
+        code, reason = 1011, "The live transcript service is unavailable."
+    try:
+        await client.close(code=code, reason=reason)
+    except RuntimeError:
+        pass  # the browser already left
 
 
 # ---------------------------------------------------------------- one-time links
@@ -352,10 +456,10 @@ def _shrink_keyterms(body: dict, message: str, warnings: list[str]) -> bool:
     keep = min(keep, n - 1)
     if keep < 5:
         body.pop("keyterms_prompt", None)
-        warnings.append(f"AssemblyAI's prompt limit was exceeded, so keyterms were not used ({_short(message, 160)}).")
+        warnings.append(f"The speech service's prompt limit was exceeded, so drug terms were not used ({_short(message, 160)}).")
     else:
         body["keyterms_prompt"] = terms[:keep]
-        warnings.append(f"Keyterms trimmed from {n} to {keep} to fit AssemblyAI's prompt limit.")
+        warnings.append(f"Drug terms trimmed from {n} to {keep} to fit the speech service's prompt limit.")
     return True
 
 
@@ -375,19 +479,19 @@ async def create_and_poll(c: httpx.AsyncClient, key: str, body: dict, *, timeout
             if r.status_code in (401, 403):
                 if "keyterms_prompt" in body:
                     body.pop("keyterms_prompt")
-                    warnings.append(f"AssemblyAI refused the request with keyterms ({detail}), so it ran without them.")
+                    warnings.append(f"The speech service refused the request with drug terms ({detail}), so it ran without them.")
                     continue
-                raise SttRefused(f"AssemblyAI refused the transcription request ({detail}).")
+                raise SttRefused(f"The speech service refused the transcription request ({detail}).")
             if r.status_code in (400, 422):
                 if _shrink_keyterms(body, detail, warnings):
                     continue
                 if "keyterm" in low and "keyterms_prompt" in body:
                     body.pop("keyterms_prompt")
-                    warnings.append(f"AssemblyAI rejected the keyterms, so they were not used ({detail}).")
+                    warnings.append(f"The speech service rejected the drug terms, so they were not used ({detail}).")
                     continue
                 if "domain" in low and "domain" in body:
                     body.pop("domain")
-                    warnings.append(f"Medical Mode was not applied: AssemblyAI rejected it ({detail}).")
+                    warnings.append(f"Medical vocabulary was not applied: the speech service rejected it ({detail}).")
                     continue
                 if "language" in low and "language_code" in body:
                     body.pop("language_code")
@@ -396,17 +500,17 @@ async def create_and_poll(c: httpx.AsyncClient, key: str, body: dict, *, timeout
                     continue
                 if ("speech_model" in low or "model" in low) and "speech_models" in body:
                     body.pop("speech_models")
-                    warnings.append(f"AssemblyAI rejected the requested model, so its default model was used ({detail}).")
+                    warnings.append(f"The speech service rejected the requested model, so its default was used ({detail}).")
                     continue
-            raise SttError(f"AssemblyAI would not start the transcription ({detail}).")
+            raise SttError(f"The speech service would not start the transcription ({detail}).")
         tid = (r.json() or {}).get("id")
         if not tid:
-            raise SttError("AssemblyAI did not return a transcript id.")
+            raise SttError("The speech service did not return a transcript id.")
         delay, deadline = 1.0, time.monotonic() + timeout_s
         while True:
             p = await c.get(f"{api}/v2/transcript/{tid}", headers={"Authorization": key})
             if p.status_code != 200:
-                raise SttError(f"AssemblyAI status check failed ({_err_detail(p)}).")
+                raise SttError(f"The speech service status check failed ({_err_detail(p)}).")
             data = p.json() or {}
             status = data.get("status")
             if status == "completed":
@@ -417,13 +521,13 @@ async def create_and_poll(c: httpx.AsyncClient, key: str, body: dict, *, timeout
                 message = str(data.get("error") or "unknown error")
                 if _shrink_keyterms(body, message, warnings):
                     break  # start again with fewer keyterms
-                raise SttError(f"AssemblyAI could not transcribe the audio: {_short(message)}.")
+                raise SttError(f"The speech service could not transcribe the audio: {_short(message)}.")
             if time.monotonic() > deadline:
                 await delete_transcript(c, key, tid)
-                raise SttError("AssemblyAI took too long to transcribe the audio (timed out).")
+                raise SttError("The speech service took too long to transcribe the audio (timed out).")
             await sleep(delay)
             delay = min(delay * 1.5, 5.0)
-    raise SttError("AssemblyAI would not start the transcription after several attempts.")
+    raise SttError("The speech service would not start the transcription after several attempts.")
 
 
 async def delete_transcript(c: httpx.AsyncClient, key: str, transcript_id: str) -> bool:
@@ -472,9 +576,9 @@ async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep
             if not audio_url:
                 link = open_link(path)
                 if not link:
-                    raise SttError(f"Could not send the recording to AssemblyAI: the {problem}.")
+                    raise SttError(f"Could not send the recording to the speech service: the {problem}.")
                 link_id, audio_url = link
-                warnings.append(f"AssemblyAI's {problem}, so it fetched the recording from a one-time link instead.")
+                warnings.append(f"The speech service's {problem}, so it fetched the recording from a one-time link instead.")
             body = {
                 "audio_url": audio_url,
                 "speech_models": [s.final_speech_model],
@@ -493,9 +597,9 @@ async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep
                         raise
                     link_id, body["audio_url"] = link
                     data, more = await create_and_poll(c, key, body, sleep=sleep)
-                    more.insert(0, f"{exc} It worked when AssemblyAI fetched the recording from a one-time link.")
+                    more.insert(0, f"{exc} It worked when the speech service fetched the recording from a one-time link.")
             except httpx.HTTPError as exc:
-                raise SttError(f"Lost the connection to AssemblyAI ({exc.__class__.__name__}).") from exc
+                raise SttError(f"Lost the connection to the speech service ({exc.__class__.__name__}).") from exc
             warnings += more
             sent = data.pop("_body", body)
             turns, removed = utterances_to_turns(data)
@@ -504,9 +608,9 @@ async def transcribe_file(path: str | os.PathLike, keyterms: list[str], *, sleep
     finally:
         close_link(link_id)
     if not deleted:
-        warnings.append("Could not delete the transcript at AssemblyAI; it will expire on their retention schedule.")
+        warnings.append("Could not delete the transcript at the speech service; it will expire on its retention schedule.")
     if not turns:
-        raise SttError("AssemblyAI returned no speech for this recording.")
+        raise SttError("The speech service found no speech in this recording.")
     return {
         "turns": turns,
         "removed_brands": removed,

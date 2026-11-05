@@ -12,14 +12,14 @@ import logging
 import time
 from pathlib import Path
 
-from .. import config
+from .. import branding, config
 from . import drugs_bridge, fixtures, notemodel, notes, store, stt, verify
 
 log = logging.getLogger("medscribe.pipeline")
 
 STAGES = [
-    ("final_transcript", "Final transcript (AssemblyAI Medical Mode)"),
-    ("note", "Draft note (Claude)"),
+    ("final_transcript", "Final transcript (Salient medical speech)"),
+    ("note", "Draft note (Salient)"),
     ("verify", "Verify every line"),
     ("meds", "Check medicines"),
 ]
@@ -56,7 +56,7 @@ class _Run:
             if s["id"] == sid:
                 s["state"] = state
                 if detail or state in ("active", "done"):
-                    s["detail"] = detail
+                    s["detail"] = branding.scrub(detail)
         if state == "active":
             self._t[sid] = time.monotonic()
             extra.setdefault("stage", sid)
@@ -93,6 +93,7 @@ async def run(visit_id: str, source: str, sample_id: str | None) -> None:
 
 
 def _fail(r: _Run, message: str) -> None:
+    message = branding.scrub(message)
     for s in r.stages:
         if s["state"] == "active":
             s["state"] = "error"
@@ -109,7 +110,7 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
     chart = fixtures.patient(visit["patient_id"])
     engine_info = dict(visit.get("engine_info") or {})
     engine_info.setdefault("warnings", [])
-    engine_info["live_model"] = s.live_speech_model
+    engine_info["live_model"] = "salient-live"
     removed_brands: list[str] = []
     sample = fixtures.sample(sample_id) if sample_id else None
 
@@ -134,7 +135,8 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
             transcript = result["turns"]
             removed_brands += result["removed_brands"]
             meta = result["meta"]
-            engine_info["final_model"] = meta.get("speech_model_used")
+            engine_info["final_model"] = "salient-medical-speech"
+            log.info("final pass ran on %s", meta.get("speech_model_used"))
             engine_info["medical_mode"] = meta.get("medical_mode")
             engine_info["keyterms_used"] = meta.get("keyterms_used")
             engine_info["warnings"] += meta.get("warnings", [])
@@ -145,8 +147,8 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
             store.update_visit(r.visit_id, audio_seconds=max(duration, prior), audio_path=None)
             _delete_audio(audio_path)
             store.audit(r.visit_id, "audio_deleted", {"reason": "final pass complete"}, actor="system")
-            detail = f"{len(transcript)} turns from {meta.get('speech_model_used')}" + (
-                " with Medical Mode" if meta.get("medical_mode") else " (Medical Mode not applied)")
+            detail = f"{len(transcript)} turns from Salient medical speech" + (
+                " with medical vocabulary" if meta.get("medical_mode") else " (medical vocabulary not applied)")
             if meta.get("warnings"):
                 detail += ". " + " ".join(meta["warnings"])
             r.set("final_transcript", "done", detail)
@@ -154,7 +156,8 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
             if live:
                 transcript = stt.renumber_in_order(live)
                 r.set("final_transcript", "error", f"Final pass failed: {exc} Using the live transcript instead.")
-                engine_info["warnings"].append(f"Final pass failed ({exc}); the live transcript was used.")
+                log.warning("final pass failed for %s: %s", r.visit_id, exc)
+                engine_info["warnings"].append("Final pass failed; the live transcript was used.")
             else:
                 raise PipelineError(f"Final pass failed: {exc}") from exc
     elif source == "live":
@@ -177,37 +180,38 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
         r.set("final_transcript", "skipped", "Sample visit transcript (pre-recorded script, no audio).")
     else:
         raise PipelineError(f"Unknown source '{source}'.")
-    store.update_visit(r.visit_id, transcript=transcript, engine_info=engine_info)
+    store.update_visit(r.visit_id, transcript=transcript, engine_info=branding.engine_info(engine_info))
 
     # ------------------------------------------------ 2. note
     r.set("note", "active", "Drafting the note")
     template = visit.get("template") or "soap"
-    note, note_detail, used_claude = None, "", False
+    note, note_detail, used_model = None, "", False
     cap_reached = store.usage_get("note_runs") >= s.daily_note_runs
     if s.notes_ready and not cap_reached:
         try:
             store.usage_add("note_runs", 1)
             note, meta = await notes.generate_note(
                 transcript, chart, template=template, specialty=visit.get("specialty") or "family_medicine",
-                style=visit.get("style") or "concise", engine=visit.get("engine") or "sonnet",
+                style=visit.get("style") or "concise", engine=visit.get("engine") or "thorough",
                 visit_date=fixtures.today_local().isoformat())
-            used_claude = True
-            engine_info["note_model"] = meta["model"]
+            used_model = True
+            engine_info["note_model"] = "salient-" + (visit.get("engine") or "thorough")
+            log.info("note drafted by %s", meta["model"])
             engine_info["note_tokens"] = {"input": meta.get("input_tokens"), "output": meta.get("output_tokens")}
             engine_info["warnings"] += meta.get("warnings", [])
-            note_detail = f"Drafted by {meta['model']} in {meta['seconds']} s"
+            note_detail = f"Drafted by Salient in {meta['seconds']} s"
         except notes.NoteError as exc:
             if sample:
-                note_detail = f"Claude could not draft this note ({exc}); showing the saved note for this sample."
+                note_detail = f"The note engine could not draft this note ({exc}); showing the saved note for this sample."
             else:
                 raise PipelineError(str(exc)) from exc
     elif not sample:
         if cap_reached:
             raise PipelineError("The demo's daily note limit has been reached. It resets at midnight UTC.")
-        raise PipelineError("The note engine is not configured on this server (no Claude API key), so this recording can't be turned into a note.")
+        raise PipelineError("The note engine is not configured on this server, so this recording can't be turned into a note.")
     else:
         note_detail = ("Saved note for this sample: the demo's daily note limit has been reached."
-                       if cap_reached else "Saved note for this sample: Claude is not configured on this server.")
+                       if cap_reached else "Saved note for this sample: the note engine is not configured on this server.")
     if note is None:  # saved sample note
         template = sample["template"]
         note = notemodel.normalise(copy.deepcopy(sample["saved_note"]), template, transcript)
@@ -217,7 +221,8 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
     speaker_roles = note.pop("speaker_roles", {}) or (sample or {}).get("speaker_roles", {})
     for t in transcript:
         t["role"] = speaker_roles.get(t.get("speaker"), "unknown")
-    store.update_visit(r.visit_id, note=note, transcript=transcript, speaker_roles=speaker_roles, engine_info=engine_info)
+    store.update_visit(r.visit_id, note=note, transcript=transcript, speaker_roles=speaker_roles,
+                       engine_info=branding.engine_info(engine_info))
     r.set("note", "done", note_detail)
 
     # ------------------------------------------------ 3. verify
@@ -227,20 +232,20 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
     if s.notes_ready:
         try:
             model_verdicts, vmeta = await notes.verify_note(note, transcript)
-            engine_info["verifier_model"] = vmeta.get("model")
+            engine_info["verifier_model"] = "salient-verifier"
             engine_info["warnings"] += vmeta.get("warnings", [])
-            verify_detail = f"{vmeta.get('graded', 0)} of {vmeta.get('lines', 0)} lines graded by {vmeta.get('model')}; deterministic checks run"
+            verify_detail = f"{vmeta.get('graded', 0)} of {vmeta.get('lines', 0)} lines graded by the Salient verifier; deterministic checks run"
         except notes.NoteError as exc:
             model_note = f"Verifier unavailable ({exc}); deterministic checks only."
             verify_detail = model_note
     else:
-        model_note = "Model verifier not run (Claude not configured); deterministic checks only."
+        model_note = "Model verifier not run (the note engine is not configured); deterministic checks only."
         verify_detail = model_note
     notemodel.apply_verdicts(note, model_verdicts, deterministic, model_note=model_note)
     flagged = sum(1 for sec in note["sections"] for it in sec["items"] if it.get("verdict") in ("unsupported", "contradicted"))
     if flagged:
         verify_detail += f". {flagged} line{'s' if flagged != 1 else ''} to resolve before signing"
-    store.update_visit(r.visit_id, note=note, engine_info=engine_info)
+    store.update_visit(r.visit_id, note=note, engine_info=branding.engine_info(engine_info))
     r.set("verify", "done", verify_detail)
 
     # ------------------------------------------------ 4. medicines
@@ -258,7 +263,7 @@ async def _run(r: _Run, source: str, sample_id: str | None) -> None:
               + (f", {crit} critical" if crit else ""))
     store.update_visit(r.visit_id, medication_check=mc, status="ready", stage="done", error=None,
                        engine_info=engine_info)
-    store.audit(r.visit_id, "note_ready", {"claude": used_claude, "flagged_lines": flagged}, actor="system")
+    store.audit(r.visit_id, "note_ready", {"ai_note": used_model, "flagged_lines": flagged}, actor="system")
 
 
 def _merge_check(medications: list[dict], result: dict) -> dict:

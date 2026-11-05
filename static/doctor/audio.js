@@ -1,5 +1,5 @@
 // Microphone capture for a visit.
-// - PCM16 at 16 kHz goes to AssemblyAI's streaming WebSocket for the live transcript.
+// - PCM16 at 16 kHz goes to the server's live-transcript WebSocket.
 // - The same stream is recorded locally (Opus) for the higher-accuracy final pass.
 // If the live connection drops, local recording continues, so nothing is lost.
 
@@ -128,7 +128,7 @@ export class MicCapture {
   }
 }
 
-// One AssemblyAI streaming session. Calls onTurn(sessionIndex, msg) for every
+// One live-transcript session (through the server's relay). Calls onTurn(sessionIndex, msg) for every
 // Turn message and onRevision for SpeakerRevision messages.
 export class LiveTranscriber {
   constructor({ getToken, onTurn, onRevision, onStatus }) {
@@ -143,7 +143,7 @@ export class LiveTranscriber {
     this.reconnects = 0;
     this.terminated = null;
     this.model = "";
-    this.domain = "";
+    this.medical = false;
   }
 
   async connect() {
@@ -151,7 +151,9 @@ export class LiveTranscriber {
     this.session += 1;
     const session = this.session;
     this.ready = false;
-    const url = `${ws_url}${ws_url.includes("?") ? "&" : "?"}token=${encodeURIComponent(token)}`;
+    let url = ws_url;
+    if (url.startsWith("/")) url = `${location.protocol === "https:" ? "wss:" : "ws:"}//${location.host}${url}`;
+    if (token) url += `${url.includes("?") ? "&" : "?"}token=${encodeURIComponent(token)}`;
     const ws = new WebSocket(url);
     ws.binaryType = "arraybuffer";
     this.ws = ws;
@@ -163,8 +165,8 @@ export class LiveTranscriber {
         if (msg.type === "Begin") {
           clearTimeout(timer);
           this.ready = true;
-          this.model = (msg.configuration && (msg.configuration.model || msg.configuration.speech_model)) || "";
-          this.domain = (msg.configuration && msg.configuration.domain) || "";
+          this.model = (msg.configuration && msg.configuration.model) || "";
+          this.medical = !!(msg.configuration && msg.configuration.medical);
           this.onStatus && this.onStatus("live", msg);
           resolve();
         } else if (msg.type === "Turn") {

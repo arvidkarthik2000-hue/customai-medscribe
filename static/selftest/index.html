@@ -6,6 +6,7 @@
   <title>Self-test · CustomAi MedScribe</title>
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/css/app.css">
+  <script src="/js/boot-check.js"></script>
 </head>
 <body>
   <main class="page page-narrow" id="app">
@@ -22,7 +23,7 @@
       <div>
         <div class="eyebrow">End-to-end accuracy</div>
         <h2>Voiced sample visits</h2>
-        <p class="muted" style="margin:4px 0 0">The five scripted visits, voiced with synthetic US voices, run through the real pipeline: AssemblyAI final pass, Claude note, verifier and medicine checks, then scored against the scripts. Runs at most every 6 hours, takes about five minutes. Synthetic voices score better than real clinic audio.</p>
+        <p class="muted" style="margin:4px 0 0">The five scripted visits, voiced with synthetic US voices, run through the real pipeline: Salient medical speech (final pass), Salient note, verifier and medicine checks, then scored against the scripts. Runs at most every 6 hours, takes about five minutes. Synthetic voices score better than real clinic audio.</p>
       </div>
       <button class="btn" id="run-eval">Run or refresh</button>
     </div>

@@ -1,8 +1,49 @@
 // Shared helpers for every page. ES module; no build step, no third-party code.
 // CSP is script-src 'self': never use inline <script> blocks or onclick="" attributes.
 
+// ---------- session
+// The session is a cookie. Some browsers don't keep cookies (kiosk and wallboard players,
+// embedded browsers, strict privacy settings), so the server also returns it as a token:
+// kept for this tab, sent as a header, and carried between pages in the URL fragment
+// (#st=..., never sent to a server, removed from the address bar on arrival).
+window.__msBoot = true; // read by /js/boot-check.js
+const TOKEN_KEY = "ms_st";
+let memToken = null;
+function storeGet() { try { return window.sessionStorage.getItem(TOKEN_KEY); } catch (e) { return null; } }
+function storeSet(t) {
+  try { if (t) window.sessionStorage.setItem(TOKEN_KEY, t); else window.sessionStorage.removeItem(TOKEN_KEY); } catch (e) { /* storage blocked */ }
+}
+(function takeTokenFromHash() {
+  const m = /(?:^#|&)st=([^&]*)/.exec(location.hash);
+  if (!m) return;
+  memToken = decodeURIComponent(m[1]) || null;
+  storeSet(memToken);
+  let rest = location.hash.replace(/(^#|&)st=[^&]*/, "$1").replace(/^#&/, "#");
+  if (rest === "#") rest = "";
+  try { history.replaceState(history.state, "", location.pathname + location.search + rest); } catch (e) { /* ignore */ }
+})();
+export function sessionToken() { return memToken || storeGet(); }
+export function setSessionToken(t) { memToken = t || null; storeSet(t || null); }
+export function authHeaders() { const t = sessionToken(); return t ? { Authorization: `Bearer ${t}` } : {}; }
+window.MEDSCRIBE_AUTH = authHeaders; // for the ad-zone SDK, which imports nothing
+// A page in this app, with the session carried along for browsers without cookies.
+export function pageHref(href) {
+  const t = sessionToken();
+  if (!t) return href;
+  const i = href.indexOf("#");
+  const base = i < 0 ? href : href.slice(0, i);
+  const hash = i < 0 ? "" : href.slice(i + 1);
+  return `${base}#st=${encodeURIComponent(t)}${hash ? "&" + hash : ""}`;
+}
+// A plain GET link (file download) that must carry the session without cookies.
+export function downloadHref(url) {
+  const t = sessionToken();
+  if (!t) return url;
+  return `${url}${url.includes("?") ? "&" : "?"}st=${encodeURIComponent(t)}`;
+}
+
 export async function api(path, { method = "GET", body, form, headers = {}, raw = false, redirect = true } = {}) {
-  const opts = { method, headers: { ...headers }, credentials: "same-origin" };
+  const opts = { method, headers: { ...authHeaders(), ...headers }, credentials: "same-origin" };
   if (form) {
     opts.body = form;
   } else if (body !== undefined) {
@@ -18,8 +59,9 @@ export async function api(path, { method = "GET", body, form, headers = {}, raw 
     const err = new Error((data && (data.detail || data.error)) || `Request failed (${res.status})`);
     err.status = res.status;
     err.data = data;
+    if (res.status === 401 && !path.startsWith("/api/session")) setSessionToken(null); // expired or never set
     if (res.status === 401 && redirect && !path.startsWith("/api/session") && location.pathname !== "/") {
-      const next = encodeURIComponent(location.pathname + location.search);
+      const next = encodeURIComponent(location.pathname + location.search + location.hash);
       location.href = `/?next=${next}`;
     }
     throw err;
@@ -103,7 +145,7 @@ const VIEWS = [
 
 export function renderHeader(active, { subtitle = "", simulated = false } = {}) {
   const header = el("header", { class: "app-header no-print" },
-    el("a", { class: "wordmark", href: "/doctor/", title: "CustomAi MedScribe" },
+    el("a", { class: "wordmark", href: "/doctor/", title: "CustomAi MedScribe", onclick: (e) => { e.preventDefault(); switchRole("doctor", "/doctor/"); } },
       el("span", { class: "mark", "aria-hidden": "true" }, "M"),
       el("span", {}, "CustomAi MedScribe"),
       subtitle ? el("span", { class: "sub" }, subtitle) : null),
@@ -120,8 +162,31 @@ export function renderHeader(active, { subtitle = "", simulated = false } = {}) 
 }
 
 export async function switchRole(role, href) {
-  try { await api("/api/session/role", { method: "POST", body: { role } }); } catch (e) { /* 401 redirects */ }
-  location.href = href;
+  try {
+    const r = await api("/api/session/role", { method: "POST", body: { role } });
+    if (r && r.token) setSessionToken(r.token);
+  } catch (e) {
+    if (e.status === 401) return; // api() is taking the browser to the sign-in page
+    toast(`Could not switch view: ${e.message}`, "error", 6000);
+    return;
+  }
+  goTo(href, (msg) => toast(msg, "error", 10000));
+}
+
+// Navigate; if the page is still here a while later, the browser or player refused to open it
+// (kiosk players often allow a single address), so say so instead of doing nothing.
+let navTimer = null;
+window.addEventListener("pagehide", () => { clearTimeout(navTimer); navTimer = null; });
+export function goTo(href, report) {
+  const url = new URL(href, location.href);
+  if (url.pathname === location.pathname && url.search === location.search) {
+    location.hash = url.hash || "#/"; // same page: only the in-page route changes
+    return;
+  }
+  location.href = pageHref(href);
+  clearTimeout(navTimer);
+  // Still here after 8 s (the page was not unloaded): the browser or player refused to open it.
+  navTimer = setTimeout(() => report(`This screen did not open ${url.pathname}. If its browser or player only allows one address, allow every page on ${location.host}.`), 8000);
 }
 
 export async function requireSession() {
@@ -133,7 +198,7 @@ export function showAbout() {
     title: "About this demo",
     body: el("div", { class: "stack" },
       el("p", {}, "CustomAi MedScribe is an ambient scribe for US clinics. It is free to practices and funded by sponsored placements sold through Constant Media."),
-      el("p", {}, "Speech: AssemblyAI Medical Mode (live and final pass). Notes: Claude by Anthropic, with every sentence linked to the transcript and a second verification pass. Drug data: RxNorm (U.S. National Library of Medicine), FDA drug labels via openFDA, and curated rules; Medicare Part D formulary structure from CMS."),
+      el("p", {}, "Speech and notes: Salient, CustomAi's clinical AI. Medical speech recognition runs live and again as a final pass after the visit; every sentence of the note links to the words behind it and is checked in a second verification pass. Drug data: RxNorm (U.S. National Library of Medicine), FDA drug labels via openFDA, and curated rules; Medicare Part D formulary data from CMS."),
       el("p", {}, "Firewall: sponsors never see visit content or patient data, and never influence notes, alerts, rules or formulary ranking. Ads never appear on screens that show a chart, transcript, note, patient instructions or decision support."),
       el("p", { class: "muted small" }, "Demo only: synthetic patients, prescribers, brands and ad delivery. Do not enter real patient information. Not a medical device; clinicians review and sign every note.")),
     actions: [{ label: "Close", primary: true }],
