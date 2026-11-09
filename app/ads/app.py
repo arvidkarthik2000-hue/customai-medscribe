@@ -202,7 +202,7 @@ Fictional prescribing information for a demo. {escape(b['name'])} is not a real 
 <h2 style="margin-top:20px">About this page</h2>
 <p>In production, each sponsored unit links to the sponsor's own FDA-approved prescribing information.
 Sponsored content is clinician-facing only and never goes to patients.</p>
-</main></body></html>"""
+</main><script src="/js/frame-back.js"></script></body></html>"""
     return HTMLResponse(html)
 
 

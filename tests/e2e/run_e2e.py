@@ -65,9 +65,11 @@ def watch_branding(page) -> None:
     page.on("websocket", on_ws)
 
 
-def no_cookie_route(route):
+def no_cookie_route(route, frameable: bool = False):
     """Fetch the request outside the browser and hand back the answer without Set-Cookie:
-    a browser that never keeps cookies (some wallboard and kiosk players)."""
+    a browser that never keeps cookies (some wallboard and kiosk players). With frameable,
+    also drop CSP frame-ancestors: Constant Media's Android player shows the demo in its
+    iframe overlay without enforcing it, and Chromium here would otherwise refuse the frame."""
     import urllib.error
     import urllib.request as ur
 
@@ -86,6 +88,10 @@ def no_cookie_route(route):
     except urllib.error.HTTPError as e:
         status, hdrs, body = e.code, e.headers, e.read()
     out = {k: v for k, v in hdrs.items() if k.lower() not in ("set-cookie", "content-length", "transfer-encoding", "connection")}
+    if frameable:
+        for k in list(out):
+            if k.lower() == "content-security-policy":
+                out[k] = "; ".join(d for d in out[k].split("; ") if not d.startswith("frame-ancestors"))
     route.fulfill(status=status, headers=out, body=body)
 
 
@@ -383,7 +389,79 @@ def main() -> int:
                 c4.close()
             check("start-up watchdog", watchdog)
 
-            # 10. no vendor or model name reached the browser
+            # 10. inside a partner's iframe overlay, as Constant Media's wallboard player opens it:
+            #     another origin frames the app, the frame keeps no cookies, and the player passes
+            #     the microphone through only when its iframe says allow="microphone"
+            def partner_iframe_overlay():
+                overlay = "http://localhost:8099/__overlay"  # localhost is another origin than 127.0.0.1
+
+                def overlay_page(route):
+                    u = route.request.url
+                    allow = "microphone" if "mic=1" in u else ""
+                    path = u.split("path=", 1)[1].split("&")[0] if "path=" in u else "/"
+                    route.fulfill(status=200, content_type="text/html", body=(
+                        '<!doctype html><html><body style="margin:0;background:#111">'
+                        '<button style="position:fixed;top:8px;right:8px;z-index:9">X</button>'
+                        f'<iframe id="ov" src="{APP}{path}" allow="{allow}" style="border:0;width:1080px;height:1900px"></iframe>'
+                        '</body></html>'))
+
+                c5 = browser.new_context(viewport={"width": 1080, "height": 1920}, has_touch=True, permissions=["microphone"])
+                c5.route(re.compile(r"^http://localhost:8099/__overlay.*"), overlay_page)
+                c5.route(re.compile(r"^http://127\.0\.0\.1:8099/.*"), lambda r: no_cookie_route(r, frameable=True))
+                p5 = c5.new_page()
+                watch_branding(p5)
+                p5.goto(overlay + "?mic=1")
+                f = p5.frame_locator("#ov")
+                f.locator("#code").fill(CODE)
+                f.locator("button[type=submit]").tap()
+                expect(f.locator("#views")).to_be_visible()
+                f.locator("a[data-role=doctor]").tap()
+                expect(f.locator("table.schedule")).to_be_visible(timeout=15000)
+                # a sponsored card's link opens inside the frame with a Back button; the player page stays
+                ad = f.locator(".ms-ad-link").first
+                expect(ad).to_be_visible(timeout=10000)
+                ad.tap()
+                expect(f.locator(".frame-back")).to_be_visible(timeout=10000)
+                assert p5.url.startswith(overlay), p5.url
+                step.shot(p5, "overlay-ad-link")
+                f.locator(".frame-back").tap()
+                expect(f.locator("table.schedule")).to_be_visible(timeout=15000)
+                # a sample visit through to the note, inside the frame
+                f.locator(".sample").first.tap()
+                expect(f.locator("text=Visit setup")).to_be_visible(timeout=10000)
+                f.locator("button:has-text('\u25b6')").first.tap()
+                expect(f.locator("text=Sample visit")).to_be_visible(timeout=10000)
+                f.locator("button:has-text('Skip to end')").tap()
+                expect(f.locator(".note-section").first).to_be_visible(timeout=90000)
+                step.shot(p5, "overlay-review")
+                assert c5.cookies() == [], c5.cookies()
+                # the screen check inside the overlay, microphone passed through
+                p5.goto(overlay + "?mic=1&path=/check/")
+                p5.wait_for_timeout(2500)
+                res = f.locator("#results")
+                txt = res.inner_text()
+                # Pages the test hands over through route.fulfill count as public pages to Chromium,
+                # whose local-network checks then block their WebSocket to 127.0.0.1. On the real
+                # site page and server are both public; live captions are covered by steps 4 and 6.
+                problems = [r for r in f.locator("#results tr").all_inner_texts() if "Problem" in r and not r.startswith("Live connection")]
+                assert "Shown inside another app" in txt and not problems, txt
+                f.locator("#mic-test").tap()
+                p5.wait_for_timeout(6500)
+                assert "Works: heard sound" in res.inner_text(), res.inner_text()
+                step.shot(p5, "overlay-check-mic")
+                # and a player whose iframe does not pass the microphone through
+                p5.goto(overlay + "?path=/check/")
+                p5.wait_for_timeout(2500)
+                txt = f.locator("#results").inner_text()
+                assert "blocks the microphone" in txt and 'allow="microphone"' in txt, txt
+                f.locator("#mic-test").tap()
+                p5.wait_for_timeout(2500)
+                assert "blocks the microphone" in f.locator("#results").inner_text()
+                step.shot(p5, "overlay-check-no-mic")
+                c5.close()
+            check("inside a partner's iframe overlay", partner_iframe_overlay)
+
+            # 11. no vendor or model name reached the browser
             def branding_scan():
                 assert not SEEN_BANNED, "\n".join(SEEN_BANNED[:10])
             check("no vendor names in anything the browser received", branding_scan)

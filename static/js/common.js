@@ -175,6 +175,23 @@ export async function switchRole(role, href) {
 
 // Navigate; if the page is still here a while later, the browser or player refused to open it
 // (kiosk players often allow a single address), so say so instead of doing nothing.
+// Partner players (wallboards, kiosk overlays) show the demo inside an iframe. There, a link
+// that opens a new window can do nothing or replace the player's own page. So in a frame,
+// this site's pages open in the same frame (they show a Back button) and outside links show
+// their address instead of opening.
+export const FRAMED = (() => { try { return window.top !== window.self; } catch { return true; } })();
+if (FRAMED) {
+  document.documentElement.classList.add("framed");
+  document.addEventListener("click", (e) => {
+    const a = e.target instanceof Element ? e.target.closest("a[target=_blank]") : null;
+    if (!a || e.defaultPrevented || !a.href) return;
+    e.preventDefault();
+    const url = new URL(a.href, location.href);
+    if (url.origin === location.origin) location.href = url.href;
+    else toast(`This link opens outside this screen: ${url.host}${url.pathname === "/" ? "" : url.pathname}`, "info", 8000);
+  });
+}
+
 let navTimer = null;
 window.addEventListener("pagehide", () => { clearTimeout(navTimer); navTimer = null; });
 export function goTo(href, report) {

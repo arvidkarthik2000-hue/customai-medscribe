@@ -24,6 +24,20 @@ contact. Screens without a microphone can still run every view; use *Replay a
 scripted visit* instead of recording. If the screen's player only allows one
 address, allow every page on the demo's address.
 
+**Players that open the demo inside an iframe overlay** run every view as is.
+To record a visit from such a screen, the player has to pass the microphone
+through:
+
+- the iframe needs `allow="microphone"`, for example
+  `<iframe src="https://customai-medscribe.onrender.com/" allow="microphone">`;
+- on an Android player, the app needs the `RECORD_AUDIO` permission (granted on
+  the device), and its `WebChromeClient.onPermissionRequest` must grant
+  `PermissionRequest.RESOURCE_AUDIO_CAPTURE` for the demo's address. Without
+  that, the web view refuses every microphone request;
+- the screen needs a microphone, built in or USB.
+
+The screen check shows which of these is missing.
+
 ## A 10-minute walkthrough
 
 1. **Doctor → Today's schedule.** Note the one sponsored card beside the

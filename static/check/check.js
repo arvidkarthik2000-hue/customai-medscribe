@@ -9,6 +9,20 @@
   var host = location.host;
   var LABEL = { ok: "OK", warn: "Check", fail: "Problem", info: "Info", pending: "Testing" };
   var BADGE = { ok: "badge-ok", warn: "badge-warning", fail: "badge-critical", info: "badge-info", pending: "" };
+  var NO_MIC_WAY = "Without a microphone, use a sample visit: it runs the whole scribe.";
+  var FRAME_BLOCKS_MIC = "The frame this page is shown in blocks the microphone. The player's iframe needs allow=\"microphone\". " + NO_MIC_WAY;
+  var framed = false;
+
+  function isFramed() {
+    try { return window.top !== window.self; } catch (e) { return true; }
+  }
+
+  // true or false when the browser can say whether this page may use the microphone (the
+  // frame's allow= list decides that for a page shown in an iframe), null when it cannot
+  function micPolicy() {
+    var fp = document.permissionsPolicy || document.featurePolicy;
+    try { return fp && fp.allowsFeature ? !!fp.allowsFeature("microphone") : null; } catch (e) { return null; }
+  }
 
   function text(node, s) { node.appendChild(document.createTextNode(s)); return node; }
 
@@ -103,12 +117,13 @@
         "Update the browser or player software (Chrome 90 or later, or a current Edge, Safari or Firefox).");
     }, 1500);
 
-    // 2. inside a frame?
-    var framed = false;
-    try { framed = window.top !== window.self; } catch (e) { framed = true; }
+    // 2. inside another app's frame? Wallboard players open the demo in an iframe overlay,
+    // which works; only the microphone needs the frame to pass it through.
+    framed = isFramed();
     if (framed) {
-      row("frame", "Opened directly");
-      set("frame", "fail", "This page is inside another page (a frame). The demo cannot run inside a frame: open the link directly in the browser.");
+      row("frame", "Shown inside another app (frame)");
+      set("frame", "ok", "The demo works inside a frame." +
+        (micPolicy() === false ? " This frame does not pass the microphone through: see Microphone below." : ""));
     }
 
     // 3. server, POST, cookies
@@ -174,9 +189,10 @@
     var secure = window.isSecureContext !== false && location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
     var gum = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
     var worklet = typeof window.AudioWorkletNode !== "undefined";
-    if (!secure) set("mic", "fail", "Recording needs the https:// address.");
-    else if (!gum) set("mic", "warn", "This browser offers no microphone. Use Replay a scripted visit instead of recording.");
-    else if (!worklet) set("mic", "warn", "This browser cannot process live audio. Use Replay a scripted visit instead of recording.");
+    if (!secure) set("mic", "fail", "Recording needs the https:// address" + (framed ? ", and so does the page that frames it." : "."));
+    else if (framed && micPolicy() === false) set("mic", "fail", FRAME_BLOCKS_MIC);
+    else if (!gum) set("mic", "warn", "This browser offers no microphone. " + NO_MIC_WAY);
+    else if (!worklet) set("mic", "warn", "This browser cannot process live audio. " + NO_MIC_WAY);
     else set("mic", "info", "Supported. Press Test the microphone to check that one is connected and allowed.");
 
     // 6. page switching (arrived from the test link?)
@@ -224,9 +240,14 @@
       }, 100);
     }, function (err) {
       var name = (err && err.name) || "";
-      if (name === "NotAllowedError" || name === "SecurityError") set("mic", "fail", "Microphone access was refused. Allow it for " + host + " in the browser or player settings, or use Replay a scripted visit.");
-      else if (name === "NotFoundError") set("mic", "fail", "No microphone is connected to this screen. Use Replay a scripted visit instead.");
-      else set("mic", "fail", "Could not open the microphone (" + (name || err) + ").");
+      if (name === "NotAllowedError" || name === "SecurityError") {
+        if (framed && micPolicy() === false) set("mic", "fail", FRAME_BLOCKS_MIC);
+        else if (framed) set("mic", "fail", "The player app refused the microphone. It has to allow the microphone for " + host +
+          ": on Android, the app needs the microphone permission and must grant it to its web view. " + NO_MIC_WAY);
+        else set("mic", "fail", "Microphone access was refused. Allow it for " + host + " in the browser settings. " + NO_MIC_WAY);
+      }
+      else if (name === "NotFoundError") set("mic", "fail", "No microphone is connected to this screen. " + NO_MIC_WAY);
+      else set("mic", "fail", "Could not open the microphone (" + (name || err) + "). " + NO_MIC_WAY);
     });
   }
 
