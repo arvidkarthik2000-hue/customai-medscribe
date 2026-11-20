@@ -135,3 +135,17 @@ def test_engine_error_names_are_scrubbed():
 
     s = branding.scrub("The note model call failed (NoteServiceError: anthropic/claude-sonnet-5.5 at https://openrouter.ai/api/v1/messages via OpenRouter).")
     assert "openrouter" not in s.lower() and "claude" not in s.lower() and "anthropic" not in s.lower(), s
+
+
+@pytest.mark.parametrize("raw", ["Bearer sk-or-v1-" + "a" * 64, "OPENROUTER_API_KEY=sk-or-v1-" + "a" * 64,
+                                 '"sk-or-v1-' + "a" * 64 + '"', "  sk-or-v1-" + "a" * 64 + "  "])
+def test_key_pasted_with_extra_text_still_works(monkeypatch, raw):
+    s = dataclasses.replace(config.settings, openrouter_api_key=raw, note_provider="openrouter")
+    monkeypatch.setattr(config, "settings", s)
+    monkeypatch.setattr(notes, "client_factory", None)
+    notes._cached.update({"key": None, "client": None})
+    seen = []
+    monkeypatch.setattr(notes, "transport", httpx.MockTransport(lambda req: (seen.append(req), httpx.Response(200, json=_message({"ok": 1})))[1]))
+    asyncio.run(notes.call_structured(model="claude-haiku-5-5", system="s", user="u", json_schema={"type": "object"}, max_tokens=50))
+    assert seen[0].headers["authorization"] == "Bearer sk-or-v1-" + "a" * 64
+    notes._cached.update({"key": None, "client": None})

@@ -66,7 +66,7 @@ def _client():
     provider = s.notes_provider
     if not provider:
         raise NotesNotConfigured("The note engine is not configured on this server.")
-    key = s.openrouter_api_key if provider == "openrouter" else s.anthropic_api_key
+    key = _openrouter_token(s.openrouter_api_key) if provider == "openrouter" else s.anthropic_api_key
     if _cached["client"] is None or _cached["key"] != (provider, key):
         if provider == "openrouter":
             _cached["client"] = OpenRouterClient(key, s.openrouter_base)
@@ -89,6 +89,16 @@ def _key_hint(lead: str = "") -> str:
 # OpenRouter serves the same Claude models through an Anthropic-compatible Messages API
 # (POST /api/v1/messages, bearer key). It is called directly rather than through the Anthropic
 # SDK, which would also send any Anthropic key it finds in the environment.
+
+
+def _openrouter_token(value: str) -> str:
+    """The key itself, even if the dashboard value has extra text around it ("Bearer ...",
+    "OPENROUTER_API_KEY=...", quotes): OpenRouter answers "Missing Authentication header"
+    to anything else after "Bearer "."""
+    m = re.search(r"sk-or-[A-Za-z0-9_-]{20,}", value or "")
+    if m and m.group(0) != value:
+        log.warning("the note-engine key setting has extra text around the key; using the key part only")
+    return m.group(0) if m else (value or "").strip()
 
 
 def openrouter_model(model: str) -> str:
