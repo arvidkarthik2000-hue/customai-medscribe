@@ -138,7 +138,8 @@ def test_engine_error_names_are_scrubbed():
 
 
 @pytest.mark.parametrize("raw", ["Bearer sk-or-v1-" + "a" * 64, "OPENROUTER_API_KEY=sk-or-v1-" + "a" * 64,
-                                 '"sk-or-v1-' + "a" * 64 + '"', "  sk-or-v1-" + "a" * 64 + "  "])
+                                 '"sk-or-v1-' + "a" * 64 + '"', "  sk-or-v1-" + "a" * 64 + "  ",
+                                 "a" * 64, "v1-" + "a" * 64, "or-v1-" + "a" * 64])
 def test_key_pasted_with_extra_text_still_works(monkeypatch, raw):
     s = dataclasses.replace(config.settings, openrouter_api_key=raw, note_provider="openrouter")
     monkeypatch.setattr(config, "settings", s)

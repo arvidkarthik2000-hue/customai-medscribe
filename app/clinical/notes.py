@@ -95,10 +95,18 @@ def _openrouter_token(value: str) -> str:
     """The key itself, even if the dashboard value has extra text around it ("Bearer ...",
     "OPENROUTER_API_KEY=...", quotes): OpenRouter answers "Missing Authentication header"
     to anything else after "Bearer "."""
-    m = re.search(r"sk-or-[A-Za-z0-9_-]{20,}", value or "")
-    if m and m.group(0) != value:
-        log.warning("the note-engine key setting has extra text around the key; using the key part only")
-    return m.group(0) if m else (value or "").strip()
+    value = (value or "").strip()
+    m = re.search(r"sk-or-[A-Za-z0-9_-]{20,}", value)
+    if m:
+        if m.group(0) != value:
+            log.warning("the note-engine key setting has extra text around the key; using the key part only")
+        return m.group(0)
+    # Double-clicking a key to copy it selects only the part after the last hyphen.
+    m = re.fullmatch(r"(?:sk-)?(?:or-)?(?:v1-)?([0-9a-f]{64})", value)
+    if m:
+        log.warning("the note-engine key setting is missing the start of the key (sk-or-v1-); added it back")
+        return f"sk-or-v1-{m.group(1)}"
+    return value
 
 
 def openrouter_model(model: str) -> str:
