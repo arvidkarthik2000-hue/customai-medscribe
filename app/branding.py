@@ -12,8 +12,11 @@ _RULES: list[tuple[re.Pattern, str]] = [
     # host names and URLs first, so the vendor name inside them is not rewritten twice
     (re.compile(r"(?:wss?|https?)://[\w.-]*(?:assemblyai|anthropic)\.com[^\s'\"),]*", re.I), "the service"),
     (re.compile(r"[\w.-]*(?:assemblyai|anthropic)\.com", re.I), "the service"),
-    # model ids
-    (re.compile(r"\bclaude-[\w.-]*haiku[\w.-]*", re.I), "salient-fast"),
+    (re.compile(r"(?:https?://)?(?:[\w-]+\.)*openrouter\.ai[^\s'\"),]*", re.I), "the note service"),
+    (re.compile(r"\bopen\s?router\b", re.I), "the note service"),
+    # model ids, with or without a provider prefix (anthropic/claude-sonnet-5.5)
+    (re.compile(r"\b(?:anthropic/)?claude-[\w.:-]*haiku[\w.:-]*", re.I), "salient-fast"),
+    (re.compile(r"\banthropic/claude-[\w.:-]+", re.I), "salient-thorough"),
     (re.compile(r"\bclaude-[\w.-]+", re.I), "salient-thorough"),
     (re.compile(r"\buniversal-[\w.-]+", re.I), "salient-medical-speech"),
     (re.compile(r"\bu3-rt-pro\b|\bslam-1\b", re.I), "salient-medical-speech"),

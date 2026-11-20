@@ -18,7 +18,7 @@ from app.clinical import stt  # noqa: E402
 from app.main import app  # noqa: E402
 
 BANNED = re.compile(r"assembly\s?ai|anthropic|claude|sonnet|haiku|universal-3|medical-v1|medical mode|gemini|openai|"
-                    r"whisper|deepgram|elevenlabs|parakeet|qwen|vibevoice|pyannote", re.I)
+                    r"whisper|deepgram|elevenlabs|parakeet|qwen|vibevoice|pyannote|open\s?router", re.I)
 STATIC = Path(__file__).resolve().parent.parent / "static"
 
 

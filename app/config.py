@@ -55,7 +55,12 @@ class Settings:
     # here only if it refuses the upload. Render sets RENDER_EXTERNAL_URL.
     public_base_url: str = field(default_factory=lambda: (_env("PUBLIC_BASE_URL") or _env("RENDER_EXTERNAL_URL")).rstrip("/"))
 
-    # notes
+    # notes. The same models can also be reached through OpenRouter's Anthropic-compatible
+    # Messages API. NOTE_PROVIDER: auto (OpenRouter when its key is set, else Anthropic),
+    # anthropic or openrouter.
+    openrouter_api_key: str = field(default_factory=lambda: _env("OPENROUTER_API_KEY"))
+    note_provider: str = field(default_factory=lambda: _env("NOTE_PROVIDER", "auto").lower())
+    openrouter_base: str = field(default_factory=lambda: _env("OPENROUTER_BASE", "https://openrouter.ai/api").rstrip("/"))
     note_model: str = field(default_factory=lambda: _env("NOTE_MODEL", "claude-sonnet-5-5"))
     fast_model: str = field(default_factory=lambda: _env("FAST_MODEL", "claude-haiku-5-5"))
     note_effort: str = field(default_factory=lambda: _env("NOTE_EFFORT", "medium"))
@@ -81,8 +86,17 @@ class Settings:
         return bool(self.assemblyai_api_key)
 
     @property
+    def notes_provider(self) -> str:
+        """Which service drafts notes: "openrouter", "anthropic", or "" when neither has a key."""
+        if self.note_provider == "anthropic":
+            return "anthropic" if self.anthropic_api_key else ""
+        if self.note_provider == "openrouter" or self.openrouter_api_key:
+            return "openrouter" if self.openrouter_api_key else ""
+        return "anthropic" if self.anthropic_api_key else ""
+
+    @property
     def notes_ready(self) -> bool:
-        return bool(self.anthropic_api_key)
+        return bool(self.notes_provider)
 
     @property
     def secure_cookies(self) -> bool:

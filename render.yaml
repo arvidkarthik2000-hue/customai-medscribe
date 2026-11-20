@@ -29,6 +29,10 @@ services:
         sync: false
       - key: ANTHROPIC_API_KEY
         sync: false
+      # Notes can also go through OpenRouter (same models). When this key is set, notes use it
+      # unless NOTE_PROVIDER is set to anthropic.
+      - key: OPENROUTER_API_KEY
+        sync: false
       # Keep the token, the WebSocket and the API in AssemblyAI's US zone.
       - key: ASSEMBLYAI_REGION
         value: us

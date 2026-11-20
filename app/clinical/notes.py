@@ -21,6 +21,8 @@ log = logging.getLogger("medscribe.notes")
 
 # Tests replace this with a fake that has `messages.create(**kwargs)` (async).
 client_factory = None
+# Tests route OpenRouter calls through an httpx transport.
+transport = None
 
 
 class NoteError(Exception):
@@ -61,14 +63,98 @@ def _client():
     if client_factory is not None:
         return client_factory()
     s = _settings()
-    if not s.anthropic_api_key:
+    provider = s.notes_provider
+    if not provider:
         raise NotesNotConfigured("The note engine is not configured on this server.")
-    if _cached["client"] is None or _cached["key"] != s.anthropic_api_key:
-        import anthropic
+    key = s.openrouter_api_key if provider == "openrouter" else s.anthropic_api_key
+    if _cached["client"] is None or _cached["key"] != (provider, key):
+        if provider == "openrouter":
+            _cached["client"] = OpenRouterClient(key, s.openrouter_base)
+        else:
+            import anthropic
 
-        _cached["client"] = anthropic.AsyncAnthropic(api_key=s.anthropic_api_key, max_retries=2, timeout=180.0)
-        _cached["key"] = s.anthropic_api_key
+            _cached["client"] = anthropic.AsyncAnthropic(api_key=key, max_retries=2, timeout=180.0)
+        _cached["key"] = (provider, key)
     return _cached["client"]
+
+
+# ---------------------------------------------------------------- OpenRouter
+# OpenRouter serves the same Claude models through an Anthropic-compatible Messages API
+# (POST /api/v1/messages, bearer key). It is called directly rather than through the Anthropic
+# SDK, which would also send any Anthropic key it finds in the environment.
+
+
+def openrouter_model(model: str) -> str:
+    """claude-sonnet-5-5 -> anthropic/claude-sonnet-5.5; a full id with a "/" passes through."""
+    if "/" in model:
+        return model
+    m = re.fullmatch(r"(claude-[a-z]+)-(\d+)-(\d+)", model)
+    return f"anthropic/{m.group(1)}-{m.group(2)}.{m.group(3)}" if m else f"anthropic/{model}"
+
+
+class NoteServiceError(Exception):
+    def __init__(self, status_code: int, message: str):
+        super().__init__(message)
+        self.status_code = status_code
+        self.message = message
+
+
+def _ns(value):
+    """JSON -> attribute access, the shape the Anthropic SDK returns."""
+    from types import SimpleNamespace
+
+    if isinstance(value, dict):
+        return SimpleNamespace(**{k: _ns(v) for k, v in value.items()})
+    if isinstance(value, list):
+        return [_ns(v) for v in value]
+    return value
+
+
+class _OpenRouterMessages:
+    def __init__(self, key: str, base: str):
+        self._key = key
+        self._url = f"{base}/v1/messages"
+
+    async def create(self, **params):
+        import asyncio
+
+        import httpx
+
+        body = dict(params)
+        body["model"] = openrouter_model(body["model"])
+        if (body.get("thinking") or {}).get("type") == "between_tools":
+            body.pop("thinking")  # not one of OpenRouter's thinking types; the model default applies
+        body.setdefault("provider", {"require_parameters": True})  # only providers that honour the schema
+        headers = {"Authorization": f"Bearer {self._key}", "Content-Type": "application/json",
+                   "X-Title": "CustomAi MedScribe"}
+        resp = None
+        async with httpx.AsyncClient(timeout=httpx.Timeout(180.0, connect=15.0), transport=transport) as c:
+            for attempt in range(3):
+                try:
+                    resp = await c.post(self._url, json=body, headers=headers)
+                except httpx.TransportError as exc:
+                    if attempt == 2:
+                        raise NoteServiceError(503, f"could not reach the service ({exc.__class__.__name__})") from exc
+                    await asyncio.sleep(1.5 * (attempt + 1))
+                    continue
+                if resp.status_code in (408, 429, 500, 502, 503, 529) and attempt < 2:
+                    await asyncio.sleep(1.5 * (attempt + 1))
+                    continue
+                break
+        try:
+            data = resp.json()
+        except ValueError:
+            data = {}
+        err = data.get("error") if isinstance(data, dict) else None
+        if resp.status_code >= 400 or err:
+            msg = (err.get("message") if isinstance(err, dict) else str(err or "")) or resp.text[:200]
+            raise NoteServiceError(resp.status_code if resp.status_code >= 400 else 502, str(msg)[:300])
+        return _ns(data)
+
+
+class OpenRouterClient:
+    def __init__(self, key: str, base: str):
+        self.messages = _OpenRouterMessages(key, base)
 
 
 def model_for(engine: str) -> str:
@@ -202,6 +288,8 @@ async def call_structured(*, model: str, system: str, user: str, json_schema: di
             low = msg.lower()
             if status == 401:
                 raise NoteError("The note engine rejected the server's key (401). Check the note-engine key in the server settings.") from exc
+            if status == 402:
+                raise NoteError("The note engine's account is out of credits (402). Add credits for the note-engine key.") from exc
             if status == 400 and "thinking" in low and "thinking" in params:
                 params.pop("thinking")
                 warnings.append(f"The thinking setting was rejected, so the model default was used ({msg}).")

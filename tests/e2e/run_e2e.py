@@ -34,7 +34,7 @@ APP = "http://127.0.0.1:8099"
 CODE = "e2e-code"
 # Testers must never see a third-party AI vendor or model name: scan every response and frame.
 BANNED = re.compile(r"assembly\s?ai|anthropic|claude|sonnet|haiku|universal-3|medical-v1|medical mode|gemini|openai|"
-                    r"whisper|deepgram|elevenlabs|parakeet|qwen|vibevoice|pyannote", re.I)
+                    r"whisper|deepgram|elevenlabs|parakeet|qwen|vibevoice|pyannote|open\s?router", re.I)
 TEXT_TYPES = ("json", "javascript", "html", "css", "text/")
 SEEN_BANNED: list[str] = []
 
