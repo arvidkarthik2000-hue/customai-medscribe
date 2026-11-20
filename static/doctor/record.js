@@ -194,7 +194,8 @@ export async function render(root, { visitId }, ctx) {
       await mic.start();
     } catch (e) {
       phase = "error";
-      showBanner("critical", micError(e));
+      showBanner("critical", `${micError(e)} Or record with a phone: this screen shows a code to scan.`,
+        el("a", { class: "btn btn-sm btn-primary", href: `#/visit/${visitId}/phone` }, "Record with a phone"));
       startBtn.classList.remove("hidden");
       startBtn.textContent = "Try again";
       return;

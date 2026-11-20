@@ -1,0 +1,19 @@
+body.phone-mic { background: var(--bg); }
+.pm-page { max-width: 520px; margin: 0 auto; padding: 18px 16px 32px; }
+.pm-page .wordmark { margin-bottom: 14px; }
+.pm-page h1 { font-size: 22px; margin: 4px 0 6px; }
+.pm-card { margin: 16px 0 12px; padding: 18px; }
+.pm-card .btn-lg { width: 100%; justify-content: center; min-height: 56px; font-size: 17px; }
+.pm-row { display: flex; gap: 10px; }
+.pm-row .btn { flex: 1; justify-content: center; min-height: 52px; }
+.pm-timer { font-size: 44px; font-weight: 700; text-align: center; letter-spacing: 1px; margin: 4px 0 8px; }
+.pm-level { height: 10px; border-radius: 5px; background: var(--surface-3); overflow: hidden; margin: 0 0 12px; }
+.pm-level span { display: block; height: 100%; width: 0; background: var(--ok); transition: width .1s linear; }
+.pm-status { text-align: center; margin-bottom: 12px; }
+.pm-caption { min-height: 3.2em; color: var(--ink-2); font-size: 15px; line-height: 1.45; margin: 0 0 14px; }
+.pm-code { font-size: 26px; letter-spacing: 4px; text-align: center; text-transform: uppercase; }
+.pm-done { text-align: center; }
+.pm-done .pm-tick { font-size: 44px; color: var(--ok); line-height: 1; }
+.pm-progress { height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; margin: 10px 0; }
+.pm-progress span { display: block; height: 100%; width: 0; background: var(--brand, var(--ok)); }
+.pm-page .eyebrow { color: var(--ink-3); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }

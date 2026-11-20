@@ -10,3 +10,4 @@ tzdata==2026.6
 websockets==17.4
 rapidfuzz==3.14.6
 more-itertools==11.2.1
+segno==1.6.6

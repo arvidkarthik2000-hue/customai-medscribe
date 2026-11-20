@@ -305,8 +305,10 @@ def _close_code(code: int | None) -> int:
     return code
 
 
-async def relay(client, upstream_url: str) -> None:
-    """Pipe one live session: browser audio up, transcript messages down, closes both ways."""
+async def relay(client, upstream_url: str, on_message=None) -> None:
+    """Pipe one live session: browser audio up, transcript messages down, closes both ways.
+    on_message, if given, also gets every message the browser gets (phone recordings copy
+    them for the screen that shows the visit)."""
     import websockets
 
     code, reason = 1000, ""
@@ -326,7 +328,13 @@ async def relay(client, upstream_url: str) -> None:
             async def upstream_to_browser() -> None:
                 async for m in up:
                     if isinstance(m, str):
-                        await client.send_text(neutral_message(m))
+                        out = neutral_message(m)
+                        if on_message is not None:
+                            try:
+                                on_message(out)
+                            except Exception as exc:  # noqa: BLE001 - a copy must never break the session
+                                log.warning("live message copy failed: %s", exc)
+                        await client.send_text(out)
 
             tasks = {asyncio.create_task(browser_to_upstream()), asyncio.create_task(upstream_to_browser())}
             done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)

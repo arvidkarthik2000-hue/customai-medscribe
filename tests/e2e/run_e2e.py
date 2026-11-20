@@ -95,6 +95,22 @@ def no_cookie_route(route, frameable: bool = False):
     route.fulfill(status=status, headers=out, body=body)
 
 
+OVERLAY = "http://localhost:8099/__overlay"  # localhost is another origin than the app's 127.0.0.1
+
+
+def overlay_route(route):
+    """A stand-in for the wallboard player's page: the app in an iframe, the microphone passed
+    through only with ?mic=1."""
+    u = route.request.url
+    allow = "microphone" if "mic=1" in u else ""
+    path = u.split("path=", 1)[1].split("&")[0] if "path=" in u else "/"
+    route.fulfill(status=200, content_type="text/html", body=(
+        '<!doctype html><html><body style="margin:0;background:#111">'
+        '<button style="position:fixed;top:8px;right:8px;z-index:9">X</button>'
+        f'<iframe id="ov" src="{APP}{path}" allow="{allow}" style="border:0;width:1080px;height:1900px"></iframe>'
+        '</body></html>'))
+
+
 STORAGE_BLOCKED = """
 (() => {
   const deny = { configurable: true, get() { throw new DOMException("storage blocked", "SecurityError"); } };
@@ -393,20 +409,9 @@ def main() -> int:
             #     another origin frames the app, the frame keeps no cookies, and the player passes
             #     the microphone through only when its iframe says allow="microphone"
             def partner_iframe_overlay():
-                overlay = "http://localhost:8099/__overlay"  # localhost is another origin than 127.0.0.1
-
-                def overlay_page(route):
-                    u = route.request.url
-                    allow = "microphone" if "mic=1" in u else ""
-                    path = u.split("path=", 1)[1].split("&")[0] if "path=" in u else "/"
-                    route.fulfill(status=200, content_type="text/html", body=(
-                        '<!doctype html><html><body style="margin:0;background:#111">'
-                        '<button style="position:fixed;top:8px;right:8px;z-index:9">X</button>'
-                        f'<iframe id="ov" src="{APP}{path}" allow="{allow}" style="border:0;width:1080px;height:1900px"></iframe>'
-                        '</body></html>'))
-
+                overlay = OVERLAY
                 c5 = browser.new_context(viewport={"width": 1080, "height": 1920}, has_touch=True, permissions=["microphone"])
-                c5.route(re.compile(r"^http://localhost:8099/__overlay.*"), overlay_page)
+                c5.route(re.compile(r"^http://localhost:8099/__overlay.*"), overlay_route)
                 c5.route(re.compile(r"^http://127\.0\.0\.1:8099/.*"), lambda r: no_cookie_route(r, frameable=True))
                 p5 = c5.new_page()
                 watch_branding(p5)
@@ -461,7 +466,56 @@ def main() -> int:
                 c5.close()
             check("inside a partner's iframe overlay", partner_iframe_overlay)
 
-            # 11. no vendor or model name reached the browser
+            # 11. the wallboard player as it is today: its iframe does not pass the microphone
+            #     through, so the visit is recorded with a phone that scans the screen's code
+            def record_with_phone():
+                c6 = browser.new_context(viewport={"width": 1080, "height": 1920}, has_touch=True)
+                c6.route(re.compile(r"^http://localhost:8099/__overlay.*"), overlay_route)
+                c6.route(re.compile(r"^http://127\.0\.0\.1:8099/.*"), lambda r: no_cookie_route(r, frameable=True))
+                wall = c6.new_page()
+                watch_branding(wall)
+                wall.goto(OVERLAY)
+                f = wall.frame_locator("#ov")
+                f.locator("#code").fill(CODE)
+                f.locator("button[type=submit]").tap()
+                f.locator("a[data-role=doctor]").tap()
+                expect(f.locator("table.schedule")).to_be_visible(timeout=15000)
+                f.locator("table.schedule tbody tr", has_text="Scheduled").first.tap()
+                expect(f.locator("text=Visit setup")).to_be_visible(timeout=10000)
+                btn = f.locator("button:has-text('Record with a phone')")
+                expect(btn).to_be_visible()
+                assert "no microphone" in btn.inner_text(), btn.inner_text()  # this screen leads with the phone
+                btn.tap()
+                for cb in f.locator(".modal input[type=checkbox]").all():
+                    cb.check()
+                f.locator(".modal button:has-text('show the code')").tap()
+                expect(f.locator(".phone-qr")).to_be_visible(timeout=10000)
+                code = f.locator(".phone-code").inner_text().replace(" ", "")
+                assert len(code) == 6, code
+                step.shot(wall, "phone-code-on-wallboard")
+                c7 = browser.new_context(viewport={"width": 390, "height": 844}, has_touch=True, is_mobile=True, permissions=["microphone"])
+                ph = c7.new_page()
+                watch_branding(ph)
+                ph.goto(APP + "/m/?c=" + code.lower())
+                expect(ph.locator("button:has-text('Start recording')")).to_be_visible(timeout=10000)
+                expect(f.locator("text=Phone connected")).to_be_visible(timeout=5000)
+                ph.locator("button:has-text('Start recording')").tap()
+                expect(ph.locator("button:has-text('Stop and send')")).to_be_visible(timeout=10000)
+                ph.wait_for_timeout(9000)
+                step.shot(ph, "phone-recording")
+                assert f.locator(".turn").count() >= 2, "no live turns reached the wallboard"
+                assert f.locator("text=Recording on the phone").count() >= 1
+                step.shot(wall, "wallboard-phone-transcript")
+                ph.locator("button:has-text('Stop and send')").tap()
+                expect(ph.locator("h2", has_text="Sent")).to_be_visible(timeout=30000)
+                expect(f.locator("text=Drafting your note")).to_be_visible(timeout=15000)  # the screen moved on by itself
+                step.shot(wall, "wallboard-phone-processing")
+                assert c6.cookies() == [], c6.cookies()
+                c7.close()
+                c6.close()
+            check("record with a phone for a wallboard without a microphone", record_with_phone)
+
+            # 12. no vendor or model name reached the browser
             def branding_scan():
                 assert not SEEN_BANNED, "\n".join(SEEN_BANNED[:10])
             check("no vendor names in anything the browser received", branding_scan)

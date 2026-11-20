@@ -9,9 +9,10 @@
   var host = location.host;
   var LABEL = { ok: "OK", warn: "Check", fail: "Problem", info: "Info", pending: "Testing" };
   var BADGE = { ok: "badge-ok", warn: "badge-warning", fail: "badge-critical", info: "badge-info", pending: "" };
-  var NO_MIC_WAY = "Without a microphone, use a sample visit: it runs the whole scribe.";
+  var NO_MIC_WAY = "Without a microphone here, record with a phone (the visit screen shows a code to scan), or replay a sample visit.";
   var FRAME_BLOCKS_MIC = "The frame this page is shown in blocks the microphone. The player's iframe needs allow=\"microphone\". " + NO_MIC_WAY;
   var framed = false;
+  var serverBuild = "";
 
   function isFramed() {
     try { return window.top !== window.self; } catch (e) { return true; }
@@ -67,7 +68,8 @@
       : warns ? "This screen can run the demo, with the notes marked Check." : "All checks passed: this screen can run the demo.");
     var raw = document.getElementById("raw");
     while (raw.firstChild) raw.removeChild(raw.firstChild);
-    text(raw, lines.join("\n") + "\n\nBrowser: " + navigator.userAgent + "\nChecked: " + new Date().toString());
+    text(raw, lines.join("\n") + "\n\nBrowser: " + navigator.userAgent + "\nDemo build: " + (serverBuild || "?") +
+      "\nChecked: " + new Date().toString());
   }
 
   function xhr(method, url, body, done) {
@@ -132,6 +134,7 @@
     row("cookies", "Sign-in kept between pages");
     xhr("GET", "/api/health", null, function (status, data, ms, req) {
       if (status === 200 && data && data.ok) {
+        serverBuild = data.build || "";
         set("server", ms > 3000 ? "warn" : "ok", "Reached " + host + " in " + ms + " ms." + (ms > 3000 ? " Slow network: pages may take a while to open." : ""));
         var date = req && req.getResponseHeader("Date");
         var skew = date ? Math.round((Date.now() - new Date(date).getTime()) / 60000) : 0;

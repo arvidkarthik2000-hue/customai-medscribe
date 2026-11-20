@@ -24,9 +24,17 @@ contact. Screens without a microphone can still run every view; use *Replay a
 scripted visit* instead of recording. If the screen's player only allows one
 address, allow every page on the demo's address.
 
+**Record with a phone.** A screen that can't use a microphone can still
+record a visit. On the patient's chart, choose *Record with a phone*. The
+screen shows a QR code (and a short code to type instead). Scan it with any
+phone: the phone records, and the screen shows the live transcript and then
+the note. The phone needs no access code, and the code works for that one visit
+only. Wallboards in an iframe overlay lead with this option, because their
+player doesn't pass the microphone through.
+
 **Players that open the demo inside an iframe overlay** run every view as is.
-To record a visit from such a screen, the player has to pass the microphone
-through:
+To record on the screen itself rather than with a phone, the player has to
+pass the microphone through:
 
 - the iframe needs `allow="microphone"`, for example
   `<iframe src="https://customai-medscribe.onrender.com/" allow="microphone">`;

@@ -11,6 +11,7 @@ const routes = [
   { re: /^#?\/?$/, load: () => import("/doctor/home.js") },
   { re: /^#\/patient\/([\w-]+)$/, load: () => import("/doctor/chart.js"), keys: ["patientId"] },
   { re: /^#\/visit\/([\w-]+)\/record$/, load: () => import("/doctor/record.js"), keys: ["visitId"] },
+  { re: /^#\/visit\/([\w-]+)\/phone$/, load: () => import("/doctor/phone.js"), keys: ["visitId"] },
   { re: /^#\/visit\/([\w-]+)\/replay\/([\w-]+)$/, load: () => import("/doctor/replay.js"), keys: ["visitId", "sampleId"] },
   { re: /^#\/visit\/([\w-]+)\/processing$/, load: () => import("/doctor/processing.js"), keys: ["visitId"] },
   { re: /^#\/visit\/([\w-]+)\/review$/, load: () => import("/doctor/review.js"), keys: ["visitId"] },

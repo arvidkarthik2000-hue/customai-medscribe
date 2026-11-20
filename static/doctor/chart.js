@@ -22,8 +22,18 @@ export async function render(root, { patientId }, ctx) {
 
   const speechReady = ctx.me.speech_ready;
 
-  const startBtn = el("button", { class: "btn btn-primary btn-lg btn-block", disabled: !speechReady, onclick: () => startLive() },
-    el("span", { class: "dot", style: { background: "#fff" } }), "Start recording");
+  // Some screens can't record here: wallboard players that show the demo in an iframe without
+  // passing the microphone through, or browsers without one. Those lead with a phone.
+  const micHere = (() => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return false;
+    const fp = document.permissionsPolicy || document.featurePolicy;
+    try { if (fp && fp.allowsFeature && !fp.allowsFeature("microphone")) return false; } catch { /* unknown: try */ }
+    return true;
+  })();
+  const startBtn = el("button", { class: `btn ${micHere ? "btn-primary btn-lg" : ""} btn-block`, disabled: !speechReady, onclick: () => startLive() },
+    el("span", { class: "dot", style: { background: micHere ? "#fff" : "var(--critical)" } }), micHere ? "Start recording" : "Record on this screen");
+  const phoneBtn = el("button", { class: `btn ${micHere ? "grow" : "btn-primary btn-lg btn-block"}`, disabled: !speechReady, onclick: () => startPhone() },
+    micHere ? "Record with a phone" : "Record with a phone (this screen has no microphone)");
 
   async function createVisit() {
     const { visit_id } = await api("/api/visits", { method: "POST", body: { patient_id: patientId, template: state.template, style: state.style, engine: state.engine, specialty: ctx.me.prescriber.specialty } });
@@ -59,6 +69,19 @@ export async function render(root, { patientId }, ctx) {
         const vid = await createVisit();
         await api(`/api/visits/${vid}/consent`, { method: "POST", body: { consented: true, attestation: "roleplay_no_real_patient" } });
         location.hash = `#/visit/${vid}/record`;
+      },
+    });
+  }
+
+  function startPhone() {
+    consentModal({
+      title: "Record with a phone",
+      extra: el("p", { class: "muted small", style: { margin: 0 } }, "This screen shows a code to scan. The phone records; this screen shows the transcript and the note."),
+      confirmLabel: "Consent logged, show the code",
+      onConfirm: async () => {
+        const vid = await createVisit();
+        await api(`/api/visits/${vid}/consent`, { method: "POST", body: { consented: true, attestation: "roleplay_no_real_patient" } });
+        location.hash = `#/visit/${vid}/phone`;
       },
     });
   }
@@ -128,10 +151,12 @@ export async function render(root, { patientId }, ctx) {
               el("div", { class: "field" }, el("label", {}, "Style"), seg("style", { concise: "Concise", detailed: "Detailed" })),
               el("div", { class: "field" }, el("label", {}, "Note engine"), seg("engine", { thorough: "Salient · thorough", fast: "Salient · fast" }))),
             el("p", { class: "muted small", style: { margin: 0 } }, `Specialty template: ${SPECIALTIES[ctx.me.prescriber.specialty] || ctx.me.prescriber.specialty}`),
-            startBtn,
+            micHere ? startBtn : phoneBtn,
             speechReady ? null : el("p", { class: "muted small", style: { margin: 0 } }, "Live recording needs the speech service, which isn't configured on this server yet."),
             el("div", { class: "row" },
+              micHere ? phoneBtn : null,
               el("button", { class: "btn grow", disabled: !speechReady, onclick: uploadFlow }, "Upload a recording")),
+            micHere ? null : el("div", { class: "row" }, startBtn),
             mySamples.length ? el("div", { class: "stack" },
               el("div", { class: "divider" }),
               el("div", { class: "label" }, "No microphone? Replay a scripted visit"),

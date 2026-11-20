@@ -6,12 +6,12 @@ import re
 from pathlib import Path
 from typing import Literal
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, WebSocket
+from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile, WebSocket
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
 from .. import auth, branding, config
-from . import drugs_bridge, evaluate, export, fixtures, notemodel, notes, pipeline, selftest, store, stt, verify
+from . import drugs_bridge, evaluate, export, fixtures, notemodel, notes, phone, pipeline, selftest, store, stt, verify
 from .templates import SPECIALTIES
 
 log = logging.getLogger("medscribe.clinical")
@@ -77,6 +77,12 @@ class LiveTurnsIn(BaseModel):
 class ProcessIn(BaseModel):
     source: Literal["final", "live", "sample"]
     sample_id: str | None = None
+
+
+class PhoneProgressIn(BaseModel):
+    elapsed_s: float = Field(0, ge=0)
+    state: Literal["recording", "paused", "sending"] = "recording"
+    live: Literal["off", "connecting", "live", "unavailable"] | None = None
 
 
 class NotePatch(BaseModel):
@@ -324,12 +330,17 @@ def stt_audio(link_id: str):
 
 @router.post("/visits/{visit_id}/live-turns")
 def live_turns(visit_id: str, body: LiveTurnsIn, _s: dict = Depends(auth.require)):
+    return {"ok": True, "turns": _merge_live_turns(visit_id, body.turns, body.audio_seconds)}
+
+
+def _merge_live_turns(visit_id: str, turns: list[dict], audio_seconds: float) -> int:
+    """Save the live transcript so far (the fallback if the final pass fails) and count the audio."""
     with store.visit_lock(visit_id):
         v = _visit_or_404(visit_id)
         _not_signed(v)
         existing = {t.get("id"): t for t in (v.get("live_turns") or []) if t.get("id")}
         order = list(existing)
-        for t in body.turns[:2000]:
+        for t in turns[:2000]:
             tid = str(t.get("id") or f"lt{len(order) + 1}")
             if tid not in existing:
                 order.append(tid)
@@ -339,15 +350,21 @@ def live_turns(visit_id: str, body: LiveTurnsIn, _s: dict = Depends(auth.require
             }
         merged = [existing[k] for k in order]
         prior = float(v.get("audio_seconds") or 0)
-        new = max(prior, min(float(body.audio_seconds or 0), config.settings.max_visit_minutes * 60 + 60))
+        new = max(prior, min(float(audio_seconds or 0), config.settings.max_visit_minutes * 60 + 60))
         if new > prior:
             store.usage_add("audio_seconds", new - prior)
         store.update_visit(visit_id, live_turns=merged, audio_seconds=new)
-    return {"ok": True, "turns": len(merged)}
+    return len(merged)
 
 
 @router.post("/visits/{visit_id}/audio")
 async def upload_audio(visit_id: str, file: UploadFile = File(...), _s: dict = Depends(auth.require)):
+    size = await _save_audio_and_start(visit_id, file)
+    return {"ok": True, "bytes": size}
+
+
+async def _save_audio_and_start(visit_id: str, file: UploadFile) -> int:
+    """Keep the recording for the final pass and start drafting. Returns its size in bytes."""
     v = _visit_or_404(visit_id)
     _not_signed(v)
     if not v.get("consent_at"):
@@ -388,7 +405,163 @@ async def upload_audio(visit_id: str, file: UploadFile = File(...), _s: dict = D
     store.update_visit(visit_id, audio_path=str(dest))
     store.audit(visit_id, "audio_uploaded", {"bytes": size, "type": ext})
     await pipeline.start(visit_id, "final")
+    return size
+
+
+# ---------------------------------------------------------------- record with a phone
+# For screens that can't use a microphone (wallboard players that show the demo in an iframe
+# overlay). The screen shows a QR code; the phone records; the screen shows the transcript.
+
+def _phone_url(request: Request, code: str) -> str:
+    base = config.settings.public_base_url or str(request.base_url).rstrip("/")
+    return f"{base}/m/?c={code}"
+
+
+def _qr_data_uri(text: str) -> str:
+    import segno
+
+    return segno.make(text, error="m").svg_data_uri(scale=8, border=2, dark="#0f172a", light="#ffffff")
+
+
+def _recording_allowed(v: dict) -> None:
+    _not_signed(v)
+    if not v.get("consent_at"):
+        raise HTTPException(409, "Log consent before recording.")
+    if not config.settings.speech_ready:
+        raise HTTPException(503, "Recording needs the speech service, which isn't configured on this server. Try a sample visit instead.")
+    if _audio_cap_reached():
+        raise HTTPException(409, "The demo's daily recording limit has been reached. It resets at midnight UTC; sample visits still work.")
+    if pipeline.is_running(v["id"]):
+        raise HTTPException(409, "This visit is already processing.")
+
+
+@router.post("/visits/{visit_id}/phone")
+def phone_pair(visit_id: str, request: Request, _s: dict = Depends(auth.require)):
+    v = _visit_or_404(visit_id)
+    _recording_allowed(v)
+    p = phone.create(visit_id, config.settings.max_visit_minutes * 60)
+    url = _phone_url(request, p.code)
+    store.audit(visit_id, "phone_code_shown", {}, actor="system")
+    return {**phone.view(p), "url": url, "qr": _qr_data_uri(url)}
+
+
+@router.get("/visits/{visit_id}/phone")
+def phone_status(visit_id: str, _s: dict = Depends(auth.require)):
+    _visit_or_404(visit_id)
+    p = phone.for_visit(visit_id)
+    return phone.view(p) if p else {"state": "none"}
+
+
+@router.delete("/visits/{visit_id}/phone")
+def phone_unpair(visit_id: str, _s: dict = Depends(auth.require)):
+    phone.cancel(visit_id)
+    return {"ok": True}
+
+
+def _client_addr(conn) -> str:
+    return conn.client.host if conn.client else ""
+
+
+def _pairing_or_404(code: str, request: Request) -> phone.Pairing:
+    try:
+        p = phone.lookup(code, _client_addr(request))
+    except PermissionError as exc:
+        raise HTTPException(429, str(exc))
+    if not p:
+        raise HTTPException(404, "This code has expired or was already used. Show a new code on the screen and scan it again.")
+    return p
+
+
+@router.get("/phone/{code}")
+def phone_info(code: str, request: Request):
+    """The phone's first call. Shows no chart data: the screen shows the patient."""
+    p = _pairing_or_404(code, request)
+    if p.state == "waiting":
+        phone.set_state(p, "connected")
+        store.audit(p.visit_id, "phone_connected", {}, actor="phone")
+    return {"ok": True, "state": p.state, "code_display": phone.pretty(p.code), "max_seconds": p.max_seconds,
+            "elapsed_s": round(p.elapsed_s, 1)}
+
+
+@router.post("/phone/{code}/live")
+async def phone_live(code: str, request: Request):
+    p = _pairing_or_404(code, request)
+    v = _visit_or_404(p.visit_id)
+    _recording_allowed(v)
+    chart = fixtures.patient(v["patient_id"]) or {}
+    terms = stt.build_keyterms(fixtures.keyterm_seed(chart), v.get("specialty") or "family_medicine")
+    try:
+        tok = await stt.mint_token(p.max_seconds)
+    except stt.SttError as exc:
+        log.warning("live token not issued for a phone: %s", exc)
+        raise HTTPException(502, "The live transcript service is unavailable right now.")
+    store.audit(v["id"], "stt_token_issued", {"keyterms": len(terms["live"]), "zone": tok.zone, "via": "phone"}, actor="system")
+    ticket = stt.issue_ticket(tok, stt.ws_url(terms["live"], tok.ws))
+    return {"token": None, "ws_url": f"/api/phone/{p.code}/stream?ticket={ticket}", "expires_in": stt.TICKET_TTL_S,
+            "max_session_seconds": p.max_seconds}
+
+
+@router.websocket("/phone/{code}/stream")
+async def phone_stream(ws: WebSocket, code: str, ticket: str = ""):
+    """The phone's live transcript: our relay, with every message copied for the screen."""
+    upstream = stt.take_ticket(ticket)
+    await ws.accept()
+    try:
+        p = phone.lookup(code, _client_addr(ws))
+    except PermissionError:
+        p = None
+    if not upstream or not p:
+        await ws.close(code=1008, reason="This live session link has expired. Start the recording again.")
+        return
+    session = phone.new_session(p)
+    try:
+        await stt.relay(ws, upstream, on_message=lambda m: phone.on_message(p, session, m))
+    finally:
+        phone.session_closed(p, session)
+
+
+@router.post("/phone/{code}/progress")
+def phone_progress(code: str, body: PhoneProgressIn, request: Request):
+    p = _pairing_or_404(code, request)
+    phone.set_state(p, body.state, elapsed_s=body.elapsed_s)
+    if body.live == "unavailable":
+        phone.live_unavailable(p)
+    turns = phone.turns(p)
+    if turns:
+        _merge_live_turns(p.visit_id, turns, body.elapsed_s)
+    return {"ok": True}
+
+
+@router.post("/phone/{code}/audio")
+async def phone_audio(code: str, request: Request, file: UploadFile = File(...)):
+    """The phone's recording, for the final pass. Starts drafting on the server."""
+    p = _pairing_or_404(code, request)
+    turns = phone.turns(p)
+    if turns:
+        _merge_live_turns(p.visit_id, turns, p.elapsed_s)
+    size = await _save_audio_and_start(p.visit_id, file)
+    phone.set_state(p, "processing")
+    store.audit(p.visit_id, "phone_audio_received", {"bytes": size}, actor="phone")
     return {"ok": True, "bytes": size}
+
+
+@router.post("/phone/{code}/finish")
+async def phone_finish(code: str, request: Request):
+    """If the recording couldn't be sent, draft from the live transcript instead."""
+    p = _pairing_or_404(code, request)
+    turns = phone.turns(p)
+    if turns:
+        _merge_live_turns(p.visit_id, turns, p.elapsed_s)
+    v = _visit_or_404(p.visit_id)
+    _not_signed(v)
+    if not pipeline.is_running(p.visit_id):
+        if not stt.normalise_live_turns(v.get("live_turns") or []):
+            phone.set_state(p, "failed", "No speech reached the server, so there is nothing to draft. "
+                                         "Check the phone's microphone and try again.")
+            raise HTTPException(409, "No speech was captured, so there is nothing to draft.")
+        await pipeline.start(p.visit_id, "live")
+    phone.set_state(p, "processing")
+    return {"ok": True}
 
 
 @router.post("/visits/{visit_id}/process")

@@ -113,3 +113,11 @@
   body.print-instructions .instructions-card .card-head button { display: none !important; }
   body.print-instructions .page-title, body.print-instructions .banner { display: none !important; }
 }
+
+/* ---------- record with a phone (phone.js) */
+.phone-pair { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.phone-qr { width: 264px; height: 264px; background: #fff; border-radius: 12px; padding: 6px; box-shadow: var(--shadow-1); image-rendering: pixelated; }
+.phone-code { font-size: 30px; font-weight: 700; letter-spacing: 6px; }
+.phone-url strong { color: var(--ink); }
+.phone-state .banner { justify-content: center; text-align: center; line-height: 1.45; }
+.phone-grid .rec-timer { text-align: center; }

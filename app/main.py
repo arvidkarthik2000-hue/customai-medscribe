@@ -128,7 +128,9 @@ def config():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": __version__}
+    from .config import build_id
+
+    return {"ok": True, "version": __version__, "build": build_id()}
 
 
 # ---------------------------------------------------------------- zones
