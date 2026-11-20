@@ -15,7 +15,11 @@ STATIC_DIR = ROOT / "static"
 
 
 def _env(name: str, default: str = "") -> str:
-    return os.environ.get(name, default).strip()
+    """Trimmed, and without quotes pasted around the value in a dashboard."""
+    value = os.environ.get(name, default).strip()
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+        value = value[1:-1].strip()
+    return value
 
 
 def _int(name: str, default: int) -> int:

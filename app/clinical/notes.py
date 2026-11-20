@@ -78,6 +78,13 @@ def _client():
     return _cached["client"]
 
 
+def _key_hint(lead: str = "") -> str:
+    """Which key failed, by its last four characters (as key dashboards show it), so whoever
+    set it can tell whether the server is using the key they meant."""
+    key = (_cached.get("key") or (None, ""))[1] or ""
+    return f"{lead} ending …{key[-4:]}" if len(key) >= 12 else ""
+
+
 # ---------------------------------------------------------------- OpenRouter
 # OpenRouter serves the same Claude models through an Anthropic-compatible Messages API
 # (POST /api/v1/messages, bearer key). It is called directly rather than through the Anthropic
@@ -287,9 +294,9 @@ async def call_structured(*, model: str, system: str, user: str, json_schema: di
             msg = str(getattr(exc, "message", "") or exc)[:240]
             low = msg.lower()
             if status == 401:
-                raise NoteError("The note engine rejected the server's key (401). Check the note-engine key in the server settings.") from exc
+                raise NoteError(f"The note engine rejected the server's key{_key_hint()} (401). Check the note-engine key in the server settings.") from exc
             if status == 402:
-                raise NoteError("The note engine's account is out of credits (402). Add credits for the note-engine key.") from exc
+                raise NoteError(f"The note engine's account is out of credits{_key_hint(' for the key')} (402). Add credits for the note-engine key.") from exc
             if status == 400 and "thinking" in low and "thinking" in params:
                 params.pop("thinking")
                 warnings.append(f"The thinking setting was rejected, so the model default was used ({msg}).")
