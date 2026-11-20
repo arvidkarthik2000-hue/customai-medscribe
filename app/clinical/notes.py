@@ -13,7 +13,7 @@ import re
 import time
 from typing import Any
 
-from .. import config
+from .. import branding, config
 from . import notemodel, schema
 from .templates import SPECIALTIES, STYLES, TEMPLATES
 
@@ -294,7 +294,9 @@ async def call_structured(*, model: str, system: str, user: str, json_schema: di
             msg = str(getattr(exc, "message", "") or exc)[:240]
             low = msg.lower()
             if status == 401:
-                raise NoteError(f"The note engine rejected the server's key{_key_hint()} (401). Check the note-engine key in the server settings.") from exc
+                reason = branding.scrub(msg).strip().rstrip(".")[:120]
+                raise NoteError(f"The note engine rejected the server's key{_key_hint()} (401{': ' + reason if reason else ''}). "
+                                "Check the note-engine key in the server settings.") from exc
             if status == 402:
                 raise NoteError(f"The note engine's account is out of credits{_key_hint(' for the key')} (402). Add credits for the note-engine key.") from exc
             if status == 400 and "thinking" in low and "thinking" in params:
